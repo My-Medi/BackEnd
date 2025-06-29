@@ -1,5 +1,5 @@
 ---
-name: "[CARE-number] Title"
+name: "[MEDI-number] Title"
 about: Suggest an idea for this project
 title: ''
 labels: ''
