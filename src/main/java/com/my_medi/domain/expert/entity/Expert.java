@@ -16,4 +16,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @DiscriminatorValue("type_member")      //TODO ROLE ENUM key값으로
 public class Expert extends Member {
+
+    private String expertUuid;
 }
