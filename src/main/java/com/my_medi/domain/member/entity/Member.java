@@ -15,6 +15,6 @@ import lombok.experimental.SuperBuilder;
 public abstract class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
+    @Column(name = "member_id")
     private Long id;
 }

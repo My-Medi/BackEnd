@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@DiscriminatorValue("type_member")      //TODO ROLE ENUM key값으로
+@DiscriminatorValue("type_expert")      //TODO ROLE ENUM key값으로
 public class Expert extends Member {
 
     private String expertUuid;
