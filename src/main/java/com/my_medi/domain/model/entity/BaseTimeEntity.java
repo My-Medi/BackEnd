@@ -1,4 +1,4 @@
-package com.my_medi.domain.auditing.entity;
+package com.my_medi.domain.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
