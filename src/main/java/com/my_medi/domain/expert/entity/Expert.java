@@ -20,10 +20,6 @@ public class Expert extends Member {
 
     private String expertUuid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id") // FK 컬럼명
-    private Member member_id;
-
     private String licenseFileUrl;
 
     private String introduction;
