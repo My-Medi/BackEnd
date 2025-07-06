@@ -1,6 +1,7 @@
 package com.my_medi.domain.user.entity;
 
 import com.my_medi.domain.member.entity.Member;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -18,4 +20,17 @@ import lombok.experimental.SuperBuilder;
 public class User extends Member {
 
     private String userUuid;
+
+    private LocalDate birthDate;
+
+    private Float height;
+
+    private Float weight;
+
+    // TODO: 나중에 건강검진 리포트 기능 생기면 연관관계 추가
+    // @OneToMany(mappedBy = "user")
+    // private List<HealthReport> reports = new ArrayList<>();
+
+
+
 }

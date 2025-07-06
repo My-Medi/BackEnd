@@ -24,15 +24,11 @@ public class Expert extends Member {
     @JoinColumn(name = "member_id") // FK 컬럼명
     private Member member_id;
 
-    @Column(name = "profile_img_url")
-    private String profileImgUrl;
-
-    @Column(name = "license_file_url")
     private String licenseFileUrl;
 
-    //분야는 ExpertCategory의 enum으로 조회(ArrayList로 가져와야하는지 고민)
-
     private String introduction;
+
+    //분야는 ExpertCategory의 enum으로 조회(ArrayList로 가져와야하는지 고민)
 
     // @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
     // private List<경력테이블> careers = new ArrayList<>();

@@ -23,11 +23,15 @@ public abstract class Member extends BaseTimeEntity {
     private Role role;
 
     //마이페이지 내 닉네임(전문가, user 동일하므로 member에 삽입)
+    @Column(unique = true, nullable = true) // 회원가입시 입력받지 않으므로 기본 null
     private String nickname;
 
     //실제 이름
     @Column(nullable = false)
-    private String name;
+    private String last_name; // 성
+
+    @Column(nullable = false)
+    private String first_name;// 이름
 
     //회원가입
     @Column(nullable = false)
@@ -35,6 +39,9 @@ public abstract class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = true) // 회원가입시 입력받지 않으므로 기본 null
+    private String profileImgUrl;
 
 
 }
