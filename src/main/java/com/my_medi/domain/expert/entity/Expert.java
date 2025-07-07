@@ -1,6 +1,6 @@
 package com.my_medi.domain.expert.entity;
 
-import com.my_medi.domain.Discriminator;
+import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.member.entity.Member;
 import com.my_medi.domain.member.entity.Role;
 import jakarta.persistence.*;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@DiscriminatorValue(Discriminator.EXPERT)      //TODO ROLE ENUM key값으로
+@DiscriminatorValue(StaticVariable.EXPERT)      //TODO ROLE ENUM key값으로
 public class Expert extends Member {
 
     @Column(unique = true)

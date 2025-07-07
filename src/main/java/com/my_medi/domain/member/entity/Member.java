@@ -32,7 +32,7 @@ public abstract class Member extends BaseTimeEntity {
     private String name;
 
     //생년월일
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     //성별 필드 추가 (남자, 여자)
