@@ -1,5 +1,6 @@
 package com.my_medi.domain.user.entity;
 
+import com.my_medi.domain.Discriminator;
 import com.my_medi.domain.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -16,15 +17,16 @@ import java.time.LocalDate;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@DiscriminatorValue("type_user")      //TODO ROLE ENUM key값으로
+@DiscriminatorValue(Discriminator.USER)      //TODO ROLE ENUM key값으로
 public class User extends Member {
 
+    @Column(unique = true)
     private String userUuid;
 
-    private LocalDate birthDate;
-
+    //키
     private Float height;
 
+    //몸무게
     private Float weight;
 
     // TODO: 나중에 건강검진 리포트 기능 생기면 연관관계 추가
