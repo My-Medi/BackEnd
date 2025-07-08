@@ -20,7 +20,8 @@ public class UserApiController {
     @Transactional
     @PostMapping
     public Long registerUserForTest() {
-        return userRepository.save(User
+        return userRepository.save(
+                User
                 .builder()
                 .userUuid("test")
                 .build()).getId();
