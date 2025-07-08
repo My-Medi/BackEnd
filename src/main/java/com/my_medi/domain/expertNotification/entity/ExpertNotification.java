@@ -1,6 +1,5 @@
 package com.my_medi.domain.expertNotification.entity;
 
-import com.my_medi.domain.enums.NotificationType;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
