@@ -21,7 +21,7 @@ public class Proposal extends BaseTimeEntity {
     private User user;
 
     // 1. 직업 및 생활패턴
-    @Column(name = "life_descreption", nullable = false, length = 50)
+    @Column(name = "life_description", nullable = false, length = 50)
     private String lifeDescription;
 
     // 2. 건강 관심 분야(중복 선택 가능)
