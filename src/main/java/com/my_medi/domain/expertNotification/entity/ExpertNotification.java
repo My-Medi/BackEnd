@@ -17,11 +17,11 @@ public class ExpertNotification {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "expert", nullable = false)
+    @JoinColumn(name = "expert_id", nullable = false)
     private Expert expert;
 
     // 알림 제목
@@ -34,6 +34,6 @@ public class ExpertNotification {
 
     // 알림 종류 - 전문가는 CONSULTATION 고정?
     @Enumerated(EnumType.STRING)
-    @Column(name = "alarm_type", nullable = false)
+    @Column(name = "notification_type", nullable = false)
     private NotificationType notificationType;
 }
