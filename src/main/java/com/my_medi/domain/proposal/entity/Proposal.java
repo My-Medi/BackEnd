@@ -17,8 +17,8 @@ public class Proposal extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user", nullable = false)
+    private User user;
 
     // 1. 직업 및 생활패턴
     @Column(name = "life_descreption", nullable = false, length = 50)

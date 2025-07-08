@@ -17,12 +17,12 @@ public class ExpertNotification {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "expert_id", nullable = false)
-    private Expert expertId;
+    @JoinColumn(name = "expert", nullable = false)
+    private Expert expert;
 
     // 알림 제목
     @Column(name = "alarm_title", nullable = false, length = 50)
