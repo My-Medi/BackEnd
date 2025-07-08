@@ -1,5 +1,7 @@
 package com.my_medi.domain.proposal.entity;
 
+import com.my_medi.domain.model.entity.BaseTimeEntity;
+import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -9,13 +11,14 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Proposal {
+public class Proposal extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long proposalId;
+    private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User userId;
 
     // 1. 직업 및 생활패턴
     @Column(name = "life_descreption", nullable = false, length = 50)

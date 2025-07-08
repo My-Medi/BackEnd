@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: han
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/medi?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: springproject
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
