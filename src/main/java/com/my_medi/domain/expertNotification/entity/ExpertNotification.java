@@ -25,11 +25,11 @@ public class ExpertNotification {
     private Expert expert;
 
     // 알림 제목
-    @Column(name = "alarm_title", nullable = false, length = 50)
+    @Column(name = "notification_title", nullable = false, length = 50)
     private String notificationTitle;
 
     // 알림 내용
-    @Column(name = "alarm_contents", nullable = false, length = 50)
+    @Column(name = "notification_contents", nullable = false, length = 50)
     private String notificationContents;
 
     // 알림 종류 - 전문가는 CONSULTATION 고정?
