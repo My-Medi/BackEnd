@@ -19,9 +19,6 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorValue(StaticVariable.USER)      //TODO ROLE ENUM key값으로
 public class User extends Member {
 
-    @Column(unique = true)
-    private String userUuid;
-
     //키
     private Float height;
 

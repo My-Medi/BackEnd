@@ -20,8 +20,6 @@ import java.util.ArrayList;
 @DiscriminatorValue(StaticVariable.EXPERT)      //TODO ROLE ENUM key값으로
 public class Expert extends Member {
 
-    @Column(unique = true)
-    private String expertUuid;
 
     //전문분야(enum)
     @Column(nullable = false)
