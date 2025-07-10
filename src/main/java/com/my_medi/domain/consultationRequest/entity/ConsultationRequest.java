@@ -5,11 +5,12 @@ import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "consultation_request")
 @Getter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ConsultationRequest extends BaseTimeEntity {
