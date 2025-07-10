@@ -9,3 +9,4 @@ public class StaticVariable {
     public static final String AUTHORIZATION = "Authorization";
     public static final String GRANT_TYPE = "authorization_code";
 }
+
