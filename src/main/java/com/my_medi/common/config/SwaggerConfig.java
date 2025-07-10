@@ -2,10 +2,7 @@ package com.my_medi.common.config;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.common.dto.ExampleHolder;
-import com.my_medi.common.annotation.ApiErrorExceptionsExample;
-import com.my_medi.common.annotation.ApiErrorStatusExample;
-import com.my_medi.common.annotation.DisableSwaggerSecurity;
-import com.my_medi.common.annotation.ExplainError;
+import com.my_medi.common.annotation.*;
 import com.my_medi.common.exception.BaseErrorCode;
 import com.my_medi.common.exception.GeneralException;
 import com.my_medi.common.exception.Reason;
@@ -26,10 +23,15 @@ import io.swagger.v3.oas.models.servers.Server;
 import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.customizers.OperationCustomizer;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.method.HandlerMethod;
 
 import java.lang.reflect.Field;
@@ -118,6 +120,8 @@ public class SwaggerConfig {
             return operation;
         };
     }
+
+
     /**
      * BaseErrorCode 타입의 이넘값들을 문서화 시킵니다. (-> ErrorStatus)
      * ExplainError 어노테이션으로 부가설명을 붙일수있습니다. 필드들을 가져와서 예시 에러 객체를

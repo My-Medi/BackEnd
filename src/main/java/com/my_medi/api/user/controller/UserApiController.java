@@ -18,9 +18,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserApiController {
 
-    @Operation(summary = "테스트용 api입니다. 예외를 조회합니다.")
-    @GetMapping
-    public void registerUserForTest() {
-        throw UserHandler.NOT_FOUND;
-    }
 }
