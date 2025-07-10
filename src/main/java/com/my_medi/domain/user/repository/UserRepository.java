@@ -8,6 +8,11 @@ import java.util.Optional;
 
 //MemberRepository 상속
 public interface UserRepository extends MemberRepository<User> {
-    // MemberRepository에 없는 User 메서드
+    /**
+ * Retrieves a user by their unique user UUID.
+ *
+ * @param userUuid the unique identifier of the user
+ * @return an {@code Optional} containing the user if found, or empty if not found
+ */
     Optional<User> findByUserUuid(String userUuid);
 }
