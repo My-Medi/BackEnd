@@ -16,9 +16,9 @@ public class ExpertNotification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "expert_id", nullable = false)
@@ -32,8 +32,11 @@ public class ExpertNotification {
     @Column(name = "notification_contents", nullable = false, length = 50)
     private String notificationContents;
 
+    @Column(nullable = false)
+    private Long sourceId;
+
     // 알림 종류 - 전문가는 CONSULTATION 고정?
-    @Enumerated(EnumType.STRING)
-    @Column(name = "notification_type", nullable = false)
-    private NotificationType notificationType;
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "notification_type", nullable = false)
+//    private NotificationType notificationType;
 }

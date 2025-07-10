@@ -23,9 +23,9 @@ public class UserNotification {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "expert_id", nullable = false)
-    private Expert expert;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "expert_id", nullable = false)
+//    private Expert expert;
 
     // 알림 제목
     @Column(name = "notification_title", nullable = false, length = 50)
