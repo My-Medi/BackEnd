@@ -5,6 +5,8 @@ import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Schedule extends BaseTimeEntity {
 
     @Id
