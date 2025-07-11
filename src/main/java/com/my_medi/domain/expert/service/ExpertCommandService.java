@@ -1,6 +1,7 @@
 package com.my_medi.domain.expert.service;
 
 import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.domain.expert.dto.UpdateExpertDto;
 
 public interface ExpertCommandService {
 
@@ -9,7 +10,8 @@ public interface ExpertCommandService {
 
 
     //TODO [Now] 변경할 값들 argument로 받아오기 : dto 직접 생성
-    Long updateExpertInformation(Long expertId);
+    Long updateExpertInformation(Long expertId, UpdateExpertDto dto);
+
 
     void deleteExpertAccount(Long expertId);
 }

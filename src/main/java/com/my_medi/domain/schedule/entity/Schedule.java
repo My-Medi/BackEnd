@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+// @Builder 빌드가 안되어 주석처리하였습니다.
 public class Schedule extends BaseTimeEntity {
 
     @Id
