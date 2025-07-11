@@ -16,7 +16,7 @@ public class ApiResponseDto<T> {
     private T result;
 
     public static <T> ApiResponseDto<T> onSuccess(T result) {
-        return new ApiResponseDto<>(true, 2000, SuccessStatus._SUCCESS.getMessage(), result);
+        return new ApiResponseDto<>(true, SuccessStatus._SUCCESS.getReasonHttpStatus().getCode(), SuccessStatus._SUCCESS.getMessage(), result);
     }
 
     public static <T> ApiResponseDto<T> of(BaseCode code, T result) {
