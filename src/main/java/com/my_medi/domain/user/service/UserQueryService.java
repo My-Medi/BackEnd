@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserQueryService {
 
-    User getUserById(Long expertId);
+    User getUserById(Long userId);
 
     List<User> getAllUsers();
 }

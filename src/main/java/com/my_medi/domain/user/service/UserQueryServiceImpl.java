@@ -14,8 +14,8 @@ public class UserQueryServiceImpl implements UserQueryService{
     private final UserRepository userRepository;
 
     @Override
-    public User getUserById(Long expertId) {
-        return userRepository.findById(expertId)
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND); //UserHandler, UserErrorState 사용
     }
 
