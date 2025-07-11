@@ -3,6 +3,7 @@ package com.my_medi.domain.expert.service;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -25,7 +26,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     @Override
     public Long updateExpertInformation(Long expertId, UpdateExpertDto dto) {
         Expert expert = expertRepository.findById(expertId)
-                .orElseThrow(() -> UserHandler.NOT_FOUND);
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expert.modifyInfo(dto);
         return expert.getId();
     }
@@ -33,7 +34,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     @Override
     public void deleteExpertAccount(Long expertId) {
         Expert expert = expertRepository.findById(expertId)
-                .orElseThrow(() -> UserHandler.NOT_FOUND);
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expertRepository.delete(expert); // hard delete
     }
 
