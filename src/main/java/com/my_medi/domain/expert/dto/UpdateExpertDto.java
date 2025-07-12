@@ -7,7 +7,6 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -17,6 +16,7 @@ public class UpdateExpertDto {
     private String name;
     private LocalDate birthDate;
     private Gender gender;
+    private String username;
     private String nickname;
     private String phoneNumber;
     private String profileImgUrl;

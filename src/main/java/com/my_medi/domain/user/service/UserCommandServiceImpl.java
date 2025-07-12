@@ -25,8 +25,7 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .name(registerMemberDto.getName())
                 .birthDate(registerMemberDto.getBirthDate())
                 .gender(registerMemberDto.getGender())
-                .loginId(registerMemberDto.getLoginId())
-                .password(registerMemberDto.getPassword())
+                .username(registerMemberDto.getUsername()) //Username 추가
                 .email(registerMemberDto.getEmail())
                 .phoneNumber(registerMemberDto.getPhoneNumber())
                 .profileImgUrl(registerMemberDto.getProfileImgUrl())

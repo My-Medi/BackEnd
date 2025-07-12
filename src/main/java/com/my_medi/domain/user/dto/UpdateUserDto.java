@@ -7,11 +7,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Getter
-@Setter
 public class UpdateUserDto {
 
     private String name;
     private LocalDate birthDate;
+    private String username;
     private String nickname;
     private String phoneNumber;
     private String profileImgUrl;

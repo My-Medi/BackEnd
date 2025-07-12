@@ -17,16 +17,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
 
-
     @Override
     public Long registerExpert(RegisterMemberDto registerMemberDto) {
         //TODO [LATER] requestDto에 맞게 argument 변경해주기
         Expert expert = Expert.builder()
+                // TODO : 이 부분 username으로 변경해주시고 UUID로 랜덤한 값 생성해주실 수 있나요?
+                // username 필드 dto에 하나 추가
+
                 .name(registerMemberDto.getName())
                 .birthDate(registerMemberDto.getBirthDate())
                 .gender(registerMemberDto.getGender())
-                .loginId(registerMemberDto.getLoginId())
-                .password(registerMemberDto.getPassword())
+                .username(registerMemberDto.getUsername())
                 .email(registerMemberDto.getEmail())
                 .phoneNumber(registerMemberDto.getPhoneNumber())
                 .profileImgUrl(registerMemberDto.getProfileImgUrl())
