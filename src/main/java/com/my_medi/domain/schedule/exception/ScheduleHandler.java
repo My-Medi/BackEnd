@@ -1,15 +1,15 @@
 
 package com.my_medi.domain.schedule.exception;
 
-import lombok.Getter;
+import com.my_medi.common.exception.BaseErrorCode;
+import com.my_medi.common.exception.GeneralException;
 
-@Getter
-public class ScheduleHandler extends RuntimeException {
+public class ScheduleHandler extends GeneralException {
 
-    private final ScheduleErrorStatus errorStatus;
+    public static final GeneralException NOT_FOUND =
+            new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_NOT_FOUND);
 
-    public ScheduleHandler(ScheduleErrorStatus errorStatus) {
-        super(errorStatus.getMessage());
-        this.errorStatus = errorStatus;
+    public ScheduleHandler(BaseErrorCode code) {
+        super(code);
     }
 }
