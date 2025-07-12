@@ -1,5 +1,9 @@
 package com.my_medi.domain.proposal.entity;
 
+import com.my_medi.api.proposal.dto.AbnormalValueDto;
+import com.my_medi.api.proposal.dto.HealthInterestsDto;
+import com.my_medi.api.proposal.dto.HelpTopicDto;
+import com.my_medi.api.proposal.dto.WriteProposalDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -53,4 +57,46 @@ public class Proposal extends BaseTimeEntity {
     // 5. 목표나 기대하는 변화가 있다면 적어주세요.
     @Column(name = "goal", nullable = false, length = 50)
     private String goal;
+
+    // 각 항목별로 나눠서 만들기
+    public void update(WriteProposalDto writeProposalDto) {
+        this.lifeDescription = writeProposalDto.getLifeDescription();
+        this.goal = writeProposalDto.getGoal();
+
+        setHealthInterestsDto(writeProposalDto);
+        setAbnormalValueDto(writeProposalDto);
+        setHelpTopicDto(writeProposalDto);
+    }
+
+    public void setHealthInterestsDto(WriteProposalDto writeProposalDto) {
+        HealthInterestsDto hid = writeProposalDto.getHealthInterestsDto();
+        this.weightManagement = hid.getWeightManagement();
+        this.bloodSugarControl = hid.getBloodSugarControl();
+        this.cholesterolControl = hid.getCholesterolControl();
+        this.bloodPressureControl = hid.getBloodPressureControl();
+        this.liverFunctionCare = hid.getLiverFunctionCare();
+        this.sleepRecovery = hid.getSleepRecovery();
+        this.dietImprovement = hid.getDietImprovement();
+        this.exerciseRoutine = hid.getExerciseRoutine();
+        this.stressAndLifestyle = hid.getStressAndLifestyle();
+    }
+
+    public void setAbnormalValueDto(WriteProposalDto writeProposalDto) {
+        AbnormalValueDto avd = writeProposalDto.getAbnormalValueDto();
+        this.fastingBloodSugar = avd.getFastingBloodSugar();
+        this.cholesterolLdl = avd.getCholesterolLdl();
+        this.bloodPressure = avd.getBloodPressure();
+        this.liverEnzymes = avd.getLiverEnzymes();
+        this.bmiOrBodyFat = avd.getBmiOrBodyFat();
+        this.noHealthCheckResult = avd.getNoHealthCheckResult();
+    }
+
+    public void setHelpTopicDto(WriteProposalDto writeProposalDto) {
+        HelpTopicDto htd = writeProposalDto.getHelpTopicDto();
+        this.dietitian = htd.getDietitian();
+        this.healthManager = htd.getHealthManager();
+        this.wellnessCoach = htd.getWellnessCoach();
+        this.exerciseTherapist = htd.getExerciseTherapist();
+        this.recommendForMe = htd.getRecommendForMe();
+    }
 }
