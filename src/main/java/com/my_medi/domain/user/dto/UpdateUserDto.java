@@ -2,16 +2,16 @@ package com.my_medi.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 public class UpdateUserDto {
 
     private String name;
     private LocalDate birthDate;
-    private String username;
+    private UUID username;
     private String nickname;
     private String phoneNumber;
     private String profileImgUrl;

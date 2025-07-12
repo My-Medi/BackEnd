@@ -5,6 +5,7 @@ import com.my_medi.domain.member.entity.Gender;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class UpdateExpertDto {
     private String name;
     private LocalDate birthDate;
     private Gender gender;
-    private String username;
+    private UUID username;
     private String nickname;
     private String phoneNumber;
     private String profileImgUrl;

@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -71,10 +70,11 @@ public abstract class Member extends BaseTimeEntity {
     public void modifyMemberInfoUser(UpdateUserDto dto){
         this.name = dto.getName();
         this.birthDate = dto.getBirthDate();
-
         this.nickname = dto.getNickname();
         this.phoneNumber = dto.getPhoneNumber();
         this.profileImgUrl = dto.getProfileImgUrl();
+
+        this.username = dto.getUsername();
     }
 
     //Expert dto 전용
@@ -84,6 +84,8 @@ public abstract class Member extends BaseTimeEntity {
         this.nickname = dto.getNickname();
         this.phoneNumber = dto.getPhoneNumber();
         this.profileImgUrl = dto.getProfileImgUrl();
+
+        this.username = dto.getUsername();
     }
 
 }
