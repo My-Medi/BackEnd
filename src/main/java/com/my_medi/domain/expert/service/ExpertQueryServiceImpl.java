@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -29,4 +31,10 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
     public List<Expert> getAllExperts() {
         return expertRepository.findAll();
     }
+    @Override
+    public Expert getExpertByUsername(String username) {
+        return expertRepository.findByUsername(username)
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+    }
+
 }
