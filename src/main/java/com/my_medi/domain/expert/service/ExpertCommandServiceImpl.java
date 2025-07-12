@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
 
+
     @Override
     public Long registerExpert(RegisterMemberDto registerMemberDto) {
         //TODO [LATER] requestDto에 맞게 argument 변경해주기
@@ -37,7 +38,5 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expertRepository.delete(expert); // hard delete
     }
-
-
 
 }
