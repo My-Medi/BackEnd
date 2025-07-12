@@ -1,24 +1,46 @@
 package com.my_medi.api.user.controller;
 
+import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.api.user.dto.UserResponseDto;
+import com.my_medi.api.user.dto.UserResponseDto.UserProfileDto;
+import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
+import com.my_medi.domain.user.service.UserCommandService;
+import com.my_medi.domain.user.service.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+//@Tag(name = "사용자 API")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserApiController {
+
+    private final UserCommandService userCommandService;
+    private final UserQueryService userQueryService;
 
 
     //TODO remove this method
     @GetMapping
     public void registerUserForTest() {
         throw UserHandler.NOT_FOUND;
+    }
+
+
+    //    @Operation(summary = "user 계정을 생성합니다.")
+    @PostMapping
+    public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterMemberDto registerMemberDto) {
+        return ApiResponseDto.onSuccess(userCommandService.registerUser(registerMemberDto));
+    }
+
+    // @Operation(summary = "user 프로필 정보를 조회합니다.")
+    @GetMapping("/{userId}")
+    public ApiResponseDto<UserProfileDto> getUserProfile(@PathVariable Long userId) {
+        User user = userQueryService.getUserById(userId);
+        return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
     }
 }
