@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +26,10 @@ public class UserQueryServiceImpl implements UserQueryService{
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> UserHandler.NOT_FOUND);
     }
 }

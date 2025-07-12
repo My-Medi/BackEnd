@@ -13,8 +13,7 @@ public class RegisterMemberDto {
     private LocalDate birthDate;
     private Gender gender;
     private String nickname;
-    private String loginId;
-    private String password;
+    private String username;
     private String email;
     private String phoneNumber;
     private String profileImgUrl;
