@@ -3,12 +3,12 @@ package com.my_medi.domain.schedule.service;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.ExpertRepository;
-import com.my_medi.domain.member.entity.Member;
-//import com.my_medi.domain.member.repository.MemberRepository;
 import com.my_medi.domain.schedule.entity.Schedule;
+import com.my_medi.domain.schedule.exception.ScheduleErrorStatus;
 import com.my_medi.domain.schedule.exception.ScheduleHandler;
 import com.my_medi.domain.schedule.repository.ScheduleRepository;
-//import com.my_medi.global.payload.code.ErrorStatus;
+import com.my_medi.domain.user.entity.User;
+import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,26 +22,37 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
 
     private final ScheduleRepository scheduleRepository;
     private final ExpertRepository expertRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Long registerScheduleToUser(Long expertId, Long userId, RegisterScheduleDto dto) {
         Expert expert = expertRepository.findById(expertId)
-                .orElseThrow(() -> new ScheduleHandler(ErrorStatus.EXPERT_NOT_FOUND));
+                .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.EXPERT_NOT_FOUND));
 
-        Member user = memberRepository.findById(userId)
-                .orElseThrow(() -> new ScheduleHandler(ErrorStatus.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.USER_NOT_FOUND));
 
-        Schedule schedule = Schedule.of(expert, user, dto);
+        Schedule schedule = Schedule.builder()
+                .expert(expert)
+                .user(user)
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .startTime(dto.getStartTime())
+                .endTime(dto.getEndTime())
+                .location(dto.getLocation())
+                .build();
+
         return scheduleRepository.save(schedule).getId();
     }
+
 
     @Override
     public Long editSchedule(Long expertId, Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new ScheduleHandler(ErrorStatus.SCHEDULE_NOT_FOUND));
+                .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_NOT_FOUND));
 
         validateExpert(schedule, expertId);
+        // 나중에 하기
 
         // TODO: 수정 DTO 추가 시 적용
         // schedule.update(dto);
@@ -51,7 +62,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
     @Override
     public Long removeSchedule(Long expertId, Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new ScheduleHandler(ErrorStatus.SCHEDULE_NOT_FOUND));
+                .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_NOT_FOUND));
 
         validateExpert(schedule, expertId);
         scheduleRepository.delete(schedule);
@@ -60,7 +71,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
 
     private void validateExpert(Schedule schedule, Long expertId) {
         if (!schedule.getExpert().getId().equals(expertId)) {
-            throw new ScheduleHandler(ErrorStatus.SCHEDULE_ONLY_CAN_BE_TOUCHED_BY_EXPERT);
+            throw new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_ONLY_CAN_BE_TOUCHED_BY_EXPERT);
         }
     }
 }
