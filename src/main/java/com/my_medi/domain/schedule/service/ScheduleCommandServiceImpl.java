@@ -1,5 +1,6 @@
 package com.my_medi.domain.schedule.service;
 
+import com.my_medi.api.schedule.dto.EditScheduleDto;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.ExpertRepository;
@@ -25,7 +26,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
     private final UserRepository userRepository;
 
     @Override
-    public Long registerScheduleToUser(Long expertId, Long userId, RegisterScheduleDto dto) {
+    public Long registerScheduleToUser(Long expertId, Long userId, RegisterScheduleDto registerScheduleDto) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.EXPERT_NOT_FOUND));
 
@@ -35,11 +36,11 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
         Schedule schedule = Schedule.builder()
                 .expert(expert)
                 .user(user)
-                .title(dto.getTitle())
-                .description(dto.getDescription())
-                .startTime(dto.getStartTime())
-                .endTime(dto.getEndTime())
-                .location(dto.getLocation())
+                .title(registerScheduleDto.getTitle())
+                .description(registerScheduleDto.getDescription())
+                .startTime(registerScheduleDto.getStartTime())
+                .endTime(registerScheduleDto.getEndTime())
+                .location(registerScheduleDto.getLocation())
                 .build();
 
         return scheduleRepository.save(schedule).getId();
@@ -47,15 +48,14 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
 
 
     @Override
-    public Long editSchedule(Long expertId, Long scheduleId) {
+    public Long editSchedule(Long expertId, Long scheduleId , EditScheduleDto editScheduleDto) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_NOT_FOUND));
 
 //        validateExpert(schedule, expertId);
         // 나중에 하기
 
-        // TODO: 수정 DTO 추가 시 적용
-        // schedule.update(dto);
+         schedule.update(editScheduleDto);
         return schedule.getId();
     }
 
