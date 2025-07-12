@@ -21,14 +21,24 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     @Override
     public Long registerExpert(RegisterMemberDto registerMemberDto) {
         //TODO [LATER] requestDto에 맞게 argument 변경해주기
-        return null;
+        Expert expert = Expert.builder()
+                .name(registerMemberDto.getName())
+                .birthDate(registerMemberDto.getBirthDate())
+                .gender(registerMemberDto.getGender())
+                .loginId(registerMemberDto.getLoginId())
+                .password(registerMemberDto.getPassword())
+                .email(registerMemberDto.getEmail())
+                .phoneNumber(registerMemberDto.getPhoneNumber())
+                .profileImgUrl(registerMemberDto.getProfileImgUrl())
+                .build();
+        return expertRepository.save(expert).getId();
     }
 
     @Override
     public Long updateExpertInformation(Long expertId, UpdateExpertDto dto) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-        expert.modifyInfo(dto);
+        expert.modifyExpertInfo(dto);
         return expert.getId();
     }
 

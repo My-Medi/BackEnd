@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
-@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -29,12 +28,8 @@ public class User extends Member {
     // private List<HealthReport> reports = new ArrayList<>();
 
     // 수정용 메서드
-    public void modifyInfo(UpdateUserDto dto) {
-        this.setName(dto.getName());
-        this.setBirthDate(dto.getBirthDate());
-        this.setNickname(dto.getNickname());
-        this.setPhoneNumber(dto.getPhoneNumber());
-        this.setProfileImgUrl(dto.getProfileImgUrl());
+    public void modifyUserInfo(UpdateUserDto dto) {
+        this.modifyMemberInfoUser(dto);
         this.height = dto.getHeight();
         this.weight = dto.getWeight();
     }

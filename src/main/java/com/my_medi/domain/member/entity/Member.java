@@ -1,6 +1,8 @@
 package com.my_medi.domain.member.entity;
 
+import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
+import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,7 +16,6 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Getter
-@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -69,5 +70,22 @@ public abstract class Member extends BaseTimeEntity {
     @Column(name = "profile_img_url", nullable = true) // 회원가입시 입력받지 않으므로 기본 null
     private String profileImgUrl;
 
+    //User dto 전용
+    public void modifyMemberInfoUser(UpdateUserDto dto){
+        this.name = dto.getName();
+        this.birthDate = dto.getBirthDate();
+        this.nickname = dto.getNickname();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.profileImgUrl = dto.getProfileImgUrl();
+    }
+
+    //Expert dto 전용
+    public void modifyMemberInfoExpert(UpdateExpertDto dto){
+        this.name = dto.getName();
+        this.birthDate = dto.getBirthDate();
+        this.nickname = dto.getNickname();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.profileImgUrl = dto.getProfileImgUrl();
+    }
 
 }
