@@ -2,11 +2,9 @@ package com.my_medi.domain.consultationRequest.service;
 
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
-<<<<<<< HEAD
-=======
+
 import com.my_medi.domain.consultationRequest.exception.ConsultationRequestErrorStatus;
 import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
->>>>>>> develop
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.ExpertRepository;
