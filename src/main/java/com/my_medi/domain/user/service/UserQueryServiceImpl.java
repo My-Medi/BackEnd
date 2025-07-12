@@ -29,7 +29,7 @@ public class UserQueryServiceImpl implements UserQueryService{
     }
 
     @Override
-    public User getUserByUsername(UUID username) {
+    public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
     }

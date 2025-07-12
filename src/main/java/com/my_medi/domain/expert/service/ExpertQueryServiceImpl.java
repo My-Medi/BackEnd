@@ -32,7 +32,7 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
     }
 
     @Override
-    public Expert getExpertByUsername(UUID username) {
+    public Expert getExpertByUsername(String username) {
         return expertRepository.findByUsername(username)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
     }

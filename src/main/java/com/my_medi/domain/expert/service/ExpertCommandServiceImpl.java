@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -24,7 +26,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .name(registerMemberDto.getName())
                 .birthDate(registerMemberDto.getBirthDate())
                 .gender(registerMemberDto.getGender())
-                .username(registerMemberDto.getUsername())
+                .username(UUID.randomUUID().toString())
                 .email(registerMemberDto.getEmail())
                 .phoneNumber(registerMemberDto.getPhoneNumber())
                 .profileImgUrl(registerMemberDto.getProfileImgUrl())

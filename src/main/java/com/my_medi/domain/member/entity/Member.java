@@ -32,7 +32,7 @@ public abstract class Member extends BaseTimeEntity {
 
     //loginId -> username으로 변경(소셜로그인)
     @Column(name = "username", unique = true, updatable = false, nullable = false)
-    private UUID username;
+    private String username;
 
     //성명
     @Column(name = "name", nullable = false)
@@ -74,7 +74,6 @@ public abstract class Member extends BaseTimeEntity {
         this.phoneNumber = dto.getPhoneNumber();
         this.profileImgUrl = dto.getProfileImgUrl();
 
-        this.username = dto.getUsername();
     }
 
     //Expert dto 전용
@@ -84,8 +83,6 @@ public abstract class Member extends BaseTimeEntity {
         this.nickname = dto.getNickname();
         this.phoneNumber = dto.getPhoneNumber();
         this.profileImgUrl = dto.getProfileImgUrl();
-
-        this.username = dto.getUsername();
     }
 
 }

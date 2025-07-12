@@ -8,6 +8,6 @@ import java.util.UUID;
 public interface UserQueryService {
 
     User getUserById(Long userId);
-    User getUserByUsername(UUID username);
+    User getUserByUsername(String username);
     List<User> getAllUsers();
 }

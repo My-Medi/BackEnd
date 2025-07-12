@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ExpertRepository extends JpaRepository<Expert,Long> {
-    Optional<Expert> findByUsername(UUID username);
+    Optional<Expert> findByUsername(String username);
 
 }
 

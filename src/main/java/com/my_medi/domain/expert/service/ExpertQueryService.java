@@ -10,6 +10,6 @@ public interface ExpertQueryService {
     Expert getExpertById(Long expertId);
 
     List<Expert> getAllExperts();
-    Expert getExpertByUsername(UUID username);
+    Expert getExpertByUsername(String username);
 
 }
