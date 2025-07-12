@@ -2,9 +2,11 @@ package com.my_medi.domain.expertNotification.service;
 
 import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
+import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
+import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.user.exception.ExpertHandler;
-import com.my_medi.domain.user.repository.ExpertRepository;
+import com.my_medi.domain.expert.exception.ExpertHandler;
+import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.expertNotification.entity.ExpertNotification;
 import com.my_medi.domain.expertNotification.repository.ExpertNotificationRepository;
 import lombok.RequiredArgsConstructor;
