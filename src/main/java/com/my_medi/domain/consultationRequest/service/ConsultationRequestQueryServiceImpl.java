@@ -2,6 +2,7 @@ package com.my_medi.domain.consultationRequest.service;
 
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
+import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,6 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
     @Override
     public ConsultationRequest getRequestById(Long consultRequestId) {
         return consultationRequestRepository.findById(consultRequestId)
-                .orElseThrow(() -> new IllegalArgumentException("Consultation request not found"));
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
     }
 }

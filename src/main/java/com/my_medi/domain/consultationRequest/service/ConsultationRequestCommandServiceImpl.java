@@ -42,7 +42,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     @Override
     public Long editCommentOfRequest(Long consultationRequestId, String comment) {
         ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
-                .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.CONSULTATION_REQUEST_NOT_FOUND));
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         request.updateComment(comment);
         return request.getId();
@@ -52,7 +52,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     @Override
     public void cancelRequest(Long consultationRequestId) {
         ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
-                .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.CONSULTATION_REQUEST_NOT_FOUND));
+                .orElseThrow(() ->ConsultationRequestHandler.NOT_FOUND);
 
         consultationRequestRepository.delete(request);
     }

@@ -50,7 +50,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
     @Override
     public Long editSchedule(Long expertId, Long scheduleId , EditScheduleDto editScheduleDto) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_NOT_FOUND));
+                .orElseThrow(() ->ScheduleHandler.NOT_FOUND);
 
 //        validateExpert(schedule, expertId);
         // 나중에 하기
@@ -62,7 +62,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
     @Override
     public Long removeSchedule(Long expertId, Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_NOT_FOUND));
+                .orElseThrow(() -> ScheduleHandler.NOT_FOUND);
 
 //        validateExpert(schedule, expertId);
         scheduleRepository.delete(schedule);
