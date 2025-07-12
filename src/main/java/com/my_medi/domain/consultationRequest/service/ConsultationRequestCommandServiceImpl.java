@@ -46,6 +46,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         return request.getId();
     }
 
+    //TODO : 유저 체크하기
     @Override
     public void cancelRequest(Long consultationRequestId) {
         ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)

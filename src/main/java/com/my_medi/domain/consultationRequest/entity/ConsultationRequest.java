@@ -38,7 +38,7 @@ public class ConsultationRequest extends BaseTimeEntity {
         this.comment = comment;
     }
 
-    public void cancel() {
+    public void reject() {
         this.requestStatus = RequestStatus.REJECTED;
     }
 }
