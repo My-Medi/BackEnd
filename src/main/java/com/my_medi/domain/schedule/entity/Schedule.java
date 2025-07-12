@@ -1,10 +1,13 @@
 package com.my_medi.domain.schedule.entity;
 
+import com.my_medi.api.schedule.dto.EditScheduleDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-// @Builder 빌드가 안되어 주석처리하였습니다.
+@SuperBuilder
 public class Schedule extends BaseTimeEntity {
 
     @Id
@@ -35,6 +38,14 @@ public class Schedule extends BaseTimeEntity {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String location;
+
+    public void update(EditScheduleDto dto) {
+        this.title = dto.getTitle();
+        this.description = dto.getDescription();
+        this.startTime = dto.getStartTime();
+        this.endTime = dto.getEndTime();
+        this.location = dto.getLocation();
+    }
 
 
 }

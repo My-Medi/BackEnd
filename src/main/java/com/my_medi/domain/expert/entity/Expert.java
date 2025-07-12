@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -42,7 +43,7 @@ public class Expert extends Member {
     public void modifyExpertInfo(UpdateExpertDto dto) {
         //user 공통
         this.modifyMemberInfoExpert(dto);
-
+      
         //expert
         this.specialty = dto.getSpecialty();
         this.organizationName = dto.getOrganizationName();

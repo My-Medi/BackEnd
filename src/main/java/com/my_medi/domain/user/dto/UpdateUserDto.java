@@ -11,7 +11,6 @@ public class UpdateUserDto {
 
     private String name;
     private LocalDate birthDate;
-    private UUID username;
     private String nickname;
     private String phoneNumber;
     private String profileImgUrl;

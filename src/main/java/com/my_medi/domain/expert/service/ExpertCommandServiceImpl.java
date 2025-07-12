@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -32,6 +33,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .profileImgUrl(registerMemberDto.getProfileImgUrl())
                 .build();
         return expertRepository.save(expert).getId();
+
     }
 
     @Override
@@ -39,6 +41,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expert.modifyExpertInfo(dto);
+
         return expert.getId();
     }
 

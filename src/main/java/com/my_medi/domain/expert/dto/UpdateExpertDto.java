@@ -17,7 +17,7 @@ public class UpdateExpertDto {
     private String name;
     private LocalDate birthDate;
     private Gender gender;
-    private UUID username;
+    private String username;
     private String nickname;
     private String phoneNumber;
     private String profileImgUrl;

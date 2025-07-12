@@ -9,5 +9,6 @@ public interface UserQueryService {
 
     User getUserById(Long userId);
     User getUserByUsername(String username);
+
     List<User> getAllUsers();
 }

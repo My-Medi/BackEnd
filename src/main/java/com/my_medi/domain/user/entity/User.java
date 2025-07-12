@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -30,6 +31,7 @@ public class User extends Member {
     // 수정용 메서드
     public void modifyUserInfo(UpdateUserDto dto) {
         this.modifyMemberInfoUser(dto);
+
         this.height = dto.getHeight();
         this.weight = dto.getWeight();
     }

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -14,8 +13,7 @@ public class RegisterMemberDto {
     private LocalDate birthDate;
     private Gender gender;
     private String nickname;
-    private UUID username;
-    private String password;
+    private String username;
     private String email;
     private String phoneNumber;
     private String profileImgUrl;

@@ -27,7 +27,6 @@ public class UserQueryServiceImpl implements UserQueryService{
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
     @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
