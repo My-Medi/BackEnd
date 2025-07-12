@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import java.util.UUID;
+
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) //queryservice에는 readonly
@@ -29,4 +32,10 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
     public List<Expert> getAllExperts() {
         return expertRepository.findAll();
     }
+    @Override
+    public Expert getExpertByUsername(String username) {
+        return expertRepository.findByUsername(username)
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+    }
+
 }

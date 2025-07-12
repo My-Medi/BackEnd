@@ -8,13 +8,19 @@ import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
+
 import com.my_medi.domain.user.service.UserCommandService;
 import com.my_medi.domain.user.service.UserQueryService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-//@Tag(name = "사용자 API")
+
+@Tag(name = "사용자 API")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor

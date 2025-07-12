@@ -11,12 +11,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
-
 
     @Override
     public Long registerExpert(RegisterMemberDto registerMemberDto) {
@@ -25,13 +26,14 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .name(registerMemberDto.getName())
                 .birthDate(registerMemberDto.getBirthDate())
                 .gender(registerMemberDto.getGender())
-                .loginId(registerMemberDto.getLoginId())
-                .password(registerMemberDto.getPassword())
+
+                .username(UUID.randomUUID().toString())
                 .email(registerMemberDto.getEmail())
                 .phoneNumber(registerMemberDto.getPhoneNumber())
                 .profileImgUrl(registerMemberDto.getProfileImgUrl())
                 .build();
         return expertRepository.save(expert).getId();
+
     }
 
     @Override
