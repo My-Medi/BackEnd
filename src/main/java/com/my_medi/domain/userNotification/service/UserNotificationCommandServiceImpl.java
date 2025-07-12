@@ -1,18 +1,39 @@
 package com.my_medi.domain.userNotification.service;
 
+import com.my_medi.api.UserNotification.dto.SendNotificationToUserDto;
+import com.my_medi.common.exception.ErrorStatus;
+import com.my_medi.domain.user.entity.User;
+import com.my_medi.domain.user.exception.UserHandler;
+import com.my_medi.domain.user.repository.UserRepository;
+import com.my_medi.domain.userNotification.entity.UserNotification;
 import com.my_medi.domain.userNotification.repository.UserNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserNotificationCommandServiceImpl implements UserNotificationCommandService {
+    private final UserRepository userRepository;
     private final UserNotificationRepository userNotificationRepository;
 
-    public Long sendNotificationToUser(Long userId, Long sourceId) {
+    @Override
+    public Long sendNotificationToUser(Long userId, SendNotificationToUserDto sendNotificationToUserDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
 
+        UserNotification userNotification = UserNotification.builder()
+                .user(user)
+                .notificationTitle(sendNotificationToUserDto.getTitle())
+                .notificationContent(sendNotificationToUserDto.getContent())
+                .sourceId(sendNotificationToUserDto.getSourceId())
+                .build();
+
+        return userNotification.getId();
     }
 
+    @Override
     public void removeNotification(Long notificationId) {
         userNotificationRepository.deleteById(notificationId);
     }

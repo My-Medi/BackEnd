@@ -1,22 +1,30 @@
 package com.my_medi.domain.expertNotification.service;
 
+import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.domain.expertNotification.entity.ExpertNotification;
+import com.my_medi.domain.expertNotification.exception.ExpertNotificationHandler;
 import com.my_medi.domain.expertNotification.repository.ExpertNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ExpertNotificationQueryServiceImpl implements ExpertNotificationQueryService {
     private final ExpertNotificationRepository expertNotificationRepository;
 
+    @Override
     public List<ExpertNotification> getNotificationByExpertId(Long expertId) {
-        return expertNotificationRepository.findByExpertId(expertId);
+        return expertNotificationRepository.findByExpertId(expertId)
+                .orElseThrow(() -> new ExpertNotificationHandler(ErrorStatus.EXPERT_NOTIFICATION_BY_EXPERT_ID_NOT_FOUND);
     }
 
+    @Override
     public ExpertNotification getNotificationById(Long notificationId) {
         return expertNotificationRepository.findById(notificationId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 알림이 존재하지 않습니다. id=" + notificationId));
+                .orElseThrow(() -> new ExpertNotificationHandler(ErrorStatus.EXPERT_NOTIFICATION_BY_ID_NOT_FOUND);
     }
 }
