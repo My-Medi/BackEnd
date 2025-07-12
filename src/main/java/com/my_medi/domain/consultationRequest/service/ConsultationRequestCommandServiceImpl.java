@@ -5,7 +5,6 @@ import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.ExpertRepository;
-import com.my_medi.domain.member.entity.Member;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
