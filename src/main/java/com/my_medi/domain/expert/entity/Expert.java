@@ -1,27 +1,25 @@
 package com.my_medi.domain.expert.entity;
 
 import com.my_medi.common.consts.StaticVariable;
+import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.member.entity.Member;
 import com.my_medi.domain.member.entity.Role;
+import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 
 @Entity
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DiscriminatorValue(StaticVariable.EXPERT)      //TODO ROLE ENUM key값으로
 public class Expert extends Member {
 
-    @Column(unique = true)
-    private String expertUuid;
 
     //전문분야(enum)
     @Column(nullable = false)
@@ -44,6 +42,21 @@ public class Expert extends Member {
     // 데이터베이스에 입력될 텍스트 크기를 길게 설정
     @Column(columnDefinition = "TEXT")
     private String introduction;
+
+    public void modifyInfo(UpdateExpertDto dto) {
+        //user 공통
+        this.setName(dto.getName());
+        this.setBirthDate(dto.getBirthDate());
+        this.setNickname(dto.getNickname());
+        this.setPhoneNumber(dto.getPhoneNumber());
+        this.setProfileImgUrl(dto.getProfileImgUrl());
+
+        //expert
+        this.specialty = dto.getSpecialty();
+        this.organizationName = dto.getOrganizationName();
+        this.licenseFileUrl = dto.getLicenseFileUrl();
+        this.introduction = dto.getIntroduction();
+    }
 
 
 
