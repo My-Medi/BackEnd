@@ -2,21 +2,25 @@ package com.my_medi.domain.user.entity;
 
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.member.entity.Member;
-import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
-@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DiscriminatorValue(StaticVariable.USER)      //TODO ROLE ENUM key값으로
 public class User extends Member {
+
+    @Column(unique = true)
+    private String userUuid;
 
     //키
     private Float height;
@@ -28,11 +32,6 @@ public class User extends Member {
     // @OneToMany(mappedBy = "user")
     // private List<HealthReport> reports = new ArrayList<>();
 
-    // 수정용 메서드
-    public void modifyUserInfo(UpdateUserDto dto) {
-        this.modifyMemberInfoUser(dto);
-        this.height = dto.getHeight();
-        this.weight = dto.getWeight();
-    }
+
 
 }
