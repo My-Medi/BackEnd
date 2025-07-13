@@ -25,27 +25,24 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     @Override
     public Long registerExpert(RegisterExpertDto registerExpertDto) {
 
-        RegisterMemberDto m = registerExpertDto.getMember();
-
         //TODO [LATER] requestDto에 맞게 argument 변경해주기
         Expert expert = Expert.builder()
-                .name(m.getName())
-                .birthDate(m.getBirthDate())
-                .gender(m.getGender())
+                //member
+                .name(registerExpertDto.getMember().getName())
+                .birthDate(registerExpertDto.getMember().getBirthDate())
+                .gender(registerExpertDto.getMember().getGender())
                 .username(UUID.randomUUID().toString())
-                .email(m.getEmail())
-                .phoneNumber(m.getPhoneNumber())
-                .profileImgUrl(m.getProfileImgUrl())
+                .email(registerExpertDto.getMember().getEmail())
+                .phoneNumber(registerExpertDto.getMember().getPhoneNumber())
+                .profileImgUrl(registerExpertDto.getMember().getProfileImgUrl())
                 .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
-
+                //Expert
                 .specialty(registerExpertDto.getSpecialty())
                 .organizationName(registerExpertDto.getOrganizationName())
                 .licenseFileUrl(registerExpertDto.getLicenseFileUrl())
                 .introduction(registerExpertDto.getIntroduction())
-
                 .build();
         return expertRepository.save(expert).getId();
-
     }
 
 

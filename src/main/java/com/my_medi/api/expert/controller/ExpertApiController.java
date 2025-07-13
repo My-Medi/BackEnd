@@ -15,6 +15,7 @@ import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.service.UserCommandService;
 import com.my_medi.domain.user.service.UserQueryService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,19 +29,13 @@ public class ExpertApiController {
     private final ExpertCommandService expertCommandService;
     private final ExpertQueryService expertQueryService;
 
-    //TODO remove this method
-    @GetMapping
-    public void registerExpertForTest() {
-        throw ExpertHandler.NOT_FOUND;
-    }
-
-    //    @Operation(summary = "expert 계정을 생성합니다.")
+    @Operation(summary = "expert 계정을 생성합니다.")
     @PostMapping
     public ApiResponseDto<Long> registerExpertAccount(@RequestBody RegisterExpertDto registerExpertDto) {
         return ApiResponseDto.onSuccess(expertCommandService.registerExpert(registerExpertDto));
     }
 
-    // @Operation(summary = "expert 프로필 정보를 조회합니다.")
+    @Operation(summary = "expert 프로필 정보를 조회합니다.")
     @GetMapping("/{expertId}")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getExpertProfile(@PathVariable Long expertId) {
         Expert expert = expertQueryService.getExpertById(expertId);

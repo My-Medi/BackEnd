@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) //queryservice에는 readonly
-
 public class UserQueryServiceImpl implements UserQueryService{
     private final UserRepository userRepository;
 

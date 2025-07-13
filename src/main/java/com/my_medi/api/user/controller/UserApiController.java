@@ -30,21 +30,13 @@ public class UserApiController {
     private final UserCommandService userCommandService;
     private final UserQueryService userQueryService;
 
-
-    //TODO remove this method
-    @GetMapping
-    public void registerUserForTest() {
-        throw UserHandler.NOT_FOUND;
-    }
-
-
-    //    @Operation(summary = "user 계정을 생성합니다.")
+    @Operation(summary = "user 계정을 생성합니다.")
     @PostMapping
     public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterUserDto registerUserDto) {
         return ApiResponseDto.onSuccess(userCommandService.registerUser(registerUserDto));
     }
 
-    // @Operation(summary = "user 프로필 정보를 조회합니다.")
+    @Operation(summary = "user 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}")
     public ApiResponseDto<UserProfileDto> getUserProfile(@PathVariable Long userId) {
         User user = userQueryService.getUserById(userId);
