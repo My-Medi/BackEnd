@@ -32,6 +32,8 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .phoneNumber(registerUserDto.getMember().getPhoneNumber())
                 .profileImgUrl(registerUserDto.getMember().getProfileImgUrl())
                 .role(Role.USER)
+                .height(registerUserDto.getHeight())
+                .weight(registerUserDto.getWeight())
                 .build();
         return userRepository.save(user).getId();
     }
