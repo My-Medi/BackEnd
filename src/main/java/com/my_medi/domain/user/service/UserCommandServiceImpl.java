@@ -3,6 +3,7 @@ package com.my_medi.domain.user.service;
 
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.repository.UserRepository;
@@ -31,6 +32,7 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .email(registerMemberDto.getEmail())
                 .phoneNumber(registerMemberDto.getPhoneNumber())
                 .profileImgUrl(registerMemberDto.getProfileImgUrl())
+                .role(Role.USER)
                 .build();
         return userRepository.save(user).getId();
 

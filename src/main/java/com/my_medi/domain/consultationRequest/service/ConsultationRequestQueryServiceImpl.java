@@ -24,7 +24,7 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
 
     @Override
     public List<ConsultationRequest> getRequestByExpert(Long expertId, RequestStatus requestStatus) {
-        return consultationRequestRepository.findByExpertIdAndStatus(expertId, requestStatus);
+        return consultationRequestRepository.findByExpertIdAndRequestStatus(expertId, requestStatus);
     }
 
     @Override

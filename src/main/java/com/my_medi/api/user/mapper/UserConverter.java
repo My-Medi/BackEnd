@@ -9,6 +9,15 @@ public class UserConverter {
     public static UserProfileDto toUserProfileDto(User user) {
         return UserProfileDto.builder()
                 //TODO 채워넣기
+                .id(user.getId())
+                .name(user.getName())
+                .birthDate(user.getBirthDate())
+                .gender(user.getGender())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .profileImgUrl(user.getProfileImgUrl())
+                .username(user.getUsername())
+                .role(user.getRole())
                 .build();
     }
 }

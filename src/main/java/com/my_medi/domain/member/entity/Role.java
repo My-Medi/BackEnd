@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Role {
 
-    ROLE_USER("ROLE_USER", StaticVariable.USER), ROLE_EXPERT("ROLE_EXPERT", StaticVariable.EXPERT);
+    USER("USER", StaticVariable.USER), EXPERT("EXPERT", StaticVariable.EXPERT);
 
     private final String key; // Spring Security용 권한 키
     private final String discriminator; // JPA 상속용 구분 값

@@ -3,8 +3,10 @@ package com.my_medi.domain.expert.service;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
+import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,8 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .email(registerMemberDto.getEmail())
                 .phoneNumber(registerMemberDto.getPhoneNumber())
                 .profileImgUrl(registerMemberDto.getProfileImgUrl())
+                .role(Role.EXPERT)
+                .specialty(Specialty.valueOf(registerMemberDto.getSpecialty()))
                 .build();
         return expertRepository.save(expert).getId();
 
