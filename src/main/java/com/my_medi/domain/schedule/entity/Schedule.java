@@ -1,6 +1,5 @@
 package com.my_medi.domain.schedule.entity;
 
-import com.my_medi.api.schedule.dto.EditScheduleDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
@@ -15,9 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-
 @SuperBuilder
-
 public class Schedule extends BaseTimeEntity {
 
     @Id
@@ -40,14 +37,6 @@ public class Schedule extends BaseTimeEntity {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String location;
-
-    public void update(EditScheduleDto dto) {
-        this.title = dto.getTitle();
-        this.description = dto.getDescription();
-        this.startTime = dto.getStartTime();
-        this.endTime = dto.getEndTime();
-        this.location = dto.getLocation();
-    }
 
 
 }

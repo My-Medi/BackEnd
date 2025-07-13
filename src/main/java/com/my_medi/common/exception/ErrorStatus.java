@@ -27,8 +27,6 @@ public enum ErrorStatus implements BaseErrorCode{
     _FORBIDDEN(FORBIDDEN, 4002, "금지된 요청입니다.");
 
     //user (4050-4099)
-    //schedule(4100-4149)
-    //consultationRequest(4150-4199)
 
     private final HttpStatus httpStatus;
     private final Integer code;
