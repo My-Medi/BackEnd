@@ -1,5 +1,6 @@
 package com.my_medi.domain.expert.service;
 
+import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.expert.entity.Expert;
@@ -22,23 +23,31 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
 
     @Override
-    public Long registerExpert(RegisterMemberDto registerMemberDto) {
+    public Long registerExpert(RegisterExpertDto registerExpertDto) {
+
+        RegisterMemberDto m = registerExpertDto.getMember();
+
         //TODO [LATER] requestDto에 맞게 argument 변경해주기
         Expert expert = Expert.builder()
-                .name(registerMemberDto.getName())
-                .birthDate(registerMemberDto.getBirthDate())
-                .gender(registerMemberDto.getGender())
-
+                .name(m.getName())
+                .birthDate(m.getBirthDate())
+                .gender(m.getGender())
                 .username(UUID.randomUUID().toString())
-                .email(registerMemberDto.getEmail())
-                .phoneNumber(registerMemberDto.getPhoneNumber())
-                .profileImgUrl(registerMemberDto.getProfileImgUrl())
-                .role(Role.EXPERT)
-                .specialty(Specialty.valueOf(registerMemberDto.getSpecialty()))
+                .email(m.getEmail())
+                .phoneNumber(m.getPhoneNumber())
+                .profileImgUrl(m.getProfileImgUrl())
+                .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
+
+                .specialty(registerExpertDto.getSpecialty())
+                .organizationName(registerExpertDto.getOrganizationName())
+                .licenseFileUrl(registerExpertDto.getLicenseFileUrl())
+                .introduction(registerExpertDto.getIntroduction())
+
                 .build();
         return expertRepository.save(expert).getId();
 
     }
+
 
     @Override
     public Long updateExpertInformation(Long expertId, UpdateExpertDto dto) {

@@ -2,6 +2,7 @@ package com.my_medi.api.user.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.api.user.dto.RegisterUserDto;
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.dto.UserResponseDto.UserProfileDto;
 import com.my_medi.api.user.mapper.UserConverter;
@@ -39,8 +40,8 @@ public class UserApiController {
 
     //    @Operation(summary = "user 계정을 생성합니다.")
     @PostMapping
-    public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterMemberDto registerMemberDto) {
-        return ApiResponseDto.onSuccess(userCommandService.registerUser(registerMemberDto));
+    public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterUserDto registerUserDto) {
+        return ApiResponseDto.onSuccess(userCommandService.registerUser(registerUserDto));
     }
 
     // @Operation(summary = "user 프로필 정보를 조회합니다.")

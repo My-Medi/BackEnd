@@ -17,6 +17,6 @@ public class RegisterMemberDto {
     private String email;
     private String phoneNumber;
     private String profileImgUrl;
-    private Role role; // role 추가
+
 
 }

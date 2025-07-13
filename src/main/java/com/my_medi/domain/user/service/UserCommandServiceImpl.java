@@ -2,6 +2,7 @@ package com.my_medi.domain.user.service;
 
 
 import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.api.user.dto.RegisterUserDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.dto.UpdateUserDto;
@@ -22,16 +23,19 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
 
     @Override
-    public Long registerUser(RegisterMemberDto registerMemberDto){
+    public Long registerUser(RegisterUserDto registerUserDto){
+        // 공통 회원정보
+        RegisterMemberDto m = registerUserDto.getMember();
+
         //TODO [LATER] requestDto에 맞게 구현예정
         User user = User.builder()
-                .name(registerMemberDto.getName())
-                .birthDate(registerMemberDto.getBirthDate())
-                .gender(registerMemberDto.getGender())
+                .name(m.getName())
+                .birthDate(m.getBirthDate())
+                .gender(m.getGender())
                 .username(UUID.randomUUID().toString())
-                .email(registerMemberDto.getEmail())
-                .phoneNumber(registerMemberDto.getPhoneNumber())
-                .profileImgUrl(registerMemberDto.getProfileImgUrl())
+                .email(m.getEmail())
+                .phoneNumber(m.getPhoneNumber())
+                .profileImgUrl(m.getProfileImgUrl())
                 .role(Role.USER)
                 .build();
         return userRepository.save(user).getId();
