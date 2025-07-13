@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) //queryservice에는 readonly
-
 public class UserQueryServiceImpl implements UserQueryService{
     private final UserRepository userRepository;
 
@@ -27,6 +25,7 @@ public class UserQueryServiceImpl implements UserQueryService{
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
     @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)

@@ -28,7 +28,7 @@ public abstract class Member extends BaseTimeEntity {
     private Long id;
 
     //역할(개인, 전문가 구분)
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
