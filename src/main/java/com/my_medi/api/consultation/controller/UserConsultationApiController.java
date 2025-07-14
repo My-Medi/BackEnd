@@ -16,7 +16,7 @@ public class UserConsultationApiController {
     private final ConsultationRequestCommandService consultationRequestCommandService;
 
     @Operation(summary = "전문가에게 consult 요청 보내기")
-    @PostMapping("/experts/{expertId}}")
+    @PostMapping("/experts/{expertId}")
     public ApiResponseDto<Long> approveConsultation(@PathVariable Long expertId,
                                                     @RequestParam Long userId,
                                                     @RequestParam String comment) {
