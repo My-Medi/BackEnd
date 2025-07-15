@@ -58,7 +58,9 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
     public Long editProposal(Long userId, WriteProposalDto writeProposalDto) {
         Proposal proposal = proposalRepository.findByUserId(userId)
                 .orElseThrow(() -> new ProposalHandler(ErrorStatus.PROPOSAL_NOT_FOUND));
-        proposal.update(writeProposalDto);
+        proposal.updateHealthInterests(writeProposalDto);
+        proposal.updateAbnormalValue(writeProposalDto);
+        proposal.updateHelpTopic(writeProposalDto);
         return proposal.getId();
     }
 }

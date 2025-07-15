@@ -19,7 +19,7 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     private final UserNotificationRepository userNotificationRepository;
 
     @Override
-    public Long sendNotificationToUser(Long userId, SendNotificationToUserDto sendNotificationToUserDto) {
+    public Long sendNotificationToUser(Long userId, Long sourceId, SendNotificationToUserDto sendNotificationToUserDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
 
@@ -27,7 +27,7 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
                 .user(user)
                 .notificationTitle(sendNotificationToUserDto.getTitle())
                 .notificationContent(sendNotificationToUserDto.getContent())
-                .sourceId(sendNotificationToUserDto.getSourceId())
+                .sourceId(sourceId)
                 .build();
 
         return userNotification.getId();

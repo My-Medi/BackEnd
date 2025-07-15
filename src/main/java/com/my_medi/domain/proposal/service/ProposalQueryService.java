@@ -5,5 +5,5 @@ import java.util.Optional;
 
 public interface ProposalQueryService {
 
-    Optional<Proposal> getProposalByUserId(Long userId);
+    Proposal getProposalByUserId(Long userId);
 }

@@ -68,7 +68,7 @@ public class Proposal extends BaseTimeEntity {
         setHelpTopicDto(writeProposalDto);
     }
 
-    public void setHealthInterestsDto(WriteProposalDto writeProposalDto) {
+    public void updateHealthInterests(WriteProposalDto writeProposalDto) {
         HealthInterestsDto hid = writeProposalDto.getHealthInterestsDto();
         this.weightManagement = hid.getWeightManagement();
         this.bloodSugarControl = hid.getBloodSugarControl();
@@ -81,7 +81,7 @@ public class Proposal extends BaseTimeEntity {
         this.stressAndLifestyle = hid.getStressAndLifestyle();
     }
 
-    public void setAbnormalValueDto(WriteProposalDto writeProposalDto) {
+    public void updateAbnormalValue(WriteProposalDto writeProposalDto) {
         AbnormalValueDto avd = writeProposalDto.getAbnormalValueDto();
         this.fastingBloodSugar = avd.getFastingBloodSugar();
         this.cholesterolLdl = avd.getCholesterolLdl();
@@ -91,7 +91,7 @@ public class Proposal extends BaseTimeEntity {
         this.noHealthCheckResult = avd.getNoHealthCheckResult();
     }
 
-    public void setHelpTopicDto(WriteProposalDto writeProposalDto) {
+    public void updateHelpTopic(WriteProposalDto writeProposalDto) {
         HelpTopicDto htd = writeProposalDto.getHelpTopicDto();
         this.dietitian = htd.getDietitian();
         this.healthManager = htd.getHealthManager();
