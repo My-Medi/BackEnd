@@ -58,16 +58,6 @@ public class Proposal extends BaseTimeEntity {
     @Column(name = "goal", nullable = false, length = 50)
     private String goal;
 
-    // 각 항목별로 나눠서 만들기
-    public void update(WriteProposalDto writeProposalDto) {
-        this.lifeDescription = writeProposalDto.getLifeDescription();
-        this.goal = writeProposalDto.getGoal();
-
-        setHealthInterestsDto(writeProposalDto);
-        setAbnormalValueDto(writeProposalDto);
-        setHelpTopicDto(writeProposalDto);
-    }
-
     public void updateHealthInterests(WriteProposalDto writeProposalDto) {
         HealthInterestsDto hid = writeProposalDto.getHealthInterestsDto();
         this.weightManagement = hid.getWeightManagement();
