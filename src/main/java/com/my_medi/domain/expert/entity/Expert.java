@@ -10,6 +10,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -34,22 +35,14 @@ public class Expert extends Member {
     @Column(length = 1000)
     private String licenseFileUrl;
 
-    // 경력사항(추후 연관관계로 받아올 예정)
-    // @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<경력테이블> careers = new ArrayList<>();
-
     //경력소개
     // 데이터베이스에 입력될 텍스트 크기를 길게 설정
     @Column(columnDefinition = "TEXT")
     private String introduction;
 
-    public void modifyInfo(UpdateExpertDto dto) {
+    public void modifyExpertInfo(UpdateExpertDto dto) {
         //user 공통
-        this.setName(dto.getName());
-        this.setBirthDate(dto.getBirthDate());
-        this.setNickname(dto.getNickname());
-        this.setPhoneNumber(dto.getPhoneNumber());
-        this.setProfileImgUrl(dto.getProfileImgUrl());
+        this.modifyMemberInfoExpert(dto);
 
         //expert
         this.specialty = dto.getSpecialty();

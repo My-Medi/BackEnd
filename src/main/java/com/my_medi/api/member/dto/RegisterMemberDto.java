@@ -1,6 +1,7 @@
 package com.my_medi.api.member.dto;
 
 import com.my_medi.domain.member.entity.Gender;
+import com.my_medi.domain.member.entity.Role;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,9 +14,9 @@ public class RegisterMemberDto {
     private LocalDate birthDate;
     private Gender gender;
     private String nickname;
-    private String loginId;
-    private String password;
     private String email;
     private String phoneNumber;
     private String profileImgUrl;
+
+
 }

@@ -1,6 +1,8 @@
 package com.my_medi.domain.member.entity;
 
+import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
+import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.validation.constraints.Size;
 
@@ -25,9 +28,13 @@ public abstract class Member extends BaseTimeEntity {
     private Long id;
 
     //역할(개인, 전문가 구분)
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    //loginId -> username으로 변경(소셜로그인)
+    @Column(name = "username", unique = true, updatable = false, nullable = false)
+    private String username;
 
     //성명
     @Column(name = "name", nullable = false)
@@ -46,16 +53,6 @@ public abstract class Member extends BaseTimeEntity {
     @Column(name = "nickname", unique = true, nullable = true) // 회원가입시 입력받지 않으므로 기본 null
     private String nickname;
 
-    //아이디(제약조건 : 8글자 이상)
-    @Column(name = "login_id", nullable = false, unique = true)
-    @Size(min = 8, message = "아이디는 최소 8자 이상이어야 합니다.")
-    private String loginId;
-
-    //비밀번호(제약조건 : 8글자 이상)
-    @Column(name = "password", nullable = false)
-    @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.")
-    private String password;
-
     //이메일
     // TODO: email, password : 검증 어노테이션, presentation(web 혹은 api) 레이어에 좀 더 적합하므로 추후 수정
     @Column(name = "email", nullable = false)
@@ -69,5 +66,25 @@ public abstract class Member extends BaseTimeEntity {
     @Column(name = "profile_img_url", nullable = true) // 회원가입시 입력받지 않으므로 기본 null
     private String profileImgUrl;
 
+
+    //TODO : dto 통일
+    //User dto 전용
+    public void modifyMemberInfoUser(UpdateUserDto dto){
+        this.name = dto.getName();
+        this.birthDate = dto.getBirthDate();
+        this.nickname = dto.getNickname();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.profileImgUrl = dto.getProfileImgUrl();
+
+    }
+
+    //Expert dto 전용
+    public void modifyMemberInfoExpert(UpdateExpertDto dto){
+        this.name = dto.getName();
+        this.birthDate = dto.getBirthDate();
+        this.nickname = dto.getNickname();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.profileImgUrl = dto.getProfileImgUrl();
+    }
 
 }

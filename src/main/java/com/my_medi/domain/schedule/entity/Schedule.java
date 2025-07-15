@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+
 @SuperBuilder
 public class Schedule extends BaseTimeEntity {
 

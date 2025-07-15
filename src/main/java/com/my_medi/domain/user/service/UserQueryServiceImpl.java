@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) //queryservice에는 readonly
-
 public class UserQueryServiceImpl implements UserQueryService{
     private final UserRepository userRepository;
 
@@ -25,5 +24,11 @@ public class UserQueryServiceImpl implements UserQueryService{
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> UserHandler.NOT_FOUND);
     }
 }
