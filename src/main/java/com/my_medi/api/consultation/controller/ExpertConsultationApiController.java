@@ -1,6 +1,7 @@
 package com.my_medi.api.consultation.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.domain.consultationRequest.service.ConsultationRequestCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ExpertConsultationApiController {
 
-//        @Operation(summary = "consult request 승낙")
-//    @PatchMapping("/{consultationId}")
-//    public ApiResponseDto<Long> approveConsultation(@PathVariable Long consultationId) {
-//
-//    }
+    private final ConsultationRequestCommandService consultationRequestCommandService;
+
+        @Operation(summary = "consult request 승낙")
+        @PatchMapping("/{consultationId}/approve")
+            public ApiResponseDto<Long> approveConsultation(@PathVariable Long consultationId) {
+                consultationRequestCommandService.approveConsultation(consultationId);
+                return ApiResponseDto.onSuccess(consultationId);
+    }
+
+    @Operation(summary = "consult request 거절")
+    @PatchMapping("/{consultationId}/reject")
+    public ApiResponseDto<Long> rejectConsultation(@PathVariable Long consultationId) {
+        consultationRequestCommandService.rejectConsultation(consultationId);
+        return ApiResponseDto.onSuccess(consultationId);
+    }
 
 }

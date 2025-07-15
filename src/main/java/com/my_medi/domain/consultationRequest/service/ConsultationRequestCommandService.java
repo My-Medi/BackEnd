@@ -7,4 +7,8 @@ public interface ConsultationRequestCommandService {
     Long editCommentOfRequest(Long consultationRequestId, String comment);
 
     void cancelRequest(Long consultationRequestId);
+
+    void approveConsultation(Long consultationRequestId);
+
+    void rejectConsultation(Long consultationRequestId);
 }
