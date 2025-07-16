@@ -43,7 +43,6 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
 
     @Override
     public Expert getByKakaoEmail(String email) {
-        // OAuth 없어 하드코딩 또는 DB 임시 조회
         return expertRepository.findByEmail(email)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
     }

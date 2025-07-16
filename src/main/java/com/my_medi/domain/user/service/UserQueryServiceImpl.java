@@ -38,7 +38,7 @@ public class UserQueryServiceImpl implements UserQueryService{
     }
 
     @Override
-    public User getByKakaoEmail(String email) {//이메일이 "test@user.com"일 경우에만 테스트 사용자 반환
+    public User getByKakaoEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
     }

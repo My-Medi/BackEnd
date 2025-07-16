@@ -17,7 +17,7 @@ public class TokenApiController {
 
     private final TokenService tokenService;
 
-    @Operation(summary = "[TEST용] 이메일로 JWT 토큰 발급", description = "OAuth 없이 테스트 이메일로 JWT 토큰을 발급합니다. (email = test@user.com)")
+    @Operation(summary = "[TEST용] 이메일로 JWT 토큰 발급")
     @GetMapping("/login")
     public ApiResponseDto<JwtToken> login(@RequestParam String kakaoEmail) {
         return ApiResponseDto.onSuccess(tokenService.login(kakaoEmail));

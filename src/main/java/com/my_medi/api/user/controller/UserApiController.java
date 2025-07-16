@@ -46,7 +46,7 @@ public class UserApiController {
     }
 
     // TODO : 테스트용이라 추후 수정
-    @Operation(summary = "내 프로필을 조회합니다. (AccessToken 필요)")
+    @Operation(summary = "[사용자 마이페이지] 내 프로필을 조회합니다. (AccessToken 필요)")
     @GetMapping
     public ApiResponseDto<UserProfileDto> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
         String kakaoEmail = userDetails.getUsername();

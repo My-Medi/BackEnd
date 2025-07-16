@@ -14,7 +14,6 @@ public class ExpertConverter {
 
     public static ExpertResponseDto.ExpertProfileDto toExpertProfileDto(Expert expert) {
         return ExpertResponseDto.ExpertProfileDto.builder()
-                //TODO 채워넣기
                 .name(expert.getName())
                 .birthDate(expert.getBirthDate())
                 .gender(expert.getGender())
