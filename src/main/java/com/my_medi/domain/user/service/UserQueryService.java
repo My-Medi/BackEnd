@@ -12,4 +12,6 @@ public interface UserQueryService {
     User getUserByUsername(String username);
 
     List<User> getAllUsers();
+
+    User getByKakaoEmail(String email);
 }

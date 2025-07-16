@@ -13,4 +13,6 @@ public interface ExpertQueryService {
 
     Expert getExpertByUsername(String username);
 
+    Expert getByKakaoEmail(String email);
+
 }

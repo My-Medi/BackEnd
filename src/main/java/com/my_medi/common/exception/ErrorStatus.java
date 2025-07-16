@@ -29,6 +29,7 @@ public enum ErrorStatus implements BaseErrorCode{
     //user (4050-4099)
     //schedule(4100-4149)
     //consultationRequest(4150-4199)
+    //인증 관련 오류(4200~4249)
 
     private final HttpStatus httpStatus;
     private final Integer code;
