@@ -1,10 +1,11 @@
-package com.my_medi.domain.openData.entity;
+package com.my_medi.domain.healthCheckup.entity;
 
 import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Builder
 @Document(collection = "health_checkups")
 public class HealthCheckupDocument {
 
