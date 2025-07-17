@@ -25,7 +25,7 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
     @Override
     public Long sendNotificationToExpert(Long expertId, Long sourceId) {
         Expert expert = expertRepository.findById(expertId)
-                .orElseThrow(() -> ExpertNotificationHandler.NOT_FOUND);
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
 
         ConsultationRequest consultationRequest = consultationRequestRepository.findById(sourceId)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
