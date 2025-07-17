@@ -18,13 +18,12 @@ public class ExpertNotificationQueryServiceImpl implements ExpertNotificationQue
 
     @Override
     public List<ExpertNotification> getNotificationByExpertId(Long expertId) {
-        return expertNotificationRepository.findByExpertId(expertId)
-                .orElseThrow(() -> new ExpertNotificationHandler(ErrorStatus.EXPERT_NOTIFICATION_BY_EXPERT_ID_NOT_FOUND);
+        return expertNotificationRepository.findByExpertId(expertId);
     }
 
     @Override
     public ExpertNotification getNotificationById(Long notificationId) {
         return expertNotificationRepository.findById(notificationId)
-                .orElseThrow(() -> new ExpertNotificationHandler(ErrorStatus.EXPERT_NOTIFICATION_BY_ID_NOT_FOUND);
+                .orElseThrow(() -> ExpertNotificationHandler.NOT_FOUND);
     }
 }

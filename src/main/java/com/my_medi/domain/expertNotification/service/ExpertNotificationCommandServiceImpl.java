@@ -8,6 +8,7 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.expertNotification.entity.ExpertNotification;
+import com.my_medi.domain.expertNotification.exception.ExpertNotificationHandler;
 import com.my_medi.domain.expertNotification.repository.ExpertNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,10 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
     @Override
     public Long sendNotificationToExpert(Long expertId, Long sourceId) {
         Expert expert = expertRepository.findById(expertId)
-                .orElseThrow(() -> new ExpertHandler(ErrorStatus.EXPERT_NOT_FOUND));
+                .orElseThrow(() -> ExpertNotificationHandler.NOT_FOUND);
 
         ConsultationRequest consultationRequest = consultationRequestRepository.findById(sourceId)
-                .orElseThrow(() -> new ConsultationRequestHandler(ErrorStatus.CONSULTATION_REQUEST_NOT_FOUND));
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         ExpertNotification expertNotification = ExpertNotification.builder()
                 .expert(expert)
