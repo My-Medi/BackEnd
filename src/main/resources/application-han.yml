@@ -11,7 +11,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
-mongodb:
-  client: mongodb://localhost:27017
-  name: my_medi
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: my_medi
