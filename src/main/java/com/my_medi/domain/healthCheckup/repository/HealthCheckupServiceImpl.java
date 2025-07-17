@@ -1,6 +1,6 @@
 package com.my_medi.domain.healthCheckup.repository;
 
-import com.my_medi.domain.healthCheckup.entity.HealthCheckupDocument;
+import com.my_medi.infra.healthCheckup.entity.HealthCheckupDocument;
 import com.my_medi.domain.healthCheckup.service.HealthCheckupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

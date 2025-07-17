@@ -1,7 +1,7 @@
 package com.my_medi.api.healthCheckup.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
-import com.my_medi.domain.healthCheckup.entity.HealthCheckupDocument;
+import com.my_medi.infra.healthCheckup.entity.HealthCheckupDocument;
 import com.my_medi.domain.healthCheckup.service.HealthCheckupService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
