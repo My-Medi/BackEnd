@@ -2,6 +2,7 @@ services:
   ### MY-MEDI APP ###
   application:
     container_name: my-medi-service
+    build: .
     ports:
       - "8080:8080"
     environment:
@@ -12,9 +13,9 @@ services:
     networks:
       - my-medi-net
   ### REDIS ###
-  redis:
+  redis_medi:
     image: redis
-    container_name: redis
+    container_name: my-medi-redis
     ports:
       - "6379:6379"
     networks:
