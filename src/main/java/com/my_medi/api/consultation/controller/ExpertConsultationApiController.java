@@ -23,6 +23,7 @@ public class ExpertConsultationApiController {
             public ApiResponseDto<Long> approveConsultation(@PathVariable Long consultationId) {
                 consultationRequestCommandService.approveConsultation(consultationId);
                 return ApiResponseDto.onSuccess(consultationId);
+
     }
 
     @Operation(summary = "consult request 거절")

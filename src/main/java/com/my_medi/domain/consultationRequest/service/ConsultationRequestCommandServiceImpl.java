@@ -52,34 +52,30 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     //TODO : 유저 체크하기
     @Override
     public void cancelRequest(Long consultationRequestId) {
-        ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
-                .orElseThrow(() ->ConsultationRequestHandler.NOT_FOUND);
-
+        ConsultationRequest request = getRequestedConsultation(consultationRequestId);
         consultationRequestRepository.delete(request);
     }
 
     @Override
     public void approveConsultation(Long consultationId) {
-        ConsultationRequest request = consultationRequestRepository.findById(consultationId)
-                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
-
-        if (request.getRequestStatus() != RequestStatus.REQUESTED) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_REQUEST_STATUS);
-        }
-
+        ConsultationRequest request = getRequestedConsultation(consultationId);
         request.approve();
     }
 
     @Override
     public void rejectConsultation(Long consultationId) {
-        ConsultationRequest request = consultationRequestRepository.findById(consultationId)
+        ConsultationRequest request = getRequestedConsultation(consultationId);
+        request.reject();
+    }
+
+    private ConsultationRequest getRequestedConsultation(Long id) {
+        ConsultationRequest request = consultationRequestRepository.findById(id)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         if (request.getRequestStatus() != RequestStatus.REQUESTED) {
             throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_REQUEST_STATUS);
         }
 
-        request.reject();
-
+        return request;
     }
 }
