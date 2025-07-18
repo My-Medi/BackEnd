@@ -1,8 +1,5 @@
 package com.my_medi.api.healthCheckup.controller;
 
-import com.my_medi.api.common.dto.ApiResponseDto;
-import com.my_medi.infra.healthCheckup.entity.HealthCheckupDocument;
-import com.my_medi.domain.healthCheckup.service.HealthCheckupService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,15 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HealthCheckupApiController {
 
-    private final HealthCheckupService healthCheckupService;
 
-    @PostMapping("/test")
-    public ApiResponseDto<String> saveSample() {
-        return ApiResponseDto.onSuccess(healthCheckupService.saveSampleData());
-    }
-
-    @GetMapping
-    public ApiResponseDto<List<HealthCheckupDocument>> getAll() {
-        return ApiResponseDto.onSuccess(healthCheckupService.findAll());
-    }
+//    @PostMapping("/test")
+//    public ApiResponseDto<String> saveSample() {
+//        return ApiResponseDto.onSuccess(healthCheckupService.saveSampleData());
+//    }
+//
+//    @GetMapping
+//    public ApiResponseDto<List<HealthCheckupDocument>> getAll() {
+//        return ApiResponseDto.onSuccess(healthCheckupService.findAll());
+//    }
 }

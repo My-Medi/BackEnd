@@ -2,6 +2,10 @@ spring:
   config:
     activate:
       on-profile: han
+  batch:
+    jdbc:
+      initialize-schema: always
+    platform: mysql
 
   datasource:
     url: jdbc:mysql://localhost:3306/medi?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
@@ -11,7 +15,20 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017
-      database: my_medi
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        jdbc:
+          batch_size: 1000
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:org/springframework/batch/core/schema-mysql.sql
+#  data:
+#    mongodb:
+#      uri: mongodb://localhost:27017
+#      database: my_medi
