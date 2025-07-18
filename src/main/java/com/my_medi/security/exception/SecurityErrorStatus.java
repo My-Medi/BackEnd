@@ -1,8 +1,18 @@
 package com.my_medi.security.exception;
 
+import com.my_medi.common.annotation.ExplainError;
+import com.my_medi.common.exception.BaseErrorCode;
+import com.my_medi.common.exception.Reason;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public enum SecurityErrorStatus {
+import java.lang.reflect.Field;
+import java.util.Objects;
+
+@Getter
+@AllArgsConstructor
+public enum SecurityErrorStatus implements BaseErrorCode {
 
     //인증 관련 오류(4200~4249)
     AUTH_INVALID_TOKEN(HttpStatus.BAD_REQUEST, 4200, "유효하지 않은 토큰입니다."),
@@ -15,24 +25,33 @@ public enum SecurityErrorStatus {
     AUTH_ROLE_CANNOT_EXECUTE_URI(HttpStatus.BAD_REQUEST, 4207, "해당 권한으로는 요청을 처리할 수 없습니다.");
 
     private final HttpStatus httpStatus;
-    private final int code;
+    private final Integer code;
     private final String message;
 
-    SecurityErrorStatus(HttpStatus httpStatus, int code, String message) {
-        this.httpStatus = httpStatus;
-        this.code = code;
-        this.message = message;
+    @Override
+    public Reason getReason() {
+        return Reason.builder()
+                .message(message)
+                .code(code)
+                .isSuccess(false)
+                .build();
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
+    @Override
+    public Reason getReasonHttpStatus() {
+        return Reason.builder()
+                .message(message)
+                .code(code)
+                .isSuccess(false)
+                .httpStatus(httpStatus)
+                .build();
     }
 
-    public int getCode() {
-        return code;
+    @Override
+    public String getExplainError() throws NoSuchFieldException {
+        Field field = this.getClass().getField(this.name());
+        ExplainError annotation = field.getAnnotation(ExplainError.class);
+        return Objects.nonNull(annotation) ? annotation.value() : this.getMessage();
     }
 
-    public String getMessage() {
-        return message;
-    }
 }

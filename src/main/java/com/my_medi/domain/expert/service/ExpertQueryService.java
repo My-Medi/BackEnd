@@ -15,4 +15,5 @@ public interface ExpertQueryService {
 
     Expert getByKakaoEmail(String email);
 
+    boolean existsByEmail(String email);
 }

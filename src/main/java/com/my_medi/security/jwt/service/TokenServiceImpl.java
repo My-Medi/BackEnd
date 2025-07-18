@@ -1,7 +1,9 @@
 package com.my_medi.security.jwt.service;
 
+import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.service.ExpertQueryService;
+import com.my_medi.domain.member.entity.Member;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.service.UserQueryService;
@@ -43,22 +45,22 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public JwtToken login(String kakaoEmail) {
-        Object member;
+        Member member;
 
-        try {
+        if (userQueryService.existsByEmail(kakaoEmail)) {
             member = userQueryService.getByKakaoEmail(kakaoEmail);
-        } catch (Exception e) {
-            try {
-                member = expertQueryService.getByKakaoEmail(kakaoEmail);
-            } catch (Exception ex) {
-                throw new JwtAuthenticationException(SecurityErrorStatus.AUTH_INVALID_TOKEN);
-            }
+        } else if (expertQueryService.existsByEmail(kakaoEmail)) {
+            member = expertQueryService.getByKakaoEmail(kakaoEmail);
+        } else {
+            throw new JwtAuthenticationException(SecurityErrorStatus.AUTH_INVALID_TOKEN);
         }
 
-        String role = (member instanceof User) ? "ROLE_USER" : "ROLE_EXPERT";
+        String role = member.getRole().name(); // 예: ROLE_USER, ROLE_EXPERT
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                kakaoEmail, "", List.of(new SimpleGrantedAuthority(role))
+                kakaoEmail,
+                "",
+                List.of(new SimpleGrantedAuthority(role))
         );
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -76,8 +78,8 @@ public class TokenServiceImpl implements TokenService {
                 .collect(Collectors.joining(","));
 
         long now = new Date().getTime();
-        Date accessTokenExpiresIn = new Date(now + 1000 * 60 * 30);
-        Date refreshTokenExpiresIn = new Date(now + 1000L * 60 * 60 * 24 * 7);
+        Date accessTokenExpiresIn = new Date(now + StaticVariable.ACCESS_TOKEN_EXPIRE_TIME);
+        Date refreshTokenExpiresIn = new Date(now + StaticVariable.REFRESH_TOKEN_EXPIRE_TIME);
 
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
@@ -96,8 +98,8 @@ public class TokenServiceImpl implements TokenService {
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .code_expire(accessTokenExpiresIn)
-                .refresh_expire(refreshTokenExpiresIn)
+                .accessTokenExpire(accessTokenExpiresIn)
+                .refreshTokenExpire(refreshTokenExpiresIn)
                 .build();
     }
 

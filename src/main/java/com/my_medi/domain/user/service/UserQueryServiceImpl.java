@@ -42,4 +42,9 @@ public class UserQueryServiceImpl implements UserQueryService{
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

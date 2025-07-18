@@ -11,5 +11,6 @@ import java.util.UUID;
 public interface ExpertRepository extends JpaRepository<Expert,Long> {
     Optional<Expert> findByUsername(String username);
     Optional<Expert> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
 

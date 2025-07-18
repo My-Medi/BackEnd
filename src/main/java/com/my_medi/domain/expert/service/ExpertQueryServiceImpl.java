@@ -46,5 +46,10 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
         return expertRepository.findByEmail(email)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return expertRepository.existsByEmail(email);
+    }
 }
 

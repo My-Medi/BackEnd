@@ -14,4 +14,6 @@ public interface UserQueryService {
     List<User> getAllUsers();
 
     User getByKakaoEmail(String email);
+
+    boolean existsByEmail(String email);
 }
