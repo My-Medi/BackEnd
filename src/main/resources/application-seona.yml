@@ -11,3 +11,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+    ### SQL INIT for Batch ###
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/batch-schema-if.sql
+  ### BATCH ###
+  batch:
+    jdbc:
+      initialize-schema: always
+    platform: mysql

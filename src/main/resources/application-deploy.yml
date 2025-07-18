@@ -1,13 +1,25 @@
 spring:
+  ### CONFIG ###
   config:
     activate:
       on-profile: deploy
-
+  ### DATABASE ###
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  ### JPA ###
   jpa:
     hibernate:
       ddl-auto: update
+  ### SQL INIT for Batch ###
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/batch-schema-if.sql
+  ### BATCH ###
+  batch:
+    jdbc:
+      initialize-schema: always
+    platform: mysql
