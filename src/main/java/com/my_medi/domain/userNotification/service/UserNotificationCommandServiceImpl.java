@@ -30,6 +30,8 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
                 .sourceId(sourceId)
                 .build();
 
+        userNotificationRepository.save(userNotification);
+
         return userNotification.getId();
     }
 
