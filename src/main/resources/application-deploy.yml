@@ -23,4 +23,3 @@ spring:
     jdbc:
       initialize-schema: never
     platform: mysql
-

@@ -1,7 +1,6 @@
 package com.my_medi.domain.proposal.service;
 
-import com.my_medi.api.proposal.dto.WriteProposalDto;
-import com.my_medi.common.exception.ErrorStatus;
+import com.my_medi.api.proposal.dto.ProposalDto;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.exception.ProposalHandler;
 import com.my_medi.domain.proposal.repository.ProposalRepository;
@@ -20,35 +19,35 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
     private final UserRepository userRepository;
 
     @Override
-    public Long writeProposal(Long userId, WriteProposalDto writeProposalDto) {
+    public Long writeProposal(Long userId, ProposalDto proposalDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
         Proposal proposal = Proposal.builder()
                 .user(user)
-                .lifeDescription(writeProposalDto.getLifeDescription())
-                .weightManagement(writeProposalDto.getHealthInterestsDto().getWeightManagement())
-                .bloodSugarControl(writeProposalDto.getHealthInterestsDto().getBloodSugarControl())
-                .cholesterolControl(writeProposalDto.getHealthInterestsDto().getCholesterolControl())
-                .bloodPressureControl(writeProposalDto.getHealthInterestsDto().getBloodPressureControl())
-                .liverFunctionCare(writeProposalDto.getHealthInterestsDto().getLiverFunctionCare())
-                .sleepRecovery(writeProposalDto.getHealthInterestsDto().getSleepRecovery())
-                .dietImprovement(writeProposalDto.getHealthInterestsDto().getDietImprovement())
-                .exerciseRoutine(writeProposalDto.getHealthInterestsDto().getExerciseRoutine())
-                .stressAndLifestyle(writeProposalDto.getHealthInterestsDto().getStressAndLifestyle())
+                .lifeDescription(proposalDto.getLifeDescription())
+                .weightManagement(proposalDto.getHealthInterestsDto().getWeightManagement())
+                .bloodSugarControl(proposalDto.getHealthInterestsDto().getBloodSugarControl())
+                .cholesterolControl(proposalDto.getHealthInterestsDto().getCholesterolControl())
+                .bloodPressureControl(proposalDto.getHealthInterestsDto().getBloodPressureControl())
+                .liverFunctionCare(proposalDto.getHealthInterestsDto().getLiverFunctionCare())
+                .sleepRecovery(proposalDto.getHealthInterestsDto().getSleepRecovery())
+                .dietImprovement(proposalDto.getHealthInterestsDto().getDietImprovement())
+                .exerciseRoutine(proposalDto.getHealthInterestsDto().getExerciseRoutine())
+                .stressAndLifestyle(proposalDto.getHealthInterestsDto().getStressAndLifestyle())
 
-                .fastingBloodSugar(writeProposalDto.getAbnormalValueDto().getFastingBloodSugar())
-                .cholesterolLdl(writeProposalDto.getAbnormalValueDto().getCholesterolLdl())
-                .bloodPressure(writeProposalDto.getAbnormalValueDto().getBloodPressure())
-                .liverEnzymes(writeProposalDto.getAbnormalValueDto().getLiverEnzymes())
-                .bmiOrBodyFat(writeProposalDto.getAbnormalValueDto().getBmiOrBodyFat())
-                .noHealthCheckResult(writeProposalDto.getAbnormalValueDto().getNoHealthCheckResult())
+                .fastingBloodSugar(proposalDto.getAbnormalValueDto().getFastingBloodSugar())
+                .cholesterolLdl(proposalDto.getAbnormalValueDto().getCholesterolLdl())
+                .bloodPressure(proposalDto.getAbnormalValueDto().getBloodPressure())
+                .liverEnzymes(proposalDto.getAbnormalValueDto().getLiverEnzymes())
+                .bmiOrBodyFat(proposalDto.getAbnormalValueDto().getBmiOrBodyFat())
+                .noHealthCheckResult(proposalDto.getAbnormalValueDto().getNoHealthCheckResult())
 
-                .dietitian(writeProposalDto.getHelpTopicDto().getDietitian())
-                .healthManager(writeProposalDto.getHelpTopicDto().getHealthManager())
-                .wellnessCoach(writeProposalDto.getHelpTopicDto().getWellnessCoach())
-                .exerciseTherapist(writeProposalDto.getHelpTopicDto().getExerciseTherapist())
-                .recommendForMe(writeProposalDto.getHelpTopicDto().getRecommendForMe())
-                .goal(writeProposalDto.getGoal())
+                .dietitian(proposalDto.getHelpTopicDto().getDietitian())
+                .healthManager(proposalDto.getHelpTopicDto().getHealthManager())
+                .wellnessCoach(proposalDto.getHelpTopicDto().getWellnessCoach())
+                .exerciseTherapist(proposalDto.getHelpTopicDto().getExerciseTherapist())
+                .recommendForMe(proposalDto.getHelpTopicDto().getRecommendForMe())
+                .goal(proposalDto.getGoal())
                 .build();
 
         proposalRepository.save(proposal);
@@ -56,12 +55,15 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
     }
 
     @Override
-    public Long editProposal(Long userId, WriteProposalDto writeProposalDto) {
+    public Long editProposal(Long userId, ProposalDto proposalDto) {
         Proposal proposal = proposalRepository.findByUserId(userId)
                 .orElseThrow(() -> ProposalHandler.NOT_FOUND);
-        proposal.updateHealthInterests(writeProposalDto);
-        proposal.updateAbnormalValue(writeProposalDto);
-        proposal.updateHelpTopic(writeProposalDto);
+
+        proposal.updateLifeDescriptionnGoal(proposalDto);
+        proposal.updateHealthInterests(proposalDto);
+        proposal.updateAbnormalValue(proposalDto);
+        proposal.updateHelpTopic(proposalDto);
+
         return proposal.getId();
     }
 }

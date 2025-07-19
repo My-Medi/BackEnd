@@ -1,6 +1,6 @@
 package com.my_medi.domain.userNotification.service;
 
-import com.my_medi.api.UserNotification.dto.SendNotificationToUserDto;
+import com.my_medi.api.userNotification.dto.SendNotificationToUserDto;
 import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -30,6 +30,8 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
                 .notificationContent(sendNotificationToUserDto.getContent())
                 .sourceId(sourceId)
                 .build();
+
+        userNotificationRepository.save(userNotification);
 
         return userNotification.getId();
     }
