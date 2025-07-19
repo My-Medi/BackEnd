@@ -1,4 +1,4 @@
-package com.my_medi.api.UserNotification.dto;
+package com.my_medi.api.userNotification.dto;
 
 import lombok.Builder;
 import lombok.Data;

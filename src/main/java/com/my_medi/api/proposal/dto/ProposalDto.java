@@ -1,12 +1,11 @@
 package com.my_medi.api.proposal.dto;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class WriteProposalDto {
+public class ProposalDto {
     private String lifeDescription;
     private HealthInterestsDto healthInterestsDto;
     private AbnormalValueDto abnormalValueDto;
