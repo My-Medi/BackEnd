@@ -21,21 +21,21 @@ public class ProposalApiController {
     private final ProposalQueryService proposalQueryService;
 
     @Operation(summary = "user의 건강제안서를 조회합니다.")
-    @GetMapping("/search")
+    @GetMapping
     public ApiResponseDto<ProposalResponseDto.UserProposalDto> getUserProposal(@RequestParam Long userId) {
         Proposal proposal = proposalQueryService.getProposalByUserId(userId);
         return ApiResponseDto.onSuccess(ProposalConverter.toUserProposalDto(proposal));
     }
 
     @Operation(summary = "user의 건강제안서를 작성합니다.")
-    @PostMapping("/write")
+    @PostMapping
     public ApiResponseDto<Long> writeUserProposal(
             @RequestParam Long userId, @RequestBody ProposalDto writeProposalDto) {
         return ApiResponseDto.onSuccess(proposalCommandService.writeProposal(userId, writeProposalDto));
     }
 
     @Operation(summary = "user의 건강제안서를 수정합니다.")
-    @PatchMapping("/edit")
+    @PatchMapping
     public ApiResponseDto<Long> editUserProposal(
             @RequestParam Long userId, @RequestBody ProposalDto editProposalDto) {
         return ApiResponseDto.onSuccess(proposalCommandService.editProposal(userId, editProposalDto));
