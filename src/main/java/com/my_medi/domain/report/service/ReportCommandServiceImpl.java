@@ -8,4 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ReportCommandServiceImpl implements ReportCommandService{
+    @Override
+    public Long writeHealthReport(Long userId) {
+        return null;
+    }
+
+    @Override
+    public Long editHealthReportByRound(Long userId, Integer round) {
+        return null;
+    }
 }
