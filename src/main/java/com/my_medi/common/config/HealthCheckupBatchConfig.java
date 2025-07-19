@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
-@Profile({"han","deploy"})
+@Profile("han")
 @Configuration
 @RequiredArgsConstructor
 @EnableBatchProcessing
