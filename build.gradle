@@ -31,6 +31,14 @@ dependencies {
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
+	//Jwt
+	implementation 'com.auth0:java-jwt:4.2.1'
+	// JWT 토큰 생성을 위한 JJWT 라이브러리
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON 파싱을 위해 jackson 사용
+	//oauth
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	//DatabaseCleanUp
 	implementation group: 'com.google.guava', name: 'guava', version: '33.3.1-jre'
 	// mysql
@@ -45,6 +53,7 @@ dependencies {
 	testImplementation 'com.h2database:h2'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	testCompileOnly 'org.projectlombok:lombok'
+
 }
 
 tasks.named('test') {
