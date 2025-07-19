@@ -25,10 +25,12 @@ spring:
   ### SQL INIT for Batch ###
   sql:
     init:
-      mode: always
-      schema-locations: classpath:db/batch-schema-if.sql
+      mode: never
+      schema-locations: classpath:db/schema-batch.sql
   ### BATCH ###
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      enabled: true
     platform: mysql

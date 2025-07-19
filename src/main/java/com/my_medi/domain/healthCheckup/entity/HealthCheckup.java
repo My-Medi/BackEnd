@@ -6,13 +6,13 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "health_checkups",
         uniqueConstraints = @UniqueConstraint(columnNames = {"subscriber_id", "year"}))
-public class HealthCheckup extends BaseTimeEntity {
+public class HealthCheckup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

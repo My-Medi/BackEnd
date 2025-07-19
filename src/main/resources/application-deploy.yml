@@ -17,7 +17,7 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:db/batch-schema-if.sql
+      schema-locations: classpath:db/schema-batch.sql
   ### BATCH ###
   batch:
     jdbc:
