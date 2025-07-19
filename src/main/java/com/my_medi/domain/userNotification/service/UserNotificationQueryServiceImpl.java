@@ -17,13 +17,12 @@ public class UserNotificationQueryServiceImpl implements UserNotificationQuerySe
 
     @Override
     public List<UserNotification> getNotificationByUserId(Long userId) {
-        return userNotificationRepository.findByUserId(userId)
-                .orElseThrow(() -> new UserNotificationHandler(ErrorStatus.USER_NOTIFICATION_BY_USER_ID_NOT_FOUND));
+        return userNotificationRepository.findByUserId(userId);
     }
 
     @Override
     public UserNotification getNotificationById(Long notificationId) {
         return userNotificationRepository.findById(notificationId)
-                .orElseThrow(() -> new UserNotificationHandler(ErrorStatus.USER_NOTIFICATION_BY_ID_NOT_FOUND));
+                .orElseThrow(() -> UserNotificationHandler.NOT_FOUND);
     }
 }

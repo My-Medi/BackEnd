@@ -6,6 +6,7 @@ import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.exception.ProposalHandler;
 import com.my_medi.domain.proposal.repository.ProposalRepository;
 import com.my_medi.domain.user.entity.User;
+import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
     @Override
     public Long writeProposal(Long userId, WriteProposalDto writeProposalDto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ProposalHandler(ErrorStatus.USER_NOT_FOUND));
+                .orElseThrow(() -> UserHandler.NOT_FOUND);
         Proposal proposal = Proposal.builder()
                 .user(user)
                 .lifeDescription(writeProposalDto.getLifeDescription())
@@ -57,7 +58,7 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
     @Override
     public Long editProposal(Long userId, WriteProposalDto writeProposalDto) {
         Proposal proposal = proposalRepository.findByUserId(userId)
-                .orElseThrow(() -> new ProposalHandler(ErrorStatus.PROPOSAL_NOT_FOUND));
+                .orElseThrow(() -> ProposalHandler.NOT_FOUND);
         proposal.updateHealthInterests(writeProposalDto);
         proposal.updateAbnormalValue(writeProposalDto);
         proposal.updateHelpTopic(writeProposalDto);
