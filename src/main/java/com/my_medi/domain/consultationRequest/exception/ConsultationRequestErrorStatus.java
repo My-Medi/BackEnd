@@ -21,7 +21,10 @@ public enum ConsultationRequestErrorStatus implements BaseErrorCode {
 
     EXPERT_NOT_FOUND(HttpStatus.NOT_FOUND, 4152, "전문가를 찾을 수 없습니다."),
 
-    REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER(HttpStatus.FORBIDDEN, 4153, "해당 상담 요청은 해당 사용자만 수정 또는 취소할 수 있습니다.");
+    REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER(HttpStatus.FORBIDDEN, 4153, "해당 상담 요청은 해당 사용자만 수정 또는 취소할 수 있습니다."),
+
+    INVALID_REQUEST_STATUS(HttpStatus.BAD_REQUEST, 4154, "요청 상태가 유효하지 않아 작업을 수행할 수 없습니다.");
+
 
     private final HttpStatus httpStatus;
     private final Integer code;

@@ -41,4 +41,8 @@ public class ConsultationRequest extends BaseTimeEntity {
     public void reject() {
         this.requestStatus = RequestStatus.REJECTED;
     }
+
+    public void approve() {
+        this.requestStatus = RequestStatus.ACCEPTED;
+    }
 }
