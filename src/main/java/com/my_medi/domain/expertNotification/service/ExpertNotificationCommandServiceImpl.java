@@ -36,6 +36,8 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
                 .sourceId(sourceId)
                 .build();
 
+        expertNotificationRepository.save(expertNotification);
+
         return expertNotification.getId();
     }
 

@@ -1,6 +1,6 @@
 package com.my_medi.domain.userNotification.service;
 
-import com.my_medi.api.UserNotification.dto.SendNotificationToUserDto;
+import com.my_medi.api.userNotification.dto.SendNotificationToUserDto;
 
 public interface UserNotificationCommandService {
 
