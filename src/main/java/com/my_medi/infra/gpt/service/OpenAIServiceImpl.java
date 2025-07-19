@@ -27,8 +27,8 @@ public class OpenAIServiceImpl implements OpenAIService {
     @Override
     public HealthReportData parseHealthReport(String imageBase64) {
         //GET ENV value
-        String openAiApiKey = environment.getProperty("");
-        String openAiApiUrl = environment.getProperty("");
+        String openAiApiKey = environment.getProperty("open.api.key");
+        String openAiApiUrl = environment.getProperty("open.api.url");
         //EXTRACT by prompt
         OpenAIRequest openAIRequest = extractTextFromImage(imageBase64, openAiApiKey);
         HttpHeaders headers = new HttpHeaders();
