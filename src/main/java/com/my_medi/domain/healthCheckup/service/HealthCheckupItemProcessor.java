@@ -6,7 +6,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import static com.my_medi.common.util.BatchUtil.*;
+import static com.my_medi.common.util.ParseUtil.*;
 
 @Profile("han")
 @Slf4j
