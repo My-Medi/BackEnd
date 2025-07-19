@@ -22,6 +22,17 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
     private final ConsultationRequestRepository consultationRequestRepository;
     private final ExpertNotificationRepository expertNotificationRepository;
 
+    /**
+     * Creates and saves a notification for the specified expert based on a consultation request.
+     *
+     * Retrieves the expert and consultation request by their IDs, constructs a new expert notification using the consultation request's comment as the notification content, and saves it. Returns the ID of the created notification.
+     *
+     * @param expertId the ID of the expert to notify
+     * @param sourceId the ID of the consultation request serving as the notification source
+     * @return the ID of the newly created expert notification
+     * @throws ExpertHandler.NOT_FOUND if the expert does not exist
+     * @throws ConsultationRequestHandler.NOT_FOUND if the consultation request does not exist
+     */
     @Override
     public Long sendNotificationToExpert(Long expertId, Long sourceId) {
         Expert expert = expertRepository.findById(expertId)

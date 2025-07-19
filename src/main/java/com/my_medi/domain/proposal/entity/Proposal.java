@@ -58,11 +58,21 @@ public class Proposal extends BaseTimeEntity {
     @Column(name = "goal", nullable = false, length = 50)
     private String goal;
 
+    /**
+     * Updates the life description and goal fields using values from the provided ProposalDto.
+     *
+     * @param proposalDto the data transfer object containing updated life description and goal information
+     */
     public void updateLifeDescriptionnGoal(ProposalDto proposalDto) {
         this.lifeDescription = proposalDto.getLifeDescription();
         this.goal = proposalDto.getGoal();
     }
 
+    /**
+     * Updates the health interest fields of this proposal using values from the provided DTO.
+     *
+     * The method sets all health-related Boolean fields based on the corresponding values in the nested {@code HealthInterestsDto} of the given {@code ProposalDto}.
+     */
     public void updateHealthInterests(ProposalDto proposalDto) {
         HealthInterestsDto hid = proposalDto.getHealthInterestsDto();
         this.weightManagement = hid.getWeightManagement();
@@ -76,6 +86,13 @@ public class Proposal extends BaseTimeEntity {
         this.stressAndLifestyle = hid.getStressAndLifestyle();
     }
 
+    /**
+     * Updates the abnormal health check value fields using data from the provided ProposalDto.
+     *
+     * The method sets the fasting blood sugar, cholesterol LDL, blood pressure, liver enzymes, BMI or body fat, and no health check result fields based on the values in the nested AbnormalValueDto.
+     *
+     * @param proposalDto the data transfer object containing abnormal health check values
+     */
     public void updateAbnormalValue(ProposalDto proposalDto) {
         AbnormalValueDto avd = proposalDto.getAbnormalValueDto();
         this.fastingBloodSugar = avd.getFastingBloodSugar();
@@ -86,6 +103,13 @@ public class Proposal extends BaseTimeEntity {
         this.noHealthCheckResult = avd.getNoHealthCheckResult();
     }
 
+    /**
+     * Updates the help topic fields of this proposal based on the values from the provided ProposalDto.
+     *
+     * The method sets the desired expert-related Boolean fields (dietitian, health manager, wellness coach, exercise therapist, recommend for me) using the corresponding values from the nested HelpTopicDto within the ProposalDto.
+     *
+     * @param proposalDto the data transfer object containing updated help topic preferences
+     */
     public void updateHelpTopic(ProposalDto proposalDto) {
         HelpTopicDto htd = proposalDto.getHelpTopicDto();
         this.dietitian = htd.getDietitian();

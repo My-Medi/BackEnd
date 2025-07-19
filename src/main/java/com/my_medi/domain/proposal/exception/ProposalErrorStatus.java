@@ -18,6 +18,11 @@ public enum ProposalErrorStatus implements BaseErrorCode {
     private final Integer code;
     private final String message;
 
+    /**
+     * Constructs a {@link Reason} object representing this error status, including the error message, code, and a success flag set to false.
+     *
+     * @return a {@link Reason} object describing the error without HTTP status information
+     */
     @Override
     public Reason getReason() {
         return Reason.builder()
@@ -27,6 +32,11 @@ public enum ProposalErrorStatus implements BaseErrorCode {
                 .build();
     }
 
+    /**
+     * Constructs a {@link Reason} object containing the error message, code, success flag set to false, and the associated HTTP status.
+     *
+     * @return a {@link Reason} object representing the error with HTTP status included
+     */
     @Override
     public Reason getReasonHttpStatus() {
         return Reason.builder()
@@ -37,6 +47,12 @@ public enum ProposalErrorStatus implements BaseErrorCode {
                 .build();
     }
 
+    /**
+     * Retrieves the explanation for the error from the {@link ExplainError} annotation if present; otherwise, returns the error message.
+     *
+     * @return the explanation string for the error
+     * @throws NoSuchFieldException if the enum constant field cannot be found
+     */
     @Override
     public String getExplainError() throws NoSuchFieldException {
         Field field = this.getClass().getField(this.name());

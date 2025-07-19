@@ -20,6 +20,11 @@ public enum UserNotificationErrorStatus implements BaseErrorCode {
     private final Integer code;
     private final String message;
 
+    /**
+     * Constructs a {@link Reason} object representing this error status, including the error message, code, and a success flag set to false.
+     *
+     * @return a {@link Reason} object describing the error without HTTP status information
+     */
     @Override
     public Reason getReason() {
         return Reason.builder()
@@ -29,6 +34,11 @@ public enum UserNotificationErrorStatus implements BaseErrorCode {
                 .build();
     }
 
+    /**
+     * Constructs a {@link Reason} object containing the error message, code, HTTP status, and a failure flag.
+     *
+     * @return a {@link Reason} instance representing this error status, including the associated HTTP status.
+     */
     @Override
     public Reason getReasonHttpStatus() {
         return Reason.builder()
@@ -39,6 +49,13 @@ public enum UserNotificationErrorStatus implements BaseErrorCode {
                 .build();
     }
 
+    /**
+     * Retrieves the explanation for the error, using the value from the {@link ExplainError} annotation if present;
+     * otherwise, returns the default error message.
+     *
+     * @return the explanation for the error
+     * @throws NoSuchFieldException if the enum constant field cannot be found via reflection
+     */
     @Override
     public String getExplainError() throws NoSuchFieldException {
         Field field = this.getClass().getField(this.name());

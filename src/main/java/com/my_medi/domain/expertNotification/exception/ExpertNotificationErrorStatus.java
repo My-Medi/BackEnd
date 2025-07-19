@@ -19,6 +19,11 @@ public enum ExpertNotificationErrorStatus implements BaseErrorCode {
     private final Integer code;
     private final String message;
 
+    /**
+     * Constructs a {@link Reason} object representing this error status, including the error message, code, and a success flag set to false.
+     *
+     * @return a {@link Reason} object describing the error.
+     */
     @Override
     public Reason getReason() {
         return Reason.builder()
@@ -28,6 +33,11 @@ public enum ExpertNotificationErrorStatus implements BaseErrorCode {
                 .build();
     }
 
+    /**
+     * Constructs a {@link Reason} object containing the error message, code, HTTP status, and a success flag set to false.
+     *
+     * @return a {@link Reason} instance representing this error status with HTTP status included
+     */
     @Override
     public Reason getReasonHttpStatus() {
         return Reason.builder()
@@ -38,6 +48,13 @@ public enum ExpertNotificationErrorStatus implements BaseErrorCode {
                 .build();
     }
 
+    /**
+     * Retrieves the explanation for the error from the {@link ExplainError} annotation on the enum constant, if present.
+     * If the annotation is not found, returns the error message.
+     *
+     * @return the explanation for the error or the default error message if no annotation is present
+     * @throws NoSuchFieldException if the enum constant field cannot be found
+     */
     @Override
     public String getExplainError() throws NoSuchFieldException {
         Field field = this.getClass().getField(this.name());

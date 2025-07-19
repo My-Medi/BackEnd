@@ -19,6 +19,16 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     private final UserRepository userRepository;
     private final UserNotificationRepository userNotificationRepository;
 
+    /**
+     * Sends a notification to a specified user and returns the ID of the created notification.
+     *
+     * If the user with the given ID does not exist, a {@code UserHandler.NOT_FOUND} exception is thrown.
+     *
+     * @param userId the ID of the user to receive the notification
+     * @param sourceId the ID representing the source of the notification
+     * @param sendNotificationToUserDto the data transfer object containing the notification title and content
+     * @return the ID of the newly created user notification
+     */
     @Override
     public Long sendNotificationToUser(Long userId, Long sourceId, SendNotificationToUserDto sendNotificationToUserDto) {
         User user = userRepository.findById(userId)

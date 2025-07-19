@@ -7,5 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ExpertNotificationRepository extends JpaRepository<ExpertNotification, Long> {
-    List<ExpertNotification> findByExpertId(Long expertId);
+    /**
+ * Retrieves all ExpertNotification entities associated with the specified expert ID.
+ *
+ * @param expertId the unique identifier of the expert
+ * @return a list of ExpertNotification entities linked to the given expert ID
+ */
+List<ExpertNotification> findByExpertId(Long expertId);
 }
