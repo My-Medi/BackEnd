@@ -2,6 +2,9 @@ package com.my_medi.domain.expert.exception;
 
 import com.my_medi.common.exception.BaseErrorCode;
 import com.my_medi.common.exception.GeneralException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 
 public class ExpertHandler extends GeneralException {
 
