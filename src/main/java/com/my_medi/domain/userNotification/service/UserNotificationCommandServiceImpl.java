@@ -6,6 +6,7 @@ import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
 import com.my_medi.domain.userNotification.entity.UserNotification;
+import com.my_medi.domain.userNotification.exception.UserNotificationHandler;
 import com.my_medi.domain.userNotification.repository.UserNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     @Override
     public Long sendNotificationToUser(Long userId, Long sourceId, SendNotificationToUserDto sendNotificationToUserDto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+                .orElseThrow(() -> UserHandler.NOT_FOUND);
 
         UserNotification userNotification = UserNotification.builder()
                 .user(user)
