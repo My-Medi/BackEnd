@@ -17,6 +17,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +42,15 @@ public class UserApiController {
     @GetMapping("/{userId}")
     public ApiResponseDto<UserProfileDto> getUserProfile(@PathVariable Long userId) {
         User user = userQueryService.getUserById(userId);
+        return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
+    }
+
+    // TODO : 테스트용이라 추후 수정
+    @Operation(summary = "[사용자 마이페이지] 내 프로필을 조회합니다. (AccessToken 필요)")
+    @GetMapping
+    public ApiResponseDto<UserProfileDto> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        String kakaoEmail = userDetails.getUsername();
+        User user = userQueryService.getByKakaoEmail(kakaoEmail);
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
     }
 }

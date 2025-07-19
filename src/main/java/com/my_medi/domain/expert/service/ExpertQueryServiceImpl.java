@@ -1,6 +1,8 @@
 package com.my_medi.domain.expert.service;
 
+import com.my_medi.common.exception.GeneralException;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.expert.exception.ExpertErrorStatus;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.user.entity.User;
@@ -32,10 +34,22 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
     public List<Expert> getAllExperts() {
         return expertRepository.findAll();
     }
+
     @Override
     public Expert getExpertByUsername(String username) {
         return expertRepository.findByUsername(username)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
     }
 
+    @Override
+    public Expert getByKakaoEmail(String email) {
+        return expertRepository.findByEmail(email)
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return expertRepository.existsByEmail(email);
+    }
 }
+
