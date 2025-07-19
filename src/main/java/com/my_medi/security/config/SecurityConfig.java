@@ -1,4 +1,4 @@
-package com.my_medi.common.config;
+package com.my_medi.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +38,8 @@ public class SecurityConfig {
                 )
                 // stateless한 rest api 이므로 csrf 공격 옵션 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(Customizer.withDefaults())
+                //.formLogin(Customizer.withDefaults())
+                .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement(configurer -> configurer
