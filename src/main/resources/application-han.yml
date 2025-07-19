@@ -30,7 +30,7 @@ spring:
   ### BATCH ###
   batch:
     jdbc:
-      initialize-schema: always
+      initialize-schema: never
     job:
       enabled: true
     platform: mysql
