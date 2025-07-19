@@ -18,7 +18,7 @@ import static com.my_medi.common.util.PromptUtil.extractTextFromImage;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OpenAiServiceImpl implements OpenAiService{
+public class OpenAIServiceImpl implements OpenAIService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
