@@ -18,6 +18,8 @@ import com.my_medi.domain.user.service.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import com.my_medi.api.expert.mapper.ExpertConverter;
 
@@ -41,6 +43,16 @@ public class ExpertApiController {
         Expert expert = expertQueryService.getExpertById(expertId);
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
     }
+
+    // TODO : 테스트용이라 추후 수정
+    @Operation(summary = "[전문가 마이페이지] 전문가 내 프로필을 조회합니다. (AccessToken 필요)")
+    @GetMapping
+    public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getMyExpertProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        String kakaoEmail = userDetails.getUsername();
+        Expert expert = expertQueryService.getByKakaoEmail(kakaoEmail);
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
+    }
+
 
 }
 

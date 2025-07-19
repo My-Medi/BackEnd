@@ -1,6 +1,11 @@
 package com.my_medi.domain.user.service;
 
+import com.my_medi.common.exception.GeneralException;
+import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.expert.exception.ExpertErrorStatus;
+import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.user.entity.User;
+import com.my_medi.domain.user.exception.UserErrorStatus;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +35,16 @@ public class UserQueryServiceImpl implements UserQueryService{
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
+    }
+
+    @Override
+    public User getByKakaoEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> UserHandler.NOT_FOUND);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 }
