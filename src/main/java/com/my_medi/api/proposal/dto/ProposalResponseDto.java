@@ -1,16 +1,13 @@
 package com.my_medi.api.proposal.dto;
 
-import com.my_medi.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
 public class ProposalResponseDto {
-
     @Data
     @Builder
     public static class UserProposalDto {
         private Long id;
-
         private Long userId;
 
         // 1. 직업 및 생활패턴

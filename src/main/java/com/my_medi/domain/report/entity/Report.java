@@ -48,5 +48,31 @@ public class Report extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public void updateCheckupDate(LocalDate checkupDate) {
+        this.checkupDate = checkupDate;
+    }
 
+    public void updateMeasurement(Measurement measurement) {
+        this.measurement = measurement;
+    }
+
+    public void updateBloodPressure(BloodPressure bloodPressure) {
+        this.bloodPressure = bloodPressure;
+    }
+
+    public void updateBloodTest(BloodTest bloodTest) {
+        this.bloodTest = bloodTest;
+    }
+
+    public void updateImagingTest(ImagingTest imagingTest) {
+        this.imagingTest = imagingTest;
+    }
+
+    public void updateInterview(Interview interview) {
+        this.interview = interview;
+    }
+
+    public void updateAdditionalTest(AdditionalTest additionalTest) {
+        this.additionalTest = additionalTest;
+    }
 }
