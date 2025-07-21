@@ -64,6 +64,10 @@ public class Report extends BaseTimeEntity {
         this.bloodTest = bloodTest;
     }
 
+    public void updateUrineTest(UrineTest urineTest) {
+        this.urineTest = urineTest;
+    }
+
     public void updateImagingTest(ImagingTest imagingTest) {
         this.imagingTest = imagingTest;
     }

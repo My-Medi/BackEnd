@@ -1,6 +1,7 @@
 package com.my_medi.domain.report.service;
 
 import com.my_medi.api.report.dto.ReportRequestDto;
+import com.my_medi.api.report.mapper.*;
 import com.my_medi.domain.report.entity.*;
 import com.my_medi.domain.report.exception.ReportHandler;
 import com.my_medi.domain.report.repository.ReportRepository;
@@ -27,13 +28,13 @@ public class ReportCommandServiceImpl implements ReportCommandService{
                 .user(user)
                 .checkupDate(reportRequestDto.getCheckupDate())
                 .round(reportRequestDto.getRound())
-                .measurement(reportRequestDto.getMeasurement())
-                .bloodPressure(reportRequestDto.getBloodPressure())
-                .bloodTest(reportRequestDto.getBloodTest())
-                .urineTest(reportRequestDto.getUrineTest())
-                .imagingTest(reportRequestDto.getImagingTest())
-                .interview(reportRequestDto.getInterview())
-                .additionalTest(reportRequestDto.getAdditionalTest())
+                .measurement(ReportConverter.toMeasurement(reportRequestDto.getMeasurementDto()))
+                .bloodPressure(ReportConverter.toBloodPressure(reportRequestDto.getBloodPressureDto()))
+                .bloodTest(ReportConverter.toBloodTest(reportRequestDto.getBloodTestDto()))
+                .urineTest(ReportConverter.toUrineTest(reportRequestDto.getUrineTestDto()))
+                .imagingTest(ReportConverter.toImagingTest(reportRequestDto.getImagingTestDto()))
+                .interview(ReportConverter.toInterview(reportRequestDto.getInterviewDto()))
+                .additionalTest(ReportConverter.toAdditionalTest(reportRequestDto.getAdditionalTestDto()))
                 .build();
 
         reportRepository.save(report);
@@ -47,12 +48,13 @@ public class ReportCommandServiceImpl implements ReportCommandService{
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
 
         report.updateCheckupDate(reportRequestDto.getCheckupDate());
-        report.updateMeasurement(reportRequestDto.getMeasurement());
-        report.updateBloodPressure(reportRequestDto.getBloodPressure());
-        report.updateBloodTest(reportRequestDto.getBloodTest());
-        report.updateImagingTest(reportRequestDto.getImagingTest());
-        report.updateInterview(reportRequestDto.getInterview());
-        report.updateAdditionalTest(reportRequestDto.getAdditionalTest());
+        report.updateMeasurement(ReportConverter.toMeasurement(reportRequestDto.getMeasurementDto()));
+        report.updateBloodPressure(ReportConverter.toBloodPressure(reportRequestDto.getBloodPressureDto()));
+        report.updateBloodTest(ReportConverter.toBloodTest(reportRequestDto.getBloodTestDto()));
+        report.updateUrineTest(ReportConverter.toUrineTest(reportRequestDto.getUrineTestDto()));
+        report.updateImagingTest(ReportConverter.toImagingTest(reportRequestDto.getImagingTestDto()));
+        report.updateInterview(ReportConverter.toInterview(reportRequestDto.getInterviewDto()));
+        report.updateAdditionalTest(ReportConverter.toAdditionalTest(reportRequestDto.getAdditionalTestDto()));
 
         return report.getId();
     }

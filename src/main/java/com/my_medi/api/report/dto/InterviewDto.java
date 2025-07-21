@@ -1,17 +1,11 @@
-package com.my_medi.domain.report.entity;
+package com.my_medi.api.report.dto;
 
-import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Embeddable
-@Getter
+@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Interview {
+public class InterviewDto {
     private Boolean hasPastDisease;
     private Boolean onMedication;
     private Boolean needsSmokingCessation;

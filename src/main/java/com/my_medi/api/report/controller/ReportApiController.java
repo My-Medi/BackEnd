@@ -33,11 +33,11 @@ public class ReportApiController {
     @Operation(summary = "user가 자신의 건강리포트를 생성합니다.")
     @PostMapping
     public ApiResponseDto<Long> writeUserReport(
-            @RequestParam Long userId,@RequestBody ReportRequestDto reportRequestDto) {
+            @RequestParam Long userId, @RequestBody ReportRequestDto reportRequestDto) {
         return ApiResponseDto.onSuccess(reportCommandService.writeHealthReport(userId, reportRequestDto));
     }
 
-    @Operation(summary = "user가 자신의 건강리포트를 수정합니다.")
+    @Operation(summary = "user가 자신의 n회차 건강리포트를 수정합니다.")
     @PatchMapping
     public ApiResponseDto<Long> editUserReport(
             @RequestParam Long userId,

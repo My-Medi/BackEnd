@@ -1,8 +1,8 @@
 package com.my_medi.api.report.dto;
 
-import com.my_medi.domain.report.entity.*;
 import lombok.Builder;
 import lombok.Data;
+import com.my_medi.domain.report.entity.*;
 
 import java.time.LocalDate;
 
