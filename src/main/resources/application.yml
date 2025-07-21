@@ -1,5 +1,9 @@
+# spring:
+#  profiles:
+#    active:
+#      - ${ACTIVE_PROFILE}
+#      - security
+
 spring:
   profiles:
-    active:
-      - ${ACTIVE_PROFILE}
-      - security
+    active: deploy,security
