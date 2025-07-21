@@ -2,6 +2,7 @@ package com.my_medi.infra.gpt.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.infra.gpt.dto.HealthReportData;
 import com.my_medi.infra.gpt.dto.OpenAIRequest;
 import com.my_medi.infra.gpt.dto.OpenAIResponse;
@@ -12,6 +13,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import static com.my_medi.common.consts.StaticVariable.*;
 import static com.my_medi.common.util.ParseUtil.*;
 import static com.my_medi.common.util.PromptUtil.extractTextFromImage;
 
@@ -54,15 +56,15 @@ public class OpenAIServiceImpl implements OpenAIService {
             JsonNode jsonNode = objectMapper.readTree(jsonPart);
 
             return HealthReportData.builder()
-                    .checkupDate(parseDate(jsonNode.path("checkupDate").asText()))
-                    .round(jsonNode.path("round").asInt())
-                    .measurement(parseMeasurement(jsonNode.path("measurement")))
-                    .bloodPressure(parseBloodPressure(jsonNode.path("bloodPressure")))
-                    .bloodTest(parseBloodTest(jsonNode.path("bloodTest")))
-                    .urineTest(parseUrineTest(jsonNode.path("urineTest")))
-                    .imagingTest(parseImagingTest(jsonNode.path("imagingTest")))
-                    .interview(parseInterview(jsonNode.path("interview")))
-                    .additionalTest(parseAdditionalTest(jsonNode.path("additionalTest")))
+                    .checkupDate(parseDate(jsonNode.path(CHECKUP_DATE).asText()))
+                    .round(jsonNode.path(ROUND).asInt())
+                    .measurement(parseMeasurement(jsonNode.path(MEASUREMENT)))
+                    .bloodPressure(parseBloodPressure(jsonNode.path(BLOOD_PRESSURE)))
+                    .bloodTest(parseBloodTest(jsonNode.path(BLOOD_TEST)))
+                    .urineTest(parseUrineTest(jsonNode.path(URINE_TEST)))
+                    .imagingTest(parseImagingTest(jsonNode.path(IMAGING_TEST)))
+                    .interview(parseInterview(jsonNode.path(INTERVIEW)))
+                    .additionalTest(parseAdditionalTest(jsonNode.path(ADDITIONAL_TEST)))
                     .build();
         } catch (Exception e) {
             //TODO exception 처리
