@@ -41,4 +41,11 @@ public class ExpertScheduleApiController {
         return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(expertSchedules));
     }
 
+    @Operation(summary = "전문가가 스케줄을 삭제합니다.")
+    @DeleteMapping("/{expertId}/schedules/{scheduleId}")
+    public ApiResponseDto<Long> removeSchedule(@PathVariable Long scheduleId, @PathVariable Long expertId) {
+        scheduleCommandService.removeSchedule(expertId,scheduleId);
+        return ApiResponseDto.onSuccess(scheduleId);
+    }
+
 }
