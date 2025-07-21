@@ -13,4 +13,5 @@ public interface ConsultationRequestQueryService {
 
     ConsultationRequest getRequestById(Long consultRequestId);
 
+
 }

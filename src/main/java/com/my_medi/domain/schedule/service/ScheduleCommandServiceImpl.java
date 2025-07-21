@@ -1,5 +1,6 @@
 package com.my_medi.domain.schedule.service;
 
+
 import com.my_medi.api.schedule.dto.EditScheduleDto;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.domain.expert.entity.Expert;
@@ -26,6 +27,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
     private final UserRepository userRepository;
 
     @Override
+
     public Long registerScheduleToUser(Long expertId, Long userId, RegisterScheduleDto registerScheduleDto) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.EXPERT_NOT_FOUND));

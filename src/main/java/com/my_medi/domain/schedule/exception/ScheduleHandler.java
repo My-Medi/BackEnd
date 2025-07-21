@@ -1,6 +1,7 @@
 
 package com.my_medi.domain.schedule.exception;
 
+
 import com.my_medi.common.exception.BaseErrorCode;
 import com.my_medi.common.exception.GeneralException;
 
