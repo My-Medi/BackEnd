@@ -4,23 +4,105 @@ import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.dto.*;
 import com.my_medi.domain.report.entity.*;
 
-
 public class ReportConverter {
+
+    // Entity -> Dto
+
     public static UserReportDto toUserReportDto(Report report) {
         return UserReportDto.builder()
                 .id(report.getId())
                 .userId(report.getUser().getId())
                 .checkupDate(report.getCheckupDate())
                 .round(report.getRound())
-                .measurement(report.getMeasurement())
-                .bloodPressure(report.getBloodPressure())
-                .bloodTest(report.getBloodTest())
-                .urineTest(report.getUrineTest())
-                .imagingTest(report.getImagingTest())
-                .interview(report.getInterview())
-                .additionalTest(report.getAdditionalTest())
+                .measurementDto(toMeasurementDto(report))
+                .bloodPressureDto(toBloodPressureDto(report))
+                .bloodTestDto(toBloodTestDto(report))
+                .urineTestDto(toUrineTestDto(report))
+                .imagingTestDto(toImagingTestDto(report))
+                .interviewDto(toInterviewDto(report))
+                .additionalTestDto(toAdditionalTestDto(report))
                 .build();
     }
+
+    public static MeasurementDto toMeasurementDto(Report report) {
+        Measurement measurement = report.getMeasurement();
+
+        return MeasurementDto.builder()
+                .height(measurement.getHeight())
+                .weight(measurement.getWeight())
+                .bmi(measurement.getBmi())
+                .bmiCategory(measurement.getBmiCategory())
+                .waist(measurement.getWaist())
+                .waistType(measurement.getWaistType())
+                .vision(measurement.getVision())
+                .hearingLeft(measurement.getHearingLeft())
+                .hearingRight(measurement.getHearingRight())
+                .build();
+    }
+
+    public static BloodPressureDto toBloodPressureDto(Report report) {
+        BloodPressure bloodPressure = report.getBloodPressure();
+
+        return BloodPressureDto.builder()
+                .systolic(bloodPressure.getSystolic())
+                .diastolic(bloodPressure.getDiastolic())
+                .highRisk(bloodPressure.getHighRisk())
+                .build();
+    }
+
+    public static BloodTestDto toBloodTestDto(Report report) {
+        BloodTest bloodTest = report.getBloodTest();
+
+        return BloodTestDto.builder()
+                .alt(bloodTest.getAlt())
+                .anemia(bloodTest.getAnemia())
+                .ast(bloodTest.getAst())
+                .creatinine(bloodTest.getCreatinine())
+                .diabetes(bloodTest.getDiabetes())
+                .egfr(bloodTest.getEgfr())
+                .fastingGlucose(bloodTest.getFastingGlucose())
+                .gtp(bloodTest.getGtp())
+                .hdl(bloodTest.getHdl())
+                .hemoglobin(bloodTest.getHemoglobin())
+                .hyperlipidemia(bloodTest.getHyperlipidemia())
+                .ldl(bloodTest.getLdl())
+                .totalCholesterol(bloodTest.getTotalCholesterol())
+                .triglyceride(bloodTest.getTriglyceride())
+                .build();
+    }
+
+    public static UrineTestDto toUrineTestDto(Report report) {
+        return UrineTestDto.builder()
+                .testRequired(report.getUrineTest().getTestRequired())
+                .build();
+    }
+
+    public static ImagingTestDto toImagingTestDto(Report report) {
+        return ImagingTestDto.builder()
+                .chestXrayNormal(report.getImagingTest().getChestXrayNormal())
+                .build();
+    }
+
+    public static InterviewDto toInterviewDto(Report report) {
+        Interview interview = report.getInterview();
+
+        return InterviewDto.builder()
+                .hasPastDisease(interview.getHasPastDisease())
+                .onMedication(interview.getOnMedication())
+                .needsSmokingCessation(interview.getNeedsSmokingCessation())
+                .needsAlcoholRestriction(interview.getNeedsAlcoholRestriction())
+                .needsExercise(interview.getNeedsExercise())
+                .needsMuscleExercise(interview.getNeedsMuscleExercise())
+                .build();
+    }
+
+    public static AdditionalTestDto toAdditionalTestDto(Report report) {
+        return AdditionalTestDto.builder()
+                .needsFurtherTest(report.getAdditionalTest().getNeedsFurtherTest())
+                .build();
+    }
+
+    // Dto -> Entity
 
     public static Measurement toMeasurement(MeasurementDto measurementDto) {
         return Measurement.builder()
