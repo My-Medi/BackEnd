@@ -10,6 +10,7 @@ import com.my_medi.domain.consultationRequest.service.ConsultationRequestQuerySe
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public class ExpertConsultationApiController {
     ) {
         List<ConsultationRequest> requests;
 
+
+
         if (status != null) {
             requests = consultationRequestQueryService.getRequestByExpert(expertId, status);
         } else {
@@ -55,6 +58,7 @@ public class ExpertConsultationApiController {
                 .map(ExpertConsultationConverter::toExpertConsultationDto)
                 .toList();
 
-        return ApiResponseDto.onSuccess(dtoList);    }
+        return ApiResponseDto.onSuccess(dtoList);
+        }
 
 }

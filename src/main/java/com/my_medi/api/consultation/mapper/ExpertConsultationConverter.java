@@ -10,6 +10,7 @@ public class ExpertConsultationConverter {
         return ExpertConsultationDto.builder()
                 .id(request.getId())
                 .comment(request.getComment())
+                .status(request.getRequestStatus())
                 .build();
     }
 }
