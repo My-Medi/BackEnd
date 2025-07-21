@@ -1,5 +1,9 @@
 package com.my_medi.security.config;
 
+import com.my_medi.security.exception.JwtAccessDeniedHandler;
+import com.my_medi.security.exception.JwtAuthenticationEntryPoint;
+import com.my_medi.security.filter.JwtAuthenticationFilter;
+import com.my_medi.security.filter.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,19 +15,29 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.http.HttpMethod;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtExceptionFilter jwtExceptionFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         configureCorsAndSecurity(httpSecurity);
         configureAuth(httpSecurity);
 //        configureOAuth2(httpSecurity);
-//        configureExceptionHandling(httpSecurity);
-//        addFilter(httpSecurity);
+        configureExceptionHandling(httpSecurity);
+        addFilter(httpSecurity);
 
         return httpSecurity.build();
     }
@@ -56,11 +70,71 @@ public class SecurityConfig {
                     authorizeRequest
                             .requestMatchers("/ws/**", "/subscribe/**", "/publish/**").permitAll()
                             .requestMatchers("/", "/.well-known/**", "/css/**", "/*.ico", "/error", "/images/**").permitAll()
-//                            .requestMatchers(permitAllRequest()).permitAll()
-//                            .requestMatchers(additionalSwaggerRequests()).permitAll()
-//                            .requestMatchers(authRelatedEndpoints()).permitAll()
+                            .requestMatchers("/api/login", "/api/signup", "/api/health").permitAll()
+                            .requestMatchers(HttpMethod.GET, permitAllGetPaths()).permitAll() // [GET] 인증 없이 접근 가능한 공개 API 경로
+                            .requestMatchers(HttpMethod.POST, permitAllPostPaths()).permitAll() // [POST] 인증 없이 접근 가능한 공개 API 경로
+                            .requestMatchers(swaggerPermitAllPaths()).permitAll()
+                            .requestMatchers(authPermitAllPaths()).permitAll()
 //                            .requestMatchers(permitAllRequestV2()).permitAll()
-                            .anyRequest().permitAll();
+                            .anyRequest().authenticated();  // 그 외 모든 요청은 인증 필요
                 });
+    }
+
+    //[GET] 인증 없이 접근 허용할 경로 목록
+    private String[] permitAllGetPaths() {
+        return new String[]{
+                "/",
+                "/api/v1/tokens/login",
+                "/api/v1/users/{userId}",
+                "/api/v1/user/proposal",
+                "/api/v1/experts/{expertId}",
+                "/api/v1/test",
+                "/api/v1/test/exceptions",
+                "/api/v1/examples/user",
+                "/api/v1/examples/global"
+        };
+    }
+
+    //[POST] 인증 없이 접근 허용할 경로 목록
+    private String[] permitAllPostPaths() {
+        return new String[]{
+                "/api/v1/tokens/reissue",
+                "/api/v1/users", //post는 비인증, get은 인증
+                "/api/v1/experts" //post는 비인증, get은 인증
+        };
+    }
+
+
+    private void addFilter(HttpSecurity httpSecurity) {
+        httpSecurity
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
+    }
+
+    private void configureExceptionHandling(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler));        // 403
+    }
+
+    private String[] swaggerPermitAllPaths() {
+        return new String[]{
+                "/swagger-ui/**",
+                "/swagger-ui",
+                "/swagger-ui.html",
+                "/swagger/**",
+                "/swagger-resources/**",
+                "/v3/api-docs/**",
+                "/profile"
+        };
+    }
+
+    private String[] authPermitAllPaths() {
+        return new String[]{
+                "/oauth2/**",
+                "/login/**",
+                "/auth/**"
+        };
     }
 }
