@@ -18,7 +18,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public enum UserErrorStatus implements BaseErrorCode {
 
     // entity MEMBER (4050-4099)
-    USER_NOT_FOUND(NOT_FOUND, 4050, "회원을 찾을 수 없습니다.");
+    USER_NOT_FOUND(NOT_FOUND, 4050, "회원을 찾을 수 없습니다."),
+    USER_NOT_EMAIL_FOUND(NOT_FOUND, 4051, "사용자 이메일 정보를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
