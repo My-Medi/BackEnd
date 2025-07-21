@@ -34,11 +34,11 @@ public class ExpertScheduleApiController {
                 .registerScheduleToUser(expertId, userId, registerScheduleDto));
     }
 
-//    @Operation(summary = "본인 스케줄을 모두 확인합니다")
-//    @GetMapping
-//    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(@RequestParam Long expertId) {
-//        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedules(expertId);
-//        return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(expertSchedules));
-//    }
+    @Operation(summary = "전문가가 본인 스케줄을 조회합니다.")
+    @GetMapping
+    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(@RequestParam Long expertId) {
+        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedules(expertId);
+        return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(expertSchedules));
+    }
 
 }
