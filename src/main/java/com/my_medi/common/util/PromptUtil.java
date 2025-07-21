@@ -7,7 +7,7 @@ import org.springframework.http.*;
 import java.util.List;
 
 public class PromptUtil {
-    public static OpenAIRequest extractTextFromImage(String imageBase64, String openAiApiKey) {
+    public static OpenAIRequest extractTextFromImage(String imageBase64) {
         String prompt = """
             이 한국어 건강검진 보고서에서 다음 정보를 JSON 형태로 추출해주세요:
             
@@ -90,6 +90,7 @@ public class PromptUtil {
                 .model("gpt-4o")
                 .maxTokens(2000)
                 .temperature(0.1)
+
                 .messages(List.of(message))
                 .build();
     }

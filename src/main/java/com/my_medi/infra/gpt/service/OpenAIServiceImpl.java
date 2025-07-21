@@ -27,10 +27,10 @@ public class OpenAIServiceImpl implements OpenAIService {
     @Override
     public HealthReportData parseHealthReport(String imageBase64) {
         //GET ENV value
-        String openAiApiKey = environment.getProperty("open.api.key");
-        String openAiApiUrl = environment.getProperty("open.api.url");
+        String openAiApiKey = environment.getProperty("openai.api.key");
+        String openAiApiUrl = environment.getProperty("openai.api.url");
         //EXTRACT by prompt
-        OpenAIRequest openAIRequest = extractTextFromImage(imageBase64, openAiApiKey);
+        OpenAIRequest openAIRequest = extractTextFromImage(imageBase64);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(openAiApiKey);
