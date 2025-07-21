@@ -1,6 +1,8 @@
 package com.my_medi.api.consultation.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.consultation.dto.ExpertConsultationDto;
+import com.my_medi.api.consultation.mapper.ExpertConsultationConverter;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestCommandService;
@@ -37,7 +39,7 @@ public class ExpertConsultationApiController {
 
     @Operation(summary = "자신에게 들어온 상담 요청 목록 조회")
     @GetMapping
-    public ApiResponseDto<List<ConsultationRequest>> getConsultationRequests(
+    public ApiResponseDto<List<ExpertConsultationDto>> getConsultationRequests(
             @RequestParam Long expertId,
             @RequestParam(required = false) RequestStatus status
     ) {
@@ -49,7 +51,10 @@ public class ExpertConsultationApiController {
             requests = consultationRequestQueryService.getAllRequestByExpert(expertId);
         }
 
-        return ApiResponseDto.onSuccess(requests);
-    }
+        List<ExpertConsultationDto> dtoList = requests.stream()
+                .map(ExpertConsultationConverter::toExpertConsultationDto)
+                .toList();
+
+        return ApiResponseDto.onSuccess(dtoList);    }
 
 }
