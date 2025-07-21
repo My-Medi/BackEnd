@@ -24,21 +24,21 @@ public class ExpertConsultationApiController {
     private final ConsultationRequestCommandService consultationRequestCommandService;
     private final ConsultationRequestQueryService consultationRequestQueryService;
 
-        @Operation(summary = "consult request 승낙")
+        @Operation(summary = "전문가가 상담요청을 수락합니다.")
         @PatchMapping("/{consultationId}/approve")
             public ApiResponseDto<Long> approveConsultation(@PathVariable Long consultationId) {
                 consultationRequestCommandService.approveConsultation(consultationId);
                 return ApiResponseDto.onSuccess(consultationId);
             }
 
-        @Operation(summary = "consult request 거절")
+        @Operation(summary = "전문가가 상담요청을 거절합니다.")
         @PatchMapping("/{consultationId}/reject")
         public ApiResponseDto<Long> rejectConsultation(@PathVariable Long consultationId) {
             consultationRequestCommandService.rejectConsultation(consultationId);
             return ApiResponseDto.onSuccess(consultationId);
         }
 
-    @Operation(summary = "자신에게 들어온 상담 요청 목록 조회")
+    @Operation(summary = "전문가가 자신에게 들어온 상담 요청 목록을 조회합니다.")
     @GetMapping
     public ApiResponseDto<List<ExpertConsultationDto>> getConsultationRequests(
             @RequestParam Long expertId,

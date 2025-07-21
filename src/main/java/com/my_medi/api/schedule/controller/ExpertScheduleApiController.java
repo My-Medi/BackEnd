@@ -24,7 +24,7 @@ public class ExpertScheduleApiController {
     private final ScheduleCommandService scheduleCommandService;
     private final ScheduleQueryService scheduleQueryService;
 
-    @Operation(summary = "전문가가 매칭된 유저에게 스케줄을 넣어줍니다")
+    @Operation(summary = "전문가가 매칭된 유저에게 스케줄을 등록합니다.")
     @PostMapping("/users/{userId}")
     public ApiResponseDto<Long> addScheduleToUser(
             @RequestParam Long expertId,
