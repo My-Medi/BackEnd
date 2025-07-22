@@ -10,22 +10,23 @@ import java.util.stream.Collectors;
 
 public class ScheduleMapper {
 
-//    public static ScheduleSummaryDto toScheduleSummaryDto(Schedule schedule) {
-//        return ScheduleSummaryDto.builder()
-//                .id(schedule.getId())
-//                .title(schedule.getTitle())
-//                .description(schedule.getDescription())
-//                .build();
-//    }
-//
-//    public static ScheduleListDto toScheduleListDto(List<Schedule> schedules) {
-//        List<ScheduleSummaryDto> summaryList = schedules.stream()
-//                .map(ScheduleMapper::toScheduleSummaryDto)
-//                .collect(Collectors.toList());
-//
-//        return ScheduleListDto.builder()
-//                .scheduleSummaryDto(summaryList)
-//                .build();
-//    }
+    public static ScheduleSummaryDto toScheduleSummaryDto(Schedule schedule) {
+        return ScheduleSummaryDto.builder()
+                .id(schedule.getId())
+                .title(schedule.getTitle())
+                .startTime(schedule.getStartTime())
+                .endTime(schedule.getEndTime())
+                .build();
+    }
+
+    public static ScheduleListDto toScheduleListDto(List<Schedule> schedules) {
+        List<ScheduleSummaryDto> summaryList = schedules.stream()
+                .map(ScheduleMapper::toScheduleSummaryDto)
+                .collect(Collectors.toList());
+
+        return ScheduleListDto.builder()
+                .scheduleSummaryDto(summaryList)
+                .build();
+    }
 }
 

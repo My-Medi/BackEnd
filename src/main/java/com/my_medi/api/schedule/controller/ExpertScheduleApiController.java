@@ -24,7 +24,7 @@ public class ExpertScheduleApiController {
     private final ScheduleCommandService scheduleCommandService;
     private final ScheduleQueryService scheduleQueryService;
 
-    @Operation(summary = "전문가가 매칭된 유저에게 스케줄을 넣어줍니다")
+    @Operation(summary = "전문가가 매칭된 유저에게 스케줄을 등록합니다.")
     @PostMapping("/users/{userId}")
     public ApiResponseDto<Long> addScheduleToUser(
             @RequestParam Long expertId,
@@ -34,11 +34,18 @@ public class ExpertScheduleApiController {
                 .registerScheduleToUser(expertId, userId, registerScheduleDto));
     }
 
-//    @Operation(summary = "본인 스케줄을 모두 확인합니다")
-//    @GetMapping
-//    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(@RequestParam Long expertId) {
-//        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedules(expertId);
-//        return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(expertSchedules));
-//    }
+    @Operation(summary = "전문가가 본인 스케줄을 조회합니다.")
+    @GetMapping
+    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(@RequestParam Long expertId) {
+        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedules(expertId);
+        return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(expertSchedules));
+    }
+
+    @Operation(summary = "전문가가 스케줄을 삭제합니다.")
+    @DeleteMapping("/{expertId}/schedules/{scheduleId}")
+    public ApiResponseDto<Long> removeSchedule(@PathVariable Long scheduleId, @PathVariable Long expertId) {
+        scheduleCommandService.removeSchedule(expertId,scheduleId);
+        return ApiResponseDto.onSuccess(scheduleId);
+    }
 
 }

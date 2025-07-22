@@ -11,10 +11,10 @@ public class ScheduleResponseDto {
     @Data
     @Builder
     public static class ScheduleSummaryDto{
-        //TODO 기획보면서 필요한 데이터 채워넣기
-//        private Long id;
-//        private String title;
-//        private String description;
+        private Long id;
+        private String title;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
 
     }
 
