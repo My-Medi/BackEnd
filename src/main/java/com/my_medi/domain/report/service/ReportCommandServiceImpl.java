@@ -27,7 +27,6 @@ public class ReportCommandServiceImpl implements ReportCommandService{
         Report report = Report.builder()
                 .user(user)
                 .checkupDate(reportRequestDto.getCheckupDate())
-                .round(reportRequestDto.getRound())
                 .measurement(ReportConverter.toMeasurement(reportRequestDto.getMeasurementDto()))
                 .bloodPressure(ReportConverter.toBloodPressure(reportRequestDto.getBloodPressureDto()))
                 .bloodTest(ReportConverter.toBloodTest(reportRequestDto.getBloodTestDto()))

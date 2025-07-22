@@ -21,7 +21,7 @@ public enum ReportErrorStatus implements BaseErrorCode {
 
     @Override
     public Reason getReason() {
-        return com.my_medi.common.exception.Reason.builder()
+        return Reason.builder()
                 .message(message)
                 .code(code)
                 .isSuccess(false)
@@ -30,7 +30,7 @@ public enum ReportErrorStatus implements BaseErrorCode {
 
     @Override
     public Reason getReasonHttpStatus() {
-        return com.my_medi.common.exception.Reason.builder()
+        return Reason.builder()
                 .message(message)
                 .code(code)
                 .isSuccess(false)

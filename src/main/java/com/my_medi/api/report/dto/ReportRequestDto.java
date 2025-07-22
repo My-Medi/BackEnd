@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ReportRequestDto {
     private LocalDate checkupDate;
-    private Integer round;
     private MeasurementDto measurementDto;
     private BloodPressureDto bloodPressureDto;
     private BloodTestDto bloodTestDto;

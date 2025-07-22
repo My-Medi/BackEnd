@@ -13,6 +13,12 @@ import java.time.LocalDate;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Table(
+        name = "report",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "round"})
+        }
+)
 public class Report extends BaseTimeEntity {
 
     @Id
