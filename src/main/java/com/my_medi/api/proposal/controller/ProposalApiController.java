@@ -1,7 +1,7 @@
 package com.my_medi.api.proposal.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
-import com.my_medi.api.proposal.dto.ProposalDto;
+import com.my_medi.api.proposal.dto.ProposalRequestDto;
 import com.my_medi.api.proposal.dto.ProposalResponseDto;
 import com.my_medi.api.proposal.mapper.ProposalConverter;
 import com.my_medi.domain.proposal.entity.Proposal;
@@ -30,15 +30,15 @@ public class ProposalApiController {
     @Operation(summary = "user의 건강제안서를 작성합니다.")
     @PostMapping
     public ApiResponseDto<Long> writeUserProposal(
-            @RequestParam Long userId, @RequestBody ProposalDto writeProposalDto) {
-        return ApiResponseDto.onSuccess(proposalCommandService.writeProposal(userId, writeProposalDto));
+            @RequestParam Long userId, @RequestBody ProposalRequestDto writeProposalRequestDto) {
+        return ApiResponseDto.onSuccess(proposalCommandService.writeProposal(userId, writeProposalRequestDto));
     }
 
     @Operation(summary = "user의 건강제안서를 수정합니다.")
     @PatchMapping
     public ApiResponseDto<Long> editUserProposal(
-            @RequestParam Long userId, @RequestBody ProposalDto editProposalDto) {
-        return ApiResponseDto.onSuccess(proposalCommandService.editProposal(userId, editProposalDto));
+            @RequestParam Long userId, @RequestBody ProposalRequestDto editProposalRequestDto) {
+        return ApiResponseDto.onSuccess(proposalCommandService.editProposal(userId, editProposalRequestDto));
     }
 
     // 건강제안서 삭제

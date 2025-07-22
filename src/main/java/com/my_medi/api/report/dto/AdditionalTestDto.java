@@ -1,16 +1,14 @@
-package com.my_medi.domain.report.entity;
+package com.my_medi.api.report.dto;
 
-import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Embeddable
-@Getter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdditionalTest {
+public class AdditionalTestDto {
     private Boolean needsFurtherTest;
 }
