@@ -58,7 +58,7 @@ public class TokenServiceImpl implements TokenService {
         String role = member.getRole().name(); // 예: ROLE_USER, ROLE_EXPERT
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                kakaoEmail,
+                member.getUsername(),
                 "",
                 List.of(new SimpleGrantedAuthority(role))
         );
