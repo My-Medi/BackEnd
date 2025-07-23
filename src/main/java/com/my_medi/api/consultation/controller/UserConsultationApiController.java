@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "사용자 상담요청 API")
+@Tag(name = "[사용자 페이지] 상담요청 API")
 @RestController
 @RequestMapping("/api/v1/users/consultations")
 @RequiredArgsConstructor
@@ -23,6 +23,5 @@ public class UserConsultationApiController {
         return ApiResponseDto.onSuccess(consultationRequestCommandService
                 .requestConsultationToExpert(userId, expertId, comment));
     }
-
 
 }

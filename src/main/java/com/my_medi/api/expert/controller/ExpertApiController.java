@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import com.my_medi.api.expert.mapper.ExpertConverter;
 
-@Tag(name = "전문가 API")
+@Tag(name = "[전문가 페이지] API")
 @RestController
 @RequestMapping("/api/v1/experts")
 @RequiredArgsConstructor
@@ -44,8 +44,7 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
     }
 
-    // TODO : 테스트용이라 추후 수정
-    @Operation(summary = "[전문가 마이페이지] 전문가 내 프로필을 조회합니다. (AccessToken 필요)")
+    @Operation(summary = "전문가 내 프로필을 조회합니다. (AccessToken 필요)")
     @GetMapping
     public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getMyExpertProfile(@AuthenticationPrincipal UserDetails userDetails) {
         String kakaoEmail = userDetails.getUsername();

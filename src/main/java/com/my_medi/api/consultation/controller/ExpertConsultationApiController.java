@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "전문가 상담요청 API")
+@Tag(name = "[전문가 페이지] 상담요청 API")
 @RestController
 @RequestMapping("/api/v1/experts/consultations")
 @RequiredArgsConstructor
@@ -24,19 +24,19 @@ public class ExpertConsultationApiController {
     private final ConsultationRequestCommandService consultationRequestCommandService;
     private final ConsultationRequestQueryService consultationRequestQueryService;
 
-        @Operation(summary = "전문가가 상담요청을 수락합니다.")
-        @PatchMapping("/{consultationId}/approve")
-            public ApiResponseDto<Long> approveConsultation(@PathVariable Long consultationId) {
-                consultationRequestCommandService.approveConsultation(consultationId);
-                return ApiResponseDto.onSuccess(consultationId);
-            }
+    @Operation(summary = "전문가가 상담요청을 수락합니다.")
+    @PatchMapping("/{consultationId}/approve")
+    public ApiResponseDto<Long> approveConsultation(@PathVariable Long consultationId) {
+        consultationRequestCommandService.approveConsultation(consultationId);
+        return ApiResponseDto.onSuccess(consultationId);
+    }
 
-        @Operation(summary = "전문가가 상담요청을 거절합니다.")
-        @PatchMapping("/{consultationId}/reject")
-        public ApiResponseDto<Long> rejectConsultation(@PathVariable Long consultationId) {
-            consultationRequestCommandService.rejectConsultation(consultationId);
-            return ApiResponseDto.onSuccess(consultationId);
-        }
+    @Operation(summary = "전문가가 상담요청을 거절합니다.")
+    @PatchMapping("/{consultationId}/reject")
+    public ApiResponseDto<Long> rejectConsultation(@PathVariable Long consultationId) {
+        consultationRequestCommandService.rejectConsultation(consultationId);
+        return ApiResponseDto.onSuccess(consultationId);
+    }
 
     @Operation(summary = "전문가가 자신에게 들어온 상담 요청 목록을 조회합니다.")
     @GetMapping
@@ -45,7 +45,6 @@ public class ExpertConsultationApiController {
             @RequestParam(required = false) RequestStatus status
     ) {
         List<ConsultationRequest> requests;
-
 
 
         if (status != null) {
