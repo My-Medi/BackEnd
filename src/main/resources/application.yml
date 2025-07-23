@@ -3,4 +3,5 @@
     active:
       - ${ACTIVE_PROFILE}
       - security
+      - s3
 

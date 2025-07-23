@@ -3,7 +3,7 @@ name: Initial Deployment for MyMedi
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   deploy:

@@ -1,9 +1,12 @@
 package com.my_medi.common.config;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.S3Object;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.healthCheckup.service.HealthCheckupItemProcessor;
 import com.my_medi.domain.healthCheckup.service.JpaHealthCheckupItemWriter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -16,9 +19,14 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.io.InputStream;
+
+@Slf4j
 @Profile("han")
 @Configuration
 @RequiredArgsConstructor
@@ -28,13 +36,18 @@ public class HealthCheckupBatchConfig {
     private final PlatformTransactionManager transactionManager;
     private final HealthCheckupItemProcessor healthCheckupItemProcessor;
     private final JpaHealthCheckupItemWriter jpaHealthCheckupItemWriter;
+    private final AmazonS3Client amazonS3Client;
+    private final Environment env;
 
 
     @Bean
     public FlatFileItemReader<String[]> healthCheckupItemReader() {
+        S3Object s3Object = amazonS3Client.getObject(
+                env.getProperty("cloud.aws.s3.bucket"),
+                "health_checkup_20221231.CSV");
         return new FlatFileItemReaderBuilder<String[]>()
                 .name("healthCheckupItemReader")
-                .resource(new ClassPathResource("health_checkup_20221231.CSV"))
+                .resource(new InputStreamResource(s3Object.getObjectContent()))
                 .lineTokenizer(new DelimitedLineTokenizer(","))
                 .fieldSetMapper(fieldSet -> {
                     String[] values = new String[fieldSet.getFieldCount()];

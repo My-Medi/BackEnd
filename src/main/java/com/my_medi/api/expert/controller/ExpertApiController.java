@@ -2,6 +2,7 @@ package com.my_medi.api.expert.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
+import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileDto;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.expert.mapper.ExpertConverter;
 import com.my_medi.api.member.dto.RegisterMemberDto;
@@ -29,8 +30,8 @@ import com.my_medi.api.expert.mapper.ExpertConverter;
 @RequestMapping("/api/v1/experts")
 @RequiredArgsConstructor
 public class ExpertApiController {
+
     private final ExpertCommandService expertCommandService;
-    private final ExpertQueryService expertQueryService;
 
     @Operation(summary = "전문가 계정을 생성합니다.")
     @PostMapping
@@ -41,7 +42,7 @@ public class ExpertApiController {
 
     @Operation(summary = "전문가 내 프로필을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
+    public ApiResponseDto<ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
     }
 }
