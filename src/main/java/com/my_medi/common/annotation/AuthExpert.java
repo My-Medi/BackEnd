@@ -9,4 +9,5 @@ import java.lang.annotation.*;
 @Parameter(hidden=true)
 @Documented
 public @interface AuthExpert {
+    boolean errorOnInvalidType() default true;
 }
