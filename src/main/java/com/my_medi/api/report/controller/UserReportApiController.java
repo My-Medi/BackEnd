@@ -27,16 +27,16 @@ public class UserReportApiController {
 
     @Operation(summary = "사용자가 본인의 n회차 건강리포트를 조회합니다.")
     @GetMapping
-    public ApiResponseDto<UserReportDto> getUserReport(
-            @AuthUser User user, @RequestParam Integer round) {
+    public ApiResponseDto<UserReportDto> getUserReport(@AuthUser User user,
+                                                       @RequestParam Integer round) {
         Report report = reportQueryService.getReportByRound(user.getId(), round);
         return ApiResponseDto.onSuccess(ReportConverter.toUserReportDto(report));
     }
 
     @Operation(summary = "사용자가 본인의 건강리포트를 생성합니다.")
     @PostMapping
-    public ApiResponseDto<Long> writeUserReport(
-            @AuthUser User user, @RequestBody ReportRequestDto reportRequestDto) {
+    public ApiResponseDto<Long> writeUserReport(@AuthUser User user,
+                                                @RequestBody ReportRequestDto reportRequestDto) {
         //TODO user.getId() -> user(entity) convert
         return ApiResponseDto.onSuccess(reportCommandService
                 .writeHealthReport(user.getId(), reportRequestDto));
