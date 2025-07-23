@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "[사용자 페이지] 전문가 조회 API")
 @RestController
-@RequestMapping("/api/v1/experts")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserQueryExpertApiController {
 
     private final ExpertQueryService expertQueryService;
 
     @Operation(summary = "매칭된 전문가 프로필 정보를 조회합니다.")
-    @GetMapping("/{expertId}")
+    @GetMapping("/experts/{expertId}")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getExpertProfile(@AuthUser User user,
                                                                                @PathVariable Long expertId) {
         //TODO user validation(전문가 프로필 조회 접근 권한 확인)
