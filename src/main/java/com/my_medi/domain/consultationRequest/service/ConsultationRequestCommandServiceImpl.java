@@ -58,6 +58,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
     @Override
     public void approveConsultation(Long consultationId) {
+        //TODO[1] argument의 expert가 해당 consult의 대상인지 확인
         ConsultationRequest request = getRequestedConsultation(consultationId);
         request.approve();
     }
