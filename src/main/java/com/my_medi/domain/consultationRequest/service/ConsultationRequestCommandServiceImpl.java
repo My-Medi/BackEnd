@@ -25,6 +25,8 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
     @Override
     public Long requestConsultationToExpert(Long userId, Long expertId, String comment) {
+        //TODO[1] user와 expert 사이의 consultation 엔티티는 총 5개가 maximum
+        //TODO[2] 이미 reject가 됐거나 approved가 된 consultation이 있다면 throw
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.USER_NOT_FOUND));
         Expert expert = expertRepository.findById(expertId)
@@ -42,6 +44,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
     @Override
     public Long editCommentOfRequest(Long consultationRequestId, String comment) {
+        //TODO 유저 체크하기
         ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
@@ -59,12 +62,15 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     @Override
     public void approveConsultation(Long consultationId) {
         //TODO[1] argument의 expert가 해당 consult의 대상인지 확인
+        //TODO[2] expert와 user 사이의 다른 consultation 중 request가 아닌 다른 status가 있다면 throw
         ConsultationRequest request = getRequestedConsultation(consultationId);
         request.approve();
     }
 
     @Override
     public void rejectConsultation(Long consultationId) {
+        //TODO[1] argument의 expert가 해당 consult의 대상인지 확인
+        //TODO[2] expert와 user 사이의 다른 consultation 중 request가 아닌 다른 status가 있다면 throw
         ConsultationRequest request = getRequestedConsultation(consultationId);
         request.reject();
     }

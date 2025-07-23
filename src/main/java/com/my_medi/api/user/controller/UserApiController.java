@@ -31,13 +31,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiController {
 
     private final UserCommandService userCommandService;
-    private final UserQueryService userQueryService;
 
     @Operation(summary = "사용자 계정을 생성합니다.")
     @PostMapping
     public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterUserDto registerUserDto) {
         return ApiResponseDto.onSuccess(userCommandService.registerUser(registerUserDto));
     }
+
+    //TODO 계정 수정
 
 
     @Operation(summary = "사용자 본인의 프로필을 조회합니다.")
