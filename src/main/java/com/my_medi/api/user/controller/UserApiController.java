@@ -6,6 +6,7 @@ import com.my_medi.api.user.dto.RegisterUserDto;
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.dto.UserResponseDto.UserProfileDto;
 import com.my_medi.api.user.mapper.UserConverter;
+import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "사용자 API")
+@Tag(name = "[사용자 페이지] 사용자 계정 API")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -32,25 +33,16 @@ public class UserApiController {
     private final UserCommandService userCommandService;
     private final UserQueryService userQueryService;
 
-    @Operation(summary = "user 계정을 생성합니다.")
+    @Operation(summary = "사용자 계정을 생성합니다.")
     @PostMapping
     public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterUserDto registerUserDto) {
         return ApiResponseDto.onSuccess(userCommandService.registerUser(registerUserDto));
     }
 
-    @Operation(summary = "user 프로필 정보를 조회합니다.")
-    @GetMapping("/{userId}")
-    public ApiResponseDto<UserProfileDto> getUserProfile(@PathVariable Long userId) {
-        User user = userQueryService.getUserById(userId);
-        return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
-    }
 
-    // TODO : 테스트용이라 추후 수정
-    @Operation(summary = "[사용자 마이페이지] 내 프로필을 조회합니다. (AccessToken 필요)")
+    @Operation(summary = "사용자 본인의 프로필을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<UserProfileDto> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
-        String kakaoEmail = userDetails.getUsername();
-        User user = userQueryService.getByKakaoEmail(kakaoEmail);
+    public ApiResponseDto<UserProfileDto> getMyProfile(@AuthUser User user) {
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
     }
 }
