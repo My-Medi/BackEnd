@@ -24,10 +24,11 @@ public class ExpertProposalUseCase {
         List<ConsultationRequest> consultationRequests =
                 consultationRequestRepository.findByExpertId(expert.getId());
 
-        boolean hasAccepted = consultationRequests.stream()
-                .anyMatch(request -> request.getRequestStatus() == RequestStatus.ACCEPTED);
+        boolean hasAcceptedForUser = consultationRequests.stream()
+                .anyMatch(request -> request.getUser().getId().equals(userId)
+                        && request.getRequestStatus() == RequestStatus.ACCEPTED);
 
-        if (!hasAccepted) {
+        if (!hasAcceptedForUser) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
 
