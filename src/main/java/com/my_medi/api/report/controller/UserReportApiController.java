@@ -1,0 +1,47 @@
+package com.my_medi.api.report.controller;
+
+
+import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.report.dto.ReportRequestDto;
+import com.my_medi.api.report.dto.ReportResponseDto;
+import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
+import com.my_medi.api.report.mapper.ReportConverter;
+import com.my_medi.common.annotation.AuthUser;
+import com.my_medi.domain.report.entity.Report;
+import com.my_medi.domain.report.service.ReportCommandService;
+import com.my_medi.domain.report.service.ReportQueryService;
+import com.my_medi.domain.user.entity.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@Tag(name = "[사용자 페이지]건강리포트 API")
+@RestController
+@RequestMapping("/api/v1/users/reports")
+@RequiredArgsConstructor
+public class UserReportApiController {
+
+    private final ReportQueryService reportQueryService;
+    private final ReportCommandService reportCommandService;
+
+    @Operation(summary = "사용자가 본인의 n회차 건강리포트를 조회합니다.")
+    @GetMapping
+    public ApiResponseDto<UserReportDto> getUserReport
+            (@AuthUser User user, @RequestParam Integer round)
+    {
+        Report report = reportQueryService.getReportByRound(user.getId(), round);
+        return ApiResponseDto.onSuccess(ReportConverter.toUserReportDto(report));
+    }
+
+    //TODO parameter의 round 삭제하고 service 내에서 다음 회차 round 자동 생성하기
+    @Operation(summary = "사용자가 본인의 건강리포트를 생성합니다.")
+    @PostMapping
+    public ApiResponseDto<Long> writeUserReport
+    (@AuthUser User user, @RequestParam Integer round, @RequestBody ReportRequestDto reportRequestDto)
+    {
+        //TODO user.getId() -> user(entity) convert
+        return ApiResponseDto.onSuccess(reportCommandService
+                .writeHealthReport(user.getId(), round, reportRequestDto));
+    }
+}

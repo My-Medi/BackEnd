@@ -2,11 +2,13 @@ package com.my_medi.api.expert.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
+import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileDto;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.expert.mapper.ExpertConverter;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.mapper.UserConverter;
+import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.service.ExpertCommandService;
@@ -23,36 +25,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import com.my_medi.api.expert.mapper.ExpertConverter;
 
-@Tag(name = "전문가 API")
+@Tag(name = "[전문가 페이지] 전문가 계정 API")
 @RestController
 @RequestMapping("/api/v1/experts")
 @RequiredArgsConstructor
 public class ExpertApiController {
-    private final ExpertCommandService expertCommandService;
-    private final ExpertQueryService expertQueryService;
 
-    @Operation(summary = "expert 계정을 생성합니다.")
+    private final ExpertCommandService expertCommandService;
+
+    @Operation(summary = "전문가 계정을 생성합니다.")
     @PostMapping
+    //TODO 자격증, 경력사항 list 추[피그마 전문가 회원가입 3페이지 참고]
     public ApiResponseDto<Long> registerExpertAccount(@RequestBody RegisterExpertDto registerExpertDto) {
         return ApiResponseDto.onSuccess(expertCommandService.registerExpert(registerExpertDto));
     }
 
-    @Operation(summary = "expert 프로필 정보를 조회합니다.")
-    @GetMapping("/{expertId}")
-    public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getExpertProfile(@PathVariable Long expertId) {
-        Expert expert = expertQueryService.getExpertById(expertId);
-        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
-    }
-
-    // TODO : 테스트용이라 추후 수정
-    @Operation(summary = "[전문가 마이페이지] 전문가 내 프로필을 조회합니다. (AccessToken 필요)")
+    @Operation(summary = "전문가 내 프로필을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getMyExpertProfile(@AuthenticationPrincipal UserDetails userDetails) {
-        String kakaoEmail = userDetails.getUsername();
-        Expert expert = expertQueryService.getByKakaoEmail(kakaoEmail);
+    public ApiResponseDto<ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
     }
-
-
 }
 

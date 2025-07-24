@@ -20,11 +20,12 @@ public class ReportCommandServiceImpl implements ReportCommandService{
     private final ReportRepository reportRepository;
 
     @Override
-    public Long writeHealthReport(Long userId, ReportRequestDto reportRequestDto) {
+    public Long writeHealthReport(Long userId, Integer round, ReportRequestDto reportRequestDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
 
         Report report = Report.builder()
+                .round(round)
                 .user(user)
                 .checkupDate(reportRequestDto.getCheckupDate())
                 .measurement(ReportConverter.toMeasurement(reportRequestDto.getMeasurementDto()))

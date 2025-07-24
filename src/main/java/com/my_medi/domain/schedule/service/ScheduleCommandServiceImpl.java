@@ -29,6 +29,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
     @Override
 
     public Long registerScheduleToUser(Long expertId, Long userId, RegisterScheduleDto registerScheduleDto) {
+        //TODO expert와 user 사이에 approved된 consultation 존재 확인
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.EXPERT_NOT_FOUND));
 
