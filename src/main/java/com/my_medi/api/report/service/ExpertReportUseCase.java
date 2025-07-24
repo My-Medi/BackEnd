@@ -13,11 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ExpertReportService {
+public class ExpertReportUseCase {
     private final ConsultationRequestRepository consultationRequestRepository;
     private final ReportQueryService reportQueryService;
 
@@ -25,17 +24,10 @@ public class ExpertReportService {
         List<ConsultationRequest> consultationRequests =
                 consultationRequestRepository.findByExpertId(expert.getId());
 
-        Optional<ConsultationRequest> matchedRequest = consultationRequests.stream()
-                .filter(request -> request.getUser().getId().equals(userId))
-                .findFirst();
+        boolean hasAccepted = consultationRequests.stream()
+                .anyMatch(request -> request.getRequestStatus() == RequestStatus.ACCEPTED);
 
-        // ConsultationRequest 찾기
-        if (matchedRequest.isEmpty()) {
-            throw ConsultationRequestHandler.NOT_FOUND;
-        }
-
-        // ConsultationRequest의 권한 검사
-        if (matchedRequest.get().getRequestStatus() != RequestStatus.ACCEPTED) {
+        if (!hasAccepted) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
 

@@ -1,17 +1,10 @@
 package com.my_medi.api.report.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
-import com.my_medi.api.report.dto.ReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto;
-import com.my_medi.api.report.mapper.ReportConverter;
-import com.my_medi.api.report.service.ExpertReportService;
+import com.my_medi.api.report.service.ExpertReportUseCase;
 import com.my_medi.common.annotation.AuthExpert;
-import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.report.entity.Report;
-import com.my_medi.domain.report.service.ReportCommandService;
-import com.my_medi.domain.report.service.ReportQueryService;
-import com.my_medi.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/experts/reports")
 @RequiredArgsConstructor
 public class ExpertReportApiController {
-    private final ExpertReportService expertReportService;
+    private final ExpertReportUseCase expertReportUseCase;
 
     @Operation(summary = "전문가가 매칭된 환자의 n회차 건강리포트를 조회합니다.")
     @GetMapping("/users/{userId}")
-    public ApiResponseDto<ReportResponseDto.UserReportDto> getUserReport
-            (@AuthExpert Expert expert, @PathVariable Long userId, @RequestParam Integer round)
+    public ApiResponseDto<ReportResponseDto.UserReportDto> getUserReport(@AuthExpert Expert expert,
+                                                                         @PathVariable Long userId,
+                                                                         @RequestParam Integer round)
     {
         //TODO 전문가에게 해당 사용자 리포트를 열람할 권한이 있는지 확인
         /**
@@ -36,7 +30,7 @@ public class ExpertReportApiController {
          * return : UserReportDto
          */
         return ApiResponseDto.onSuccess(
-                expertReportService.getUserReportForExpert(expert, userId, round)
+                expertReportUseCase.getUserReportForExpert(expert, userId, round)
         );
     }
 
