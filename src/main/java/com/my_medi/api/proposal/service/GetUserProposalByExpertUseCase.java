@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ExpertProposalUseCase {
+public class GetUserProposalByExpertUseCase {
     private final ProposalQueryService proposalQueryService;
     private final UserProposalForExpertValidator UserProposalForExpertValidator;
 

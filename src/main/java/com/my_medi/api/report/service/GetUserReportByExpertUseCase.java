@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ExpertReportUseCase {
+public class GetUserReportByExpertUseCase {
     private final ReportQueryService reportQueryService;
     private final UserReportForExpertValidator UserReportForExpertValidator;
 

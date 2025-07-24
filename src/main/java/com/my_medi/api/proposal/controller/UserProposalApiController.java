@@ -25,30 +25,24 @@ public class UserProposalApiController {
 
     @Operation(summary = "사용자의 건강제안서를 작성합니다.")
     @PostMapping
-    public ApiResponseDto<Long> writeUserProposal
-            (@AuthUser User user, @RequestBody ProposalRequestDto writeProposalRequestDto)
-    {
-        //TODO user.getId() -> user(entity) convert
+    public ApiResponseDto<Long> writeUserProposal(@AuthUser User user,
+                                                  @RequestBody ProposalRequestDto writeProposalRequestDto) {
         return ApiResponseDto.onSuccess(proposalCommandService
-                .writeProposal(user.getId(), writeProposalRequestDto));
-    }
-
-    @Operation(summary = "user의 건강제안서를 수정합니다.")
-    @PatchMapping
-    public ApiResponseDto<Long> editUserProposal
-            (@AuthUser User user, @RequestBody ProposalRequestDto editProposalRequestDto)
-    {
-        //TODO user.getId() -> user(entity) convert
-        return ApiResponseDto.onSuccess(proposalCommandService
-                .editProposal(user.getId(), editProposalRequestDto));
+                .writeProposal(user, writeProposalRequestDto));
     }
 
     @Operation(summary = "사용자 본인의 건강제안서를 조회합니다.")
     @GetMapping
-    public ApiResponseDto<ProposalResponseDto.UserProposalDto> getUserProposal
-            (@AuthUser User user)
-    {
+    public ApiResponseDto<ProposalResponseDto.UserProposalDto> getUserProposal(@AuthUser User user) {
         Proposal proposal = proposalQueryService.getProposalByUserId(user.getId());
         return ApiResponseDto.onSuccess(ProposalConverter.toUserProposalDto(proposal));
+    }
+
+    @Operation(summary = "user의 건강제안서를 수정합니다.")
+    @PatchMapping
+    public ApiResponseDto<Long> editUserProposal(@AuthUser User user,
+                                                 @RequestBody ProposalRequestDto editProposalRequestDto) {
+        return ApiResponseDto.onSuccess(proposalCommandService
+                .editProposal(user, editProposalRequestDto));
     }
 }

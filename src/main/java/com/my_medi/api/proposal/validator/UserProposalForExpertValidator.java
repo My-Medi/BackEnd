@@ -16,10 +16,10 @@ public class UserProposalForExpertValidator {
 
     public void validateExpertHasAcceptedUser(Long expertId, Long userId) {
         List<ConsultationRequest> acceptedRequests =
-                consultationRequestRepository.findByExpertIdAndRequestStatus(expertId, RequestStatus.ACCEPTED);
+                consultationRequestRepository.findByExpertIdAndUserId(expertId, userId);
 
         boolean matched = acceptedRequests.stream()
-                .anyMatch(req -> req.getUser().getId().equals(userId));
+                .anyMatch(request -> request.getRequestStatus() == RequestStatus.ACCEPTED);
 
         if (!matched) {
             throw ConsultationRequestHandler.NOT_FOUND;
