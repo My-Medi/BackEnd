@@ -38,7 +38,7 @@ public class UserProposalApiController {
         return ApiResponseDto.onSuccess(ProposalConverter.toUserProposalDto(proposal));
     }
 
-    @Operation(summary = "user의 건강제안서를 수정합니다.")
+    @Operation(summary = "사용자가 본인의 건강제안서를 수정합니다.")
     @PatchMapping
     public ApiResponseDto<Long> editUserProposal(@AuthUser User user,
                                                  @RequestBody ProposalRequestDto editProposalRequestDto) {
