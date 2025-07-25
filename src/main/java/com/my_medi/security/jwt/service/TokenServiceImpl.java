@@ -1,5 +1,6 @@
 package com.my_medi.security.jwt.service;
 
+import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.common.exception.GeneralException;
 import com.my_medi.common.service.RedisService;
@@ -86,9 +87,8 @@ public class TokenServiceImpl implements TokenService{
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + StaticVariable.ACCESS_TOKEN_EXPIRE_TIME);
 
-        // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 1800000);   // 30분
         log.info("date = {}", accessTokenExpiresIn);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
@@ -100,7 +100,7 @@ public class TokenServiceImpl implements TokenService{
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setSubject(authentication.getName())
-                .setExpiration(new Date(now + 604800000))    // 7일
+                .setExpiration(new Date(now + StaticVariable.REFRESH_TOKEN_EXPIRE_TIME))    // 7일
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
