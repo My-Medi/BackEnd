@@ -47,9 +47,8 @@ public class ReportCommandServiceImpl implements ReportCommandService{
     }
 
     @Override
-    public Long editHealthReportByRound(User user, EditReportRequestDto editReportRequestDto) {
-        Report report = reportRepository
-                .findByUserIdAndRound(user.getId(), editReportRequestDto.getRound())
+    public Long editHealthReportByRound(User user, Integer round, EditReportRequestDto editReportRequestDto) {
+        Report report = reportRepository.findByUserIdAndRound(user.getId(), round)
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
 
         report.updateCheckupDate(editReportRequestDto.getCheckupDate());

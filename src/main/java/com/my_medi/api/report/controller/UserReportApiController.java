@@ -42,7 +42,9 @@ public class UserReportApiController {
     @Operation(summary = "사용자가 본인의 n회차 건강리포트를 수정합니다.")
     @PatchMapping
     public ApiResponseDto<Long> editUserReport(@AuthUser User user,
+                                               @RequestParam Integer round,
                                                @RequestBody EditReportRequestDto editReportRequestDto) {
-        return ApiResponseDto.onSuccess(reportCommandService.editHealthReportByRound(user, editReportRequestDto));
+        return ApiResponseDto.onSuccess(reportCommandService
+                .editHealthReportByRound(user, round, editReportRequestDto));
     }
 }

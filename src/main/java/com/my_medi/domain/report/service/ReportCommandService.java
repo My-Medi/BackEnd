@@ -7,5 +7,5 @@ import com.my_medi.api.report.dto.WriteReportRequestDto;
 public interface ReportCommandService {
     Long writeHealthReport(User user, WriteReportRequestDto writeReportRequestDto);
 
-    Long editHealthReportByRound(User user, EditReportRequestDto editReportRequestDto);
+    Long editHealthReportByRound(User user, Integer round, EditReportRequestDto editReportRequestDto);
 }

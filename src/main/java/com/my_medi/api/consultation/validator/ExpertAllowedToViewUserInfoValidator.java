@@ -1,4 +1,4 @@
-package com.my_medi.api.report.validator;
+package com.my_medi.api.consultation.validator;
 
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class UserReportForExpertValidator {
+public class ExpertAllowedToViewUserInfoValidator {
     private final ConsultationRequestRepository consultationRequestRepository;
 
     public void validateExpertHasAcceptedUser(Long expertId, Long userId) {
