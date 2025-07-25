@@ -42,7 +42,6 @@ public class UserProposalApiController {
     @PatchMapping
     public ApiResponseDto<Long> editUserProposal(@AuthUser User user,
                                                  @RequestBody ProposalRequestDto editProposalRequestDto) {
-        return ApiResponseDto.onSuccess(proposalCommandService
-                .editProposal(user, editProposalRequestDto));
+        return ApiResponseDto.onSuccess(proposalCommandService.editProposal(user, editProposalRequestDto));
     }
 }

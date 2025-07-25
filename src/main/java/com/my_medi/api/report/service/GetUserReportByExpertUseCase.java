@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetUserReportByExpertUseCase {
     private final ReportQueryService reportQueryService;
-    private final UserReportForExpertValidator UserReportForExpertValidator;
+    private final UserReportForExpertValidator userReportForExpertValidator;
 
     public ReportResponseDto.UserReportDto getUserReportForExpert(Expert expert, Long userId, Integer round) {
-        UserReportForExpertValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
+        userReportForExpertValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
 
         Report report = reportQueryService.getReportByRound(userId, round);
 

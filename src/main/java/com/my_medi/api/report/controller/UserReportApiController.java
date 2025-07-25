@@ -1,6 +1,5 @@
 package com.my_medi.api.report.controller;
 
-
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.report.dto.EditReportRequestDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
@@ -35,13 +34,15 @@ public class UserReportApiController {
 
     @Operation(summary = "사용자가 본인의 건강리포트를 생성합니다.")
     @PostMapping
-    public ApiResponseDto<Long> writeUserReport(@RequestBody WriteReportRequestDto writeReportRequestDto) {
-        return ApiResponseDto.onSuccess(reportCommandService.writeHealthReport(writeReportRequestDto));
+    public ApiResponseDto<Long> writeUserReport(@AuthUser User user,
+                                                @RequestBody WriteReportRequestDto writeReportRequestDto) {
+        return ApiResponseDto.onSuccess(reportCommandService.writeHealthReport(user, writeReportRequestDto));
     }
 
     @Operation(summary = "사용자가 본인의 n회차 건강리포트를 수정합니다.")
     @PatchMapping
-    public ApiResponseDto<Long> editUserReport(@RequestBody EditReportRequestDto editReportRequestDto) {
-        return ApiResponseDto.onSuccess(reportCommandService.editHealthReportByRound(editReportRequestDto));
+    public ApiResponseDto<Long> editUserReport(@AuthUser User user,
+                                               @RequestBody EditReportRequestDto editReportRequestDto) {
+        return ApiResponseDto.onSuccess(reportCommandService.editHealthReportByRound(user, editReportRequestDto));
     }
 }

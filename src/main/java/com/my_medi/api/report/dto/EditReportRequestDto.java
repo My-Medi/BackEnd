@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditReportRequestDto {
-    private Long userId;
     private Integer round;
     private LocalDate checkupDate;
     private MeasurementDto measurementDto;

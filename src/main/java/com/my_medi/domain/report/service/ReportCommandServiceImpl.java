@@ -21,10 +21,7 @@ public class ReportCommandServiceImpl implements ReportCommandService{
     private final ReportRepository reportRepository;
 
     @Override
-    public Long writeHealthReport(WriteReportRequestDto writeReportRequestDto) {
-        User user = userRepository.findById(writeReportRequestDto.getUserId())
-                .orElseThrow(() -> UserHandler.NOT_FOUND);
-
+    public Long writeHealthReport(User user, WriteReportRequestDto writeReportRequestDto) {
         Integer nextRound = calculateNextRound(user.getId());
 
         Report report = Report.builder()
@@ -50,9 +47,9 @@ public class ReportCommandServiceImpl implements ReportCommandService{
     }
 
     @Override
-    public Long editHealthReportByRound(EditReportRequestDto editReportRequestDto) {
+    public Long editHealthReportByRound(User user, EditReportRequestDto editReportRequestDto) {
         Report report = reportRepository
-                .findByUserIdAndRound(editReportRequestDto.getUserId(), editReportRequestDto.getRound())
+                .findByUserIdAndRound(user.getId(), editReportRequestDto.getRound())
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
 
         report.updateCheckupDate(editReportRequestDto.getCheckupDate());

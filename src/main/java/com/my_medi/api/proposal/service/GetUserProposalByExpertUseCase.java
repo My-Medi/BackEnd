@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetUserProposalByExpertUseCase {
     private final ProposalQueryService proposalQueryService;
-    private final UserProposalForExpertValidator UserProposalForExpertValidator;
+    private final UserProposalForExpertValidator userProposalForExpertValidator;
 
     public ProposalResponseDto.UserProposalDto getUserProposalForExpert(Expert expert, Long userId) {
-        UserProposalForExpertValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
+        userProposalForExpertValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
 
         Proposal proposal = proposalQueryService.getProposalByUserId(userId);
 
