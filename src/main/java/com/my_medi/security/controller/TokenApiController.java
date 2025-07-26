@@ -23,11 +23,9 @@ public class TokenApiController {
         return ApiResponseDto.onSuccess(tokenService.login(kakaoEmail));
     }
 
-    @Operation(summary = "토큰 재발급 (현재 비활성)", description = "Refresh Token으로 Access Token 재발급합니다. (현재 Redis 미사용으로 비활성 상태)")
+    @Operation(summary = "토큰 재발급", description = "Refresh Token으로 Access Token 재발급합니다.")
     @PostMapping("/reissue")
     public ApiResponseDto<JwtToken> issueToken(@RequestParam String refresh) {
-        throw new UnsupportedOperationException("Redis 미사용 상태에서는 재발급을 지원하지 않습니다.");
-        // 아래는 Redis 연동 후 사용
-        // return ApiResponseDto.onSuccess(tokenService.issueTokens(refresh));
+        return ApiResponseDto.onSuccess(tokenService.issueTokens(refresh));
     }
 }
