@@ -38,7 +38,6 @@ public class ExpertConsultationApiController {
     @PatchMapping("/{consultationId}/reject")
     public ApiResponseDto<Long> rejectConsultation(@AuthExpert Expert expert,
                                                    @PathVariable Long consultationId) {
-        // TODO expert를 service 인자로 사용하여 validation 추가
         consultationRequestCommandService.rejectConsultation(consultationId, expert);
         return ApiResponseDto.onSuccess(consultationId);
     }

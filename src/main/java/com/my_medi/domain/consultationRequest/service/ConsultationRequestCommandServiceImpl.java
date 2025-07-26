@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -25,12 +27,24 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
     @Override
     public Long requestConsultationToExpert(Long userId, Long expertId, String comment) {
-        //TODO[1] user와 expert 사이의 consultation 엔티티는 총 5개가 maximum
-        //TODO[2] 이미 reject가 됐거나 approved가 된 consultation이 있다면 throw
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.USER_NOT_FOUND));
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_NOT_FOUND));
+
+        long existingCount = consultationRequestRepository.countByUserIdAndExpertId(userId, expertId);
+        if (existingCount >= 5) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.CONSULTATION_LIMIT_EXCEEDED);
+        }
+
+        boolean hasInvalidStatus = consultationRequestRepository.existsByUserIdAndExpertIdAndRequestStatusIn(
+                userId,
+                expertId,
+                List.of(RequestStatus.REJECTED, RequestStatus.ACCEPTED)
+        );
+        if (hasInvalidStatus) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.ALREADY_PROCESSED_CONSULTATION);
+        }
 
         ConsultationRequest request = ConsultationRequest.builder()
                 .user(user)
@@ -41,6 +55,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
         return consultationRequestRepository.save(request).getId();
     }
+
 
     @Override
     public Long editCommentOfRequest(Long consultationRequestId, String comment) {
