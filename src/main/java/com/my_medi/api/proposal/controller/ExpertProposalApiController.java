@@ -24,8 +24,6 @@ public class ExpertProposalApiController {
     @GetMapping("/users/{userId}")
     public ApiResponseDto<ProposalResponseDto.UserProposalDto> getUserProposal(@AuthExpert Expert expert,
                                                                                @PathVariable Long userId) {
-        return ApiResponseDto.onSuccess(
-                getUserProposalByExpertUseCase.getUserProposalForExpert(expert, userId)
-        );
+        return ApiResponseDto.onSuccess(getUserProposalByExpertUseCase.getUserProposalForExpert(expert, userId));
     }
 }
