@@ -23,6 +23,7 @@ import java.util.List;
 public class UserNotificationApiController {
     private final UserNotificationQueryService userNotificationQueryService;
 
+    /*
     @Operation(summary = "사용자의 알림을 조회합니다.")
     @GetMapping
     public ApiResponseDto<List<UserNotiticationResponseDto.UserNotiticationDto>> getUserNotification(@AuthUser User user) {
@@ -32,4 +33,6 @@ public class UserNotificationApiController {
         return ApiResponseDto.onSuccess(UserNotificationConverter
                 .toUserNotiticationListDto(notificationList));
     }
+    
+     */
 }
