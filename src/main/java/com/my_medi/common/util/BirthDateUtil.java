@@ -17,4 +17,8 @@ public class BirthDateUtil {
         int groupBase = (age / 10) * 2 + 1;
         return List.of(groupBase, groupBase + 1);
     }
+
+    public static int getAgeGroup10yr(int age) {
+        return (age / 10) * 10;
+    }
 }

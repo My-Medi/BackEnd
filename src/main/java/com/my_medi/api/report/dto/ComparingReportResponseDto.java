@@ -30,7 +30,7 @@ public class ComparingReportResponseDto {
     public class ComparingBmiDto{
         private Double bmi;
         private Double averageBmi;
-        private Integer percentageBmi;
+        private Double percentageBmi;
     }
 
     @Data
@@ -38,7 +38,7 @@ public class ComparingReportResponseDto {
     public class ComparingWaistDto{
         private Double waist;
         private Double averageWaist;
-        private Integer percentageWaist;
+        private Double percentageWaist;
     }
 
     @Data
@@ -46,7 +46,7 @@ public class ComparingReportResponseDto {
     public class ComparingSystolicBpDto{
         private Integer systolicBp;
         private Double averageSystolicBp;
-        private Integer percentageSystolicBp;
+        private Double percentageSystolicBp;
     }
 
     @Data
@@ -54,21 +54,21 @@ public class ComparingReportResponseDto {
     public class ComparingDiastolicBpDto{
         private Integer diastolicBp;
         private Double averageDiastolicBp;
-        private Integer percentageDiastolicBp;
+        private Double percentageDiastolicBp;
     }
     @Data
     @Builder
     public class ComparingHemoglobinDto{
         private Double hemoglobin;
         private Double averageHemoglobin;
-        private Integer percentageHemoglobin;
+        private Double percentageHemoglobin;
     }
     @Data
     @Builder
     public class ComparingFastingBloodSugarDto{
         private Integer fastingBloodSugar;
         private Double averageFastingBloodSugar;
-        private Integer percentageFastingBloodSugar;
+        private Double percentageFastingBloodSugar;
     }
 
     @Data
@@ -84,7 +84,7 @@ public class ComparingReportResponseDto {
     public class ComparingAstDto{
         private Integer ast;
         private Double averageAst;
-        private Integer percentageAst;
+        private Double percentageAst;
     }
 
     @Data
@@ -92,14 +92,14 @@ public class ComparingReportResponseDto {
     public class ComparingAltDto{
         private Integer alt;
         private Double averageAlt;
-        private Integer percentageAlt;
+        private Double percentageAlt;
     }
     @Data
     @Builder
     public class ComparingGammaGtpDto{
         private Integer gammaGtp;
         private Double averageGammaGtp;
-        private Integer percentageGammaGtp;
+        private Double percentageGammaGtp;
     }
 
 

@@ -38,14 +38,17 @@ public class HealthMetricCalculator {
     public static double calculatePercentile(
             List<HealthCheckup> checkups,
             double targetValue,
-            Function<HealthCheckup, Double> metricExtractor) {
+            Function<HealthCheckup, ? extends Number> metricExtractor) {
         List<Double> values = checkups.stream()
                 .map(metricExtractor)
                 .filter(Objects::nonNull)
+                .map(Number::doubleValue)
                 .sorted()
                 .toList();
 
-        if (values.isEmpty()) return 0.0;
+        if (values.isEmpty()) {
+            return 0.0;
+        }
 
         long count = values.stream()
                 .filter(v -> v < targetValue)
@@ -53,4 +56,5 @@ public class HealthMetricCalculator {
 
         return (double) count / values.size() * 100.0;
     }
+
 }
