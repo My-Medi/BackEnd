@@ -30,8 +30,7 @@ public class ExpertConsultationApiController {
     @PatchMapping("/{consultationId}/approve")
     public ApiResponseDto<Long> approveConsultation(@AuthExpert Expert expert,
                                                     @PathVariable Long consultationId) {
-        // TODO expert를 service 인자로 사용하여 validation 추가
-        consultationRequestCommandService.approveConsultation(consultationId);
+        consultationRequestCommandService.approveConsultation(consultationId, expert);
         return ApiResponseDto.onSuccess(consultationId);
     }
 
@@ -39,8 +38,7 @@ public class ExpertConsultationApiController {
     @PatchMapping("/{consultationId}/reject")
     public ApiResponseDto<Long> rejectConsultation(@AuthExpert Expert expert,
                                                    @PathVariable Long consultationId) {
-        // TODO expert를 service 인자로 사용하여 validation 추가
-        consultationRequestCommandService.rejectConsultation(consultationId);
+        consultationRequestCommandService.rejectConsultation(consultationId, expert);
         return ApiResponseDto.onSuccess(consultationId);
     }
 
@@ -62,6 +60,16 @@ public class ExpertConsultationApiController {
                 .toList();
 
         return ApiResponseDto.onSuccess(dtoList);
+    }
+
+    @Operation(summary = "전문가가 수락된 상담을 삭제합니다.")
+    @DeleteMapping("/{consultationId}")
+    public ApiResponseDto<Long> removeApprovedConsultation(
+            @AuthExpert Expert expert,
+            @PathVariable Long consultationId
+    ) {
+        consultationRequestCommandService.removeApprovedConsultationByExpert(consultationId, expert);
+        return ApiResponseDto.onSuccess(consultationId);
     }
 
 }

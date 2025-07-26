@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,13 +26,23 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     private final ExpertRepository expertRepository;
 
     @Override
-    public Long requestConsultationToExpert(Long userId, Long expertId, String comment) {
-        //TODO[1] user와 expert 사이의 consultation 엔티티는 총 5개가 maximum
-        //TODO[2] 이미 reject가 됐거나 approved가 된 consultation이 있다면 throw
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.USER_NOT_FOUND));
+    public Long requestConsultationToExpert(User user, Long expertId, String comment) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_NOT_FOUND));
+
+        long existingCount = consultationRequestRepository.countByUserIdAndExpertId(user.getId(), expertId);
+        if (existingCount >= 5) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.CONSULTATION_LIMIT_EXCEEDED);
+        }
+
+        boolean hasInvalidStatus = consultationRequestRepository.existsByUserIdAndExpertIdAndRequestStatusIn(
+                user.getId(),
+                expertId,
+                List.of(RequestStatus.REJECTED, RequestStatus.ACCEPTED)
+        );
+        if (hasInvalidStatus) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.ALREADY_PROCESSED_CONSULTATION);
+        }
 
         ConsultationRequest request = ConsultationRequest.builder()
                 .user(user)
@@ -42,38 +54,62 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         return consultationRequestRepository.save(request).getId();
     }
 
+
     @Override
-    public Long editCommentOfRequest(Long consultationRequestId, String comment) {
-        //TODO 유저 체크하기
+    public Long editCommentOfRequest(Long consultationRequestId, Long userId, String comment) {
+
         ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+
+        if (!request.getUser().getId().equals(userId)) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+        }
 
         request.updateComment(comment);
         return request.getId();
     }
 
-    //TODO : 유저 체크하기
     @Override
-    public void cancelRequest(Long consultationRequestId) {
+    public void cancelRequest(Long consultationRequestId, Long userId) {
         ConsultationRequest request = getRequestedConsultation(consultationRequestId);
+
+        if (!request.getUser().getId().equals(userId)) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+        }
+
         consultationRequestRepository.delete(request);
     }
 
     @Override
-    public void approveConsultation(Long consultationId) {
-        //TODO[1] argument의 expert가 해당 consult의 대상인지 확인
-        //TODO[2] expert와 user 사이의 다른 consultation 중 request가 아닌 다른 status가 있다면 throw
+    public void approveConsultation(Long consultationId, Expert expert) {
         ConsultationRequest request = getRequestedConsultation(consultationId);
+        validateExpertApprovalOrRejectionAuthority(request, expert);
         request.approve();
     }
 
     @Override
-    public void rejectConsultation(Long consultationId) {
-        //TODO[1] argument의 expert가 해당 consult의 대상인지 확인
-        //TODO[2] expert와 user 사이의 다른 consultation 중 request가 아닌 다른 status가 있다면 throw
+    public void rejectConsultation(Long consultationId, Expert expert) {
         ConsultationRequest request = getRequestedConsultation(consultationId);
+        validateExpertApprovalOrRejectionAuthority(request, expert);
         request.reject();
     }
+
+    private void validateExpertApprovalOrRejectionAuthority(ConsultationRequest request, Expert expert) {
+        if (!request.getExpert().getId().equals(expert.getId())) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
+        }
+
+        boolean hasConflict = consultationRequestRepository.existsByExpertIdAndUserIdAndRequestStatusNot(
+                expert.getId(),
+                request.getUser().getId(),
+                RequestStatus.REQUESTED
+        );
+
+        if (hasConflict) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
+        }
+    }
+
 
     private ConsultationRequest getRequestedConsultation(Long id) {
         ConsultationRequest request = consultationRequestRepository.findById(id)
@@ -84,5 +120,21 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         }
 
         return request;
+    }
+
+    @Override
+    public void removeApprovedConsultationByExpert(Long consultationRequestId, Expert expert) {
+        ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+
+        if (!request.getExpert().getId().equals(expert.getId())) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
+        }
+
+        if (request.getRequestStatus() != RequestStatus.ACCEPTED) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_REQUEST_STATUS);
+        }
+
+        consultationRequestRepository.delete(request);
     }
 }

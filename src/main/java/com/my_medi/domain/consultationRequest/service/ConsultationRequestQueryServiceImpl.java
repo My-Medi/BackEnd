@@ -33,4 +33,14 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
         return consultationRequestRepository.findById(consultRequestId)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
     }
+
+    @Override
+    public List<ConsultationRequest> getAllRequestByUser(Long userId) {
+        return consultationRequestRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<ConsultationRequest> getRequestByUser(Long userId, RequestStatus requestStatus) {
+        return consultationRequestRepository.findByUserIdAndRequestStatus(userId, requestStatus);
+    }
 }
