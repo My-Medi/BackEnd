@@ -47,4 +47,25 @@ public class UserReportApiController {
         return ApiResponseDto.onSuccess(reportCommandService
                 .editHealthReportByRound(user, round, editReportRequestDto));
     }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [비만/복부비만]")
+    @GetMapping("/measurement")
+    public ApiResponseDto<Object> comparingDefaultMeasurementPart(@AuthUser User user,
+                                                                  @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [고혈압]")
+    @GetMapping("/blood-pressure")
+    public ApiResponseDto<Object> comparingBloodPressurePart(@AuthUser User user,
+                                                             @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [빈혈]")
+    @GetMapping("/blood-test")
+    public ApiResponseDto<Object> comparingBloodTestPart(@AuthUser User user,
+                                                         @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
 }
