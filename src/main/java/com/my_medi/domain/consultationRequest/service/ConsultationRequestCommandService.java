@@ -7,9 +7,9 @@ public interface ConsultationRequestCommandService {
     //TODO make logic of removeApprovedConsultationByExpert
     Long requestConsultationToExpert(Long userId, Long expertId, String comment);
 
-    Long editCommentOfRequest(Long consultationRequestId, String comment);
+    Long editCommentOfRequest(Long consultationRequestId, Long userId, String comment);
 
-    void cancelRequest(Long consultationRequestId);
+    void cancelRequest(Long consultationRequestId, Long userId);
 
     void approveConsultation(Long consultationRequestId, Expert expert);
 

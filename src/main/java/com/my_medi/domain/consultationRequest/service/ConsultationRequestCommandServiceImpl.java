@@ -58,19 +58,27 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
 
     @Override
-    public Long editCommentOfRequest(Long consultationRequestId, String comment) {
-        //TODO 유저 체크하기
+    public Long editCommentOfRequest(Long consultationRequestId, Long userId, String comment) {
+
         ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+
+        if (!request.getUser().getId().equals(userId)) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+        }
 
         request.updateComment(comment);
         return request.getId();
     }
 
-    //TODO : 유저 체크하기
     @Override
-    public void cancelRequest(Long consultationRequestId) {
+    public void cancelRequest(Long consultationRequestId, Long userId) {
         ConsultationRequest request = getRequestedConsultation(consultationRequestId);
+
+        if (!request.getUser().getId().equals(userId)) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+        }
+
         consultationRequestRepository.delete(request);
     }
 
