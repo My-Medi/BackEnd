@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -31,9 +32,13 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
 
     @Override
     public List<Schedule> getExpertSchedulesByMonth(Long expertId, int year, int month) {
-        LocalDate start = LocalDate.of(year, month, 1);
-        LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        return scheduleRepository.findByExpertIdAndDateBetween(expertId, start, end);
+        LocalDateTime start = startDate.atStartOfDay();
+        LocalDateTime end = endDate.atTime(23, 59, 59);
+
+        return scheduleRepository.findByExpertIdAndStartTimeBetween(expertId, start, end);
     }
+
 }
