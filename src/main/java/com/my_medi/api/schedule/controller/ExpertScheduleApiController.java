@@ -36,11 +36,14 @@ public class ExpertScheduleApiController {
                 .registerScheduleToUser(expert, userId, registerScheduleDto));
     }
 
-    //TODO 월 단위로 조회 가능하도록 수정
-    @Operation(summary = "전문가가 본인 스케줄을 조회합니다.")
+    @Operation(summary = "전문가가 본인 스케줄을 월 단위로 조회합니다.")
     @GetMapping
-    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(@AuthExpert Expert expert) {
-        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedules(expert.getId());
+    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getMonthlySchedule(
+            @AuthExpert Expert expert,
+            @RequestParam int year,
+            @RequestParam int month) {
+
+        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedulesByMonth(expert.getId(), year, month);
         return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(expertSchedules));
     }
 

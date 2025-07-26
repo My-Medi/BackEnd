@@ -32,4 +32,6 @@ public class UserConsultationApiController {
     //TODO 본인과 매칭된 상담 목록 조회(only status = ACCEPTED)
 
     //TODO 본인이 요청한 상담 취소(only status = REQUESTED)
+
+    //TODO: 상담 요청 목록 조회 and accepted 합쳐서 status별로 조회할 수 있도록 수정
 }
