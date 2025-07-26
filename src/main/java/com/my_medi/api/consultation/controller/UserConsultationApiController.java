@@ -64,10 +64,10 @@ public class UserConsultationApiController {
 
     @Operation(summary = "본인이 요청한 상담을 취소합니다.")
     @DeleteMapping("/{consultationId}")
-    public ApiResponseDto<Void> cancelConsultation(@AuthUser User user,
+    public ApiResponseDto<Long> cancelConsultation(@AuthUser User user,
                                                    @PathVariable Long consultationId) {
         consultationRequestCommandService.cancelRequest(consultationId, user.getId());
-        return ApiResponseDto.onSuccess(null);
+        return ApiResponseDto.onSuccess(consultationId);
     }
 
 }
