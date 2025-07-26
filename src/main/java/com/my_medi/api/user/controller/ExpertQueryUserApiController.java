@@ -1,6 +1,7 @@
 package com.my_medi.api.user.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidator;
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.common.annotation.AuthExpert;
@@ -22,20 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExpertQueryUserApiController {
 
     private final UserQueryService userQueryService;
+    private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
     @Operation(summary = "사용자 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}")
     public ApiResponseDto<UserResponseDto.UserProfileDto> getUserProfile(@AuthExpert Expert expert,
                                                                          @PathVariable Long userId) {
-        //TODO user validation(전문가 프로필 조회 접근 권한 확인)
-        /**
-         * 권장 방법 : 새로운 service 클래스를 api package에서 생성
-         * 해당 서비스 내에서 user와 expert를 조회하고 consultation approved 임을 확인
-         * return : UserProfileDto
-         */
+        // 전문가와 유저가 매칭된 상태인지 확인 (ACCEPTED) -> 유저 정보 조회 -> DTO로 변환해서 반환
+        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
+
         User user = userQueryService.getUserById(userId);
+
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
     }
 
-    // TODO 매칭된 사용자 목록 조회
 }

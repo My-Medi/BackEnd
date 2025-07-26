@@ -21,7 +21,7 @@ import java.util.UUID;
 @DiscriminatorValue(StaticVariable.EXPERT)
 public class Expert extends Member {
 
-
+    //자격증 이미지 entity 따로, 경력사항 엔티티 따로 나를 소개하는 대표문장 따로
     //전문분야(enum)
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -30,15 +30,21 @@ public class Expert extends Member {
     //소속 회사 기관명
     private String organizationName;
 
-    // 자격증
-    // 데이터베이스에 입력될 텍스트 크기를 길게 설정
+    // 자격증 (이미지)
     @Column(length = 1000)
     private String licenseFileUrl;
 
-    //경력소개
+    // 경력사항(리스트)
+
+    // 자기소개
     // 데이터베이스에 입력될 텍스트 크기를 길게 설정
     @Column(columnDefinition = "TEXT")
     private String introduction;
+
+    // 나를 소개하는 대표 문장 한줄
+    //@Column
+    //private String
+
 
     public void modifyExpertInfo(UpdateExpertDto dto) {
         //user 공통
@@ -50,7 +56,5 @@ public class Expert extends Member {
         this.licenseFileUrl = dto.getLicenseFileUrl();
         this.introduction = dto.getIntroduction();
     }
-
-
 
 }

@@ -55,10 +55,11 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     }
 
     @Override
-    public void deleteExpertAccount(Long expertId) {
+    public Long deleteExpertAccount(Long expertId) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-        expertRepository.delete(expert); // hard delete
+        expertRepository.delete(expert); // TODO : hard delete이나 추후 soft delete 수정 예정
+        return expert.getId();
     }
 
 }
