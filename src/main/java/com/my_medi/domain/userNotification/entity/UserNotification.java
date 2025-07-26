@@ -22,10 +22,6 @@ public class UserNotification {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // 알림 제목
-    @Column(name = "notification_title", length = 50)
-    private String notificationTitle;
-
     // 알림 내용
     @Column(name = "notification_content", nullable = false, length = 50)
     private String notificationContent;

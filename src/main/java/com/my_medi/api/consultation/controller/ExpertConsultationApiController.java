@@ -3,6 +3,7 @@ package com.my_medi.api.consultation.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto;
 import com.my_medi.api.consultation.mapper.ExpertConsultationConverter;
+import com.my_medi.api.consultation.service.SendNotificationToUserUseCase;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ExpertConsultationApiController {
 
     private final ConsultationRequestCommandService consultationRequestCommandService;
+    private final SendNotificationToUserUseCase sendNotificationToUserUseCase;
     private final ConsultationRequestQueryService consultationRequestQueryService;
 
     @Operation(summary = "전문가가 상담요청을 수락합니다.")
@@ -31,6 +33,9 @@ public class ExpertConsultationApiController {
     public ApiResponseDto<Long> approveConsultation(@AuthExpert Expert expert,
                                                     @PathVariable Long consultationId) {
         consultationRequestCommandService.approveConsultation(consultationId, expert);
+
+        sendNotificationToUserUseCase.sendConsultationRequestApproveNotificationToUser(consultationId);
+
         return ApiResponseDto.onSuccess(consultationId);
     }
 

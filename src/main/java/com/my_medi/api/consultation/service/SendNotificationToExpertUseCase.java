@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class SendNotificationToExpertUseCase {
     private final ExpertNotificationCommandService expertNotificationCommandService;
 
-    public void SendConsultationRequestNotificationToExpert(Long expertId, Long requestId) {
+    public void sendConsultationRequestNotificationToExpert(Long expertId, Long requestId) {
         expertNotificationCommandService.sendNotificationToExpert(expertId, requestId);
     }
 }

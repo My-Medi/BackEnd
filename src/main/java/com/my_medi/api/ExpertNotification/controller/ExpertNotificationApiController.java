@@ -1,7 +1,6 @@
 package com.my_medi.api.ExpertNotification.controller;
 
-import com.my_medi.api.ExpertNotification.dto.ExpertNotiticationResponseDto;
-import com.my_medi.api.ExpertNotification.dto.ExpertNotiticationResponseDto.*;
+import com.my_medi.api.ExpertNotification.dto.ExpertNotificationResponseDto.*;
 import com.my_medi.api.ExpertNotification.mapper.ExpertNotificationConverter;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.common.annotation.AuthExpert;
@@ -26,11 +25,10 @@ public class ExpertNotificationApiController {
 
     @Operation(summary = "전문가의 알림을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<List<ExpertNotiticationDto>> getExpertNotification(@AuthExpert Expert expert) {
+    public ApiResponseDto<List<ExpertNotificationDto>> getExpertNotification(@AuthExpert Expert expert) {
         List<ExpertNotification> notificationList = expertNotificationQueryService
                 .getNotificationByExpertId(expert.getId());
 
-        return ApiResponseDto.onSuccess(ExpertNotificationConverter
-                .toExpertNotiticationListDto(notificationList));
+        return ApiResponseDto.onSuccess(ExpertNotificationConverter.toExpertNotificationListDto(notificationList));
     }
 }

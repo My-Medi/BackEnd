@@ -33,10 +33,9 @@ public class UserConsultationApiController {
                                                     @PathVariable Long expertId,
                                                     @RequestParam String comment) {
 
-        Long requestId = consultationRequestCommandService
-                .requestConsultationToExpert(user, expertId, comment);
+        Long requestId = consultationRequestCommandService.requestConsultationToExpert(user, expertId, comment);
 
-        sendNotificationToExpertUseCase.SendConsultationRequestNotificationToExpert(expertId, requestId);
+        sendNotificationToExpertUseCase.sendConsultationRequestNotificationToExpert(expertId, requestId);
 
         //TODO user.getId() -> user(entity) convert
         return ApiResponseDto.onSuccess(requestId);
