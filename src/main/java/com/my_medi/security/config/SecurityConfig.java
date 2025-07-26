@@ -96,7 +96,8 @@ public class SecurityConfig {
         return new String[]{
                 "/api/v1/tokens/reissue",
                 "/api/v1/users",
-                "/api/v1/experts"
+                "/api/v1/experts",
+                "/api/v1/images"
         };
     }
 
