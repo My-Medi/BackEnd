@@ -85,28 +85,18 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     @Override
     public void approveConsultation(Long consultationId, Expert expert) {
         ConsultationRequest request = getRequestedConsultation(consultationId);
-
-        if (!request.getExpert().getId().equals(expert.getId())) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
-        }
-
-        boolean hasConflict = consultationRequestRepository.existsByExpertIdAndUserIdAndRequestStatusNot(
-                expert.getId(),
-                request.getUser().getId(),
-                RequestStatus.REQUESTED
-        );
-
-        if (hasConflict) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
-        }
-
+        validateExpertApprovalOrRejectionAuthority(request, expert);
         request.approve();
     }
 
     @Override
     public void rejectConsultation(Long consultationId, Expert expert) {
         ConsultationRequest request = getRequestedConsultation(consultationId);
+        validateExpertApprovalOrRejectionAuthority(request, expert);
+        request.reject();
+    }
 
+    private void validateExpertApprovalOrRejectionAuthority(ConsultationRequest request, Expert expert) {
         if (!request.getExpert().getId().equals(expert.getId())) {
             throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
         }
@@ -120,9 +110,8 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         if (hasConflict) {
             throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
         }
-
-        request.reject();
     }
+
 
     private ConsultationRequest getRequestedConsultation(Long id) {
         ConsultationRequest request = consultationRequestRepository.findById(id)
