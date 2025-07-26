@@ -1,6 +1,7 @@
 package com.my_medi.api.schedule.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.consultation.service.SendNotificationToUserUseCase;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.api.schedule.dto.ScheduleResponseDto;
 import com.my_medi.api.schedule.dto.ScheduleResponseDto.ScheduleSummaryDto;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ExpertScheduleApiController {
 
     private final ScheduleCommandService scheduleCommandService;
+    private final SendNotificationToUserUseCase sendNotificationToUserUseCase;
     private final ScheduleQueryService scheduleQueryService;
 
     @Operation(summary = "전문가가 매칭된 유저에게 스케줄을 등록합니다.")
@@ -33,8 +35,13 @@ public class ExpertScheduleApiController {
             @PathVariable Long userId,
             @RequestBody RegisterScheduleDto registerScheduleDto) {
         //TODO expert.getId() -> expert(entity) convert
-        return ApiResponseDto.onSuccess(scheduleCommandService
-                .registerScheduleToUser(expert.getId(), userId, registerScheduleDto));
+
+        Long scheduleId = scheduleCommandService
+                .registerScheduleToUser(expert.getId(), userId, registerScheduleDto);
+
+        sendNotificationToUserUseCase.sendScheduleNotificationToUser(userId, scheduleId);
+
+        return ApiResponseDto.onSuccess(scheduleId);
     }
 
     //TODO 월 단위로 조회 가능하도록 수정

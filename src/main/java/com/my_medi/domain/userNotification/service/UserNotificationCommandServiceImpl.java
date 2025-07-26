@@ -4,6 +4,9 @@ import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
+import com.my_medi.domain.schedule.entity.Schedule;
+import com.my_medi.domain.schedule.exception.ScheduleHandler;
+import com.my_medi.domain.schedule.repository.ScheduleRepository;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
@@ -20,20 +23,39 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserNotificationCommandServiceImpl implements UserNotificationCommandService {
     private final UserRepository userRepository;
     private final ConsultationRequestRepository consultationRequestRepository;
+    private final ScheduleRepository scheduleRepository;
     private final UserNotificationRepository userNotificationRepository;
 
     @Override
-    public void sendNotificationToUser(Long userId, Long sourceId) {
+    public void sendConsultationRequestApproveNotificationToUser(Long userId, Long consultationId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
 
-        ConsultationRequest request = consultationRequestRepository.findById(sourceId)
+        ConsultationRequest request = consultationRequestRepository.findById(consultationId)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         UserNotification userNotification = UserNotification.builder()
                 .user(user)
                 .notificationContent(request.getComment())
-                .sourceId(sourceId)
+                .sourceId(consultationId)
+                .notificationType(NotificationType.CONSULTATION_RESPONSE)
+                .build();
+
+        userNotificationRepository.save(userNotification);
+    }
+
+    @Override
+    public void sendScheduleNotificationToUser(Long userId, Long scheduleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> UserHandler.NOT_FOUND);
+
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> ScheduleHandler.NOT_FOUND);
+
+        UserNotification userNotification = UserNotification.builder()
+                .user(user)
+                .notificationContent(schedule.getDescription())
+                .sourceId(scheduleId)
                 .notificationType(NotificationType.CONSULTATION_RESPONSE)
                 .build();
 

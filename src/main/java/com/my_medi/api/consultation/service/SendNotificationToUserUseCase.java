@@ -1,5 +1,6 @@
 package com.my_medi.api.consultation.service;
 
+import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestQueryService;
 import com.my_medi.domain.userNotification.service.UserNotificationCommandService;
@@ -15,6 +16,10 @@ public class SendNotificationToUserUseCase {
     public void sendConsultationRequestApproveNotificationToUser(Long consultationId) {
         ConsultationRequest request = consultationQueryCommandService.getRequestById(consultationId);
 
-        userNotificationCommandService.sendNotificationToUser(request.getUser().getId(), consultationId);
+        userNotificationCommandService.sendConsultationRequestApproveNotificationToUser(request.getUser().getId(), consultationId);
+    }
+
+    public void sendScheduleNotificationToUser(Long userId, Long scheduleId) {
+        userNotificationCommandService.sendScheduleNotificationToUser(userId, scheduleId);
     }
 }
