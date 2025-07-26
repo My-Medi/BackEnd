@@ -16,4 +16,10 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     List<Schedule> findByUserIdAndStartTimeBetween(Long userId, LocalDateTime start, LocalDateTime end);
 
+    List<Schedule> findTop3ByExpertIdAndStartTimeAfterOrderByStartTimeAsc(Long expertId, LocalDateTime now);
+
+    List<Schedule> findTop3ByUserIdAndStartTimeAfterOrderByStartTimeAsc(Long userId, LocalDateTime now);
+
+
+
 }

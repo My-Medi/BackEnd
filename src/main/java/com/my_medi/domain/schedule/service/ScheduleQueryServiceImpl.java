@@ -52,4 +52,26 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         return scheduleRepository.findByUserIdAndStartTimeBetween(userId, start, end);
     }
 
+
+    private List<Schedule> findUpcomingSchedules(SortType type, Long id) {
+        LocalDateTime now = LocalDateTime.now();
+
+        return switch (type) {
+            case USER -> scheduleRepository.findTop3ByUserIdAndStartTimeAfterOrderByStartTimeAsc(id, now);
+            case EXPERT -> scheduleRepository.findTop3ByExpertIdAndStartTimeAfterOrderByStartTimeAsc(id, now);
+        };
+    }
+
+    @Override
+    public List<Schedule> getUpcomingSchedulesForUser(Long userId) {
+        return findUpcomingSchedules(SortType.USER, userId);
+    }
+
+    @Override
+    public List<Schedule> getUpcomingSchedulesForExpert(Long expertId) {
+        return findUpcomingSchedules(SortType.EXPERT, expertId);
+    }
+
+    public enum SortType { USER, EXPERT }
+
 }
