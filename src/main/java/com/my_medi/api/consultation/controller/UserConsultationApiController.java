@@ -22,9 +22,9 @@ public class UserConsultationApiController {
     public ApiResponseDto<Long> approveConsultation(@AuthUser User user,
                                                     @PathVariable Long expertId,
                                                     @RequestParam String comment) {
-        //TODO user.getId() -> user(entity) convert
+
         return ApiResponseDto.onSuccess(consultationRequestCommandService
-                .requestConsultationToExpert(user.getId(), expertId, comment));
+                .requestConsultationToExpert(user, expertId, comment));
     }
 
     //TODO 본인이 요청한 상담 요청 목록 조회

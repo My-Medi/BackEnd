@@ -26,19 +26,17 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     private final ExpertRepository expertRepository;
 
     @Override
-    public Long requestConsultationToExpert(Long userId, Long expertId, String comment) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.USER_NOT_FOUND));
+    public Long requestConsultationToExpert(User user, Long expertId, String comment) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_NOT_FOUND));
 
-        long existingCount = consultationRequestRepository.countByUserIdAndExpertId(userId, expertId);
+        long existingCount = consultationRequestRepository.countByUserIdAndExpertId(user.getId(), expertId);
         if (existingCount >= 5) {
             throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.CONSULTATION_LIMIT_EXCEEDED);
         }
 
         boolean hasInvalidStatus = consultationRequestRepository.existsByUserIdAndExpertIdAndRequestStatusIn(
-                userId,
+                user.getId(),
                 expertId,
                 List.of(RequestStatus.REJECTED, RequestStatus.ACCEPTED)
         );
