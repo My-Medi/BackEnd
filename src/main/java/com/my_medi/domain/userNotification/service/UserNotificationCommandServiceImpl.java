@@ -56,7 +56,7 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
                 .user(user)
                 .notificationContent(schedule.getDescription())
                 .sourceId(scheduleId)
-                .notificationType(NotificationType.CONSULTATION_RESPONSE)
+                .notificationType(NotificationType.SCHEDULE)
                 .build();
 
         userNotificationRepository.save(userNotification);
