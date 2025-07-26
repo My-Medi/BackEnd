@@ -37,7 +37,7 @@ public class UserConsultationApiController {
     }
 
     @Operation(summary = "본인이 요청한 모든 상담 요청 목록을 조회합니다.")
-    @GetMapping("/my")
+    @GetMapping("/all")
     public ApiResponseDto<List<UserConsultationDto>> getAllMyConsultations(@AuthUser User user) {
         List<ConsultationRequest> requests = consultationRequestQueryService.getAllRequestByUser(user.getId());
 
@@ -49,7 +49,7 @@ public class UserConsultationApiController {
     }
 
     @Operation(summary = "본인과 매칭된 상담 목록을 조회합니다. (status = ACCEPTED)")
-    @GetMapping("/matched")
+    @GetMapping("/accepted")
     public ApiResponseDto<List<UserConsultationDto>> getMatchedConsultations(@AuthUser User user) {
         List<ConsultationRequest> acceptedRequests =
                 consultationRequestQueryService.getRequestByUser(user.getId(), RequestStatus.ACCEPTED);
