@@ -22,7 +22,11 @@ public enum ScheduleErrorStatus implements BaseErrorCode {
 
     EXPERT_NOT_FOUND(HttpStatus.NOT_FOUND, 4102, "전문가를 찾을 수 없습니다."),
 
-    SCHEDULE_ONLY_CAN_BE_TOUCHED_BY_EXPERT(HttpStatus.FORBIDDEN, 4103, "해당 일정은 해당 전문가만 수정 또는 삭제할 수 있습니다.");
+    SCHEDULE_ONLY_CAN_BE_TOUCHED_BY_EXPERT(HttpStatus.FORBIDDEN, 4103, "해당 일정은 해당 전문가만 수정 또는 삭제할 수 있습니다."),
+
+    NOT_MATCHED_CONSULTATION(HttpStatus.BAD_REQUEST, 4104, "전문가와 사용자가 매칭된 상담 상태가 아닙니다."),
+
+    ;
 
     private final HttpStatus httpStatus;
     private final Integer code;

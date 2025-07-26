@@ -31,7 +31,7 @@ public class UserConsultationApiController {
     public ApiResponseDto<Long> approveConsultation(@AuthUser User user,
                                                     @PathVariable Long expertId,
                                                     @RequestParam String comment) {
-
+        //TODO user.getId() -> user(entity) convert
         return ApiResponseDto.onSuccess(consultationRequestCommandService
                 .requestConsultationToExpert(user, expertId, comment));
     }
@@ -47,6 +47,8 @@ public class UserConsultationApiController {
 
         return ApiResponseDto.onSuccess(dtoList);
     }
+
+    //TODO 본인과 매칭된 상담 목록 조회(only status = ACCEPTED)
 
     @Operation(summary = "본인과 매칭된 상담 목록을 조회합니다. (status = ACCEPTED)")
     @GetMapping("/accepted")
