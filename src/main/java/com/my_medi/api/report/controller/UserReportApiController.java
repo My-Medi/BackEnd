@@ -103,4 +103,12 @@ public class UserReportApiController {
                                                            @RequestParam Integer round) {
         return ApiResponseDto.onSuccess(null);
     }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다.[전체]")
+    @GetMapping("/comparing")
+    public ApiResponseDto<Object> comparingReport(@AuthUser User user,
+                                                  @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
 }
