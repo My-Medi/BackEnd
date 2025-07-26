@@ -55,13 +55,13 @@ public class HealthCheckup {
     private Integer hearingRight;
 
     @Column(name = "systolic_bp")
-    private Integer systolicBp;
+    private Integer systolicBp;     //수축기 혈압
 
     @Column(name = "diastolic_bp")
-    private Integer diastolicBp;
+    private Integer diastolicBp;    //이완기 혈압
 
     @Column(name = "fasting_blood_sugar")
-    private Integer fastingBloodSugar;
+    private Integer fastingBloodSugar;      //공복 혈당
 
     @Column(name = "total_cholesterol")
     private Integer totalCholesterol;
@@ -76,10 +76,10 @@ public class HealthCheckup {
     private Integer ldlCholesterol;
 
     @Column(name = "hemoglobin")
-    private Double hemoglobin;
+    private Double hemoglobin;      //혈색소
 
     @Column(name = "urine_protein")
-    private Integer urineProtein;
+    private Integer urineProtein;       //요단백
 
     @Column(name = "serum_creatinine")
     private Double serumCreatinine;

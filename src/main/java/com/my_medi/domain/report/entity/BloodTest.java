@@ -24,10 +24,10 @@ public class BloodTest {
     private Integer ldl;
     private Boolean hyperlipidemia;
 
-    private String creatinine; // ex: 0.9
+    private Double creatinine; // ex: 0.9
     private Integer egfr;
 
-    private String ast;
-    private String alt;
-    private String gtp;
+    private Integer ast;
+    private Integer alt;
+    private Integer gtp;
 }

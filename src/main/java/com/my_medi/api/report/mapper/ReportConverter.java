@@ -1,8 +1,13 @@
 package com.my_medi.api.report.mapper;
 
+import com.my_medi.api.report.dto.ComparingReportResponseDto.*;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.dto.*;
+import com.my_medi.common.util.HealthMetricCalculator;
+import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.report.entity.*;
+
+import java.util.List;
 
 public class ReportConverter {
 
@@ -171,6 +176,60 @@ public class ReportConverter {
     public static AdditionalTest toAdditionalTest(AdditionalTestDto additionalTestDto) {
         return AdditionalTest.builder()
                 .needsFurtherTest(additionalTestDto.getNeedsFurtherTest())
+                .build();
+    }
+
+    public static ComparingReportResponseDto toComparingReportResponseDto(List<HealthCheckup> healthCheckupList, Report report) {
+        return ComparingReportResponseDto.builder()
+                .comparingBmiDto(ComparingBmiDto.builder()
+                        .bmi(report.getMeasurement().getBmi())
+                        .averageBmi(HealthMetricCalculator.calculateAverageBmi(healthCheckupList))
+                        .percentageBmi(10)    //TODO
+                        .build())
+                .comparingWaistDto(ComparingWaistDto.builder()
+                        .waist(report.getMeasurement().getWaist())
+                        .averageWaist(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getWaistCm))
+                        .percentageWaist(10)    //TODO
+                        .build())
+                .comparingSystolicBpDto(ComparingSystolicBpDto.builder()
+                        .systolicBp(report.getBloodPressure().getSystolic())
+                        .averageSystolicBp(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getSystolicBp))
+                        .percentageSystolicBp(10)   //TODO
+                        .build())
+                .comparingDiastolicBpDto(ComparingDiastolicBpDto.builder()
+                        .diastolicBp(report.getBloodPressure().getDiastolic())
+                        .averageDiastolicBp(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getDiastolicBp))
+                        .percentageDiastolicBp(10)  //TODO
+                        .build())
+                .comparingHemoglobinDto(ComparingHemoglobinDto.builder()
+                        .hemoglobin(report.getBloodTest().getHemoglobin())
+                        .averageHemoglobin(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin))
+                        .percentageHemoglobin(10)   //TODO
+                        .build())
+                .comparingFastingBloodSugarDto(ComparingFastingBloodSugarDto.builder()
+                        .fastingBloodSugar(report.getBloodTest().getFastingGlucose())
+                        .averageFastingBloodSugar(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getFastingBloodSugar))
+                        .percentageFastingBloodSugar(10)    //TODO
+                        .build())
+                .comparingSerumCreatinineDto(ComparingSerumCreatinineDto.builder()
+                        .serumCreatinine(report.getBloodTest().getCreatinine())
+                        .averageSerumCreatinine(0.8)
+                        .build())
+                .comparingAstDto(ComparingAstDto.builder()
+                        .ast(report.getBloodTest().getAst())
+                        .averageAst(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getAst))
+                        .percentageAst(10)  //TODO
+                        .build())
+                .comparingAltDto(ComparingAltDto.builder()
+                        .alt(report.getBloodTest().getAlt())
+                        .averageAlt(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getAlt))
+                        .percentageAlt(10)  //TODO
+                        .build())
+                .comparingGammaGtpDto(ComparingGammaGtpDto.builder()
+                        .gammaGtp(report.getBloodTest().getGtp())
+                        .averageGammaGtp(HealthMetricCalculator.calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp))
+                        .percentageGammaGtp(10)     //TODO
+                        .build())
                 .build();
     }
 }
