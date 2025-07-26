@@ -5,8 +5,6 @@ import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.exception.ProposalHandler;
 import com.my_medi.domain.proposal.repository.ProposalRepository;
 import com.my_medi.domain.user.entity.User;
-import com.my_medi.domain.user.exception.UserHandler;
-import com.my_medi.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +14,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProposalCommandServiceImpl implements ProposalCommandService {
     private final ProposalRepository proposalRepository;
-    private final UserRepository userRepository;
 
     @Override
-    public Long writeProposal(Long userId, ProposalRequestDto proposalRequestDto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> UserHandler.NOT_FOUND);
+    public Long writeProposal(User user, ProposalRequestDto proposalRequestDto) {
         Proposal proposal = Proposal.builder()
                 .user(user)
                 .lifeDescription(proposalRequestDto.getLifeDescription())
@@ -55,8 +50,8 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
     }
 
     @Override
-    public Long editProposal(Long userId, ProposalRequestDto proposalRequestDto) {
-        Proposal proposal = proposalRepository.findByUserId(userId)
+    public Long editProposal(User user, ProposalRequestDto proposalRequestDto) {
+        Proposal proposal = proposalRepository.findByUserId(user.getId())
                 .orElseThrow(() -> ProposalHandler.NOT_FOUND);
 
         proposal.updateLifeDescriptionnGoal(proposalRequestDto);

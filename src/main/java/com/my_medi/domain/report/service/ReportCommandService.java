@@ -1,12 +1,11 @@
 package com.my_medi.domain.report.service;
 
-import com.my_medi.api.report.dto.ReportRequestDto;
+import com.my_medi.domain.user.entity.User;
+import com.my_medi.api.report.dto.EditReportRequestDto;
+import com.my_medi.api.report.dto.WriteReportRequestDto;
 
 public interface ReportCommandService {
+    Long writeHealthReport(User user, WriteReportRequestDto writeReportRequestDto);
 
-    //TODO write Report DTO 생성해서 argument로 추가하기
-    Long writeHealthReport(Long userId, Integer round, ReportRequestDto reportRequestDto);
-
-    //TODO edit Report DTO 생성해서 argument로 추가하기
-    Long editHealthReportByRound(Long userId, Integer round, ReportRequestDto reportRequestDto);
+    Long editHealthReportByRound(User user, Integer round, EditReportRequestDto editReportRequestDto);
 }

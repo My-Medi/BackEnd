@@ -4,6 +4,7 @@ import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.common.exception.GeneralException;
 import com.my_medi.common.exception.Reason;
+import com.my_medi.security.exception.JwtAuthenticationException;
 import io.swagger.v3.oas.annotations.Hidden;
 
 import jakarta.servlet.http.HttpServletRequest;

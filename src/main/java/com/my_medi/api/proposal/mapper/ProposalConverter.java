@@ -7,6 +7,7 @@ import com.my_medi.api.proposal.dto.HelpTopicDto;
 import com.my_medi.domain.proposal.entity.Proposal;
 
 public class ProposalConverter {
+    // Entity -> Dto
 
     public static UserProposalDto toUserProposalDto(Proposal proposal) {
         return UserProposalDto.builder()
