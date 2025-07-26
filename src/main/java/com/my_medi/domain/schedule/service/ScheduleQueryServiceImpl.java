@@ -41,4 +41,15 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         return scheduleRepository.findByExpertIdAndStartTimeBetween(expertId, start, end);
     }
 
+    @Override
+    public List<Schedule> getUserSchedulesByMonth(Long userId, int year, int month){
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
+        LocalDateTime start = startDate.atTime(23, 59, 59);
+        LocalDateTime end = endDate.atTime(23, 59, 59);
+
+        return scheduleRepository.findByUserIdAndStartTimeBetween(userId, start, end);
+    }
+
 }

@@ -13,4 +13,6 @@ public interface ScheduleQueryService {
 
     List<Schedule> getExpertSchedulesByMonth(Long expertId, int year, int month);
 
+    List<Schedule> getUserSchedulesByMonth(Long userId, int year, int month);
+
 }
