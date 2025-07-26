@@ -32,9 +32,8 @@ public class ExpertScheduleApiController {
             @AuthExpert Expert expert,
             @PathVariable Long userId,
             @RequestBody RegisterScheduleDto registerScheduleDto) {
-        //TODO expert.getId() -> expert(entity) convert
         return ApiResponseDto.onSuccess(scheduleCommandService
-                .registerScheduleToUser(expert.getId(), userId, registerScheduleDto));
+                .registerScheduleToUser(expert, userId, registerScheduleDto));
     }
 
     //TODO 월 단위로 조회 가능하도록 수정
