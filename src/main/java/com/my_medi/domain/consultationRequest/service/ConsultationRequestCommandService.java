@@ -1,5 +1,7 @@
 package com.my_medi.domain.consultationRequest.service;
 
+import com.my_medi.domain.expert.entity.Expert;
+
 public interface ConsultationRequestCommandService {
 
     //TODO make logic of removeApprovedConsultationByExpert
@@ -9,7 +11,7 @@ public interface ConsultationRequestCommandService {
 
     void cancelRequest(Long consultationRequestId);
 
-    void approveConsultation(Long consultationRequestId);
+    void approveConsultation(Long consultationRequestId, Expert expert);
 
-    void rejectConsultation(Long consultationRequestId);
+    void rejectConsultation(Long consultationRequestId, Expert expert);
 }

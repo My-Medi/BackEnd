@@ -60,18 +60,44 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     }
 
     @Override
-    public void approveConsultation(Long consultationId) {
-        //TODO[1] argument의 expert가 해당 consult의 대상인지 확인
-        //TODO[2] expert와 user 사이의 다른 consultation 중 request가 아닌 다른 status가 있다면 throw
+    public void approveConsultation(Long consultationId, Expert expert) {
         ConsultationRequest request = getRequestedConsultation(consultationId);
+
+        if (!request.getExpert().getId().equals(expert.getId())) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
+        }
+
+        boolean hasConflict = consultationRequestRepository.existsByExpertIdAndUserIdAndRequestStatusNot(
+                expert.getId(),
+                request.getUser().getId(),
+                RequestStatus.REQUESTED
+        );
+
+        if (hasConflict) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
+        }
+
         request.approve();
     }
 
     @Override
-    public void rejectConsultation(Long consultationId) {
-        //TODO[1] argument의 expert가 해당 consult의 대상인지 확인
-        //TODO[2] expert와 user 사이의 다른 consultation 중 request가 아닌 다른 status가 있다면 throw
+    public void rejectConsultation(Long consultationId, Expert expert) {
         ConsultationRequest request = getRequestedConsultation(consultationId);
+
+        if (!request.getExpert().getId().equals(expert.getId())) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
+        }
+
+        boolean hasConflict = consultationRequestRepository.existsByExpertIdAndUserIdAndRequestStatusNot(
+                expert.getId(),
+                request.getUser().getId(),
+                RequestStatus.REQUESTED
+        );
+
+        if (hasConflict) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
+        }
+
         request.reject();
     }
 

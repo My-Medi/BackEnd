@@ -30,8 +30,7 @@ public class ExpertConsultationApiController {
     @PatchMapping("/{consultationId}/approve")
     public ApiResponseDto<Long> approveConsultation(@AuthExpert Expert expert,
                                                     @PathVariable Long consultationId) {
-        // TODO expert를 service 인자로 사용하여 validation 추가
-        consultationRequestCommandService.approveConsultation(consultationId);
+        consultationRequestCommandService.approveConsultation(consultationId, expert);
         return ApiResponseDto.onSuccess(consultationId);
     }
 
@@ -40,7 +39,7 @@ public class ExpertConsultationApiController {
     public ApiResponseDto<Long> rejectConsultation(@AuthExpert Expert expert,
                                                    @PathVariable Long consultationId) {
         // TODO expert를 service 인자로 사용하여 validation 추가
-        consultationRequestCommandService.rejectConsultation(consultationId);
+        consultationRequestCommandService.rejectConsultation(consultationId, expert);
         return ApiResponseDto.onSuccess(consultationId);
     }
 

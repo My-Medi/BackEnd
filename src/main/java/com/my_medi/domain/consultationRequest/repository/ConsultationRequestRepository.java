@@ -11,4 +11,7 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
     List<ConsultationRequest> findByExpertId(Long expertId);
 
     List<ConsultationRequest> findByExpertIdAndRequestStatus(Long expertId, RequestStatus requestStatus);
+
+    boolean existsByExpertIdAndUserIdAndRequestStatusNot(Long expertId, Long userId, RequestStatus requestStatus);
+
 }
