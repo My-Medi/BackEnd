@@ -49,8 +49,8 @@ public class UserReportApiController {
     }
 
     @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [비만/복부비만]")
-    @GetMapping("/measurement")
-    public ApiResponseDto<Object> comparingDefaultMeasurementPart(@AuthUser User user,
+    @GetMapping("/obesity")
+    public ApiResponseDto<Object> comparingObesityPart(@AuthUser User user,
                                                                   @RequestParam Integer round) {
         return ApiResponseDto.onSuccess(null);
     }
@@ -63,9 +63,44 @@ public class UserReportApiController {
     }
 
     @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [빈혈]")
-    @GetMapping("/blood-test")
-    public ApiResponseDto<Object> comparingBloodTestPart(@AuthUser User user,
-                                                         @RequestParam Integer round) {
+    @GetMapping("/anemia")
+    public ApiResponseDto<Object> comparingAnemiaPart(@AuthUser User user,
+                                                      @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [당뇨병]")
+    @GetMapping("/diabetes")
+    public ApiResponseDto<Object> comparingDiabetesPart(@AuthUser User user,
+                                                        @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [이상지질혈증]")
+    @GetMapping("/dyslipidemia")
+    public ApiResponseDto<Object> comparingDyslipidemiaPart(@AuthUser User user,
+                                                            @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [신장질환]")
+    @GetMapping("/kidney-disease")
+    public ApiResponseDto<Object> comparingKidneyDiseasePart(@AuthUser User user,
+                                                             @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [간장질환]")
+    @GetMapping("/liver-disease")
+    public ApiResponseDto<Object> comparingLiverDiseasePart(@AuthUser User user,
+                                                            @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [요단백]")
+    @GetMapping("/proteinuria")
+    public ApiResponseDto<Object> comparingProteinuriaPart(@AuthUser User user,
+                                                           @RequestParam Integer round) {
         return ApiResponseDto.onSuccess(null);
     }
 }
