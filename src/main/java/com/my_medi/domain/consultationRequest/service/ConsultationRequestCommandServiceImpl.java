@@ -121,4 +121,20 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
         return request;
     }
+
+    @Override
+    public void removeApprovedConsultationByExpert(Long consultationRequestId, Expert expert) {
+        ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+
+        if (!request.getExpert().getId().equals(expert.getId())) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
+        }
+
+        if (request.getRequestStatus() != RequestStatus.ACCEPTED) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_REQUEST_STATUS);
+        }
+
+        consultationRequestRepository.delete(request);
+    }
 }

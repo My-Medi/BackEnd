@@ -62,4 +62,14 @@ public class ExpertConsultationApiController {
         return ApiResponseDto.onSuccess(dtoList);
     }
 
+    @Operation(summary = "전문가가 수락된 상담을 삭제합니다.")
+    @DeleteMapping("/{consultationId}")
+    public ApiResponseDto<Long> removeApprovedConsultation(
+            @AuthExpert Expert expert,
+            @PathVariable Long consultationId
+    ) {
+        consultationRequestCommandService.removeApprovedConsultationByExpert(consultationId, expert);
+        return ApiResponseDto.onSuccess(consultationId);
+    }
+
 }
