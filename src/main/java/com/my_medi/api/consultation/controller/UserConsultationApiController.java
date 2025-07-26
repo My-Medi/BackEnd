@@ -1,14 +1,19 @@
 package com.my_medi.api.consultation.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+<<<<<<< HEAD
 import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.api.consultation.mapper.UserConsultationConvert;
+=======
+import com.my_medi.api.consultation.service.SendNotificationToExpertUseCase;
+>>>>>>> 85bef8c ([MEDI-58] 7.26 - 임시 커밋)
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestCommandService;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestQueryService;
 import com.my_medi.domain.user.entity.User;
+import com.my_medi.domain.user.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +28,12 @@ import java.util.List;
 public class UserConsultationApiController {
 
     private final ConsultationRequestCommandService consultationRequestCommandService;
+<<<<<<< HEAD
     private final ConsultationRequestQueryService consultationRequestQueryService;
 
+=======
+    private final SendNotificationToExpertUseCase sendNotificationToExpertUseCase;
+>>>>>>> 85bef8c ([MEDI-58] 7.26 - 임시 커밋)
 
     @Operation(summary = "전문가에게 상담요청을 보냅니다.")
     @PostMapping("/experts/{expertId}")
@@ -32,8 +41,18 @@ public class UserConsultationApiController {
                                                     @PathVariable Long expertId,
                                                     @RequestParam String comment) {
 
+<<<<<<< HEAD
         return ApiResponseDto.onSuccess(consultationRequestCommandService
                 .requestConsultationToExpert(user, expertId, comment));
+=======
+        Long requestId = consultationRequestCommandService
+                .requestConsultationToExpert(user.getId(), expertId, comment);
+
+        sendNotificationToExpertUseCase.SendConsultationRequestNotificationToExpert(expertId, requestId);
+
+        //TODO user.getId() -> user(entity) convert
+        return ApiResponseDto.onSuccess(requestId);
+>>>>>>> 85bef8c ([MEDI-58] 7.26 - 임시 커밋)
     }
 
     @Operation(summary = "본인이 요청한 모든 상담 요청 목록을 조회합니다.")
