@@ -27,7 +27,7 @@ public class UserScheduleApiController {
 
     @Operation(summary = "사용자가 본인 스케줄을 월 단위로 조회합니다.")
     @GetMapping
-    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(
+    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getMonthlySchedule(
             @AuthUser User user,
             @RequestParam int year,
             @RequestParam int month) {

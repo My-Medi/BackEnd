@@ -46,7 +46,7 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        LocalDateTime start = startDate.atTime(23, 59, 59);
+        LocalDateTime start = startDate.atStartOfDay();
         LocalDateTime end = endDate.atTime(23, 59, 59);
 
         return scheduleRepository.findByUserIdAndStartTimeBetween(userId, start, end);
