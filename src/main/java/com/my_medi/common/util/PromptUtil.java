@@ -36,7 +36,7 @@ public class PromptUtil {
         return OpenAIRequest.builder()
                 .model(MODEL_GPT_4O)
                 .maxTokens(MAX_TOKEN)
-                .temperature(TEMPARTURE)
+                .temperature(TEMPERATURE)
                 .messages(List.of(message))
                 .build();
     }

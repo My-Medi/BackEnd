@@ -8,7 +8,7 @@ public class Prompt {
     public static final String MODEL_GPT_4O = "gpt-4o";
     public static final String ROLE_USER = "user";
     public static final int MAX_TOKEN = 2000;
-    public static final double TEMPARTURE = 0.1;
+    public static final double TEMPERATURE = 0.1;
     public static String IMAGE_PARSING_PROMPT = """
             이 한국어 건강검진 보고서에서 다음 정보를 JSON 형태로 추출해주세요:
             
