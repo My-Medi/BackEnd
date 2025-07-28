@@ -21,4 +21,4 @@
 
 app:
   jwt:
-    secret: RTQZVjcvwwveXp5OwjdzxGGQ669FnDhl1PJEbzcGDYo=
+    secret: ${JWT_KEY}

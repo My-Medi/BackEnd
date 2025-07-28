@@ -6,9 +6,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_PROFILES_ACTIVE: deploy
-#      SPRING_DATA_REDIS_HOST: redis
-#      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_PROFILES_ACTIVE: "deploy, security, s3, gpt"
+      SPRING_DATA_REDIS_HOST: redis_medi
+      SPRING_DATA_REDIS_PORT: 6379
 
     env_file: .env
     networks:

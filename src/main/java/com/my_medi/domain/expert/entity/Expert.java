@@ -18,7 +18,7 @@ import java.util.UUID;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@DiscriminatorValue(StaticVariable.EXPERT)      //TODO ROLE ENUM key값으로
+@DiscriminatorValue(StaticVariable.EXPERT)
 public class Expert extends Member {
 
 

@@ -1,7 +1,10 @@
 package com.my_medi.domain.schedule.service;
 
+
 import com.my_medi.api.schedule.dto.EditScheduleDto;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
+import com.my_medi.domain.consultationRequest.entity.RequestStatus;
+import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.schedule.entity.Schedule;
@@ -24,14 +27,20 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
     private final ScheduleRepository scheduleRepository;
     private final ExpertRepository expertRepository;
     private final UserRepository userRepository;
+    private final ConsultationRequestRepository consultationRequestRepository;
+
 
     @Override
-    public Long registerScheduleToUser(Long expertId, Long userId, RegisterScheduleDto registerScheduleDto) {
-        Expert expert = expertRepository.findById(expertId)
-                .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.EXPERT_NOT_FOUND));
-
+    public Long registerScheduleToUser(Expert expert, Long userId, RegisterScheduleDto registerScheduleDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ScheduleHandler(ScheduleErrorStatus.USER_NOT_FOUND));
+
+        boolean isMatched = consultationRequestRepository
+                .existsByExpertIdAndUserIdAndRequestStatus(expert.getId(), user.getId(), RequestStatus.ACCEPTED);
+
+        if (!isMatched) {
+            throw new ScheduleHandler(ScheduleErrorStatus.NOT_MATCHED_CONSULTATION);
+        }
 
         Schedule schedule = Schedule.builder()
                 .expert(expert)
@@ -74,4 +83,6 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
 //            throw new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_ONLY_CAN_BE_TOUCHED_BY_EXPERT);
 //        }
 //    }
+
+
 }

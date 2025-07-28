@@ -13,4 +13,7 @@ public interface ConsultationRequestQueryService {
 
     ConsultationRequest getRequestById(Long consultRequestId);
 
+    List<ConsultationRequest> getAllRequestByUser(Long userId);
+
+    List<ConsultationRequest> getRequestByUser(Long userId, RequestStatus requestStatus);
 }

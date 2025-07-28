@@ -3,7 +3,7 @@ package com.my_medi.domain.proposal.entity;
 import com.my_medi.api.proposal.dto.AbnormalValueDto;
 import com.my_medi.api.proposal.dto.HealthInterestsDto;
 import com.my_medi.api.proposal.dto.HelpTopicDto;
-import com.my_medi.api.proposal.dto.ProposalDto;
+import com.my_medi.api.proposal.dto.ProposalRequestDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -58,13 +58,13 @@ public class Proposal extends BaseTimeEntity {
     @Column(name = "goal", nullable = false, length = 50)
     private String goal;
 
-    public void updateLifeDescriptionnGoal(ProposalDto proposalDto) {
-        this.lifeDescription = proposalDto.getLifeDescription();
-        this.goal = proposalDto.getGoal();
+    public void updateLifeDescriptionnGoal(ProposalRequestDto proposalRequestDto) {
+        this.lifeDescription = proposalRequestDto.getLifeDescription();
+        this.goal = proposalRequestDto.getGoal();
     }
 
-    public void updateHealthInterests(ProposalDto proposalDto) {
-        HealthInterestsDto hid = proposalDto.getHealthInterestsDto();
+    public void updateHealthInterests(ProposalRequestDto proposalRequestDto) {
+        HealthInterestsDto hid = proposalRequestDto.getHealthInterestsDto();
         this.weightManagement = hid.getWeightManagement();
         this.bloodSugarControl = hid.getBloodSugarControl();
         this.cholesterolControl = hid.getCholesterolControl();
@@ -76,8 +76,8 @@ public class Proposal extends BaseTimeEntity {
         this.stressAndLifestyle = hid.getStressAndLifestyle();
     }
 
-    public void updateAbnormalValue(ProposalDto proposalDto) {
-        AbnormalValueDto avd = proposalDto.getAbnormalValueDto();
+    public void updateAbnormalValue(ProposalRequestDto proposalRequestDto) {
+        AbnormalValueDto avd = proposalRequestDto.getAbnormalValueDto();
         this.fastingBloodSugar = avd.getFastingBloodSugar();
         this.cholesterolLdl = avd.getCholesterolLdl();
         this.bloodPressure = avd.getBloodPressure();
@@ -86,8 +86,8 @@ public class Proposal extends BaseTimeEntity {
         this.noHealthCheckResult = avd.getNoHealthCheckResult();
     }
 
-    public void updateHelpTopic(ProposalDto proposalDto) {
-        HelpTopicDto htd = proposalDto.getHelpTopicDto();
+    public void updateHelpTopic(ProposalRequestDto proposalRequestDto) {
+        HelpTopicDto htd = proposalRequestDto.getHelpTopicDto();
         this.dietitian = htd.getDietitian();
         this.healthManager = htd.getHealthManager();
         this.wellnessCoach = htd.getWellnessCoach();
