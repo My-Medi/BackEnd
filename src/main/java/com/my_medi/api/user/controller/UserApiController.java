@@ -34,8 +34,8 @@ public class UserApiController {
 
     @Operation(summary = "사용자 계정을 생성합니다.")
     @PostMapping
-    public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterUserDto registerUserDto) {
-        return ApiResponseDto.onSuccess(userCommandService.registerUser(registerUserDto));
+    public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterMemberDto registerMemberDto) {
+        return ApiResponseDto.onSuccess(userCommandService.registerUser(registerMemberDto));
     }
 
     //TODO 계정 수정

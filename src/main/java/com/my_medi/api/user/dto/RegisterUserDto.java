@@ -12,6 +12,4 @@ public class RegisterUserDto {
     private RegisterMemberDto member;
 
     // User 정보
-    private Float height;
-    private Float weight;
 }

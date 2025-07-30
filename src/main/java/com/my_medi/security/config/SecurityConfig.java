@@ -83,7 +83,7 @@ public class SecurityConfig {
     //[GET] 인증 없이 접근 허용할 경로 목록
     private String[] permitAllGetPaths() {
         return new String[]{
-                "/api/v1/tokens/login",
+
                 "/api/v1/test",
                 "/api/v1/test/health-checkup",
                 "/api/v1/examples/user",
@@ -94,6 +94,7 @@ public class SecurityConfig {
     //[POST] 인증 없이 접근 허용할 경로 목록
     private String[] permitAllPostPaths() {
         return new String[]{
+                "/api/v1/tokens/login",
                 "/api/v1/tokens/reissue",
                 "/api/v1/users",
                 "/api/v1/experts",

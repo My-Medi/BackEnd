@@ -66,6 +66,8 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     @Column(name = "login_id", unique = true)
     private String loginId;
 
+    private String password;
+
     //연락처
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
@@ -100,7 +102,7 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     }
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
