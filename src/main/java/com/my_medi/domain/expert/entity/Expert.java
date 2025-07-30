@@ -1,27 +1,24 @@
 package com.my_medi.domain.expert.entity;
 
 import com.my_medi.common.consts.StaticVariable;
+import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.member.entity.Member;
-import com.my_medi.domain.member.entity.Role;
-import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DiscriminatorValue(StaticVariable.EXPERT)
 public class Expert extends Member {
 
-    //자격증 이미지 entity 따로, 경력사항 엔티티 따로 나를 소개하는 대표문장 따로
     //전문분야(enum)
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -30,11 +27,13 @@ public class Expert extends Member {
     //소속 회사 기관명
     private String organizationName;
 
-    // 자격증 (이미지)
+    // 자격증 (이미지) TODO: 자격증도 entity 따로 만들기. id랑 url 2개 필드로..
     @Column(length = 1000)
     private String licenseFileUrl;
 
     // 경력사항(리스트)
+    @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Career> careers = new ArrayList<>();
 
     // 자기소개
     // 데이터베이스에 입력될 텍스트 크기를 길게 설정
@@ -42,8 +41,8 @@ public class Expert extends Member {
     private String introduction;
 
     // 나를 소개하는 대표 문장 한줄
-    //@Column
-    //private String
+    @Column
+    private String IntroSentence;
 
 
     public void modifyExpertInfo(UpdateExpertDto dto) {
@@ -53,8 +52,8 @@ public class Expert extends Member {
         //expert
         this.specialty = dto.getSpecialty();
         this.organizationName = dto.getOrganizationName();
-        this.licenseFileUrl = dto.getLicenseFileUrl();
         this.introduction = dto.getIntroduction();
+
     }
 
 }

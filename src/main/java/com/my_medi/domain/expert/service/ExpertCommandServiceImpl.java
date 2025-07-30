@@ -1,7 +1,10 @@
 package com.my_medi.domain.expert.service;
 
+import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.domain.career.repository.CareerRepository;
+import com.my_medi.domain.career.service.CareerCommandService;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.entity.Specialty;
@@ -15,17 +18,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
+    private final CareerCommandService careerCommandService;
 
     @Override
     public Long registerExpert(RegisterExpertDto registerExpertDto) {
 
-        //TODO [LATER] requestDto에 맞게 argument 변경해주기
         Expert expert = Expert.builder()
                 //member
                 .name(registerExpertDto.getMember().getName())
@@ -42,7 +46,11 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .licenseFileUrl(registerExpertDto.getLicenseFileUrl())
                 .introduction(registerExpertDto.getIntroduction())
                 .build();
-        return expertRepository.save(expert).getId();
+        expertRepository.save(expert); // ⭐ ID가 생겨야 FK 설정 가능
+
+        // ⬇️ Career 리스트 저장 (여기서 expert와 매핑)
+        careerCommandService.registerCareerList(expert.getId(), registerExpertDto.getCareers());
+        return expert.getId();
     }
 
 
