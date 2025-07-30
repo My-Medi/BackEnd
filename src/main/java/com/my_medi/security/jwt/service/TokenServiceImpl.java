@@ -121,6 +121,7 @@ public class TokenServiceImpl implements TokenService{
                 .refreshToken(refreshToken)
                 .accessTokenExpire(parseExpiration(accessToken))
                 .refreshTokenExpire(parseExpiration(refreshToken))
+                .role(authentication.getAuthorities().toString())
                 .build();
     }
 

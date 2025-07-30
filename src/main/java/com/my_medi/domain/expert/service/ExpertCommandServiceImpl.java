@@ -11,6 +11,7 @@ import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +22,11 @@ import java.util.UUID;
 @Service
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Long registerExpert(RegisterExpertDto registerExpertDto) {
 
-        //TODO [LATER] requestDto에 맞게 argument 변경해주기
         Expert expert = Expert.builder()
                 //member
                 .name(registerExpertDto.getMember().getName())
@@ -36,6 +37,8 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .phoneNumber(registerExpertDto.getMember().getPhoneNumber())
                 .profileImgUrl(registerExpertDto.getMember().getProfileImgUrl())
                 .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
+                .loginId(registerExpertDto.getMember().getLoginId())
+                .password(passwordEncoder.encode(registerExpertDto.getMember().getPassword()))
                 //Expert
                 .specialty(registerExpertDto.getSpecialty())
                 .organizationName(registerExpertDto.getOrganizationName())
