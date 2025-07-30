@@ -12,7 +12,8 @@ spring:
   ### JPA ###
   jpa:
     hibernate:
-      ddl-auto: update
+      # ddl-auto: update
+      ddl-auto: create
   ### SQL INIT for Batch ###
   sql:
     init:

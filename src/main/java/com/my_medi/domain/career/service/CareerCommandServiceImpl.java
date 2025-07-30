@@ -6,6 +6,7 @@ import com.my_medi.domain.career.repository.CareerRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CareerCommandServiceImpl  implements CareerCommandService {
 
     private final CareerRepository careerRepository;
