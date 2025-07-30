@@ -34,3 +34,8 @@ spring:
     job:
       enabled: true
     platform: mysql
+  ### redis ###
+  data:
+    redis:
+      host: localhost
+      port: 6379

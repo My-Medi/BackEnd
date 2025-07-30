@@ -1,6 +1,7 @@
 package com.my_medi.api.report.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.report.dto.ComparingReportResponseDto;
 import com.my_medi.api.report.dto.EditReportRequestDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
@@ -48,67 +49,13 @@ public class UserReportApiController {
                 .editHealthReportByRound(user, round, editReportRequestDto));
     }
 
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [비만/복부비만]")
-    @GetMapping("/obesity")
-    public ApiResponseDto<Object> comparingObesityPart(@AuthUser User user,
-                                                                  @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
 
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [고혈압]")
-    @GetMapping("/blood-pressure")
-    public ApiResponseDto<Object> comparingBloodPressurePart(@AuthUser User user,
-                                                             @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
-
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [빈혈]")
-    @GetMapping("/anemia")
-    public ApiResponseDto<Object> comparingAnemiaPart(@AuthUser User user,
-                                                      @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
-
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [당뇨병]")
-    @GetMapping("/diabetes")
-    public ApiResponseDto<Object> comparingDiabetesPart(@AuthUser User user,
-                                                        @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
-
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [이상지질혈증]")
-    @GetMapping("/dyslipidemia")
-    public ApiResponseDto<Object> comparingDyslipidemiaPart(@AuthUser User user,
-                                                            @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
-
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [신장질환]")
-    @GetMapping("/kidney-disease")
-    public ApiResponseDto<Object> comparingKidneyDiseasePart(@AuthUser User user,
-                                                             @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
-
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [간장질환]")
-    @GetMapping("/liver-disease")
-    public ApiResponseDto<Object> comparingLiverDiseasePart(@AuthUser User user,
-                                                            @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
-
-    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다. [요단백]")
-    @GetMapping("/proteinuria")
-    public ApiResponseDto<Object> comparingProteinuriaPart(@AuthUser User user,
-                                                           @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
-    }
 
     @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다.[전체]")
     @GetMapping("/comparing")
-    public ApiResponseDto<Object> comparingReport(@AuthUser User user,
-                                                  @RequestParam Integer round) {
-        return ApiResponseDto.onSuccess(null);
+    public ApiResponseDto<ComparingReportResponseDto> comparingReport(@AuthUser User user,
+                                                                      @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(reportQueryService.compareReport(user, round));
     }
 
 }

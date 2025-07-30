@@ -12,22 +12,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BloodTest {
-    private Double hemoglobin;
+    private Double hemoglobin;      //혈색소
     private Boolean anemia;
 
-    private Integer fastingGlucose;
+    private Integer fastingGlucose; //공복혈당
     private Boolean diabetes;
 
     private Integer totalCholesterol;
-    private Integer hdl;
-    private Integer triglyceride;
-    private Integer ldl;
-    private Boolean hyperlipidemia;
+    private Integer hdl;            //고밀도 콜레스트롤
+    private Integer triglyceride;   //중성지방
+    private Integer ldl;            //저밀도 콜레스트롤
+    private Boolean hyperlipidemia; //고지혈증
 
     private Double creatinine; // ex: 0.9
-    private Integer egfr;
+    private Integer egfr;       //신사과체여과율
 
     private Integer ast;
     private Integer alt;
-    private Integer gtp;
+    private Integer gtp;        //감마지티피
 }

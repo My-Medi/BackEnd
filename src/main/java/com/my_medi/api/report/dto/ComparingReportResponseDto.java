@@ -27,79 +27,89 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public class ComparingBmiDto{
+    public static class ComparingBmiDto{
         private Double bmi;
         private Double averageBmi;
         private Double percentageBmi;
+        private HealthStatus healthStatus;
     }
 
     @Data
     @Builder
-    public class ComparingWaistDto{
+    public static class ComparingWaistDto{
         private Double waist;
         private Double averageWaist;
         private Double percentageWaist;
+        private HealthStatus healthStatus;
     }
 
     @Data
     @Builder
-    public class ComparingSystolicBpDto{
+    public static class ComparingSystolicBpDto{
         private Integer systolicBp;
         private Double averageSystolicBp;
         private Double percentageSystolicBp;
+        private HealthStatus healthStatus;
     }
 
     @Data
     @Builder
-    public class ComparingDiastolicBpDto{
+    public static class ComparingDiastolicBpDto{
         private Integer diastolicBp;
         private Double averageDiastolicBp;
         private Double percentageDiastolicBp;
+        private HealthStatus healthStatus;
     }
     @Data
     @Builder
-    public class ComparingHemoglobinDto{
+    public static class ComparingHemoglobinDto{
         private Double hemoglobin;
         private Double averageHemoglobin;
         private Double percentageHemoglobin;
+        private HealthStatus healthStatus;
     }
     @Data
     @Builder
-    public class ComparingFastingBloodSugarDto{
+    public static class ComparingFastingBloodSugarDto{
         private Integer fastingBloodSugar;
         private Double averageFastingBloodSugar;
         private Double percentageFastingBloodSugar;
+        private HealthStatus healthStatus;
     }
 
     @Data
     @Builder
-    public class ComparingSerumCreatinineDto{
+    public static class ComparingSerumCreatinineDto{
         private Double serumCreatinine;
         @Builder.Default
         private Double averageSerumCreatinine = 0.8;
+        private HealthStatus healthStatus;
     }
 
     @Data
     @Builder
-    public class ComparingAstDto{
+    public static class ComparingAstDto{
         private Integer ast;
         private Double averageAst;
         private Double percentageAst;
+        private HealthStatus healthStatus;
     }
 
     @Data
     @Builder
-    public class ComparingAltDto{
+    public static class ComparingAltDto{
         private Integer alt;
         private Double averageAlt;
         private Double percentageAlt;
+        private HealthStatus healthStatus;
     }
     @Data
     @Builder
-    public class ComparingGammaGtpDto{
+    public static class ComparingGammaGtpDto{
         private Integer gammaGtp;
         private Double averageGammaGtp;
         private Double percentageGammaGtp;
+        private HealthStatus healthStatus;
     }
 
 
