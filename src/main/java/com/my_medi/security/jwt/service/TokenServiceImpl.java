@@ -9,11 +9,13 @@ import com.my_medi.domain.member.service.MemberQueryService;
 import com.my_medi.security.exception.JwtAuthenticationException;
 import com.my_medi.security.exception.SecurityErrorStatus;
 import com.my_medi.security.jwt.dto.JwtToken;
+import com.my_medi.security.jwt.dto.MemberLoginRequestDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.AuthenticationHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,6 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -34,23 +37,28 @@ import java.util.stream.Collectors;
 @Service
 public class TokenServiceImpl implements TokenService{
     private final Key key;      //security yml 파일 생성 후 app.jwt.secret에 값 넣어주기(보안을 위해 따로 연락주세요)
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisService redisService;
     private final MemberQueryService memberQueryService;
+    private final PasswordEncoder passwordEncoder;
 
     public TokenServiceImpl(@Value("${app.jwt.secret}") String key,
-                            AuthenticationManagerBuilder authenticationManagerBuilder,
                             RedisService redisService,
+                            PasswordEncoder passwordEncoder,
                             MemberQueryService memberQueryService) {
         byte[] keyBytes = Decoders.BASE64.decode(key);
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.redisService = redisService;
         this.memberQueryService = memberQueryService;
+        this.passwordEncoder = passwordEncoder;
     }
     @Override
-    public JwtToken login(String kakaoEmail) {
-        Member member = memberQueryService.getByKakaoEmail(kakaoEmail);
+    public JwtToken login(MemberLoginRequestDto memberLoginRequestDto) {
+        Member member = memberQueryService.getByLoginId(memberLoginRequestDto.getLoginId());
+
+        if (!passwordEncoder.matches(memberLoginRequestDto.getPassword(), member.getPassword())) {
+            //TODO security exception 아래와 같이 변경하기
+            throw JwtAuthenticationException.WRONG_PASSWORD;
+        }
         Authentication authentication = new UsernamePasswordAuthenticationToken(member, "",
                 member.getAuthorities());
         return generateToken(authentication);
