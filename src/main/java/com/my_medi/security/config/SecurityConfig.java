@@ -85,7 +85,7 @@ public class SecurityConfig {
         return new String[]{
                 "/api/v1/tokens/login",
                 "/api/v1/test",
-                "/api/v1/test/exceptions",
+                "/api/v1/test/health-checkup",
                 "/api/v1/examples/user",
                 "/api/v1/examples/global"
         };
