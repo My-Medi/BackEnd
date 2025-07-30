@@ -16,12 +16,5 @@ public class UserNotificationResponseDto {
         private Long userId;
         private String notificationContent;
         private Long sourceId;
-
-        public UserNotificationDto(UserNotification notification) {
-            this.id = notification.getId();
-            this.userId = notification.getUser().getId();
-            this.notificationContent = notification.getNotificationContent();
-            this.sourceId = notification.getSourceId();
-        }
     }
 }

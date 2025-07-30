@@ -18,8 +18,7 @@ public class ExpertNotificationQueryServiceImpl implements ExpertNotificationQue
 
     @Override
     public List<ExpertNotification> getNotificationByExpertId(Long expertId) {
-        // findByExpertId 대신에 findWithExpertByExpertId 사용 -> n+1 문제
-        return expertNotificationRepository.findWithExpertByExpertId(expertId);
+        return expertNotificationRepository.findByExpertId(expertId);
     }
 
     @Override

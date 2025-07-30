@@ -1,18 +1,13 @@
 package com.my_medi.domain.userNotification.service;
 
-import com.my_medi.common.exception.ErrorStatus;
-import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
-import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
-import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
-import com.my_medi.domain.schedule.entity.Schedule;
-import com.my_medi.domain.schedule.exception.ScheduleHandler;
-import com.my_medi.domain.schedule.repository.ScheduleRepository;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
+import com.my_medi.domain.userNotification.entity.NotificationMessage;
 import com.my_medi.domain.userNotification.entity.NotificationType;
 import com.my_medi.domain.userNotification.entity.UserNotification;
 import com.my_medi.domain.userNotification.repository.UserNotificationRepository;
+import com.my_medi.domain.userNotification.util.NotificationMessageFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserNotificationCommandServiceImpl implements UserNotificationCommandService {
     private final UserRepository userRepository;
-    private final ConsultationRequestRepository consultationRequestRepository;
-    private final ScheduleRepository scheduleRepository;
     private final UserNotificationRepository userNotificationRepository;
 
     @Override
@@ -31,12 +24,13 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
 
-        ConsultationRequest request = consultationRequestRepository.findById(consultationId)
-                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+        String content = NotificationMessageFactory.create(
+                NotificationMessage.MATCH_COMPLETE, "영양사 김민지"
+        );
 
         UserNotification userNotification = UserNotification.builder()
                 .user(user)
-                .notificationContent(request.getComment())
+                .notificationContent(content)
                 .sourceId(consultationId)
                 .notificationType(NotificationType.CONSULTATION_RESPONSE)
                 .build();
@@ -49,12 +43,13 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
 
-        Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> ScheduleHandler.NOT_FOUND);
+        String content = NotificationMessageFactory.create(
+                NotificationMessage.MATCH_COMPLETE, "영양사 김민지"
+        );
 
         UserNotification userNotification = UserNotification.builder()
                 .user(user)
-                .notificationContent(schedule.getDescription())
+                .notificationContent(content)
                 .sourceId(scheduleId)
                 .notificationType(NotificationType.SCHEDULE)
                 .build();

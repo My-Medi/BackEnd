@@ -16,12 +16,5 @@ public class ExpertNotificationResponseDto {
         private Long expertId;
         private String notificationContent;
         private Long sourceId;
-
-        public ExpertNotificationDto(ExpertNotification notification) {
-            this.id = notification.getId();
-            this.expertId = notification.getExpert().getId();
-            this.notificationContent = notification.getNotificationContent();
-            this.sourceId = notification.getSourceId();
-        }
     }
 }

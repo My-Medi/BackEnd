@@ -1,6 +1,5 @@
 package com.my_medi.domain.userNotification.service;
 
-import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.domain.userNotification.entity.UserNotification;
 import com.my_medi.domain.userNotification.exception.UserNotificationHandler;
 import com.my_medi.domain.userNotification.repository.UserNotificationRepository;
