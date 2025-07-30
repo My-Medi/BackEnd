@@ -54,7 +54,6 @@ public class TokenServiceImpl implements TokenService{
     @Override
     public JwtToken login(MemberLoginRequestDto memberLoginRequestDto) {
         Member member = memberQueryService.getByLoginId(memberLoginRequestDto.getLoginId());
-        log.info("password = {}", member.getPassword());
         if (!passwordEncoder.matches(memberLoginRequestDto.getPassword(), member.getPassword())) {
             //TODO security exception 아래와 같이 변경하기
             throw JwtAuthenticationException.WRONG_PASSWORD;
