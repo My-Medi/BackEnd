@@ -14,7 +14,7 @@ public class HealthMetricCalculator {
     }
 
     public static double calculateAverageBmi(List<HealthCheckup> checkups) {
-        return checkups.stream()
+        double result = checkups.stream()
                 .filter(h -> h.getHeight5cm() != null && h.getWeight5kg() != null)
                 .mapToDouble(h -> {
                     double heightCm = h.getHeight5cm() * 5 + 2.5; // 중심값 추정
@@ -24,15 +24,17 @@ public class HealthMetricCalculator {
                 })
                 .average()
                 .orElse(0.0);
+        return Math.round(result * 10) / 10.0;
     }
 
     public static double calculateAverage(List<HealthCheckup> checkups, Function<HealthCheckup, ? extends Number> extractor) {
-        return checkups.stream()
+        double result = checkups.stream()
                 .map(extractor)
                 .filter(Objects::nonNull)
                 .mapToDouble(Number::doubleValue)
                 .average()
                 .orElse(0.0);
+        return Math.round(result * 10) / 10.0;
     }
 
     public static double calculatePercentile(
@@ -54,7 +56,9 @@ public class HealthMetricCalculator {
                 .filter(v -> v < targetValue)
                 .count();
 
-        return (double) count / values.size() * 100.0;
+        double percentile = (double) count / values.size() * 100.0;
+
+        return Math.round(percentile * 10) / 10.0;
     }
 
 }
