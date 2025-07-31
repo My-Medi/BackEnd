@@ -1,6 +1,6 @@
 package com.my_medi.domain.career.service;
 
-import com.my_medi.domain.career.dto.CareerDto;
+import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.career.repository.CareerRepository;
 import com.my_medi.domain.expert.entity.Expert;
@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class CareerCommandServiceImpl  implements CareerCommandService {
+public class CareerCommandServiceImpl implements CareerCommandService {
 
     private final CareerRepository careerRepository;
     private final ExpertRepository expertRepository;
 
     //단건 등록
     @Override
-    public Long registerCareer(Long expertId, CareerDto dto) {
+    public Long registerCareer(Long expertId, CareerResponseDto dto) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         Career career = Career.builder()
@@ -39,7 +39,7 @@ public class CareerCommandServiceImpl  implements CareerCommandService {
 
     //여러건 등록
     @Override
-    public void registerCareerList(Long expertId, List<CareerDto> dtoList) {
+    public void registerCareerList(Long expertId, List<CareerResponseDto> dtoList) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
 
@@ -59,7 +59,7 @@ public class CareerCommandServiceImpl  implements CareerCommandService {
 
 
     @Override
-    public Long updateCareer(Long id, CareerDto dto) {
+    public Long updateCareer(Long id, CareerResponseDto dto) {
         Career career = careerRepository.findById(id)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         career.update(dto);

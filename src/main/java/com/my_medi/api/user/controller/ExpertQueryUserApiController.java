@@ -26,7 +26,7 @@ public class ExpertQueryUserApiController {
     private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
     @Operation(summary = "사용자 프로필 정보를 조회합니다.")
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/approved")
     public ApiResponseDto<UserResponseDto.UserProfileDto> getUserProfile(@AuthExpert Expert expert,
                                                                          @PathVariable Long userId) {
         // 전문가와 유저가 매칭된 상태인지 확인 (ACCEPTED) -> 유저 정보 조회 -> DTO로 변환해서 반환

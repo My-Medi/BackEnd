@@ -1,6 +1,6 @@
 package com.my_medi.api.expert.dto;
+import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
-import com.my_medi.domain.career.dto.CareerDto;
 import com.my_medi.domain.expert.entity.Specialty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +28,7 @@ public class RegisterExpertDto {
     private String introSentence;
 
     // 경력 리스트
-    private List<CareerDto> careers;       // 근무 이력 리스트
+    private List<CareerResponseDto> careers;       // 근무 이력 리스트
 
 
 }

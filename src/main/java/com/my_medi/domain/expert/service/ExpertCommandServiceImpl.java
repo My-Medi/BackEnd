@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
-    private final CareerCommandService careerCommandService;
+    private final CareerRepository careerRepository;
 
     @Override
     public Long registerExpert(RegisterExpertDto registerExpertDto) {
@@ -46,10 +46,15 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .licenseFileUrl(registerExpertDto.getLicenseFileUrl())
                 .introduction(registerExpertDto.getIntroduction())
                 .build();
-        expertRepository.save(expert); // ⭐ ID가 생겨야 FK 설정 가능
+        expertRepository.save(expert); // ID가 생겨야 FK 설정 가능
 
-        // ⬇️ Career 리스트 저장 (여기서 expert와 매핑)
-        careerCommandService.registerCareerList(expert.getId(), registerExpertDto.getCareers());
+        // 커리어 리스트 저장: dto -> entity 변환 후 저장
+        careerRepository.saveAll(
+                registerExpertDto.getCareers().stream()
+                        .map(careerDto -> CareerConverter.toEntity(careerDto, expert))
+                        .collect(Collectors.toList())
+        );
+
         return expert.getId();
     }
 
@@ -63,11 +68,10 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     }
 
     @Override
-    public Long deleteExpertAccount(Long expertId) {
+    public void deleteExpertAccount(Long expertId) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expertRepository.delete(expert); // TODO : hard delete이나 추후 soft delete 수정 예정
-        return expert.getId();
     }
 
 }

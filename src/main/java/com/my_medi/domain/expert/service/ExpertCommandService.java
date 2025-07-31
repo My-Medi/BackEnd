@@ -10,5 +10,5 @@ public interface ExpertCommandService {
 
     Long updateExpertInformation(Long expertId, UpdateExpertDto dto);
 
-    Long deleteExpertAccount(Long expertId);
+    void deleteExpertAccount(Long expertId);
 }

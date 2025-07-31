@@ -58,8 +58,9 @@ public class ExpertApiController {
 
     @Operation(summary = "전문가 본인의 계정을 삭제합니다.")
     @DeleteMapping
-    public ApiResponseDto<Long> deleteUser(@AuthExpert Expert expert) {
-        return ApiResponseDto.onSuccess(expertCommandService.deleteExpertAccount(expert.getId()));
+    public ApiResponseDto<Void> deleteUser(@AuthExpert Expert expert) {
+        expertCommandService.deleteExpertAccount(expert.getId());
+        return ApiResponseDto.onSuccess(null);
     }
 
 }

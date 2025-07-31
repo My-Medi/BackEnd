@@ -8,7 +8,6 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class CareerResponseDto {
-    private Long id;
     private String companyName;
     private String jobTitle;
     private LocalDate startDate;

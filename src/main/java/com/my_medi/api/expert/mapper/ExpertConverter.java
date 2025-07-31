@@ -1,8 +1,8 @@
 package com.my_medi.api.expert.mapper;
 
+import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
 import com.my_medi.api.user.dto.UserResponseDto;
-import com.my_medi.domain.career.dto.CareerDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
@@ -26,10 +26,10 @@ public class ExpertConverter {
                 .organizationName(expert.getOrganizationName())
                 .licenseFileUrl(expert.getLicenseFileUrl())
                 .introduction(expert.getIntroduction())
-                // ✅ 추가
+                // career 추가
                 .careers(
                         expert.getCareers().stream()
-                                .map(c -> CareerDto.builder()
+                                .map(c -> CareerResponseDto.builder()
                                         .companyName(c.getCompanyName())
                                         .jobTitle(c.getJobTitle())
                                         .startDate(c.getStartDate())

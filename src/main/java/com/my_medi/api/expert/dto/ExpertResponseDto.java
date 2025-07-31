@@ -1,7 +1,6 @@
 package com.my_medi.api.expert.dto;
 
-
-import com.my_medi.domain.career.dto.CareerDto;
+import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
@@ -14,6 +13,7 @@ import java.util.List;
 @Data
 @Builder
 public class ExpertResponseDto{
+
     @Data
     @Builder
     public static class ExpertProfileDto{
@@ -33,7 +33,7 @@ public class ExpertResponseDto{
         private String introduction;
 
         // 추가
-        private List<CareerDto> careers;
+        private List<CareerResponseDto> careers;
 
     }
 }

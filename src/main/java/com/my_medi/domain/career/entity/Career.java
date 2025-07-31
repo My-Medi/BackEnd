@@ -1,7 +1,7 @@
 package com.my_medi.domain.career.entity;
 
+import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.common.consts.StaticVariable;
-import com.my_medi.domain.career.dto.CareerDto;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.member.entity.Member;
@@ -20,7 +20,6 @@ import java.util.UUID;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-
 public class Career {
 
     @Id
@@ -39,7 +38,7 @@ public class Career {
     @JoinColumn(name = "expert_id")
     private Expert expert; // 1:N 관계 설정
 
-    public void update(CareerDto dto) {
+    public void update(CareerResponseDto dto) {
         this.companyName = dto.getCompanyName();
         this.jobTitle = dto.getJobTitle();
         this.startDate = dto.getStartDate();
