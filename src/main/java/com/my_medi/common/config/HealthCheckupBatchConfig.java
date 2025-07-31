@@ -27,7 +27,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.io.InputStream;
 
 @Slf4j
-@Profile("han")
+@Profile({"han", "deploy"})
 @Configuration
 @RequiredArgsConstructor
 @EnableBatchProcessing
