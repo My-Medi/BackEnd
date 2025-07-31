@@ -1,4 +1,13 @@
-spring:
+ spring:
   profiles:
     active:
       - ${ACTIVE_PROFILE}
+      - security
+      - gpt
+      - s3
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+

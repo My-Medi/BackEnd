@@ -1,0 +1,31 @@
+spring:
+  ### CONFIG ###
+  config:
+    activate:
+      on-profile: local
+  ### DATABASE ###
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  ### JPA ###
+  jpa:
+    hibernate:
+      ddl-auto: update
+  ### SQL INIT for Batch ###
+  sql:
+    init:
+      mode: never
+      schema-locations: classpath:db/schema-batch.sql
+  ### BATCH ###
+  batch:
+    jdbc:
+      initialize-schema: never
+    platform: mysql
+  ### redis ###
+  data:
+    redis:
+      host: localhost
+      port: 6379
+

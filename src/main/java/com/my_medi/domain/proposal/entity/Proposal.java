@@ -1,5 +1,9 @@
 package com.my_medi.domain.proposal.entity;
 
+import com.my_medi.api.proposal.dto.AbnormalValueDto;
+import com.my_medi.api.proposal.dto.HealthInterestsDto;
+import com.my_medi.api.proposal.dto.HelpTopicDto;
+import com.my_medi.api.proposal.dto.ProposalRequestDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -16,7 +20,7 @@ public class Proposal extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -53,4 +57,41 @@ public class Proposal extends BaseTimeEntity {
     // 5. 목표나 기대하는 변화가 있다면 적어주세요.
     @Column(name = "goal", nullable = false, length = 50)
     private String goal;
+
+    public void updateLifeDescriptionnGoal(ProposalRequestDto proposalRequestDto) {
+        this.lifeDescription = proposalRequestDto.getLifeDescription();
+        this.goal = proposalRequestDto.getGoal();
+    }
+
+    public void updateHealthInterests(ProposalRequestDto proposalRequestDto) {
+        HealthInterestsDto hid = proposalRequestDto.getHealthInterestsDto();
+        this.weightManagement = hid.getWeightManagement();
+        this.bloodSugarControl = hid.getBloodSugarControl();
+        this.cholesterolControl = hid.getCholesterolControl();
+        this.bloodPressureControl = hid.getBloodPressureControl();
+        this.liverFunctionCare = hid.getLiverFunctionCare();
+        this.sleepRecovery = hid.getSleepRecovery();
+        this.dietImprovement = hid.getDietImprovement();
+        this.exerciseRoutine = hid.getExerciseRoutine();
+        this.stressAndLifestyle = hid.getStressAndLifestyle();
+    }
+
+    public void updateAbnormalValue(ProposalRequestDto proposalRequestDto) {
+        AbnormalValueDto avd = proposalRequestDto.getAbnormalValueDto();
+        this.fastingBloodSugar = avd.getFastingBloodSugar();
+        this.cholesterolLdl = avd.getCholesterolLdl();
+        this.bloodPressure = avd.getBloodPressure();
+        this.liverEnzymes = avd.getLiverEnzymes();
+        this.bmiOrBodyFat = avd.getBmiOrBodyFat();
+        this.noHealthCheckResult = avd.getNoHealthCheckResult();
+    }
+
+    public void updateHelpTopic(ProposalRequestDto proposalRequestDto) {
+        HelpTopicDto htd = proposalRequestDto.getHelpTopicDto();
+        this.dietitian = htd.getDietitian();
+        this.healthManager = htd.getHealthManager();
+        this.wellnessCoach = htd.getWellnessCoach();
+        this.exerciseTherapist = htd.getExerciseTherapist();
+        this.recommendForMe = htd.getRecommendForMe();
+    }
 }

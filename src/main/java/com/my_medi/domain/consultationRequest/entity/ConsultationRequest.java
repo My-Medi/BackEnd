@@ -33,4 +33,16 @@ public class ConsultationRequest extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public void updateComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void reject() {
+        this.requestStatus = RequestStatus.REJECTED;
+    }
+
+    public void approve() {
+        this.requestStatus = RequestStatus.ACCEPTED;
+    }
 }

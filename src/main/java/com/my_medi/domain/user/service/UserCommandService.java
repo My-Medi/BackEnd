@@ -1,0 +1,15 @@
+package com.my_medi.domain.user.service;
+
+import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.api.user.dto.RegisterUserDto;
+import com.my_medi.domain.user.dto.UpdateUserDto;
+
+public interface UserCommandService {
+
+    Long registerUser(RegisterMemberDto registerMemberDto);
+
+    //TODO [Now] 변경할 값들 argument로 받아오기 : dto 직접 생성
+    Long updateUserInformation(Long userId, UpdateUserDto updateUserDto);
+
+    Long deleteUserAccount(Long userId);
+}

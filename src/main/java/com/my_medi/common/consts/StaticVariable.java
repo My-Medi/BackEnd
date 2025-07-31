@@ -8,5 +8,20 @@ public class StaticVariable {
     public static final String BEARER = "Bearer ";
     public static final String AUTHORIZATION = "Authorization";
     public static final String GRANT_TYPE = "authorization_code";
+
+    //JWT
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
+    public static final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 7; // 7일
+
+    //HealthReportData JSON 필드 키
+    public static final String CHECKUP_DATE = "checkupDate";
+    public static final String ROUND = "round";
+    public static final String MEASUREMENT = "measurement";
+    public static final String BLOOD_PRESSURE = "bloodPressure";
+    public static final String BLOOD_TEST = "bloodTest";
+    public static final String URINE_TEST = "urineTest";
+    public static final String IMAGING_TEST = "imagingTest";
+    public static final String INTERVIEW = "interview";
+    public static final String ADDITIONAL_TEST = "additionalTest";
 }
 

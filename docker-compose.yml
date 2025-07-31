@@ -1,0 +1,27 @@
+services:
+  ### MY-MEDI APP ###
+  application:
+    container_name: my-medi-service
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: "deploy, security, s3, gpt"
+      SPRING_DATA_REDIS_HOST: redis_medi
+      SPRING_DATA_REDIS_PORT: 6379
+
+    env_file: .env
+    networks:
+      - my-medi-net
+  ### REDIS ###
+  redis_medi:
+    image: redis
+    container_name: my-medi-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my-medi-net
+
+
+networks:
+  my-medi-net:

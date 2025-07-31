@@ -1,0 +1,30 @@
+package com.my_medi.api.report.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+public class ReportResponseDto {
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserReportDto {
+        private Long id;
+        private Long userId;
+
+        private LocalDate checkupDate;
+        private Integer round;
+
+        private MeasurementDto measurementDto;
+        private BloodPressureDto bloodPressureDto;
+        private BloodTestDto bloodTestDto;
+        private UrineTestDto urineTestDto;
+        private ImagingTestDto imagingTestDto;
+        private InterviewDto interviewDto;
+        private AdditionalTestDto additionalTestDto;
+    }
+}
