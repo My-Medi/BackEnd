@@ -1,7 +1,6 @@
 package com.my_medi.domain.user.service;
 import com.my_medi.api.member.dto.RegisterMemberDto;
-import com.my_medi.api.user.dto.RegisterUserDto;
-import com.my_medi.domain.expert.entity.Expert;
+
 import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
@@ -9,6 +8,7 @@ import com.my_medi.domain.user.repository.UserRepository;
 import com.my_medi.domain.user.exception.UserHandler;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,21 +19,22 @@ import java.util.UUID;
 public class UserCommandServiceImpl implements UserCommandService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Long registerUser(RegisterUserDto registerUserDto){
+    public Long registerUser(RegisterMemberDto registerMemberDto){
         //TODO [LATER] requestDto에 맞게 구현예정
         User user = User.builder()
-                .name(registerUserDto.getMember().getName())
-                .birthDate(registerUserDto.getMember().getBirthDate())
-                .gender(registerUserDto.getMember().getGender())
+                .name(registerMemberDto.getName())
+                .birthDate(registerMemberDto.getBirthDate())
+                .gender(registerMemberDto.getGender())
                 .username(UUID.randomUUID().toString())
-                .email(registerUserDto.getMember().getEmail())
-                .phoneNumber(registerUserDto.getMember().getPhoneNumber())
-                .profileImgUrl(registerUserDto.getMember().getProfileImgUrl())
+                .email(registerMemberDto.getEmail())
+                .phoneNumber(registerMemberDto.getPhoneNumber())
+                .profileImgUrl(registerMemberDto.getProfileImgUrl())
                 .role(Role.USER)
-                .height(registerUserDto.getHeight())
-                .weight(registerUserDto.getWeight())
+                .loginId(registerMemberDto.getLoginId())
+                .password(passwordEncoder.encode(registerMemberDto.getPassword()))
                 .build();
         return userRepository.save(user).getId();
     }

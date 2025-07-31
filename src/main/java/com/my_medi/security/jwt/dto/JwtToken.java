@@ -1,5 +1,6 @@
 package com.my_medi.security.jwt.dto;
 
+import com.my_medi.domain.member.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class JwtToken {
     private String refreshToken;
     private Date accessTokenExpire;
     private Date refreshTokenExpire;
+    private String role;
 }

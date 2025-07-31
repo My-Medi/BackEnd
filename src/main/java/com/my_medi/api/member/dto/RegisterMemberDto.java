@@ -17,6 +17,8 @@ public class RegisterMemberDto {
     private String email;
     private String phoneNumber;
     private String profileImgUrl;
+    private String loginId;
+    private String password;
 
 
 }

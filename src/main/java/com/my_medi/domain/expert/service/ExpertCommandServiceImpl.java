@@ -14,6 +14,7 @@ import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
+    private final PasswordEncoder passwordEncoder;
     private final CareerRepository careerRepository;
 
     @Override
@@ -40,6 +42,8 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .phoneNumber(registerExpertDto.getMember().getPhoneNumber())
                 .profileImgUrl(registerExpertDto.getMember().getProfileImgUrl())
                 .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
+                .loginId(registerExpertDto.getMember().getLoginId())
+                .password(passwordEncoder.encode(registerExpertDto.getMember().getPassword()))
                 //Expert
                 .specialty(registerExpertDto.getSpecialty())
                 .organizationName(registerExpertDto.getOrganizationName())
