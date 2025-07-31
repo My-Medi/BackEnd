@@ -21,11 +21,9 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Career {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 혹은 AUTO
     private Long id;
-
     // 회사/기관명
     private String companyName;
     // 근무기간
