@@ -20,7 +20,7 @@ public class TokenApiController {
 
     private final TokenService tokenService;
 
-    @Operation(summary = "[TEST용] 이메일로 JWT 토큰 발급")
+    @Operation(summary = "이메일로 JWT 토큰 발급")
     @PostMapping("/login")
     public ApiResponseDto<JwtToken> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
         return ApiResponseDto.onSuccess(tokenService.login(memberLoginRequestDto));

@@ -24,7 +24,7 @@ public class ImageApiController {
 
     private final AwsS3Service awsS3Service;
 
-    @Operation(summary = "이미지 요청 🔑", description = "이미지 파일들을 로컬 환경에서 불러와 s3에 업로드합니다." +
+    @Operation(summary = "이미지 요청", description = "이미지 파일들을 로컬 환경에서 불러와 s3에 업로드합니다." +
             "s3저장된 이미지 url을 반환합니다.")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponseDto<List<String>> createPromotion(

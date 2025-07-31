@@ -23,3 +23,9 @@ spring:
     jdbc:
       initialize-schema: always
     platform: mysql
+
+  ### redis ###
+  data:
+    redis:
+      host: redis
+      port: 6379

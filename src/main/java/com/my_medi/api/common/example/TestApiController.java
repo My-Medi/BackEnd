@@ -26,7 +26,7 @@ public class TestApiController {
         return dto;
     }
 
-    @GetMapping("/health-checkup")
+    @GetMapping("/health-check")
     public ApiResponseDto<String> healthCheckup() {
         return ApiResponseDto.onSuccess(HttpStatus.OK.toString());
     }

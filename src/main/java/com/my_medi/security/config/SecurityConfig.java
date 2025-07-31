@@ -85,7 +85,7 @@ public class SecurityConfig {
         return new String[]{
 
                 "/api/v1/test",
-                "/api/v1/test/health-checkup",
+                "/api/v1/test/health-check",
                 "/api/v1/examples/user",
                 "/api/v1/examples/global"
         };
