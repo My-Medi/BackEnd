@@ -47,10 +47,11 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     @Override
-    public void deleteUserAccount(Long userId) {
+    public Long deleteUserAccount(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
-        userRepository.delete(user); // Hard delete
+        userRepository.delete(user); // TODO : Hard delete이나 추후 soft로 변경예정
+        return user.getId();
     }
 
 }

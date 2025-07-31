@@ -1,5 +1,6 @@
 package com.my_medi.api.expert.dto;
 
+import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
@@ -7,10 +8,12 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
 public class ExpertResponseDto{
+
     @Data
     @Builder
     public static class ExpertProfileDto{
@@ -28,6 +31,9 @@ public class ExpertResponseDto{
         private String organizationName;
         private String licenseFileUrl;
         private String introduction;
+
+        // 추가
+        private List<CareerRequestDto> careers;
 
     }
 }

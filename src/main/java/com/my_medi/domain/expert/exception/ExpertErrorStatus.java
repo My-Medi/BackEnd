@@ -18,7 +18,8 @@ public enum ExpertErrorStatus implements BaseErrorCode {
 
     // entity EXPERT (4100-4149)
     EXPERT_NOT_FOUND(NOT_FOUND, 4100, "전문가 정보를 찾을 수 없습니다."),
-    EXPERT_EMAIL_NOT_FOUND(NOT_FOUND, 4101, "전문가 이메일 정보를 찾을 수 없습니다.");
+    EXPERT_EMAIL_NOT_FOUND(NOT_FOUND, 4101, "전문가 이메일 정보를 찾을 수 없습니다."),
+    EXPERT_CARRER_NOT_FOUND(NOT_FOUND, 4102, "전문가 커리어 정보를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;

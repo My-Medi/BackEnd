@@ -1,6 +1,7 @@
 package com.my_medi.api.expert.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidator;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
 import com.my_medi.api.expert.mapper.ExpertConverter;
 import com.my_medi.common.annotation.AuthUser;
@@ -22,20 +23,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserQueryExpertApiController {
 
     private final ExpertQueryService expertQueryService;
+    private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
-    @Operation(summary = "매칭된 전문가 프로필 정보를 조회합니다.")
+    @Operation(summary = "전문가 프로필 정보를 전체 조회합니다.")
     @GetMapping("/experts/{expertId}")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getExpertProfile(@AuthUser User user,
                                                                                @PathVariable Long expertId) {
-        //TODO user validation(전문가 프로필 조회 접근 권한 확인)
-        /**
-         * 권장 방법 : 새로운 service 클래스를 api package에서 생성
-         * 해당 서비스 내에서 user와 expert를 조회하고 consultation approved 임을 확인
-         * return : ExpertProfileDto
-         */
+        // 전문가 엔티티 조회 -> 유저와 전문가 매칭 확인 -> DTO 변환 후 반환
         Expert expert = expertQueryService.getExpertById(expertId);
-        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
+
+        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), user.getId());
+
+        ExpertResponseDto.ExpertProfileDto result = ExpertConverter.toExpertProfileDto(expert);
+
+        return ApiResponseDto.onSuccess(result);
     }
 
-    // TODO 매칭된 전문가 정보 목록 조회하기
+
 }

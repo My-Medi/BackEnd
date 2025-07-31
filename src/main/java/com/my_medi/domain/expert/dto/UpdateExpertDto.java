@@ -24,7 +24,6 @@ public class UpdateExpertDto {
     // Expert 전용 필드
     private Specialty specialty;
     private String organizationName;
-    private String licenseFileUrl;
     private String introduction;
 }
 
