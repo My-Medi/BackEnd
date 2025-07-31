@@ -2,10 +2,7 @@ package com.my_medi.domain.notification.entity;
 
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -34,6 +31,7 @@ public class UserNotification {
     @Column(name = "notification_type", nullable = false)
     private NotificationType notificationType;
 
+    @Builder.Default
     @Column(nullable = false)
     private Boolean isRead = false;
 }
