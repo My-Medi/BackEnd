@@ -9,6 +9,11 @@ import java.util.function.Function;
 public class HealthMetricCalculator {
 
     public static double calculateBmi(double weightKg, double heightCm) {
+        if (heightCm <= 0) {
+            //TODO exception
+            throw new IllegalArgumentException("Height must be positive");
+        }
+
         double heightM = heightCm / 100.0;
         return weightKg / (heightM * heightM);
     }
@@ -20,7 +25,7 @@ public class HealthMetricCalculator {
                     double heightCm = h.getHeight5cm() * 5 + 2.5; // 중심값 추정
                     double weightKg = h.getWeight5kg() * 5 + 2.5; // 중심값 추정
                     double heightM = heightCm / 100.0;
-                    return weightKg / (heightM * heightM);
+                    return calculateBmi(weightKg, heightM);
                 })
                 .average()
                 .orElse(0.0);
