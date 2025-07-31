@@ -36,10 +36,15 @@ public class UserConsultationApiController {
                 .requestConsultationToExpert(user, expertId, comment));
     }
 
-    @Operation(summary = "본인이 요청한 모든 상담 요청 목록을 조회합니다.")
-    @GetMapping("/all")
-    public ApiResponseDto<List<UserConsultationDto>> getAllMyConsultations(@AuthUser User user) {
-        List<ConsultationRequest> requests = consultationRequestQueryService.getAllRequestByUser(user.getId());
+    @Operation(summary = "본인이 요청한 상담 목록을 조회합니다.")
+    @GetMapping
+    public ApiResponseDto<List<UserConsultationDto>> getMyConsultations(
+            @AuthUser User user,
+            @RequestParam(required = false) RequestStatus status
+    ) {
+        List<ConsultationRequest> requests = (status == null) ?
+                consultationRequestQueryService.getAllRequestByUser(user.getId()) :
+                consultationRequestQueryService.getRequestByUser(user.getId(), status);
 
         List<UserConsultationDto> dtoList = requests.stream()
                 .map(UserConsultationConvert::toDto)
@@ -48,18 +53,6 @@ public class UserConsultationApiController {
         return ApiResponseDto.onSuccess(dtoList);
     }
 
-    @Operation(summary = "본인과 매칭된 상담 목록을 조회합니다. (status = ACCEPTED)")
-    @GetMapping("/accepted")
-    public ApiResponseDto<List<UserConsultationDto>> getMatchedConsultations(@AuthUser User user) {
-        List<ConsultationRequest> acceptedRequests =
-                consultationRequestQueryService.getRequestByUser(user.getId(), RequestStatus.ACCEPTED);
-
-        List<UserConsultationDto> dtoList = acceptedRequests.stream()
-                .map(UserConsultationConvert::toDto)
-                .toList();
-
-        return ApiResponseDto.onSuccess(dtoList);
-    }
 
 
     @Operation(summary = "본인이 요청한 상담을 취소합니다.")

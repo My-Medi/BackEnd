@@ -1,5 +1,4 @@
-package com.my_medi.domain.schedule.exception;
-
+package com.my_medi.infra.s3.exception;
 
 import com.my_medi.common.annotation.ExplainError;
 import com.my_medi.common.exception.BaseErrorCode;
@@ -13,20 +12,12 @@ import java.util.Objects;
 
 @Getter
 @AllArgsConstructor
-public enum ScheduleErrorStatus implements BaseErrorCode {
+public enum ImageErrorStatus implements BaseErrorCode {
 
-    // entity SCHEDULE (4100-4149)
-    SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, 4100, "일정이 존재하지 않습니다."),
+    IMAGE_REQUEST_IS_EMPTY(HttpStatus.BAD_REQUEST, 4400, "이미지 요청이 비어있습니다"),
+    IMAGE_FORM_IS_WRONG(HttpStatus.BAD_REQUEST, 4401, "잘못된 형식의 파일이 요청되었습니다."),
+    IMAGE_FILE_UPLOAD_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, 4402, "이미지 파일 업로드가 실패하였습니다.");
 
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 4101, "사용자를 찾을 수 없습니다."),
-
-    EXPERT_NOT_FOUND(HttpStatus.NOT_FOUND, 4102, "전문가를 찾을 수 없습니다."),
-
-    SCHEDULE_ONLY_CAN_BE_TOUCHED_BY_EXPERT(HttpStatus.FORBIDDEN, 4103, "해당 일정은 해당 전문가만 수정 또는 삭제할 수 있습니다."),
-
-    NOT_MATCHED_CONSULTATION(HttpStatus.BAD_REQUEST, 4104, "전문가와 사용자가 매칭된 상담 상태가 아닙니다."),
-
-    ;
 
     private final HttpStatus httpStatus;
     private final Integer code;
