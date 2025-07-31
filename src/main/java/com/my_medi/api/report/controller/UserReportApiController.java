@@ -1,6 +1,7 @@
 package com.my_medi.api.report.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.report.dto.ComparingReportResponseDto;
 import com.my_medi.api.report.dto.EditReportRequestDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
@@ -52,6 +53,14 @@ public class UserReportApiController {
                                                @RequestBody EditReportRequestDto editReportRequestDto) {
         return ApiResponseDto.onSuccess(reportCommandService
                 .editHealthReportByRound(user, round, editReportRequestDto));
+    }
+
+
+    @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다.[전체]")
+    @GetMapping("/comparing")
+    public ApiResponseDto<ComparingReportResponseDto> comparingReport(@AuthUser User user,
+                                                                      @RequestParam Integer round) {
+        return ApiResponseDto.onSuccess(reportQueryService.compareReport(user, round));
     }
 
     @Operation(summary = "GPT API를 사용하여 건강검진 이미지를 원하는 데이터대로 추출합니다.")

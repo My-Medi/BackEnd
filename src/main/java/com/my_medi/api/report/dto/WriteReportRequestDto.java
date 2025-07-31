@@ -12,8 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WriteReportRequestDto {
-    private Long userId;
-    private Integer round;
+
     private LocalDate checkupDate;
     private MeasurementDto measurementDto;
     private BloodPressureDto bloodPressureDto;

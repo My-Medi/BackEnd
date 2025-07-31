@@ -1,0 +1,10 @@
+package com.my_medi.domain.career.repository;
+
+
+import com.my_medi.domain.career.entity.Career;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+public interface CareerRepository extends JpaRepository<Career, Long> {
+}
+

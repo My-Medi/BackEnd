@@ -1,7 +1,10 @@
 package com.my_medi.domain.expert.service;
 
+import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.domain.career.repository.CareerRepository;
+import com.my_medi.domain.career.service.CareerCommandService;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.entity.Specialty;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -23,6 +27,7 @@ import java.util.UUID;
 public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CareerRepository careerRepository;
 
     @Override
     public Long registerExpert(RegisterExpertDto registerExpertDto) {
@@ -45,7 +50,16 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .licenseFileUrl(registerExpertDto.getLicenseFileUrl())
                 .introduction(registerExpertDto.getIntroduction())
                 .build();
-        return expertRepository.save(expert).getId();
+        expertRepository.save(expert); // ID가 생겨야 FK 설정 가능
+
+        // 커리어 리스트 저장: dto -> entity 변환 후 저장
+        careerRepository.saveAll(
+                registerExpertDto.getCareers().stream()
+                        .map(careerDto -> CareerConverter.toEntity(careerDto, expert))
+                        .collect(Collectors.toList())
+        );
+
+        return expert.getId();
     }
 
 
@@ -61,7 +75,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     public void deleteExpertAccount(Long expertId) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-        expertRepository.delete(expert); // hard delete
+        expertRepository.delete(expert); // TODO : hard delete이나 추후 soft delete 수정 예정
     }
 
 }
