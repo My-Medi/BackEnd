@@ -2,8 +2,10 @@ package com.my_medi.api.schedule.service;
 
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.notification.entity.NotificationMessage;
+import com.my_medi.domain.notification.entity.NotificationType;
 import com.my_medi.domain.schedule.service.ScheduleCommandService;
-import com.my_medi.domain.userNotification.service.UserNotificationCommandService;
+import com.my_medi.domain.notification.service.UserNotificationCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,10 @@ public class ScheduleUseCase {
         Long scheduleId = scheduleCommandService
                 .registerScheduleToUser(expert.getId(), userId, registerScheduleDto);
 
-        userNotificationCommandService.sendScheduleNotificationToUser(userId, scheduleId);
+        String notificationComment = NotificationMessage.SCHEDULE_REGISTERED.format(expert.getName());
+
+        userNotificationCommandService
+                .sendNotificationToUser(userId, scheduleId, notificationComment, NotificationType.SCHEDULE);
 
         return scheduleId;
     }

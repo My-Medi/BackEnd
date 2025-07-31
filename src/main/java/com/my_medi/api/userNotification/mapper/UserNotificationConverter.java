@@ -1,7 +1,7 @@
 package com.my_medi.api.userNotification.mapper;
 
 import com.my_medi.api.userNotification.dto.UserNotificationResponseDto.*;
-import com.my_medi.domain.userNotification.entity.UserNotification;
+import com.my_medi.domain.notification.entity.UserNotification;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +13,7 @@ public class UserNotificationConverter {
         dto.setUserId(userNotification.getUser().getId());
         dto.setNotificationContent(userNotification.getNotificationContent());
         dto.setSourceId(userNotification.getSourceId());
+        dto.setIsRead(userNotification.getIsRead());
         return dto;
     }
 

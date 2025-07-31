@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Measurement {
-    private Integer height; // cm
-    private Integer weight; // kg
+    private Double height; // cm
+    private Double weight; // kg
     private Double bmi;
     @Enumerated(EnumType.STRING)
     private BmiCategory bmiCategory;
