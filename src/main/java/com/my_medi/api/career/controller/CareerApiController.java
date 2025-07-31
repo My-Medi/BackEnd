@@ -1,6 +1,6 @@
 package com.my_medi.api.career.controller;
 
-import com.my_medi.api.career.dto.CareerResponseDto;
+import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.career.service.CareerCommandService;
@@ -21,7 +21,7 @@ public class CareerApiController {
     @Operation(summary = "전문가 자신의 경력을 등록합니다.")
     @PostMapping
     public ApiResponseDto<Long> registerCareer(@AuthExpert Expert expert,
-                                               @RequestBody CareerResponseDto dto) {
+                                               @RequestBody CareerRequestDto dto) {
         Long id = careerCommandService.registerCareer(expert.getId(), dto);
         return ApiResponseDto.onSuccess(id);
     }
@@ -29,7 +29,7 @@ public class CareerApiController {
     @Operation(summary = "전문가 자신의 경력을 수정합니다.")
     @PatchMapping("/{careerId}")
     public ApiResponseDto<Long> updateCareer(@AuthExpert Expert expert, @PathVariable Long careerId,
-                                             @RequestBody CareerResponseDto dto) {
+                                             @RequestBody CareerRequestDto dto) {
         Long id = careerCommandService.updateCareer(careerId, dto);
         return ApiResponseDto.onSuccess(id);
     }

@@ -1,19 +1,12 @@
 package com.my_medi.domain.career.entity;
 
-import com.my_medi.api.career.dto.CareerResponseDto;
-import com.my_medi.common.consts.StaticVariable;
-import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.member.entity.Member;
-import com.my_medi.domain.member.entity.Role;
-import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -36,7 +29,7 @@ public class Career {
     @JoinColumn(name = "expert_id")
     private Expert expert; // 1:N 관계 설정
 
-    public void update(CareerResponseDto dto) {
+    public void update(CareerRequestDto dto) {
         this.companyName = dto.getCompanyName();
         this.jobTitle = dto.getJobTitle();
         this.startDate = dto.getStartDate();
