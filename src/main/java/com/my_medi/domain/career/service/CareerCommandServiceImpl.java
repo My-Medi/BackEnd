@@ -62,7 +62,7 @@ public class CareerCommandServiceImpl  implements CareerCommandService {
     public Long updateCareer(Long id, CareerDto dto) {
         Career career = careerRepository.findById(id)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-        career.update(dto); // 엔티티에 update 메서드 필요
+        career.update(dto);
         return career.getId();
     }
 
