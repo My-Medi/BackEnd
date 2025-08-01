@@ -6,10 +6,12 @@ import com.my_medi.api.schedule.dto.ScheduleResponseDto;
 import com.my_medi.api.schedule.mapper.ScheduleMapper;
 import com.my_medi.api.schedule.service.ScheduleUseCase;
 import com.my_medi.common.annotation.AuthExpert;
+import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.schedule.entity.Schedule;
 import com.my_medi.domain.schedule.service.ScheduleCommandService;
 import com.my_medi.domain.schedule.service.ScheduleQueryService;
+import com.my_medi.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +40,14 @@ public class ExpertScheduleApiController {
                 .registScheduleAndSendNotificationToUser(expert, userId, registerScheduleDto));
     }
 
-    //TODO 월 단위로 조회 가능하도록 수정
-    @Operation(summary = "전문가가 본인 스케줄을 조회합니다.")
+    @Operation(summary = "전문가가 본인 스케줄을 월 단위로 조회합니다.")
     @GetMapping
-    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(@AuthExpert Expert expert) {
-        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedules(expert.getId());
+    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getMonthlySchedule(
+            @AuthExpert Expert expert,
+            @RequestParam int year,
+            @RequestParam int month) {
+
+        List<Schedule> expertSchedules = scheduleQueryService.getExpertSchedulesByMonth(expert.getId(), year, month);
         return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(expertSchedules));
     }
 
@@ -53,6 +58,21 @@ public class ExpertScheduleApiController {
             @PathVariable Long scheduleId) {
         scheduleCommandService.removeSchedule(expert.getId(), scheduleId);
         return ApiResponseDto.onSuccess(scheduleId);
+    }
+
+    @Operation(summary = "전문가의 가장 임박한 3개의 스케줄을 조회합니다.")
+    @GetMapping("/upcoming")
+    public ApiResponseDto<List<ScheduleResponseDto.ScheduleSummaryDto>> getUpcomingSchedules(
+            @AuthExpert Expert expert) {
+
+        List<Schedule> upcomingSchedules = scheduleQueryService.getUpcomingSchedulesForExpert(expert.getId());
+
+        List<ScheduleResponseDto.ScheduleSummaryDto> dtoList =
+                upcomingSchedules.stream()
+                        .map(ScheduleMapper::toScheduleSummaryDto)
+                        .toList();
+
+        return ApiResponseDto.onSuccess(dtoList);
     }
 
 }

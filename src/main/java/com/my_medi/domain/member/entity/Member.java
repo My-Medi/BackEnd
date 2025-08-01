@@ -60,8 +60,13 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
 
     //이메일
     // TODO: email, password : 검증 어노테이션, presentation(web 혹은 api) 레이어에 좀 더 적합하므로 추후 수정
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "login_id", unique = true)
+    private String loginId;
+
+    private String password;
 
     //연락처
     @Column(name = "phone_number", nullable = false)
@@ -97,7 +102,7 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     }
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override

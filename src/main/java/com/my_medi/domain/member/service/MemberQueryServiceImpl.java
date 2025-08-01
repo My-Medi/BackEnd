@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberQueryServiceImpl implements MemberQueryService{
     private final MemberRepository memberRepository;
 
+    //TODO member handler 새로 생성하기
     @Override
     public Member getMemberByUsername(String username) {
         return memberRepository.findByUsername(username)
@@ -25,6 +26,12 @@ public class MemberQueryServiceImpl implements MemberQueryService{
     public Member getByKakaoEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+    }
+
+    @Override
+    public Member getByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId)
+                .orElseThrow(()->ExpertHandler.NOT_FOUND);
     }
 }
 

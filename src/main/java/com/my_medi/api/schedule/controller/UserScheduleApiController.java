@@ -25,14 +25,30 @@ public class UserScheduleApiController {
 
     private final ScheduleQueryService scheduleQueryService;
 
-
-    //TODO 월 단위로 조회 가능하도록 수정
-    @Operation(summary = "사용자가 본인 스케줄을 조회합니다.")
+    @Operation(summary = "사용자가 본인 스케줄을 월 단위로 조회합니다.")
     @GetMapping
-    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getAllSchedule(@AuthUser User user) {
-        List<Schedule> userSchedules = scheduleQueryService.getUserSchedules(user.getId());
+    public ApiResponseDto<ScheduleResponseDto.ScheduleListDto> getMonthlySchedule(
+            @AuthUser User user,
+            @RequestParam int year,
+            @RequestParam int month) {
+
+        List<Schedule> userSchedules = scheduleQueryService.getUserSchedulesByMonth(user.getId(), year, month);
         return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(userSchedules));
     }
 
-    //TODO 대표 스케줄 3개 조회(상세 내용)
+    @Operation(summary = "사용자의 가장 임박한 3개의 스케줄을 조회합니다.")
+    @GetMapping("/upcoming")
+    public ApiResponseDto<List<ScheduleResponseDto.ScheduleSummaryDto>> getUpcomingSchedules(
+            @AuthUser User user) {
+
+        List<Schedule> upcomingSchedules = scheduleQueryService.getUpcomingSchedulesForUser(user.getId());
+
+        List<ScheduleResponseDto.ScheduleSummaryDto> dtoList =
+                upcomingSchedules.stream()
+                        .map(ScheduleMapper::toScheduleSummaryDto)
+                        .toList();
+
+        return ApiResponseDto.onSuccess(dtoList);
+    }
+
 }

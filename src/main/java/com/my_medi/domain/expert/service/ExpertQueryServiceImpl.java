@@ -51,5 +51,6 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
     public boolean existsByEmail(String email) {
         return expertRepository.existsByEmail(email);
     }
+
 }
 

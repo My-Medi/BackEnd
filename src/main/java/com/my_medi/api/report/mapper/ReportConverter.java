@@ -1,8 +1,18 @@
 package com.my_medi.api.report.mapper;
 
+import com.my_medi.api.report.dto.ComparingReportResponseDto.*;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.dto.*;
+import com.my_medi.common.util.BirthDateUtil;
+import com.my_medi.common.util.HealthMetricCalculator;
+import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.report.entity.*;
+
+import java.util.List;
+import java.util.function.Function;
+
+import static com.my_medi.common.util.HealthMetricCalculator.calculateAverage;
+import static com.my_medi.common.util.HealthMetricCalculator.calculatePercentile;
 
 public class ReportConverter {
 
@@ -171,6 +181,70 @@ public class ReportConverter {
     public static AdditionalTest toAdditionalTest(AdditionalTestDto additionalTestDto) {
         return AdditionalTest.builder()
                 .needsFurtherTest(additionalTestDto.getNeedsFurtherTest())
+                .build();
+    }
+
+    public static ComparingReportResponseDto toComparingReportResponseDto(List<HealthCheckup> healthCheckupList, Report report) {
+        int ageGroup10Yr = BirthDateUtil.getAge(report.getUser().getBirthDate());
+        Function<HealthCheckup, Double> bmiExtractor = h -> {
+            if (h.getHeight5cm() == null || h.getWeight5kg() == null) return null;
+            double heightCm = h.getHeight5cm() * 5 + 2.5;
+            double weightKg = h.getWeight5kg() * 5 + 2.5;
+            double heightM = heightCm / 100.0;
+            return weightKg / (heightM * heightM);
+        };
+        return ComparingReportResponseDto.builder()
+                .totalDataSize(healthCheckupList.size())
+                .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
+                .comparingBmiDto(ComparingBmiDto.builder()
+                        .bmi(report.getMeasurement().getBmi())
+                        .averageBmi(HealthMetricCalculator.calculateAverageBmi(healthCheckupList))
+                        .percentageBmi(calculatePercentile(healthCheckupList, report.getMeasurement().getBmi(), bmiExtractor))
+                        .build())
+                .comparingWaistDto(ComparingWaistDto.builder()
+                        .waist(report.getMeasurement().getWaist())
+                        .averageWaist(calculateAverage(healthCheckupList, HealthCheckup::getWaistCm))
+                        .percentageWaist(calculatePercentile(healthCheckupList, report.getMeasurement().getWaist(), HealthCheckup::getWaistCm))
+                        .build())
+                .comparingSystolicBpDto(ComparingSystolicBpDto.builder()
+                        .systolicBp(report.getBloodPressure().getSystolic())
+                        .averageSystolicBp(calculateAverage(healthCheckupList, HealthCheckup::getSystolicBp))
+                        .percentageSystolicBp(calculatePercentile(healthCheckupList, report.getBloodPressure().getSystolic(), HealthCheckup::getSystolicBp))
+                        .build())
+                .comparingDiastolicBpDto(ComparingDiastolicBpDto.builder()
+                        .diastolicBp(report.getBloodPressure().getDiastolic())
+                        .averageDiastolicBp(calculateAverage(healthCheckupList, HealthCheckup::getDiastolicBp))
+                        .percentageDiastolicBp(calculatePercentile(healthCheckupList, report.getBloodPressure().getDiastolic(), HealthCheckup::getDiastolicBp))
+                        .build())
+                .comparingHemoglobinDto(ComparingHemoglobinDto.builder()
+                        .hemoglobin(report.getBloodTest().getHemoglobin())
+                        .averageHemoglobin(calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin))
+                        .percentageHemoglobin(calculatePercentile(healthCheckupList, report.getBloodTest().getHemoglobin(), HealthCheckup::getHemoglobin))
+                        .build())
+                .comparingFastingBloodSugarDto(ComparingFastingBloodSugarDto.builder()
+                        .fastingBloodSugar(report.getBloodTest().getFastingGlucose())
+                        .averageFastingBloodSugar(calculateAverage(healthCheckupList, HealthCheckup::getFastingBloodSugar))
+                        .percentageFastingBloodSugar(calculatePercentile(healthCheckupList, report.getBloodTest().getFastingGlucose(), HealthCheckup::getFastingBloodSugar))
+                        .build())
+                .comparingSerumCreatinineDto(ComparingSerumCreatinineDto.builder()
+                        .serumCreatinine(report.getBloodTest().getCreatinine())
+                        .averageSerumCreatinine(0.8)
+                        .build())
+                .comparingAstDto(ComparingAstDto.builder()
+                        .ast(report.getBloodTest().getAst())
+                        .averageAst(calculateAverage(healthCheckupList, HealthCheckup::getAst))
+                        .percentageAst(calculatePercentile(healthCheckupList, report.getBloodTest().getAst(), HealthCheckup::getAst))
+                        .build())
+                .comparingAltDto(ComparingAltDto.builder()
+                        .alt(report.getBloodTest().getAlt())
+                        .averageAlt(calculateAverage(healthCheckupList, HealthCheckup::getAlt))
+                        .percentageAlt(calculatePercentile(healthCheckupList, report.getBloodTest().getAlt(), HealthCheckup::getAlt))
+                        .build())
+                .comparingGammaGtpDto(ComparingGammaGtpDto.builder()
+                        .gammaGtp(report.getBloodTest().getGtp())
+                        .averageGammaGtp(calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp))
+                        .percentageGammaGtp(calculatePercentile(healthCheckupList,report.getBloodTest().getGtp(), HealthCheckup::getGammaGtp))
+                        .build())
                 .build();
     }
 }

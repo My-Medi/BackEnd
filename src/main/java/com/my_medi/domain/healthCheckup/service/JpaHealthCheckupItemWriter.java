@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Profile("han")
+@Profile({"han", "deploy"})
 @Slf4j
 @Component
 @RequiredArgsConstructor

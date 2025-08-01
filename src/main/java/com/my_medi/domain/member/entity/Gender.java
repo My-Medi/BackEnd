@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Gender {
-    MALE,   // 남자
-    FEMALE  // 여자
+    MALE("1"),   // 남자
+    FEMALE("2");  // 여자
+
+    private final String key;
 }
