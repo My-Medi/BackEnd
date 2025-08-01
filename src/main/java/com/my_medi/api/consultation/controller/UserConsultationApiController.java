@@ -3,6 +3,7 @@ package com.my_medi.api.consultation.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.api.consultation.mapper.UserConsultationConvert;
+import com.my_medi.api.consultation.service.ConsultationUseCase;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
@@ -23,8 +24,8 @@ import java.util.List;
 public class UserConsultationApiController {
 
     private final ConsultationRequestCommandService consultationRequestCommandService;
+    private final ConsultationUseCase consultationUseCase;
     private final ConsultationRequestQueryService consultationRequestQueryService;
-
 
     @Operation(summary = "전문가에게 상담요청을 보냅니다.")
     @PostMapping("/experts/{expertId}")
@@ -32,8 +33,8 @@ public class UserConsultationApiController {
                                                     @PathVariable Long expertId,
                                                     @RequestParam String comment) {
 
-        return ApiResponseDto.onSuccess(consultationRequestCommandService
-                .requestConsultationToExpert(user, expertId, comment));
+        return ApiResponseDto.onSuccess(consultationUseCase.
+                sendConsultationRequestNotificationToExpert(user, expertId, comment));
     }
 
     @Operation(summary = "본인이 요청한 상담 목록을 조회합니다.")

@@ -3,6 +3,7 @@ package com.my_medi.api.consultation.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto;
 import com.my_medi.api.consultation.mapper.ExpertConsultationConverter;
+import com.my_medi.api.consultation.service.ConsultationUseCase;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
@@ -12,7 +13,6 @@ import com.my_medi.domain.expert.entity.Expert;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,15 +22,17 @@ import java.util.List;
 @RequestMapping("/api/v1/experts/consultations")
 @RequiredArgsConstructor
 public class ExpertConsultationApiController {
-
     private final ConsultationRequestCommandService consultationRequestCommandService;
     private final ConsultationRequestQueryService consultationRequestQueryService;
+    private final ConsultationUseCase consultationUseCase;
 
     @Operation(summary = "전문가가 상담요청을 수락합니다.")
     @PatchMapping("/{consultationId}/approve")
     public ApiResponseDto<Long> approveConsultation(@AuthExpert Expert expert,
                                                     @PathVariable Long consultationId) {
-        consultationRequestCommandService.approveConsultation(consultationId, expert);
+
+        consultationUseCase.approveConsultationRequestAndSendNotificationToUser(expert, consultationId);
+
         return ApiResponseDto.onSuccess(consultationId);
     }
 
