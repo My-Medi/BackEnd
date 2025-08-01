@@ -13,14 +13,10 @@ import com.my_medi.domain.expert.entity.Expert;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-=======
->>>>>>> develop
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
