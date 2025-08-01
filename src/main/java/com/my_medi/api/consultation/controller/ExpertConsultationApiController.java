@@ -50,13 +50,13 @@ public class ExpertConsultationApiController {
 
     @Operation(summary = "전문가가 자신에게 들어온 상담 요청 목록을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<Page<ExpertConsultationDto>> getConsultationRequests(
+    public ApiResponseDto<ExpertConsultationDto.ExpertConsultationPageDto> getConsultationRequests(
             @AuthExpert Expert expert,
             @RequestParam(required = false) RequestStatus status,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "3") int size) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
         Page<ConsultationRequest> requests;
 
@@ -66,9 +66,16 @@ public class ExpertConsultationApiController {
             requests = consultationRequestQueryService.getAllRequestByExpert(expert.getId(), pageable);
         }
 
-        Page<ExpertConsultationDto> dtoPage = requests.map(ExpertConsultationConverter::toExpertConsultationDto);
+        List<ExpertConsultationDto.ExpertConsultationSummaryDto> dtoList =
+                requests.map(ExpertConsultationConverter::toExpertConsultationDto).getContent();
 
-        return ApiResponseDto.onSuccess(dtoPage);
+        ExpertConsultationDto.ExpertConsultationPageDto result =
+                ExpertConsultationDto.ExpertConsultationPageDto.builder()
+                        .content(dtoList)
+                        .totalPages(requests.getTotalPages())
+                        .build();
+
+        return ApiResponseDto.onSuccess(result);
     }
 
 
@@ -81,5 +88,6 @@ public class ExpertConsultationApiController {
         consultationRequestCommandService.removeApprovedConsultationByExpert(consultationId, expert);
         return ApiResponseDto.onSuccess(consultationId);
     }
+
 
 }
