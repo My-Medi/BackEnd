@@ -12,6 +12,10 @@ import com.my_medi.domain.expert.entity.Expert;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,23 +48,27 @@ public class ExpertConsultationApiController {
 
     @Operation(summary = "전문가가 자신에게 들어온 상담 요청 목록을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<List<ExpertConsultationDto>> getConsultationRequests(
+    public ApiResponseDto<Page<ExpertConsultationDto>> getConsultationRequests(
             @AuthExpert Expert expert,
-            @RequestParam(required = false) RequestStatus status) {
-        List<ConsultationRequest> requests;
+            @RequestParam(required = false) RequestStatus status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+        Page<ConsultationRequest> requests;
 
         if (status != null) {
-            requests = consultationRequestQueryService.getRequestByExpert(expert.getId(), status);
+            requests = consultationRequestQueryService.getRequestByExpert(expert.getId(), status, pageable);
         } else {
-            requests = consultationRequestQueryService.getAllRequestByExpert(expert.getId());
+            requests = consultationRequestQueryService.getAllRequestByExpert(expert.getId(), pageable);
         }
 
-        List<ExpertConsultationDto> dtoList = requests.stream()
-                .map(ExpertConsultationConverter::toExpertConsultationDto)
-                .toList();
+        Page<ExpertConsultationDto> dtoPage = requests.map(ExpertConsultationConverter::toExpertConsultationDto);
 
-        return ApiResponseDto.onSuccess(dtoList);
+        return ApiResponseDto.onSuccess(dtoPage);
     }
+
 
     @Operation(summary = "전문가가 수락된 상담을 삭제합니다.")
     @DeleteMapping("/{consultationId}")
