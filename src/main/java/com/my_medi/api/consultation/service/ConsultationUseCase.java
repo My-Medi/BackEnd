@@ -25,7 +25,7 @@ public class ConsultationUseCase {
         ConsultationRequest request = consultationRequestQueryService.getRequestById(consultationId);
 
         String notificationComment = NotificationMessage
-                .CONSULTATION_APPROVED.format(request.getUser().getName());
+                .CONSULTATION_APPROVED.format(expert.getName());
 
         userNotificationCommandService.sendNotificationToUser(request.getUser().getId(),
                 consultationId, notificationComment, NotificationType.CONSULTATION_RESPONSE);
