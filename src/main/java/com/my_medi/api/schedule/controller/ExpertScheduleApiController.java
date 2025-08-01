@@ -3,8 +3,8 @@ package com.my_medi.api.schedule.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.api.schedule.dto.ScheduleResponseDto;
-import com.my_medi.api.schedule.dto.ScheduleResponseDto.ScheduleSummaryDto;
 import com.my_medi.api.schedule.mapper.ScheduleMapper;
+import com.my_medi.api.schedule.service.ScheduleUseCase;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.expert.entity.Expert;
@@ -26,6 +26,7 @@ import java.util.List;
 public class ExpertScheduleApiController {
 
     private final ScheduleCommandService scheduleCommandService;
+    private final ScheduleUseCase scheduleUseCase;
     private final ScheduleQueryService scheduleQueryService;
 
     @Operation(summary = "전문가가 매칭된 유저에게 스케줄을 등록합니다.")
@@ -34,8 +35,9 @@ public class ExpertScheduleApiController {
             @AuthExpert Expert expert,
             @PathVariable Long userId,
             @RequestBody RegisterScheduleDto registerScheduleDto) {
-        return ApiResponseDto.onSuccess(scheduleCommandService
-                .registerScheduleToUser(expert, userId, registerScheduleDto));
+
+        return ApiResponseDto.onSuccess(scheduleUseCase
+                .registScheduleAndSendNotificationToUser(expert, userId, registerScheduleDto));
     }
 
     @Operation(summary = "전문가가 본인 스케줄을 월 단위로 조회합니다.")
