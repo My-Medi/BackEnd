@@ -1,6 +1,6 @@
 package com.my_medi.api.expertNotification.mapper;
 
-import com.my_medi.api.expertNotification.dto.ExpertNotificationResponseDto.*;
+import com.my_medi.api.expertNotification.dto.ExpertNotificationResponseDto.ExpertNotificationDto;
 import com.my_medi.domain.notification.entity.ExpertNotification;
 
 import java.util.List;

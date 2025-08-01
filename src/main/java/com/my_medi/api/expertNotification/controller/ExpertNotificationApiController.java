@@ -1,6 +1,6 @@
 package com.my_medi.api.expertNotification.controller;
 
-import com.my_medi.api.expertNotification.dto.ExpertNotificationResponseDto.*;
+import com.my_medi.api.expertNotification.dto.ExpertNotificationResponseDto.ExpertNotificationDto;
 import com.my_medi.api.expertNotification.mapper.ExpertNotificationConverter;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.common.annotation.AuthExpert;
