@@ -44,6 +44,8 @@ dependencies {
 	implementation group: 'com.google.guava', name: 'guava', version: '33.3.1-jre'
 	// mysql
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	//QueryDSL
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	// Spring Batch
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	// AWS S3

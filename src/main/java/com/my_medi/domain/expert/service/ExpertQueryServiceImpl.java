@@ -2,6 +2,7 @@ package com.my_medi.domain.expert.service;
 
 import com.my_medi.common.exception.GeneralException;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.expert.exception.ExpertErrorStatus;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
@@ -9,6 +10,8 @@ import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +53,11 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
     @Override
     public boolean existsByEmail(String email) {
         return expertRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Page<Expert> getExpertListByFiltering(List<Specialty> specialtyList, Pageable pageable) {
+        return expertRepository.findAllByFiltering(specialtyList, pageable);
     }
 
 }
