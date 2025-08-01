@@ -37,8 +37,6 @@ public class ExpertApiController {
 
     @Operation(summary = "전문가 계정을 생성합니다.")
     @PostMapping
-    //TODO 자격증, 경력사항 list 추가[피그마 전문가 회원가입 3페이지 참고] 새롭게 엔티티 추가해야하는 부분
-    // 자격증 이미지 entity 따로, 경력사항 엔티티 따로 나를 소개하는 대표문장 따로
 
     public ApiResponseDto<Long> registerExpertAccount(@RequestBody RegisterExpertDto registerExpertDto) {
         return ApiResponseDto.onSuccess(expertCommandService.registerExpert(registerExpertDto));

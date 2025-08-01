@@ -1,5 +1,6 @@
 package com.my_medi.api.expert.dto;
 import com.my_medi.api.career.dto.CareerRequestDto;
+import com.my_medi.api.license.dto.LicenseRequestDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.expert.entity.Specialty;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,10 @@ public class RegisterExpertDto {
     private String introSentence;
 
     // 경력 리스트
-    private List<CareerRequestDto> careers;       // 근무 이력 리스트
+    private List<CareerRequestDto> careers;
+
+    // 자격증 리스트
+    private List<LicenseRequestDto> licenses;
 
 
 }

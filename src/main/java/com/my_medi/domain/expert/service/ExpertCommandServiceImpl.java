@@ -2,6 +2,7 @@ package com.my_medi.domain.expert.service;
 
 import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
+import com.my_medi.api.license.mapper.LicenseConverter;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.career.repository.CareerRepository;
 import com.my_medi.domain.career.service.CareerCommandService;
@@ -10,6 +11,7 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
+import com.my_medi.domain.license.repository.LicenseRepository;
 import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -28,6 +30,8 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
     private final PasswordEncoder passwordEncoder;
     private final CareerRepository careerRepository;
+    private final LicenseRepository licenseRepository;
+
 
     @Override
     public Long registerExpert(RegisterExpertDto registerExpertDto) {
@@ -47,7 +51,6 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 //Expert
                 .specialty(registerExpertDto.getSpecialty())
                 .organizationName(registerExpertDto.getOrganizationName())
-                .licenseFileUrl(registerExpertDto.getLicenseFileUrl())
                 .introduction(registerExpertDto.getIntroduction())
                 .build();
         expertRepository.save(expert); // ID가 생겨야 FK 설정 가능
@@ -56,6 +59,13 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
         careerRepository.saveAll(
                 registerExpertDto.getCareers().stream()
                         .map(careerDto -> CareerConverter.toEntity(careerDto, expert))
+                        .collect(Collectors.toList())
+        );
+
+        // 자격증 리스트 저장
+        licenseRepository.saveAll(
+                registerExpertDto.getLicenses().stream()
+                        .map(licenseDto -> LicenseConverter.toEntity(licenseDto, expert))
                         .collect(Collectors.toList())
         );
 

@@ -3,6 +3,7 @@ package com.my_medi.domain.expert.entity;
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.domain.license.entity.License;
 import com.my_medi.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,9 +28,9 @@ public class Expert extends Member {
     //소속 회사 기관명
     private String organizationName;
 
-    // 자격증 (이미지) TODO: 자격증도 entity 따로 만들기. id랑 url 2개 필드로..
-    @Column(length = 1000)
-    private String licenseFileUrl;
+    // 자격증(리스트)
+    @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<License> licenses = new ArrayList<>();
 
     // 경력사항(리스트)
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)

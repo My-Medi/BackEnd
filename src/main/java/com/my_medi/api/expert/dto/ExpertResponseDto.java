@@ -1,6 +1,9 @@
 package com.my_medi.api.expert.dto;
 
 import com.my_medi.api.career.dto.CareerRequestDto;
+import com.my_medi.api.career.dto.CareerResponseDto;
+import com.my_medi.api.license.dto.LicenseRequestDto;
+import com.my_medi.api.license.dto.LicenseResponseDto;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
@@ -32,8 +35,12 @@ public class ExpertResponseDto{
         private String licenseFileUrl;
         private String introduction;
 
-        // 추가
-        private List<CareerRequestDto> careers;
+        // 커리어 리스트
+        private List<CareerResponseDto> careers;
+
+        // 자격증 리스트
+        private List<LicenseResponseDto> licenses;
+
 
     }
 }

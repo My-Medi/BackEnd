@@ -1,11 +1,12 @@
 package com.my_medi.api.expert.mapper;
 
 import com.my_medi.api.career.dto.CareerRequestDto;
+import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
+import com.my_medi.api.license.dto.LicenseResponseDto;
 import com.my_medi.domain.expert.entity.Expert;
 
 public class ExpertConverter {
-
     public static ExpertResponseDto.ExpertProfileDto toExpertProfileDto(Expert expert) {
         return ExpertResponseDto.ExpertProfileDto.builder()
                 .name(expert.getName())
@@ -17,12 +18,12 @@ public class ExpertConverter {
                 .role(expert.getRole())
                 .specialty(expert.getSpecialty())
                 .organizationName(expert.getOrganizationName())
-                .licenseFileUrl(expert.getLicenseFileUrl())
                 .introduction(expert.getIntroduction())
                 // career 추가
                 .careers(
                         expert.getCareers().stream()
-                                .map(c -> CareerRequestDto.builder()
+                                .map(c -> CareerResponseDto.builder()
+                                        .id(c.getId())
                                         .companyName(c.getCompanyName())
                                         .jobTitle(c.getJobTitle())
                                         .startDate(c.getStartDate())
@@ -30,8 +31,29 @@ public class ExpertConverter {
                                         .build())
                                 .toList()
                 )
-
+                // license 추가
+                .licenses(
+                        expert.getLicenses().stream()
+                                .map(l -> LicenseResponseDto.builder()
+                                        .id(l.getId())
+                                        .licenseName(l.getLicenseName())
+                                        .licenseDate(l.getLicenseDate())
+                                        .licenseDescription(l.getLicenseDescription())
+                                        .images( // licenseImage 변환
+                                                l.getLicenseImages().stream()
+                                                        .map(img -> LicenseResponseDto.LicenseImageResponseDto.builder()
+                                                                .id(img.getId())
+                                                                .imageUrl(img.getImageUrl())
+                                                                .imageTitle(img.getImageTitle())
+                                                                .build())
+                                                        .toList()
+                                        )
+                                        .build()
+                                )
+                                .toList()
+                )
                 .build();
     }
+
 
 }
