@@ -39,5 +39,9 @@ public class UserQueryExpertApiController {
         return ApiResponseDto.onSuccess(result);
     }
 
+//    @Operation(summary = "전문가 목록을 조회합니다. 이때 15개씩 등록 순으로 조회합니다.")
+//    @GetMapping("/experts")
+
+
 
 }
