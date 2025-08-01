@@ -18,7 +18,7 @@ public class ScheduleUseCase {
     public Long registScheduleAndSendNotificationToUser(
             Expert expert, Long userId, RegisterScheduleDto registerScheduleDto) {
         Long scheduleId = scheduleCommandService
-                .registerScheduleToUser(expert.getId(), userId, registerScheduleDto);
+                .registerScheduleToUser(expert, userId, registerScheduleDto);
 
         String notificationComment = NotificationMessage.SCHEDULE_REGISTERED.format(expert.getName());
 
