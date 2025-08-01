@@ -14,6 +14,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,7 +51,10 @@ public class UserQueryExpertApiController {
             @Nullable @RequestParamList(value = "specialty") List<Specialty> specialty,
             @RequestParam(defaultValue = "0") int currentPage,
             @RequestParam int pageSize) {
-        return ApiResponseDto.onSuccess(null);
+
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        Page<Expert> expertPage = expertQueryService.getExpertListByFiltering(specialty, pageable);
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileListDto(expertPage));
     }
 
 

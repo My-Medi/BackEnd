@@ -56,5 +56,7 @@ public class ExpertResponseDto{
     public static class ExpertProfileListDto{
         @Builder.Default
         private List<ExpertSummaryProfileDto> expertSummaryProfileDtoList = new ArrayList<>();
+        private final int page;
+        private final int totalPages;
     }
 }
