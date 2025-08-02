@@ -14,7 +14,8 @@ public class ExpertConsultationDto {
     @Data
     @Builder
     public static class ExpertConsultationSummaryDto {
-        private Long id;
+        private Long consultationId;
+        private Long userId;
         private String comment;
         private String nickname;
         private String age;
@@ -33,7 +34,8 @@ public class ExpertConsultationDto {
     @Data
     @Builder
     public static class ExpertConsultationAcceptedDto {
-        private Long id;
+        private Long consultationId;
+        private Long userId;
         private String nickname;
         private Gender gender;
         private Float weight;
