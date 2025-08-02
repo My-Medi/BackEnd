@@ -2,6 +2,8 @@ package com.my_medi.domain.consultationRequest.repository;
 
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -19,6 +21,10 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
     boolean existsByUserIdAndExpertIdAndRequestStatusIn(Long userId, Long expertId, List<RequestStatus> statuses);
 
     List<ConsultationRequest> findByUserId(Long userId);
+
+    Page<ConsultationRequest> findByExpertId(Long expertId, Pageable pageable);
+
+    Page<ConsultationRequest> findByExpertIdAndRequestStatus(Long expertId, RequestStatus requestStatus, Pageable pageable);
 
     List<ConsultationRequest> findByUserIdAndRequestStatus(Long userId, RequestStatus requestStatus);
 

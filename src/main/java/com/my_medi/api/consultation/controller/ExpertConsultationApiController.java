@@ -13,6 +13,10 @@ import com.my_medi.domain.expert.entity.Expert;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,25 +48,57 @@ public class ExpertConsultationApiController {
         return ApiResponseDto.onSuccess(consultationId);
     }
 
-    @Operation(summary = "전문가가 자신에게 들어온 상담 요청 목록을 조회합니다.")
-    @GetMapping
-    public ApiResponseDto<List<ExpertConsultationDto>> getConsultationRequests(
+    @Operation(summary = "전문가가 자신에게 들어온 상담 요청을 조회합니다.")
+    @GetMapping("/requested")
+    public ApiResponseDto<ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationSummaryDto>> getRequestedConsultations(
             @AuthExpert Expert expert,
-            @RequestParam(required = false) RequestStatus status) {
-        List<ConsultationRequest> requests;
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size) {
 
-        if (status != null) {
-            requests = consultationRequestQueryService.getRequestByExpert(expert.getId(), status);
-        } else {
-            requests = consultationRequestQueryService.getAllRequestByExpert(expert.getId());
-        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
-        List<ExpertConsultationDto> dtoList = requests.stream()
-                .map(ExpertConsultationConverter::toExpertConsultationDto)
-                .toList();
+        Page<ConsultationRequest> requests = consultationRequestQueryService
+                .getRequestByExpert(expert.getId(), RequestStatus.REQUESTED, pageable);
 
-        return ApiResponseDto.onSuccess(dtoList);
+        List<ExpertConsultationDto.ExpertConsultationSummaryDto> dtoList =
+                requests.map(ExpertConsultationConverter::toExpertConsultationDto).getContent();
+
+        ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationSummaryDto> result =
+                ExpertConsultationDto.ExpertConsultationPageDto.<ExpertConsultationDto.ExpertConsultationSummaryDto>builder()
+                        .content(dtoList)
+                        .totalPages(requests.getTotalPages())
+                        .build();
+
+        return ApiResponseDto.onSuccess(result);
     }
+
+
+    @Operation(summary = "전문가와 매칭된 회원을 조회합니다.")
+    @GetMapping("/accepted")
+    public ApiResponseDto<ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationAcceptedDto>> getAcceptedConsultations(
+            @AuthExpert Expert expert,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+
+        Page<ConsultationRequest> requests = consultationRequestQueryService
+                .getRequestByExpert(expert.getId(), RequestStatus.ACCEPTED, pageable);
+
+        List<ExpertConsultationDto.ExpertConsultationAcceptedDto> dtoList =
+                requests.map(ExpertConsultationConverter::toAcceptedConsultationDto).getContent();
+
+        ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationAcceptedDto> result =
+                ExpertConsultationDto.ExpertConsultationPageDto.<ExpertConsultationDto.ExpertConsultationAcceptedDto>builder()
+                        .content(dtoList)
+                        .totalPages(requests.getTotalPages())
+                        .build();
+
+        return ApiResponseDto.onSuccess(result);
+    }
+
+
+
 
     @Operation(summary = "전문가가 수락된 상담을 삭제합니다.")
     @DeleteMapping("/{consultationId}")
@@ -73,5 +109,6 @@ public class ExpertConsultationApiController {
         consultationRequestCommandService.removeApprovedConsultationByExpert(consultationId, expert);
         return ApiResponseDto.onSuccess(consultationId);
     }
+
 
 }

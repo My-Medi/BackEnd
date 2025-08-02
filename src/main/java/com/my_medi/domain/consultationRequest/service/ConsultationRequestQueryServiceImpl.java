@@ -6,8 +6,10 @@ import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,13 +21,13 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
     private final ConsultationRequestRepository consultationRequestRepository;
 
     @Override
-    public List<ConsultationRequest> getAllRequestByExpert(Long expertId) {
-        return consultationRequestRepository.findByExpertId(expertId);
+    public Page<ConsultationRequest> getAllRequestByExpert(Long expertId, Pageable pageable) {
+        return consultationRequestRepository.findByExpertId(expertId, pageable);
     }
 
     @Override
-    public List<ConsultationRequest> getRequestByExpert(Long expertId, RequestStatus requestStatus) {
-        return consultationRequestRepository.findByExpertIdAndRequestStatus(expertId, requestStatus);
+    public Page<ConsultationRequest> getRequestByExpert(Long expertId, RequestStatus requestStatus, Pageable pageable) {
+        return consultationRequestRepository.findByExpertIdAndRequestStatus(expertId, requestStatus, pageable);
     }
 
     @Override
@@ -44,3 +46,4 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
         return consultationRequestRepository.findByUserIdAndRequestStatus(userId, requestStatus);
     }
 }
+
