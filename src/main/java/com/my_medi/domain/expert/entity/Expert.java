@@ -4,6 +4,7 @@ import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
 import com.my_medi.domain.license.entity.License;
+import com.my_medi.domain.licenseImage.entity.LicenseImage;
 import com.my_medi.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,10 @@ public class Expert extends Member {
 
     //소속 회사 기관명
     private String organizationName;
+
+    // 자격증 증명사진(리스트)
+    @OneToMany(mappedBy = "expert")
+    private List<LicenseImage> licenseImages;
 
     // 자격증(리스트)
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)

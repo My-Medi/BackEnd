@@ -1,5 +1,6 @@
 package com.my_medi.domain.licenseImage.entity;
 
+import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.license.entity.License;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,10 @@ public class LicenseImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "license_id")
     private License license;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "expert_id")
+    private Expert expert;
 
     public void setLicense(License license) {
         this.license = license;

@@ -32,19 +32,10 @@ public class License {
     @JoinColumn(name = "expert_id")
     private Expert expert;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "license", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LicenseImage> licenseImages = new ArrayList<>();
-
     public void update(LicenseRequestDto dto) {
         this.licenseName = dto.getLicenseName();
         this.licenseDate = dto.getLicenseDate();
         this.licenseDescription = dto.getLicenseDescription();
-    }
-
-    public void addImage(LicenseImage image) {
-        this.licenseImages.add(image);
-        image.setLicense(this);
     }
 
 }

@@ -4,6 +4,7 @@ import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
 import com.my_medi.api.license.dto.LicenseResponseDto;
+import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
 import com.my_medi.domain.expert.entity.Expert;
 
 public class ExpertConverter {
@@ -31,6 +32,17 @@ public class ExpertConverter {
                                         .build())
                                 .toList()
                 )
+                // licenseImages 추가
+                .licenseImages(
+                        expert.getLicenseImages().stream()
+                                .map(img -> LicenseImageResponseDto.builder()
+                                        .id(img.getId())
+                                        .imageUrl(img.getImageUrl())
+                                        .imageTitle(img.getImageTitle())
+                                        .build()
+                                )
+                                .toList()
+                )
                 // license 추가
                 .licenses(
                         expert.getLicenses().stream()
@@ -39,15 +51,6 @@ public class ExpertConverter {
                                         .licenseName(l.getLicenseName())
                                         .licenseDate(l.getLicenseDate())
                                         .licenseDescription(l.getLicenseDescription())
-                                        .images( // licenseImage 변환
-                                                l.getLicenseImages().stream()
-                                                        .map(img -> LicenseResponseDto.LicenseImageResponseDto.builder()
-                                                                .id(img.getId())
-                                                                .imageUrl(img.getImageUrl())
-                                                                .imageTitle(img.getImageTitle())
-                                                                .build())
-                                                        .toList()
-                                        )
                                         .build()
                                 )
                                 .toList()

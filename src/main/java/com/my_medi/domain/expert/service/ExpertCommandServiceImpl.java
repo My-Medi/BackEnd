@@ -3,6 +3,7 @@ package com.my_medi.domain.expert.service;
 import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.license.mapper.LicenseConverter;
+import com.my_medi.api.licenseImage.mapper.LicenseImageConverter;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.career.repository.CareerRepository;
 import com.my_medi.domain.career.service.CareerCommandService;
@@ -12,6 +13,7 @@ import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.license.repository.LicenseRepository;
+import com.my_medi.domain.licenseImage.repository.LicenseImageRepository;
 import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -31,6 +33,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final PasswordEncoder passwordEncoder;
     private final CareerRepository careerRepository;
     private final LicenseRepository licenseRepository;
+    private final LicenseImageRepository licenseImageRepository;
 
 
     @Override
@@ -61,6 +64,12 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                         .map(careerDto -> CareerConverter.toEntity(careerDto, expert))
                         .collect(Collectors.toList())
         );
+        // 자격증 이미지 저장
+        licenseImageRepository.saveAll(
+                registerExpertDto.getLicenseImages().stream()
+                        .map(imageDto -> LicenseImageConverter.toEntity(imageDto, expert))
+                        .collect(Collectors.toList())
+        );
 
         // 자격증 리스트 저장
         licenseRepository.saveAll(
@@ -68,6 +77,8 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                         .map(licenseDto -> LicenseConverter.toEntity(licenseDto, expert))
                         .collect(Collectors.toList())
         );
+
+
 
         return expert.getId();
     }

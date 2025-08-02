@@ -1,5 +1,6 @@
 package com.my_medi.api.license.dto;
 
+import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,14 +14,4 @@ public class LicenseResponseDto { //사용자에게 반환할 값 (상세 조회
     private String licenseName;
     private LocalDate licenseDate;
     private String licenseDescription;
-    // licenseImage 정보 담을 DTO 리스트
-    private List<LicenseImageResponseDto> images;
-
-    @Data
-    @Builder
-    public static class LicenseImageResponseDto {
-        private Long id;
-        private String imageUrl;
-        private String imageTitle;
-    }
 }

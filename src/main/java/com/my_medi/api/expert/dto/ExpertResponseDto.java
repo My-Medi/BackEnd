@@ -4,6 +4,7 @@ import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.license.dto.LicenseRequestDto;
 import com.my_medi.api.license.dto.LicenseResponseDto;
+import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
@@ -38,9 +39,11 @@ public class ExpertResponseDto{
         // 커리어 리스트
         private List<CareerResponseDto> careers;
 
+        // 자격증 증명사진 리스트
+        private List<LicenseImageResponseDto> licenseImages;
+
         // 자격증 리스트
         private List<LicenseResponseDto> licenses;
-
 
     }
 }
