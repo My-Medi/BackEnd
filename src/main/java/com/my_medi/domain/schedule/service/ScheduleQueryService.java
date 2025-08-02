@@ -3,6 +3,7 @@ package com.my_medi.domain.schedule.service;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.domain.schedule.entity.Schedule;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ScheduleQueryService {
@@ -18,6 +19,9 @@ public interface ScheduleQueryService {
     List<Schedule> getUpcomingSchedulesForUser(Long userId);
 
     List<Schedule> getUpcomingSchedulesForExpert(Long expertId);
+
+    List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate date);
+
 
 
 

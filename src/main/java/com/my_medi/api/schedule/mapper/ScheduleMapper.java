@@ -1,6 +1,8 @@
 package com.my_medi.api.schedule.mapper;
 
 import com.my_medi.api.schedule.dto.ScheduleResponseDto;
+import com.my_medi.api.schedule.dto.ScheduleResponseDto.ScheduleDetailDto;
+import com.my_medi.api.schedule.dto.ScheduleResponseDto.ScheduleDetailListDto;
 import com.my_medi.api.schedule.dto.ScheduleResponseDto.ScheduleListDto;
 import com.my_medi.api.schedule.dto.ScheduleResponseDto.ScheduleSummaryDto;
 import com.my_medi.domain.schedule.entity.Schedule;
@@ -14,8 +16,20 @@ public class ScheduleMapper {
         return ScheduleSummaryDto.builder()
                 .id(schedule.getId())
                 .title(schedule.getTitle())
-                .startTime(schedule.getStartTime())
-                .endTime(schedule.getEndTime())
+                .date(schedule.getDate())
+                .build();
+    }
+
+    public static ScheduleDetailDto toScheduleDetailDto(Schedule schedule) {
+        return ScheduleDetailDto.builder()
+                .id(schedule.getId())
+                .title(schedule.getTitle())
+                .memo(schedule.getMemo())
+                .location(schedule.getLocation())
+                .date(schedule.getDate())
+                .hour(schedule.getHour())
+                .minute(schedule.getMinute())
+                .isAm(schedule.isAm())
                 .build();
     }
 
@@ -28,5 +42,14 @@ public class ScheduleMapper {
                 .scheduleSummaryDto(summaryList)
                 .build();
     }
-}
 
+    public static ScheduleDetailListDto toScheduleDetailListDto(List<Schedule> schedules) {
+        List<ScheduleDetailDto> detailList = schedules.stream()
+                .map(ScheduleMapper::toScheduleDetailDto)
+                .collect(Collectors.toList());
+
+        return ScheduleDetailListDto.builder()
+                .scheduleDetailDto(detailList)
+                .build();
+    }
+}

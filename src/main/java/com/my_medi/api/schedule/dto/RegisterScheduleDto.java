@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,8 +12,10 @@ import java.time.LocalDateTime;
 public class RegisterScheduleDto {
 
     private String title;
-    private String description;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private String memo;
     private String location;
+    private LocalDate date;
+    private int hour;
+    private int minute;
+    private boolean isAm;
 }

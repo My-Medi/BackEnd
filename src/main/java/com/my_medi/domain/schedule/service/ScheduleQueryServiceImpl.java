@@ -35,10 +35,7 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        LocalDateTime start = startDate.atStartOfDay();
-        LocalDateTime end = endDate.atTime(23, 59, 59);
-
-        return scheduleRepository.findByExpertIdAndStartTimeBetween(expertId, start, end);
+        return scheduleRepository.findByExpertIdAndDateBetween(expertId, startDate, endDate);
     }
 
     @Override
@@ -46,19 +43,15 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        LocalDateTime start = startDate.atStartOfDay();
-        LocalDateTime end = endDate.atTime(23, 59, 59);
-
-        return scheduleRepository.findByUserIdAndStartTimeBetween(userId, start, end);
+        return scheduleRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
     }
 
-
     private List<Schedule> findUpcomingSchedules(SortType type, Long id) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
 
         return switch (type) {
-            case USER -> scheduleRepository.findTop3ByUserIdAndStartTimeAfterOrderByStartTimeAsc(id, now);
-            case EXPERT -> scheduleRepository.findTop3ByExpertIdAndStartTimeAfterOrderByStartTimeAsc(id, now);
+            case USER -> scheduleRepository.findTop3ByUserIdAndDateAfterOrderByDateAscHourAscMinuteAsc(id, now);
+            case EXPERT -> scheduleRepository.findTop3ByExpertIdAndDateAfterOrderByDateAscHourAscMinuteAsc(id, now);
         };
     }
 
@@ -73,5 +66,10 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
     }
 
     public enum SortType { USER, EXPERT }
+
+    public List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate date) {
+        return scheduleRepository.findAllByExpertIdAndDate(expertId, date);
+    }
+
 
 }
