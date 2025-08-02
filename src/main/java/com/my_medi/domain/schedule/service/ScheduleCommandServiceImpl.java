@@ -51,7 +51,6 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
                 .hour(registerScheduleDto.getHour())
                 .minute(registerScheduleDto.getMinute())
                 .isAm(registerScheduleDto.isAm())
-                .location(registerScheduleDto.getLocation())
                 .memo(registerScheduleDto.getMemo())
                 .build();
 
