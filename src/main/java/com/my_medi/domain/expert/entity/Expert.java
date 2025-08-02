@@ -71,6 +71,10 @@ public class Expert extends Member {
         this.licenses.clear();
         dto.getLicenses().forEach(licenseDto -> this.licenses.add(licenseDto.toEntity(this)));
 
+        // 자격증 이미지 초기화 후 다시 추가
+        this.licenseImages.clear();
+        dto.getLicenseImages().forEach(licenseImageRequestDto -> this.licenseImages.add(licenseImageRequestDto.toEntity(this)));
+
     }
 
 }

@@ -17,8 +17,11 @@ public interface ExpertRepository extends JpaRepository<Expert,Long> {
 
     boolean existsByEmail(String email);
 
-    @EntityGraph(attributePaths = {"careers", "licenseImages", "licenses"})
-    Optional<Expert> findWithResumeById(Long id);
+    @EntityGraph(attributePaths = {"careers"})
+    Optional<Expert> findWithCareersById(Long id);
+
+    @EntityGraph(attributePaths = {"licenseImages"})
+    Optional<Expert> findWithLicenseImagesById(Long id);
 }
 
 

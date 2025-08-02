@@ -55,12 +55,13 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(expertCommandService.updateResume(expert.getId(), updateResumeDto));
     }
 
-    @Operation(summary = "전문가 내 프로필을 조회합니다.")
     @GetMapping
+    @Operation(summary = "전문가 내 프로필을 조회합니다.")
     public ApiResponseDto<ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
-        Expert fullExpert = expertQueryService.getExpertWithResume(expert.getId()); // 변경된 부분
+        Expert fullExpert = expertQueryService.getExpertWithResume(expert.getId());
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(fullExpert));
     }
+
 
     @Operation(summary = "전문가 본인의 계정을 삭제합니다.")
     @DeleteMapping

@@ -52,10 +52,21 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
         return expertRepository.existsByEmail(email);
     }
 
-    @Transactional(readOnly = true)
+    @Override
     public Expert getExpertWithResume(Long expertId) {
-        return expertRepository.findWithResumeById(expertId)
+        // 기본 정보
+        Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+
+        // 경력 추가 fetch
+        expertRepository.findWithCareersById(expertId)
+                .ifPresent(e -> expert.getCareers().size()); // lazy 강제 초기화
+
+        // 이미지 추가 fetch
+        expertRepository.findWithLicenseImagesById(expertId)
+                .ifPresent(e -> expert.getLicenseImages().size()); // lazy 강제 초기화
+
+        return expert;
     }
 }
 
