@@ -43,6 +43,7 @@ public class ExpertConverter {
                                 )
                                 .toList()
                 )
+
                 // license 추가
                 .licenses(
                         expert.getLicenses().stream()

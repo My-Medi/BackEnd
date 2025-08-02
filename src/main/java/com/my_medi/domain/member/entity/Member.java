@@ -1,6 +1,6 @@
 package com.my_medi.domain.member.entity;
 
-import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.domain.expert.dto.UpdateProfileDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
@@ -89,7 +89,7 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     }
 
     //Expert dto 전용
-    public void modifyMemberInfoExpert(UpdateExpertDto dto){
+    public void modifyMemberInfoExpert(UpdateProfileDto dto){
         this.name = dto.getName();
         this.birthDate = dto.getBirthDate();
         this.nickname = dto.getNickname();

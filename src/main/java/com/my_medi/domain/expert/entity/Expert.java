@@ -2,7 +2,8 @@ package com.my_medi.domain.expert.entity;
 
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.career.entity.Career;
-import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.domain.expert.dto.UpdateProfileDto;
+import com.my_medi.domain.expert.dto.UpdateResumeDto;
 import com.my_medi.domain.license.entity.License;
 import com.my_medi.domain.licenseImage.entity.LicenseImage;
 import com.my_medi.domain.member.entity.Member;
@@ -51,14 +52,24 @@ public class Expert extends Member {
     private String IntroSentence;
 
 
-    public void modifyExpertInfo(UpdateExpertDto dto) {
+    public void modifyExpertInfo(UpdateProfileDto dto) {
         //user 공통
         this.modifyMemberInfoExpert(dto);
+    }
 
-        //expert
-        this.specialty = dto.getSpecialty();
-        this.organizationName = dto.getOrganizationName();
-        this.introduction = dto.getIntroduction();
+    public void modifyResumeInfo(UpdateResumeDto dto) {
+        this.specialty = dto.getSpecialty(); // 전문분야
+        this.organizationName = dto.getOrganizationName(); //소속 회사, 기관명
+        this.introduction = dto.getIntroduction(); // 자기소개
+        this.IntroSentence = dto.getIntroSentence(); // 나를 소개하는 대표 문장 한줄
+
+        // 경력 초기화 후 다시 추가
+        this.careers.clear();
+        dto.getCareers().forEach(careerRequestDto -> this.careers.add(careerRequestDto.toEntity(this)));
+
+        // 자격증 초기화 후 다시 추가
+        this.licenses.clear();
+        dto.getLicenses().forEach(licenseDto -> this.licenses.add(licenseDto.toEntity(this)));
 
     }
 

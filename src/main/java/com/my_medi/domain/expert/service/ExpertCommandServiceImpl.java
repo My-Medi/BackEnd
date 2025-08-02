@@ -4,19 +4,15 @@ import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.license.mapper.LicenseConverter;
 import com.my_medi.api.licenseImage.mapper.LicenseImageConverter;
-import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.career.repository.CareerRepository;
-import com.my_medi.domain.career.service.CareerCommandService;
-import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.domain.expert.dto.UpdateProfileDto;
+import com.my_medi.domain.expert.dto.UpdateResumeDto;
 import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.license.repository.LicenseRepository;
 import com.my_medi.domain.licenseImage.repository.LicenseImageRepository;
 import com.my_medi.domain.member.entity.Role;
-import com.my_medi.domain.user.entity.User;
-import com.my_medi.domain.user.exception.UserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -84,12 +80,23 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     }
 
 
+    // 피그마 [회원정보 수정페이지-전문가] 페이지
     @Override
-    public Long updateExpertInformation(Long expertId, UpdateExpertDto dto) {
+    public Long updateProfile(Long expertId, UpdateProfileDto updateProfileDto) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-        expert.modifyExpertInfo(dto);
+        expert.modifyExpertInfo(updateProfileDto);
         return expert.getId();
+    }
+
+    // 피그마 [이력서 관리] 페이지
+    @Override
+    public Long updateResume(Long expertId, UpdateResumeDto updateResumeDto) {
+        Expert expert = expertRepository.findById(expertId)
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+        expert.modifyResumeInfo(updateResumeDto);
+        return expert.getId();
+
     }
 
     @Override

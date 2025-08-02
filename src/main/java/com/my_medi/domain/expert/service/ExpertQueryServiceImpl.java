@@ -52,5 +52,10 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
         return expertRepository.existsByEmail(email);
     }
 
+    @Transactional(readOnly = true)
+    public Expert getExpertWithResume(Long expertId) {
+        return expertRepository.findWithResumeById(expertId)
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+    }
 }
 
