@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,18 +35,21 @@ public class Schedule extends BaseTimeEntity {
     private String title;
 
     @Column(columnDefinition = "TEXT")
-    private String description;
+    private String memo;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDate date;
+    private int hour;
+    private int minute;
+    private boolean isAm;
     private String location;
 
     public void update(EditScheduleDto dto) {
-        this.title = dto.getTitle();
-        this.description = dto.getDescription();
-        this.startTime = dto.getStartTime();
-        this.endTime = dto.getEndTime();
+        this.memo = dto.getMemo();
         this.location = dto.getLocation();
+        this.date = dto.getDate();
+        this.hour = dto.getHour();
+        this.minute = dto.getMinute();
+        this.isAm = dto.isAm();
     }
 
 
