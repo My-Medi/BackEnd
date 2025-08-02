@@ -5,6 +5,7 @@ import com.my_medi.domain.member.entity.Gender;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -15,8 +16,8 @@ public class ExpertConsultationDto {
     public static class ExpertConsultationSummaryDto {
         private Long id;
         private String comment;
-        private RequestStatus status;
         private String nickname;
+        private String age;
         private Gender gender;
         private Float weight;
         private Float height;
@@ -24,8 +25,24 @@ public class ExpertConsultationDto {
 
     @Data
     @Builder
-    public static class ExpertConsultationPageDto {
-        private List<ExpertConsultationSummaryDto> content;
+    public static class ExpertConsultationPageDto<T> {
+        private List<T> content;
         private int totalPages;
+    }
+
+    @Data
+    @Builder
+    public static class ExpertConsultationAcceptedDto {
+        private Long id;
+        private String nickname;
+        private Gender gender;
+        private Float weight;
+        private Float height;
+        private String age;
+        private String profileImage;
+
+        private LocalDate recentCheckupDate;
+        private List<String> interestAreas;
+
     }
 }
