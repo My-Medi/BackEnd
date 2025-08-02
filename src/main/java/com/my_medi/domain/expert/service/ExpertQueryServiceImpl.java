@@ -53,18 +53,19 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Expert getExpertWithResume(Long expertId) {
-        // 기본 정보
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
 
-        // 경력 추가 fetch
         expertRepository.findWithCareersById(expertId)
-                .ifPresent(e -> expert.getCareers().size()); // lazy 강제 초기화
+                .ifPresent(e -> expert.getCareers().size());
 
-        // 이미지 추가 fetch
         expertRepository.findWithLicenseImagesById(expertId)
-                .ifPresent(e -> expert.getLicenseImages().size()); // lazy 강제 초기화
+                .ifPresent(e -> expert.getLicenseImages().size());
+
+        expertRepository.findWithLicensesById(expertId)
+                .ifPresent(e -> expert.getLicenses().size());
 
         return expert;
     }

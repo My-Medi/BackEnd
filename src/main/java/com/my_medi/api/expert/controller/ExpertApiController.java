@@ -63,6 +63,7 @@ public class ExpertApiController {
     }
 
 
+
     @Operation(summary = "전문가 본인의 계정을 삭제합니다.")
     @DeleteMapping
     public ApiResponseDto<Void> deleteUser(@AuthExpert Expert expert) {
