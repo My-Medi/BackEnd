@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -43,7 +45,7 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
     }
 
     @Override
-    public void removeNotification(Long notificationId) {
-        expertNotificationRepository.deleteById(notificationId);
+    public void removeNotifications(List<Long> notificationId) {
+        expertNotificationRepository.deleteAllById(notificationId);
     }
 }

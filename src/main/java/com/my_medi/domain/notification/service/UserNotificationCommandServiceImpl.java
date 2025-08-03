@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -45,7 +47,7 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     }
 
     @Override
-    public void removeNotification(Long notificationId) {
-        userNotificationRepository.deleteById(notificationId);
+    public void removeNotifications(List<Long> notificationId) {
+        userNotificationRepository.deleteAllById(notificationId);
     }
 }
