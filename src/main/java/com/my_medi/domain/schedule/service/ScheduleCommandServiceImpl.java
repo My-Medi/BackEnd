@@ -47,7 +47,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
                 .user(user)
                 .title(registerScheduleDto.getTitle())
                 .location(registerScheduleDto.getLocation())
-                .date(registerScheduleDto.getDate())
+                .meetingDate(registerScheduleDto.getMeetingDate())
                 .hour(registerScheduleDto.getHour())
                 .minute(registerScheduleDto.getMinute())
                 .isAm(registerScheduleDto.isAm())

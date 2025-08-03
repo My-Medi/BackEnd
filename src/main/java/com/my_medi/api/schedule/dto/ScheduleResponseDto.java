@@ -14,7 +14,7 @@ public class ScheduleResponseDto {
     public static class ScheduleSummaryDto{
         private Long id;
         private String title;
-        private LocalDate date;
+        private LocalDate meetingDate;
 
     }
 
@@ -25,7 +25,7 @@ public class ScheduleResponseDto {
         private String title;
         private String memo;
         private String location;
-        private LocalDate date;
+        private LocalDate meetingDate;
         private int hour;
         private int minute;
         private boolean isAm;

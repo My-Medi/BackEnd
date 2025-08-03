@@ -37,7 +37,7 @@ public class Schedule extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String memo;
 
-    private LocalDate date;
+    private LocalDate meetingDate;
     private int hour;
     private int minute;
     private boolean isAm;
@@ -46,7 +46,7 @@ public class Schedule extends BaseTimeEntity {
     public void update(EditScheduleDto dto) {
         this.memo = dto.getMemo();
         this.location = dto.getLocation();
-        this.date = dto.getDate();
+        this.meetingDate = dto.getMeetingDate();
         this.hour = dto.getHour();
         this.minute = dto.getMinute();
         this.isAm = dto.isAm();

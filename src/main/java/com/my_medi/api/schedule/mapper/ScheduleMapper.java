@@ -16,7 +16,7 @@ public class ScheduleMapper {
         return ScheduleSummaryDto.builder()
                 .id(schedule.getId())
                 .title(schedule.getTitle())
-                .date(schedule.getDate())
+                .meetingDate(schedule.getMeetingDate())
                 .build();
     }
 
@@ -24,9 +24,10 @@ public class ScheduleMapper {
         return ScheduleDetailDto.builder()
                 .id(schedule.getId())
                 .title(schedule.getTitle())
+                //TODO : title template으로 바꾸기 및 엔티티 내의 title 필드 제거
                 .memo(schedule.getMemo())
                 .location(schedule.getLocation())
-                .date(schedule.getDate())
+                .meetingDate(schedule.getMeetingDate())
                 .hour(schedule.getHour())
                 .minute(schedule.getMinute())
                 .isAm(schedule.isAm())

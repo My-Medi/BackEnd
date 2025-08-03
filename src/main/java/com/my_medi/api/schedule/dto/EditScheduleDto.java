@@ -12,7 +12,7 @@ public class EditScheduleDto {
     private String memo;
     private String location;
 
-    private LocalDate date;
+    private LocalDate meetingDate;
     private int hour;
     private int minute;
     private boolean isAm;

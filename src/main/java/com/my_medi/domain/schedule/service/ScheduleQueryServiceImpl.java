@@ -8,8 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -35,7 +36,7 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        return scheduleRepository.findByExpertIdAndDateBetween(expertId, startDate, endDate);
+        return scheduleRepository.findByExpertIdAndMeetingDateBetween(expertId, startDate, endDate);
     }
 
     @Override
@@ -43,15 +44,16 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        return scheduleRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
+        return scheduleRepository.findByUserIdAndMeetingDateBetween(userId, startDate, endDate);
     }
 
     private List<Schedule> findUpcomingSchedules(SortType type, Long id) {
         LocalDate now = LocalDate.now();
+        Pageable top3 = PageRequest.of(0, 3);
 
         return switch (type) {
-            case USER -> scheduleRepository.findTop3ByUserIdAndDateAfterOrderByDateAscHourAscMinuteAsc(id, now);
-            case EXPERT -> scheduleRepository.findTop3ByExpertIdAndDateAfterOrderByDateAscHourAscMinuteAsc(id, now);
+            case USER -> scheduleRepository.findUpcomingSchedulesByUser(id, now, top3);
+            case EXPERT -> scheduleRepository.findUpcomingSchedulesByExpert(id, now, top3);
         };
     }
 
@@ -67,8 +69,8 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
 
     public enum SortType { USER, EXPERT }
 
-    public List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate date) {
-        return scheduleRepository.findAllByExpertIdAndDate(expertId, date);
+    public List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate meetingDate) {
+        return scheduleRepository.findAllByExpertIdAndMeetingDate(expertId, meetingDate);
     }
 
 
