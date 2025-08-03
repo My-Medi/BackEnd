@@ -1,5 +1,6 @@
 package com.my_medi.domain.notification.service;
 
+import com.my_medi.domain.notification.exception.UserNotificationHandler;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
@@ -9,6 +10,8 @@ import com.my_medi.domain.notification.repository.UserNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -34,7 +37,17 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     }
 
     @Override
-    public void removeNotification(Long notificationId) {
-        userNotificationRepository.deleteById(notificationId);
+    public Long readUserNotification(Long notificationId) {
+        UserNotification userNotification = userNotificationRepository
+                .findById(notificationId).orElseThrow(() -> UserNotificationHandler.NOT_FOUND);
+
+        userNotification.updateIsReadState();
+
+        return userNotification.getId();
+    }
+
+    @Override
+    public void removeNotifications(List<Long> notificationId) {
+        userNotificationRepository.deleteAllById(notificationId);
     }
 }

@@ -7,7 +7,6 @@ import com.my_medi.domain.report.entity.*;
 import com.my_medi.domain.report.exception.ReportHandler;
 import com.my_medi.domain.report.repository.ReportRepository;
 import com.my_medi.domain.user.entity.User;
-import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

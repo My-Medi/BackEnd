@@ -31,6 +31,17 @@ public class ConsultationUseCase {
                 consultationId, notificationComment, NotificationType.CONSULTATION_RESPONSE);
     }
 
+    public void rejectConsultationRequestAndSendNotificationToUser(Expert expert, Long consultationId) {
+        consultationRequestCommandService.rejectConsultation(consultationId, expert);
+        ConsultationRequest request = consultationRequestQueryService.getRequestById(consultationId);
+
+        String notificationComment = NotificationMessage
+                .CONSULTATION_REJECTED.format(expert.getName());
+
+        userNotificationCommandService.sendNotificationToUser(request.getUser().getId(),
+                consultationId, notificationComment, NotificationType.CONSULTATION_RESPONSE);
+    }
+
     public Long sendConsultationRequestNotificationToExpert(User user, Long expertId, String comment) {
         Long requestId = consultationRequestCommandService.requestConsultationToExpert(user, expertId, comment);
 
