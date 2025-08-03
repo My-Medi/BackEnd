@@ -24,7 +24,6 @@ import java.util.List;
 public class ExpertNotificationApiController {
     private final ExpertNotificationUseCase expertNotificationUseCase;
     private final ExpertNotificationCommandService expertNotificationCommandService;
-    private final ExpertNotificationQueryService expertNotificationQueryService;
 
     @Operation(summary = "전문가의 알림을 paginatin으로 조회합니다.")
     @GetMapping

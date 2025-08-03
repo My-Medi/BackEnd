@@ -44,7 +44,9 @@ public class ExpertConsultationApiController {
     @PatchMapping("/{consultationId}/reject")
     public ApiResponseDto<Long> rejectConsultation(@AuthExpert Expert expert,
                                                    @PathVariable Long consultationId) {
-        consultationRequestCommandService.rejectConsultation(consultationId, expert);
+
+        consultationUseCase.rejectConsultationRequestAndSendNotificationToUser(expert, consultationId);
+
         return ApiResponseDto.onSuccess(consultationId);
     }
 
