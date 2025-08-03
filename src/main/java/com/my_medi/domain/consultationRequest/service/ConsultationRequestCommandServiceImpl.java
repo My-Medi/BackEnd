@@ -90,7 +90,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         Long expertId = expert.getId();
 
         List<ConsultationRequest> toDelete = consultationRequestRepository
-                .findByUserIdAndExpertIdAndStatus(userId, expertId, RequestStatus.REQUESTED)
+                .findByUserIdAndExpertIdAndRequestStatus(userId, expertId, RequestStatus.REQUESTED)
                 .stream()
                 .filter(req -> !req.getId().equals(consultationId))
                 .toList();
