@@ -23,7 +23,7 @@ public class ExpertResponseDto{
     public static class ExpertProfileDto{
         // Member 공통 필드
         private String name;
-        private LocalDate birthDate;
+        private String birthDate;
         private Gender gender;
         private String nickname;
         private String phoneNumber;

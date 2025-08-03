@@ -46,8 +46,9 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     private String name;
 
     //생년월일
+    @Size(min = 6, max = 6, message = "생년월일은 6자리여야 합니다 (예: 000926)")
     @Column(name = "birth_date")
-    private LocalDate birthDate;
+    private String birthDate;
 
     //성별 필드 추가 (남자, 여자)
     @Enumerated(EnumType.STRING)
@@ -76,8 +77,6 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     @Column(name = "profile_img_url", nullable = true) // 회원가입시 입력받지 않으므로 기본 null
     private String profileImgUrl;
 
-
-    //TODO : dto 통일
     //User dto 전용
     public void modifyMemberInfoUser(UpdateUserDto dto){
         this.name = dto.getName();
