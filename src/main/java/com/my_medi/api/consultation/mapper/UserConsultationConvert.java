@@ -2,12 +2,8 @@ package com.my_medi.api.consultation.mapper;
 
 import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
-import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.expert.entity.Specialty;
-import com.my_medi.domain.user.entity.User;
 
-import java.time.LocalDate;
 
 public class UserConsultationConvert {
     public static UserConsultationDto toDto(ConsultationRequest request) {
