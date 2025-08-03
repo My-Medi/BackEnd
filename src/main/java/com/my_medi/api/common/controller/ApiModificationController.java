@@ -1,10 +1,12 @@
 package com.my_medi.api.common.controller;
 
+import com.amazonaws.HttpMethod;
 import com.my_medi.infra.discord.dto.ApiModificationRequest;
 import com.my_medi.infra.discord.service.DiscordWebhookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.models.PathItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,8 @@ public class ApiModificationController {
     public ResponseEntity<String> requestApiModification(
             @Parameter(description = "수정 요청할 API 엔드포인트", required = true)
             @RequestParam String apiEndpoint,
+            @Parameter(description = "수정 요청할 API HTTP method", required = true)
+            @RequestParam PathItem.HttpMethod httpMethod,
 
             @Parameter(description = "수정 요청 상세 내용", required = true)
             @RequestBody ApiModificationRequest request) {
@@ -42,7 +46,7 @@ public class ApiModificationController {
             }
 
             // Discord 웹훅으로 전송
-            discordWebhookService.sendApiModificationRequest(apiEndpoint, request);
+            discordWebhookService.sendApiModificationRequest(apiEndpoint, httpMethod, request);
 
             return ResponseEntity.ok("API 수정 요청이 성공적으로 전송되었습니다.");
 
@@ -51,4 +55,5 @@ public class ApiModificationController {
                     .body("API 수정 요청 전송 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
+
 }

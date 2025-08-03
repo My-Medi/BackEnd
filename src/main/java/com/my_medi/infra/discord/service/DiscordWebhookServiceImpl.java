@@ -2,6 +2,7 @@ package com.my_medi.infra.discord.service;
 
 import com.my_medi.infra.discord.dto.ApiModificationRequest;
 import com.my_medi.infra.discord.dto.DiscordWebhookMessage;
+import io.swagger.v3.oas.models.PathItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -25,9 +26,9 @@ public class DiscordWebhookServiceImpl implements DiscordWebhookService{
     private final Environment env;
     private final RestTemplate restTemplate;
     @Override
-    public void sendApiModificationRequest(String apiEndpoint, ApiModificationRequest request) {
+    public void sendApiModificationRequest(String apiEndpoint, PathItem.HttpMethod httpMethod, ApiModificationRequest request) {
         try {
-            DiscordWebhookMessage message = createWebhookMessage(apiEndpoint, request);
+            DiscordWebhookMessage message = createWebhookMessage(apiEndpoint, httpMethod, request);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -42,13 +43,16 @@ public class DiscordWebhookServiceImpl implements DiscordWebhookService{
         }
     }
 
-    private DiscordWebhookMessage createWebhookMessage(String apiEndpoint, ApiModificationRequest request) {
+    private DiscordWebhookMessage createWebhookMessage(String apiEndpoint,
+                                                       PathItem.HttpMethod httpMethod,
+                                                       ApiModificationRequest request) {
         // 우선순위에 따른 색상 설정
         int color = getColorByPriority(request.getPriority());
 
         // 필드 생성
         List<DiscordWebhookMessage.Embed.Field> fields = new ArrayList<>();
         fields.add(new DiscordWebhookMessage.Embed.Field("API 엔드포인트", "`" + apiEndpoint + "`", false));
+        fields.add(new DiscordWebhookMessage.Embed.Field("API HTTP method", "`" + httpMethod.name() + "`", false));
         fields.add(new DiscordWebhookMessage.Embed.Field("요청자", request.getRequesterName(), true));
         fields.add(new DiscordWebhookMessage.Embed.Field("우선순위", getPriorityEmoji(request.getPriority()) + " " + request.getPriority(), true));
         fields.add(new DiscordWebhookMessage.Embed.Field("요청 타입", getRequestTypeEmoji(request.getRequestType()) + " " + request.getRequestType(), true));
