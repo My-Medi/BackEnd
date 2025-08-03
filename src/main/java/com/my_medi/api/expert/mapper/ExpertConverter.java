@@ -20,6 +20,7 @@ public class ExpertConverter {
                 .specialty(expert.getSpecialty())
                 .organizationName(expert.getOrganizationName())
                 .introduction(expert.getIntroduction())
+                .introSentence(expert.getIntroSentence())
                 // career 추가
                 .careers(
                         expert.getCareers().stream()

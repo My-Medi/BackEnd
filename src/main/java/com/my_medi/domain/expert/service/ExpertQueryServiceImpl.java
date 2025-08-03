@@ -20,7 +20,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) //queryservice에는 readonly
-
 public class ExpertQueryServiceImpl implements ExpertQueryService {
     private final ExpertRepository expertRepository;
 
@@ -52,22 +51,5 @@ public class ExpertQueryServiceImpl implements ExpertQueryService {
         return expertRepository.existsByEmail(email);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Expert getExpertWithResume(Long expertId) {
-        Expert expert = expertRepository.findById(expertId)
-                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-
-        expertRepository.findWithCareersById(expertId)
-                .ifPresent(e -> expert.getCareers().size());
-
-        expertRepository.findWithLicenseImagesById(expertId)
-                .ifPresent(e -> expert.getLicenseImages().size());
-
-        expertRepository.findWithLicensesById(expertId)
-                .ifPresent(e -> expert.getLicenses().size());
-
-        return expert;
-    }
 }
 

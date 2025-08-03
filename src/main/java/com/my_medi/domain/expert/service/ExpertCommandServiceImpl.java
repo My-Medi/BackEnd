@@ -41,6 +41,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .birthDate(registerExpertDto.getMember().getBirthDate())
                 .gender(registerExpertDto.getMember().getGender())
                 .username(UUID.randomUUID().toString())
+                .nickname(registerExpertDto.getMember().getNickname())
                 .email(registerExpertDto.getMember().getEmail())
                 .phoneNumber(registerExpertDto.getMember().getPhoneNumber())
                 .profileImgUrl(registerExpertDto.getMember().getProfileImgUrl())
@@ -51,6 +52,8 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .specialty(registerExpertDto.getSpecialty())
                 .organizationName(registerExpertDto.getOrganizationName())
                 .introduction(registerExpertDto.getIntroduction())
+                .IntroSentence(registerExpertDto.getIntroSentence())
+
                 .build();
         expertRepository.save(expert); // ID가 생겨야 FK 설정 가능
 

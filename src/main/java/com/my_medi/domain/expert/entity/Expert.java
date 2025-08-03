@@ -31,7 +31,7 @@ public class Expert extends Member {
     private String organizationName;
 
     // 자격증 증명사진(리스트)
-    @OneToMany(mappedBy = "expert")
+    @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LicenseImage> licenseImages;
 
     // 자격증(리스트)
@@ -61,7 +61,7 @@ public class Expert extends Member {
         this.specialty = dto.getSpecialty(); // 전문분야
         this.organizationName = dto.getOrganizationName(); //소속 회사, 기관명
         this.introduction = dto.getIntroduction(); // 자기소개
-        this.IntroSentence = dto.getIntroSentence(); // 나를 소개하는 대표 문장 한줄
+        this.IntroSentence = dto.getIntroSentences(); // 나를 소개하는 대표 문장 한줄
 
         // 경력 초기화 후 다시 추가
         this.careers.clear();
@@ -73,7 +73,7 @@ public class Expert extends Member {
 
         // 자격증 이미지 초기화 후 다시 추가
         this.licenseImages.clear();
-        dto.getLicenseImages().forEach(licenseImageRequestDto -> this.licenseImages.add(licenseImageRequestDto.toEntity(this)));
+        dto.getLicenseImages().forEach(licenseImageDto -> this.licenseImages.add(licenseImageDto.toEntity(this)));
 
     }
 

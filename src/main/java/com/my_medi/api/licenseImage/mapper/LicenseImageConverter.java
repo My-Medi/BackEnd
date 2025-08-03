@@ -12,7 +12,7 @@ public class LicenseImageConverter {
         return LicenseImage.builder()
                 .imageUrl(dto.getImageUrl())
                 .imageTitle(dto.getImageTitle())
-                //.expert(expert)
+                .expert(expert)
                 .build();
     }
 }

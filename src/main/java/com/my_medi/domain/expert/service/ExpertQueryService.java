@@ -20,5 +20,4 @@ public interface ExpertQueryService {
 
     boolean existsByEmail(String email);
 
-    Expert getExpertWithResume(Long expertId);
 }

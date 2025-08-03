@@ -56,7 +56,7 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     private Gender gender;
 
     //닉네임
-    @Column(name = "nickname", unique = true, nullable = true) // 회원가입시 입력받지 않으므로 기본 null
+    @Column(name = "nickname", unique = true)
     private String nickname;
 
     //이메일

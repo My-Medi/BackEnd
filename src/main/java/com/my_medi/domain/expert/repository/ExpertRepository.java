@@ -18,16 +18,6 @@ public interface ExpertRepository extends JpaRepository<Expert,Long> {
     Optional<Expert> findByEmail(String email);
 
     boolean existsByEmail(String email);
-
-    @Query("SELECT e FROM Expert e LEFT JOIN FETCH e.careers WHERE e.id = :id")
-    Optional<Expert> findWithCareersById(@Param("id") Long id);
-
-    @Query("SELECT e FROM Expert e LEFT JOIN FETCH e.licenseImages WHERE e.id = :id")
-    Optional<Expert> findWithLicenseImagesById(@Param("id") Long id);
-
-    @Query("SELECT e FROM Expert e LEFT JOIN FETCH e.licenses WHERE e.id = :id")
-    Optional<Expert> findWithLicensesById(@Param("id") Long id);
-
 }
 
 

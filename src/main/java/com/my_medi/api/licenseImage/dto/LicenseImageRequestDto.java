@@ -15,8 +15,8 @@ public class LicenseImageRequestDto {
     public LicenseImage toEntity(Expert expert) {
         return LicenseImage.builder()
                 .expert(expert)
-                .imageUrl(imageUrl)
-                .imageTitle(imageTitle)
+                .imageUrl(this.imageUrl)
+                .imageTitle(this.imageTitle)
                 .build();
     }
 }

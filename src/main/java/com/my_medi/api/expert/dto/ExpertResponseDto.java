@@ -33,8 +33,8 @@ public class ExpertResponseDto{
         // Expert 전용 필드
         private Specialty specialty;
         private String organizationName;
-        private String licenseFileUrl;
         private String introduction;
+        private String introSentence;
 
         // 커리어 리스트
         private List<CareerResponseDto> careers;

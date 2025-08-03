@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class UpdateProfileDto {
-
     // Member 공통 필드
     private String name;
     private String birthDate;

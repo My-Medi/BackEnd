@@ -58,8 +58,7 @@ public class ExpertApiController {
     @GetMapping
     @Operation(summary = "전문가 내 프로필을 조회합니다.")
     public ApiResponseDto<ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
-        Expert fullExpert = expertQueryService.getExpertWithResume(expert.getId());
-        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(fullExpert));
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
     }
 
     @Operation(summary = "전문가 본인의 계정을 삭제합니다.")

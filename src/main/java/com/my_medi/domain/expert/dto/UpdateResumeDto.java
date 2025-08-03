@@ -23,7 +23,7 @@ public class UpdateResumeDto {
     private Specialty specialty;
     private String organizationName;
     private String introduction;
-    private String IntroSentence;
+    private String introSentences;
 
     private List<CareerRequestDto> careers;
     private List<LicenseRequestDto> licenses;
