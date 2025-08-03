@@ -33,10 +33,9 @@ public class ExpertNotificationApiController {
 
     @Operation(summary = "전문가의 알림을 '읽음' 상태로 만듭니다.")
     @PatchMapping
-    public ApiResponseDto<Long> updateExpertNotification(@AuthExpert Expert expert,
-                                                   @RequestParam Long sourceId) {
+    public ApiResponseDto<Long> updateExpertNotification(@RequestParam Long notificationId) {
 
         return ApiResponseDto.onSuccess(expertNotificationCommandService
-                .readNotification(expert.getId(), sourceId));
+                .readExpertNotification(notificationId));
     }
 }

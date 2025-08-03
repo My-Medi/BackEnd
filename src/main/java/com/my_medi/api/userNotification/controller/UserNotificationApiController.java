@@ -34,10 +34,9 @@ public class UserNotificationApiController {
 
     @Operation(summary = "사용자의 알림을 '읽음' 상태로 만듭니다.")
     @PatchMapping
-    public ApiResponseDto<Long> updateUserNotification(@AuthUser User user,
-                                                       @RequestParam Long sourceId) {
+    public ApiResponseDto<Long> updateUserNotification(@RequestParam Long notificationId) {
 
         return ApiResponseDto.onSuccess(userNotificationCommandService
-                .readNotification(user.getId(), sourceId));
+                .readUserNotification(notificationId));
     }
 }

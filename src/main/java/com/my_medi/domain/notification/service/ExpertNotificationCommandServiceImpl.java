@@ -4,6 +4,7 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.notification.entity.ExpertNotification;
+import com.my_medi.domain.notification.exception.ExpertNotificationHandler;
 import com.my_medi.domain.notification.repository.ExpertNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,9 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
     }
 
     @Override
-    public Long readNotification(Long expertId, Long sourceId) {
-        ExpertNotification expertNotification = expertNotificationRepository
-                .findByExpertIdAndSourceId(expertId, sourceId);
+    public Long readExpertNotification(Long notificationId) {
+        ExpertNotification expertNotification = expertNotificationRepository.findById(notificationId)
+                .orElseThrow(() -> ExpertNotificationHandler.NOT_FOUND);
 
         expertNotification.updateIsReadState();
 

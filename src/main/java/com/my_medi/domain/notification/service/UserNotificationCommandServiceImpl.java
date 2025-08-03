@@ -1,5 +1,6 @@
 package com.my_medi.domain.notification.service;
 
+import com.my_medi.domain.notification.exception.UserNotificationHandler;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
@@ -34,9 +35,9 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     }
 
     @Override
-    public Long readNotification(Long userId, Long sourceId) {
+    public Long readUserNotification(Long notificationId) {
         UserNotification userNotification = userNotificationRepository
-                .findByUserIdAndSourceId(userId, sourceId);
+                .findById(notificationId).orElseThrow(() -> UserNotificationHandler.NOT_FOUND);
 
         userNotification.updateIsReadState();
 
