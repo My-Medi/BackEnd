@@ -1,7 +1,6 @@
 package com.my_medi.domain.notification.repository;
 
 import com.my_medi.domain.notification.entity.ExpertNotification;
-import com.my_medi.domain.notification.entity.UserNotification;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +14,6 @@ public interface ExpertNotificationRepository extends JpaRepository<ExpertNotifi
     List<ExpertNotification> findByExpertIdAndIsReadTrueOrderByIdDesc(Long expertId, Pageable pageable);
 
     Long countByExpertIdAndIsReadTrue(Long expertId);
+
+    ExpertNotification findByExpertIdAndSourceId(Long expertId, Long sourceId);
 }

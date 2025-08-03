@@ -34,4 +34,8 @@ public class UserNotification {
     @Builder.Default
     @Column(nullable = false)
     private Boolean isRead = false;
+
+    public void updateIsReadState() {
+        this.isRead = true;
+    }
 }

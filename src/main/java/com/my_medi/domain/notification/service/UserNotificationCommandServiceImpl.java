@@ -34,6 +34,16 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     }
 
     @Override
+    public Long readNotification(Long userId, Long sourceId) {
+        UserNotification userNotification = userNotificationRepository
+                .findByUserIdAndSourceId(userId, sourceId);
+
+        userNotification.updateIsReadState();
+
+        return userNotification.getId();
+    }
+
+    @Override
     public void removeNotification(Long notificationId) {
         userNotificationRepository.deleteById(notificationId);
     }

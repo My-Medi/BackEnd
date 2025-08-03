@@ -1,8 +1,5 @@
 package com.my_medi.domain.notification.service;
 
-import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
-import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
-import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
@@ -32,6 +29,16 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
                 .build();
 
         expertNotificationRepository.save(expertNotification);
+    }
+
+    @Override
+    public Long readNotification(Long expertId, Long sourceId) {
+        ExpertNotification expertNotification = expertNotificationRepository
+                .findByExpertIdAndSourceId(expertId, sourceId);
+
+        expertNotification.updateIsReadState();
+
+        return expertNotification.getId();
     }
 
     @Override
