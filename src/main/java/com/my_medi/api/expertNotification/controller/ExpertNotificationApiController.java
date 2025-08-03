@@ -2,14 +2,16 @@ package com.my_medi.api.expertNotification.controller;
 
 import com.my_medi.api.expertNotification.dto.ExpertNotificationResponseDto.ExpertNotificationDto;
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.expertNotification.mapper.ExpertNotificationConverter;
 import com.my_medi.api.expertNotification.service.ExpertNotificationUseCase;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.notification.entity.ExpertNotification;
 import com.my_medi.domain.notification.service.ExpertNotificationCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "[전문가 페이지]전문가 알림 API")
@@ -22,13 +24,16 @@ public class ExpertNotificationApiController {
 
     @Operation(summary = "전문가의 알림을 paginatin으로 조회합니다.")
     @GetMapping
-    public ApiResponseDto<Slice<ExpertNotificationDto>> getExpertNotification(
+    public ApiResponseDto<Page<ExpertNotificationDto>> getExpertNotification(
             @AuthExpert Expert expert,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size) {
+            @RequestParam(defaultValue = "0") int currentPage,
+            @RequestParam int pageSize) {
 
-        return ApiResponseDto.onSuccess(expertNotificationUseCase
-                .getPrioritizedNotificationDtoSliceByExpertId(expert.getId(), page, size));
+        Page<ExpertNotification> expertNotificationPage = expertNotificationUseCase
+                .getPrioritizedNotificationDtoSliceByExpertId(expert.getId(), currentPage, pageSize);
+
+        return ApiResponseDto.onSuccess(ExpertNotificationConverter
+                .toExpertNotificationPageDto(expertNotificationPage));
     }
 
     @Operation(summary = "전문가의 알림을 '읽음' 상태로 만듭니다.")

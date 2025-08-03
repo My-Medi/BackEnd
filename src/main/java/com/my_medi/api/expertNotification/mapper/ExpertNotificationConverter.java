@@ -2,9 +2,7 @@ package com.my_medi.api.expertNotification.mapper;
 
 import com.my_medi.api.expertNotification.dto.ExpertNotificationResponseDto.ExpertNotificationDto;
 import com.my_medi.domain.notification.entity.ExpertNotification;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 public class ExpertNotificationConverter {
     public static ExpertNotificationDto fromExpertNotification(ExpertNotification expertNotification) {
@@ -17,9 +15,7 @@ public class ExpertNotificationConverter {
         return dto;
     }
 
-    public static List<ExpertNotificationDto> toExpertNotificationListDto(List<ExpertNotification> notificationList) {
-        return notificationList.stream()
-                .map(ExpertNotificationConverter::fromExpertNotification)
-                .collect(Collectors.toList());
+    public static Page<ExpertNotificationDto> toExpertNotificationPageDto(Page<ExpertNotification> notificationPage) {
+        return notificationPage.map(ExpertNotificationConverter::fromExpertNotification);
     }
 }
