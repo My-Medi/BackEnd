@@ -85,6 +85,17 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         ConsultationRequest request = getRequestedConsultation(consultationId);
         validateExpertApprovalOrRejectionAuthority(request, expert);
         request.approve();
+
+        Long userId = request.getUser().getId();
+        Long expertId = expert.getId();
+
+        List<ConsultationRequest> toDelete = consultationRequestRepository
+                .findByUserIdAndExpertIdAndStatus(userId, expertId, RequestStatus.REQUESTED)
+                .stream()
+                .filter(req -> !req.getId().equals(consultationId))
+                .toList();
+
+        consultationRequestRepository.deleteAllInBatch(toDelete);
     }
 
     @Override
