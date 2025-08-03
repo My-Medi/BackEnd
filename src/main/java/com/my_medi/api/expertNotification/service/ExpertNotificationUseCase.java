@@ -15,6 +15,6 @@ public class ExpertNotificationUseCase {
             (Long expertId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
 
-        return expertNotificationQueryService.getExpertNotificaitonListByPage(expertId, pageable);
+        return expertNotificationQueryService.getExpertNotificationListByPage(expertId, pageable);
     }
 }

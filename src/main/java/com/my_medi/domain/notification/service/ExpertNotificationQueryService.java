@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ExpertNotificationQueryService {
-    Page<ExpertNotification> getExpertNotificaitonListByPage(Long expertId, Pageable pageable);
+    Page<ExpertNotification> getExpertNotificationListByPage(Long expertId, Pageable pageable);
 }

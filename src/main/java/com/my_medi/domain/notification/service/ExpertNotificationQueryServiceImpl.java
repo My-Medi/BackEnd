@@ -15,7 +15,7 @@ public class ExpertNotificationQueryServiceImpl implements ExpertNotificationQue
     private final ExpertNotificationRepository expertNotificationRepository;
 
     @Override
-    public Page<ExpertNotification> getExpertNotificaitonListByPage(Long expertId, Pageable pageable) {
+    public Page<ExpertNotification> getExpertNotificationListByPage(Long expertId, Pageable pageable) {
         return expertNotificationRepository.findAllByExpertId(expertId, pageable);
     }
 }
