@@ -85,17 +85,8 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         ConsultationRequest request = getRequestedConsultation(consultationId);
         validateExpertApprovalOrRejectionAuthority(request, expert);
         request.approve();
+        deleteOtherRequestedConsultations(request);
 
-        Long userId = request.getUser().getId();
-        Long expertId = expert.getId();
-
-        List<ConsultationRequest> toDelete = consultationRequestRepository
-                .findByUserIdAndExpertIdAndRequestStatus(userId, expertId, RequestStatus.REQUESTED)
-                .stream()
-                .filter(req -> !req.getId().equals(consultationId))
-                .toList();
-
-        consultationRequestRepository.deleteAllInBatch(toDelete);
     }
 
     @Override
@@ -103,6 +94,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         ConsultationRequest request = getRequestedConsultation(consultationId);
         validateExpertApprovalOrRejectionAuthority(request, expert);
         request.reject();
+        deleteOtherRequestedConsultations(request);
     }
 
     private void validateExpertApprovalOrRejectionAuthority(ConsultationRequest request, Expert expert) {
@@ -119,6 +111,20 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         if (hasConflict) {
             throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
         }
+    }
+
+    private void deleteOtherRequestedConsultations(ConsultationRequest request) {
+        Long userId = request.getUser().getId();
+        Long expertId = request.getExpert().getId();
+        Long currentId = request.getId();
+
+        List<ConsultationRequest> toDelete = consultationRequestRepository
+                .findByUserIdAndExpertIdAndRequestStatus(userId, expertId, RequestStatus.REQUESTED)
+                .stream()
+                .filter(req -> !req.getId().equals(currentId))
+                .toList();
+
+        consultationRequestRepository.deleteAllInBatch(toDelete);
     }
 
 
