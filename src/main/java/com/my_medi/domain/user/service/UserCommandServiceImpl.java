@@ -28,6 +28,7 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .name(registerMemberDto.getName())
                 .birthDate(registerMemberDto.getBirthDate())
                 .gender(registerMemberDto.getGender())
+                .nickname(registerMemberDto.getNickname())
                 .username(UUID.randomUUID().toString())
                 .email(registerMemberDto.getEmail())
                 .phoneNumber(registerMemberDto.getPhoneNumber())
