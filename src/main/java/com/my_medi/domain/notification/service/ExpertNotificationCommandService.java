@@ -8,4 +8,6 @@ public interface ExpertNotificationCommandService {
     Long readExpertNotification(Long notificationId);
 
     void removeNotifications(List<Long> notificationId);
+
+    void sendDummyNotificationToExpert(Long expertId, int count);
 }
