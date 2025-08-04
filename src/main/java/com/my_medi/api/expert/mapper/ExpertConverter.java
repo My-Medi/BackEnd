@@ -5,6 +5,7 @@ import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
 import com.my_medi.api.license.dto.LicenseResponseDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
+import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.domain.expert.entity.Expert;
 
 public class ExpertConverter {
@@ -37,7 +38,7 @@ public class ExpertConverter {
                 .licenseImages(
                         expert.getLicenseImages().stream()
                                 .map(img -> LicenseImageResponseDto.builder()
-                                        .id(img.getId())
+                                        .licenseImageId(img.getId())
                                         .imageUrl(img.getImageUrl())
                                         .imageTitle(img.getImageTitle())
                                         .build()
@@ -60,5 +61,13 @@ public class ExpertConverter {
                 .build();
     }
 
+    public static ExpertResponseDto.ExpertProfileTopDto toExpertProfileTopDto(Expert expert) {
+        return ExpertResponseDto.ExpertProfileTopDto.builder()
+                .nickname(expert.getNickname())
+                .name(expert.getName())
+                .ageExpert(BirthDateUtil.getAge(expert.getBirthDate())) // 나이
+                .specialty(expert.getSpecialty())
+                .build();
+    }
 
 }

@@ -68,5 +68,11 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(null);
     }
 
+    @GetMapping("/profile")
+    @Operation(summary = "[마이홈 전문가 페이지] 전문가 자신의 마이페이지를 조회합니다. ")
+    public ApiResponseDto<ExpertResponseDto.ExpertProfileTopDto> getMyExpertProfileTop(@AuthExpert Expert expert) {
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileTopDto(expert));
+    }
+
 }
 
