@@ -37,7 +37,7 @@ public class ExpertConverter {
                 .licenseImages(
                         expert.getLicenseImages().stream()
                                 .map(img -> LicenseImageResponseDto.builder()
-                                        .id(img.getId())
+                                        .licenseImageId(img.getId())
                                         .imageUrl(img.getImageUrl())
                                         .imageTitle(img.getImageTitle())
                                         .build()
