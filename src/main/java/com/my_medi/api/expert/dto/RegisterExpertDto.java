@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,13 +30,16 @@ public class RegisterExpertDto {
     private String introSentence;
 
     // 경력 리스트
-    private List<CareerRequestDto> careers;
+    @Builder.Default
+    private List<CareerRequestDto> careers = new ArrayList<>();
 
     // 자격증 이미지 리스트
-    private List<LicenseImageRequestDto> licenseImages; // license image 따로
+    @Builder.Default
+    private List<LicenseImageRequestDto> licenseImages = new ArrayList<>();
 
     // 자격증 리스트
-    private List<LicenseRequestDto> licenses;
+    @Builder.Default
+    private List<LicenseRequestDto> licenses = new ArrayList<>();
 
 
 

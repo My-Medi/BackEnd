@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class LicenseImageResponseDto {
-    private Long id;
+    private Long licenseImageId;
     private String imageUrl;
     private String imageTitle;
 }

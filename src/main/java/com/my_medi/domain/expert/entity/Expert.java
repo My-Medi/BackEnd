@@ -31,14 +31,17 @@ public class Expert extends Member {
     private String organizationName;
 
     // 자격증 증명사진(리스트)
+    @Builder.Default
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LicenseImage> licenseImages;
+    private List<LicenseImage> licenseImages = new ArrayList<>();
 
     // 자격증(리스트)
+    @Builder.Default
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<License> licenses = new ArrayList<>();
 
     // 경력사항(리스트)
+    @Builder.Default
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Career> careers = new ArrayList<>();
 

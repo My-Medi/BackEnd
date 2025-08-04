@@ -11,6 +11,7 @@ import com.my_medi.domain.member.entity.Gender;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,8 +26,13 @@ public class UpdateResumeDto {
     private String introduction;
     private String introSentences;
 
-    private List<CareerRequestDto> careers;
-    private List<LicenseRequestDto> licenses;
-    private List<LicenseImageRequestDto> licenseImages;
+    @Builder.Default
+    private List<CareerRequestDto> careers = new ArrayList<>();
+
+    @Builder.Default
+    private List<LicenseRequestDto> licenses = new ArrayList<>();
+
+    @Builder.Default
+    private List<LicenseImageRequestDto> licenseImages = new ArrayList<>();
 }
 

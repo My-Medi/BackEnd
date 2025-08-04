@@ -7,7 +7,6 @@ import com.my_medi.domain.license.entity.License;
 import com.my_medi.domain.licenseImage.entity.LicenseImage;
 import org.springframework.stereotype.Component;
 
-@Component
 public class LicenseConverter {
 
     public static License toEntity(LicenseRequestDto dto, Expert expert) {

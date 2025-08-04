@@ -7,6 +7,7 @@ import com.my_medi.domain.expert.entity.Specialty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,13 +19,15 @@ public class ExpertResumeDto {
     private String licenseFileUrl;
     private String introduction;
 
-    // 커리어 리스트
-    private List<CareerResponseDto> careers;
+    @Builder.Default
+    private List<CareerResponseDto> careers = new ArrayList<>();
 
     // 자격증 증명사진 리스트
-    private List<LicenseImageResponseDto> licenseImages;
+    @Builder.Default
+    private List<LicenseImageResponseDto> licenseImages = new ArrayList<>();
 
     // 자격증 리스트
-    private List<LicenseResponseDto> licenses;
+    @Builder.Default
+    private List<LicenseResponseDto> licenses = new ArrayList<>();
 
 }
