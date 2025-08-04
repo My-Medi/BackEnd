@@ -3,6 +3,7 @@ package com.my_medi.domain.expert.service;
 import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.common.util.EnumConvertUtil;
 import com.my_medi.domain.career.repository.CareerRepository;
 import com.my_medi.domain.career.service.CareerCommandService;
 import com.my_medi.domain.expert.dto.UpdateExpertDto;
@@ -10,6 +11,7 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
+import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -18,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -76,6 +81,34 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expertRepository.delete(expert); // TODO : hard delete이나 추후 soft delete 수정 예정
+    }
+
+    @Override
+    public void registerDummyExperts(int count) {
+        List<Expert> expertList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            expertList.add(
+                    Expert.builder()
+                            //member
+                            .name("전문가" + i)
+                            .birthDate(LocalDate.of(2000, 6,23))
+                            .gender(Gender.MALE)
+                            .username(UUID.randomUUID().toString())
+                            .email(UUID.randomUUID().toString().substring(0, 7) + i + "@gmail.com")
+                            .phoneNumber("010.1233.1233")
+                            .profileImgUrl(null)
+                            .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
+                            .loginId("expert" + UUID.randomUUID().toString().substring(0, 5))
+                            .password(passwordEncoder.encode("string"))
+                            //Expert
+                            .specialty(EnumConvertUtil.getRandomSpecialty())
+                            .organizationName("MY-MEDI")
+                            .licenseFileUrl(null)
+                            .introduction("마이 메디 소속 전문가입니다ㅏ")
+                            .build()
+            );
+        }
+        expertRepository.saveAll(expertList);
     }
 
 }
