@@ -3,19 +3,26 @@ package com.my_medi.api.schedule.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.schedule.dto.ScheduleResponseDto;
 import com.my_medi.api.schedule.mapper.ScheduleMapper;
+import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
+import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.schedule.entity.Schedule;
 import com.my_medi.domain.schedule.service.ScheduleQueryService;
 import com.my_medi.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "[사용자 페이지] 스케줄 API")
 @RestController
@@ -36,17 +43,34 @@ public class UserScheduleApiController {
         return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(userSchedules));
     }
 
-    @Operation(summary = "사용자의 가장 임박한 3개의 스케줄을 조회합니다.")
-    @GetMapping("/upcoming")
-    public ApiResponseDto<List<ScheduleResponseDto.ScheduleSummaryDto>> getUpcomingSchedules(
-            @AuthUser User user) {
+//    @Operation(summary = "사용자의 가장 임박한 3개의 스케줄을 조회합니다.")
+//    @GetMapping("/upcoming")
+//    public ApiResponseDto<List<ScheduleResponseDto.ScheduleSummaryDto>> getUpcomingSchedules(
+//            @AuthUser User user) {
+//
+//        List<Schedule> upcomingSchedules = scheduleQueryService.getUpcomingSchedulesForUser(user.getId());
+//
+//        List<ScheduleResponseDto.ScheduleSummaryDto> dtoList =
+//                upcomingSchedules.stream()
+//                        .map(ScheduleMapper::toScheduleSummaryDto)
+//                        .toList();
+//
+//        return ApiResponseDto.onSuccess(dtoList);
+//    }
 
-        List<Schedule> upcomingSchedules = scheduleQueryService.getUpcomingSchedulesForUser(user.getId());
+    @Operation(summary = "특정 날짜의 사용자의 일정 목록을 조회합니다")
+    @GetMapping("/date")
+    public ApiResponseDto<List<ScheduleResponseDto.ScheduleDetailDto>> getSchedulesByDate(
+            @AuthUser User user,
+            @Parameter(description = "조회할 날짜 (형식: YYYY-MM-DD)", schema = @Schema(defaultValue = "YYYY-MM-DD"))
 
-        List<ScheduleResponseDto.ScheduleSummaryDto> dtoList =
-                upcomingSchedules.stream()
-                        .map(ScheduleMapper::toScheduleSummaryDto)
-                        .toList();
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        List<Schedule> schedules = scheduleQueryService.getSchedulesByUserAndDate(user.getId(), date);
+
+        List<ScheduleResponseDto.ScheduleDetailDto> dtoList = schedules.stream()
+                .map(ScheduleMapper::toScheduleDetailDto)
+                .collect(Collectors.toList());
 
         return ApiResponseDto.onSuccess(dtoList);
     }
