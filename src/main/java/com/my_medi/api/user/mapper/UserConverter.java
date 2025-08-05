@@ -28,7 +28,7 @@ public class UserConverter {
         return UserResponseDto.UserProfileTopDto.builder()
                 .name(user.getName())
                 .nickname(user.getNickname())
-                .ageUser(BirthDateUtil.getAge(user.getBirthDate()))
+                .age(BirthDateUtil.getAge(user.getBirthDate()))
                 .height(user.getHeight())
                 .weight(user.getWeight())
                 .reportCount(reportCount)

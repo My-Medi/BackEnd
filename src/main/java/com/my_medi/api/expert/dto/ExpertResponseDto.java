@@ -54,7 +54,7 @@ public class ExpertResponseDto{
     public static class ExpertProfileTopDto{
         private String nickname; //닉네임
         private String name; // 이름
-        private int ageExpert; // expert의 나이
+        private int age; // expert의 나이
         private Specialty specialty;// 전문 분야
 
     }

@@ -65,7 +65,7 @@ public class ExpertConverter {
         return ExpertResponseDto.ExpertProfileTopDto.builder()
                 .nickname(expert.getNickname())
                 .name(expert.getName())
-                .ageExpert(BirthDateUtil.getAge(expert.getBirthDate())) // 나이
+                .age(BirthDateUtil.getAge(expert.getBirthDate())) // 나이
                 .specialty(expert.getSpecialty())
                 .build();
     }
