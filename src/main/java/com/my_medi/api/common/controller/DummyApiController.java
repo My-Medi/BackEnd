@@ -1,6 +1,9 @@
 package com.my_medi.api.common.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.domain.expert.service.ExpertCommandService;
+import com.my_medi.domain.notification.service.ExpertNotificationCommandService;
+import com.my_medi.domain.notification.service.UserNotificationCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class DummyApiController {
 
+    private final ExpertCommandService expertCommandService;
+    private final ExpertNotificationCommandService expertNotificationCommandService;
+    private final UserNotificationCommandService userNotificationCommandService;
+
     @Operation(summary = "전문가 더미 생성 API")
     @PostMapping("/experts")
     public ApiResponseDto<String> createExpertsDummy(@RequestParam int count) {
+        expertCommandService.registerDummyExperts(count);
         return ApiResponseDto.onSuccess("success");
     }
 
@@ -22,6 +30,7 @@ public class DummyApiController {
     @PostMapping("/notifications/users/{userId}")
     public ApiResponseDto<String> createNotificationToUserDummy(@PathVariable Long userId,
                                                                 @RequestParam int count) {
+        userNotificationCommandService.sendDummyNotificationToUser(userId, count);
         return ApiResponseDto.onSuccess("success");
     }
 
@@ -29,6 +38,7 @@ public class DummyApiController {
     @PostMapping("/notifications/experts/{expertId}")
     public ApiResponseDto<String> createNotificationToExpertDummy(@PathVariable Long expertId,
                                                                   @RequestParam int count) {
+        expertNotificationCommandService.sendDummyNotificationToExpert(expertId, count);
         return ApiResponseDto.onSuccess("success");
     }
 }
