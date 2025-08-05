@@ -114,14 +114,13 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     }
 
     private void deleteOtherRequestedConsultations(ConsultationRequest request) {
-        Long userId = request.getUser().getId();
-        Long expertId = request.getExpert().getId();
-        Long currentId = request.getId();
-
         List<ConsultationRequest> toDelete = consultationRequestRepository
-                .findByUserIdAndExpertIdAndRequestStatus(userId, expertId, RequestStatus.REQUESTED)
-                .stream()
-                .filter(req -> !req.getId().equals(currentId))
+                .findByUserIdAndExpertIdAndRequestStatus(
+                        request.getUser().getId(),
+                        request.getExpert().getId(),
+                        RequestStatus.REQUESTED
+                ).stream()
+                .filter(req -> !req.getId().equals(request.getId()))
                 .toList();
 
         consultationRequestRepository.deleteAllInBatch(toDelete);
