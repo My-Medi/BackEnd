@@ -32,7 +32,6 @@ public class UserConverter {
                 .height(user.getHeight())
                 .weight(user.getWeight())
                 .reportCount(reportCount)
-                //TODO: 건강 상태 : 리포트 결과 데이터(entity 추가)
                 .build();
     }
 }
