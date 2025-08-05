@@ -70,4 +70,26 @@ public class ExpertConverter {
                 .build();
     }
 
+    public static ExpertResponseDto.ExpertDetailForUserDto toExpertDetailForUserDto(Expert expert) {
+        return ExpertResponseDto.ExpertDetailForUserDto.builder()
+                .nickname(expert.getNickname())
+                .name(expert.getName())
+                .profileImgUrl(expert.getProfileImgUrl())
+                .introduction(expert.getIntroduction())
+                .organizationName(expert.getOrganizationName())
+                .specialty(expert.getSpecialty())
+                .careers(
+                        expert.getCareers().stream()
+                                .map(r -> CareerResponseDto.builder()
+                                        .id(r.getId())
+                                        .companyName(r.getCompanyName())
+                                        .jobTitle(r.getJobTitle())
+                                        .startDate(r.getStartDate())
+                                        .endDate(r.getEndDate())
+                                        .build())
+                                .toList()
+                )
+                .build();
+    }
+
 }

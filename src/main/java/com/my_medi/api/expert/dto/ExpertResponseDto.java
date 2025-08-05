@@ -5,6 +5,7 @@ import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.license.dto.LicenseRequestDto;
 import com.my_medi.api.license.dto.LicenseResponseDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
+import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
@@ -12,6 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -54,6 +56,19 @@ public class ExpertResponseDto{
         private String name; // 이름
         private int ageExpert; // expert의 나이
         private Specialty specialty;// 전문 분야
+
+    }
+
+    @Data
+    @Builder
+    public static class ExpertDetailForUserDto{
+        private String nickname; //닉네임
+        private String name; // 이름
+        private String profileImgUrl; // 프로필 이미지
+        private String introduction; // 전문가 소개
+        private String organizationName; // 소속 회사
+        private Specialty specialty; // 분야
+        private List<CareerResponseDto> careers; // 경력사항
 
     }
 }

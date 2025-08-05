@@ -13,6 +13,7 @@ import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.expert.service.ExpertQueryService;
 import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
@@ -40,6 +41,7 @@ public class UserApiController {
 
     private final UserCommandService userCommandService;
     private final ReportQueryService reportQueryService;
+    private final ExpertQueryService expertQueryService;
 
     @Operation(summary = "사용자 계정을 생성합니다.")
     @PostMapping
@@ -70,6 +72,13 @@ public class UserApiController {
     public ApiResponseDto<UserResponseDto.UserProfileTopDto> getMyUserProfileTop(@AuthUser User user) {
         long reportCount = reportQueryService.getReportCountByUser(user); //
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileTopDto(user,reportCount));
+    }
+
+    @GetMapping("/experts/{expertId}")
+    @Operation(summary = "사용자가 전문가의 프로필을 상세 조회합니다. [전문가 상세]")
+    public ApiResponseDto<ExpertResponseDto.ExpertDetailForUserDto> getExpertDetailForUser(@PathVariable Long expertId) {
+        Expert expert = expertQueryService.getExpertById(expertId);
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertDetailForUserDto(expert));
     }
 
     @Operation(summary = "test age")

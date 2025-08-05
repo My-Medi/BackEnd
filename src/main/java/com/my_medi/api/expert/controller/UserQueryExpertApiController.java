@@ -26,7 +26,7 @@ public class UserQueryExpertApiController {
     private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
     @Operation(summary = "전문가 프로필 정보를 전체 조회합니다.")
-    @GetMapping("/experts/{expertId}")
+    @GetMapping("/experts/{expertId}/profiles/all")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getExpertProfile(@AuthUser User user,
                                                                                @PathVariable Long expertId) {
         // 전문가 엔티티 조회 -> 유저와 전문가 매칭 확인 -> DTO 변환 후 반환
