@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MeasurementDto {
-    private Integer height;
-    private Integer weight;
+    private Double height;
+    private Double weight;
     private Double bmi;
     private BmiCategory bmiCategory;
     private Double waist;

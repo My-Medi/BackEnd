@@ -1,0 +1,28 @@
+### OPEN AI ###
+openai:
+  api:
+    key: ${OPENAI_API_KEY}
+    url: https://api.openai.com/v1/chat/completions
+
+### S3 ###
+cloud:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET}
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+app:
+  server:
+    uri: ${IMAGE_PREFIX}
+
+### DISCORD WEBHOOK ###
+discord:
+  webhook:
+    url: ${DISCORD_WEBHOOK}
+

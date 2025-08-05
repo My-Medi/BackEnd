@@ -3,6 +3,7 @@ package com.my_medi.api.consultation.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.api.consultation.mapper.UserConsultationConvert;
+import com.my_medi.api.consultation.service.ConsultationUseCase;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "[사용자 페이지] 상담요청 API")
 @RestController
@@ -23,8 +25,8 @@ import java.util.List;
 public class UserConsultationApiController {
 
     private final ConsultationRequestCommandService consultationRequestCommandService;
+    private final ConsultationUseCase consultationUseCase;
     private final ConsultationRequestQueryService consultationRequestQueryService;
-
 
     @Operation(summary = "전문가에게 상담요청을 보냅니다.")
     @PostMapping("/experts/{expertId}")
@@ -32,8 +34,8 @@ public class UserConsultationApiController {
                                                     @PathVariable Long expertId,
                                                     @RequestParam String comment) {
 
-        return ApiResponseDto.onSuccess(consultationRequestCommandService
-                .requestConsultationToExpert(user, expertId, comment));
+        return ApiResponseDto.onSuccess(consultationUseCase.
+                sendConsultationRequestNotificationToExpert(user, expertId, comment));
     }
 
     @Operation(summary = "본인이 요청한 상담 목록을 조회합니다.")
@@ -46,11 +48,25 @@ public class UserConsultationApiController {
                 consultationRequestQueryService.getAllRequestByUser(user.getId()) :
                 consultationRequestQueryService.getRequestByUser(user.getId(), status);
 
-        List<UserConsultationDto> dtoList = requests.stream()
+        List<ConsultationRequest> deduplicated = requests;
+
+        if (status == RequestStatus.REQUESTED) {
+            deduplicated = requests.stream()
+                    .collect(Collectors.toMap(
+                            req -> req.getExpert().getId(),
+                            req -> req,
+                            (existing, duplicate) -> existing
+                    ))
+                    .values().stream()
+                    .toList();
+        }
+
+        List<UserConsultationDto> dtoList = deduplicated.stream()
                 .map(UserConsultationConvert::toDto)
                 .toList();
 
         return ApiResponseDto.onSuccess(dtoList);
+
     }
 
 

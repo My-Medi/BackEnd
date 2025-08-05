@@ -3,15 +3,17 @@ package com.my_medi.api.schedule.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
 
 public class EditScheduleDto {
-    private String title;
-    private String description;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private String memo;
     private String location;
+
+    private LocalDate meetingDate;
+    private int hour;
+    private int minute;
+    private boolean isAm;
 }

@@ -17,6 +17,7 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
     private final UserQueryService userQueryService;
     private final ExpertQueryService expertQueryService;
+
     private final long MAX_AGE_SECS = 3600;
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

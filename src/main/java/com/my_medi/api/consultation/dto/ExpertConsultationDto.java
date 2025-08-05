@@ -1,14 +1,50 @@
 package com.my_medi.api.consultation.dto;
 
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
+import com.my_medi.domain.member.entity.Gender;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-@Builder
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
 public class ExpertConsultationDto {
 
-    private Long id;
-    private String comment;
-    private RequestStatus status;
+    @Data
+    @Builder
+    public static class ExpertConsultationSummaryDto {
+        private Long consultationId;
+        private Long userId;
+        private String comment;
+        private String nickname;
+        private String age;
+        private Gender gender;
+        private Float weight;
+        private Float height;
+    }
+
+    @Data
+    @Builder
+    public static class ExpertConsultationPageDto<T> {
+        private List<T> content;
+        private int totalPages;
+    }
+
+    @Data
+    @Builder
+    public static class ExpertConsultationAcceptedDto {
+        private Long consultationId;
+        private Long userId;
+        private String nickname;
+        private Gender gender;
+        private Float weight;
+        private Float height;
+        private String age;
+        private String profileImage;
+
+        private LocalDate recentCheckupDate;
+        private List<String> interestAreas;
+
+    }
 }
