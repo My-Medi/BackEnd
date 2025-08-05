@@ -43,5 +43,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
 
     List<Schedule> findAllByExpertIdAndMeetingDate(Long expertId, LocalDate meetingDate);
+
+    List<Schedule> findAllByUserIdAndMeetingDate(Long userId, LocalDate meetingDate);
 }
 

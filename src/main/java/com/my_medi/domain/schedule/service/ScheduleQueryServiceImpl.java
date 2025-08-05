@@ -73,5 +73,10 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         return scheduleRepository.findAllByExpertIdAndMeetingDate(expertId, meetingDate);
     }
 
+    public List<Schedule> getSchedulesByUserAndDate(Long userId, LocalDate meetingDate) {
+        return scheduleRepository.findAllByUserIdAndMeetingDate(userId, meetingDate);
+    }
+
+
 
 }

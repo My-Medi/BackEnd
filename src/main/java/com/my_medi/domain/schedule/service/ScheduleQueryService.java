@@ -22,6 +22,8 @@ public interface ScheduleQueryService {
 
     List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate date);
 
+    List<Schedule> getSchedulesByUserAndDate(Long expertId, LocalDate date);
+
 
 
 
