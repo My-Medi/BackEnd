@@ -4,20 +4,29 @@ import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.license.mapper.LicenseConverter;
 import com.my_medi.api.licenseImage.mapper.LicenseImageConverter;
+import com.my_medi.common.util.EnumConvertUtil;
+import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.career.repository.CareerRepository;
 import com.my_medi.domain.expert.dto.UpdateProfileDto;
 import com.my_medi.domain.expert.dto.UpdateResumeDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
+
+import com.my_medi.domain.license.entity.License;
 import com.my_medi.domain.license.repository.LicenseRepository;
+import com.my_medi.domain.licenseImage.entity.LicenseImage;
 import com.my_medi.domain.licenseImage.repository.LicenseImageRepository;
+import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -107,6 +116,52 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expertRepository.delete(expert); // TODO : hard delete이나 추후 soft delete 수정 예정
+    }
+
+    @Override
+    public void registerDummyExperts(int count) {
+        List<Expert> expertList = new ArrayList<>();
+        List<Career> careerList = new ArrayList<>();
+        List<License> licenseList = new ArrayList<>();
+        List<LicenseImage> licenseImageList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Expert expert = Expert.builder()
+                    //member
+                    .name("전문가" + i)
+                    .birthDate("000623")
+                    .gender(Gender.MALE)
+                    .username(UUID.randomUUID().toString())
+                    .email(UUID.randomUUID().toString().substring(0, 7) + i + "@gmail.com")
+                    .phoneNumber("010.1233.1233")
+                    .profileImgUrl(null)
+                    .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
+                    .loginId("expert" + UUID.randomUUID().toString().substring(0, 5))
+                    .password(passwordEncoder.encode("string"))
+                    //Expert
+                    .specialty(EnumConvertUtil.getRandomSpecialty())
+                    .organizationName("MY-MEDI")
+                    .introduction("마이 메디 소속 전문가입니다ㅏ")
+                    .build();
+            expertList.add(expert);
+
+            careerList.add(Career.builder()
+                    .expert(expert)
+                    .companyName("MY-MEDI")
+                    .jobTitle("medical")
+                    .startDate(LocalDate.of(2024, 3,8))
+                    .endDate(LocalDate.of(2025, 6, 9))
+                    .build());
+
+            licenseList.add(License.builder()
+                    .licenseName("medical license")
+                    .licenseDate(LocalDate.of(2025, 3,4))
+                    .licenseDescription("nice medic")
+                    .expert(expert)
+                    .build());
+        }
+        expertRepository.saveAll(expertList);
+        careerRepository.saveAll(careerList);
+        licenseRepository.saveAll(licenseList);
     }
 
 }

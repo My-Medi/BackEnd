@@ -99,7 +99,8 @@ public class SecurityConfig {
                 "/api/v1/users",
                 "/api/v1/experts",
                 "/api/v1/images",
-                "/api/v1/modification-request"
+                "/api/v1/modification-request",
+                "/api/v1/dummy/**"
         };
     }
 

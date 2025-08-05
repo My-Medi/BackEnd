@@ -1,6 +1,9 @@
 package com.my_medi.api.common.controller;
 
 import com.amazonaws.HttpMethod;
+import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.common.exception.ErrorStatus;
+import com.my_medi.common.exception.GeneralException;
 import com.my_medi.infra.discord.dto.ApiModificationRequest;
 import com.my_medi.infra.discord.service.DiscordWebhookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +27,7 @@ public class ApiModificationController {
                     "이때 priority는 HIGH, MEDIUM, LOW 중 택 1" +
                     "requestType은 MODIFICATION, BUG_FIX, NEW_FEATURE 중 택 1 입니다."
     )
-    public ResponseEntity<String> requestApiModification(
+    public ApiResponseDto<String> requestApiModification(
             @Parameter(description = "수정 요청할 API 엔드포인트", required = true)
             @RequestParam String apiEndpoint,
             @Parameter(description = "수정 요청할 API HTTP method", required = true)
@@ -48,11 +51,11 @@ public class ApiModificationController {
             // Discord 웹훅으로 전송
             discordWebhookService.sendApiModificationRequest(apiEndpoint, httpMethod, request);
 
-            return ResponseEntity.ok("API 수정 요청이 성공적으로 전송되었습니다.");
+            return ApiResponseDto.onSuccess("API 수정 요청이 성공적으로 전송되었습니다.");
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body("API 수정 요청 전송 중 오류가 발생했습니다: " + e.getMessage());
+            //TODO exception handler
+            throw new GeneralException(ErrorStatus._INTERNAL_SERVER_ERROR);
         }
     }
 

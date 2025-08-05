@@ -10,4 +10,6 @@ public interface UserNotificationCommandService {
     Long readUserNotification(Long notificationId);
 
     void removeNotifications(List<Long> notificationId);
+
+    void sendDummyNotificationToUser(Long userId, int count);
 }
