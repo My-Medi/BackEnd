@@ -13,7 +13,7 @@ public class ExpertNotificationResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ExpertNotificationDto {
-        private Long id;
+        private Long expertNotificationId;
         private Long expertId;
         private String notificationContent;
         private Long sourceId;

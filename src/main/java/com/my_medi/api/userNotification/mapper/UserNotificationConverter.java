@@ -12,7 +12,7 @@ public class UserNotificationConverter {
 
     public static UserNotificationDto fromUserNotification(UserNotification userNotification) {
         return UserNotificationDto.builder()
-                .id(userNotification.getId())
+                .userNotificationId(userNotification.getId())
                 .userId(userNotification.getUser().getId())
                 .notificationContent(userNotification.getNotificationContent())
                 .sourceId(userNotification.getSourceId())

@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 public class ExpertNotificationConverter {
     public static ExpertNotificationDto fromExpertNotification(ExpertNotification expertNotification) {
-        ExpertNotificationDto dto = new ExpertNotificationDto();
-        dto.setId(expertNotification.getId());
-        dto.setExpertId(expertNotification.getExpert().getId());
-        dto.setNotificationContent(expertNotification.getNotificationContent());
-        dto.setSourceId(expertNotification.getSourceId());
-        dto.setIsRead(expertNotification.getIsRead());
-        return dto;
+        return ExpertNotificationDto.builder()
+                .expertNotificationId(expertNotification.getId())
+                .expertId(expertNotification.getExpert().getId())
+                .notificationContent(expertNotification.getNotificationContent())
+                .sourceId(expertNotification.getSourceId())
+                .isRead(expertNotification.getIsRead())
+                .build();
     }
 
     public static ExpertNotificationSimplePageResponse toExpertNotificationPageDto(Page<ExpertNotification> notificationPage) {

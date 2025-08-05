@@ -14,7 +14,7 @@ public class UserNotificationResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserNotificationDto {
-        private Long id;
+        private Long userNotificationId;
         private Long userId;
         private String notificationContent;
         private Long sourceId;
