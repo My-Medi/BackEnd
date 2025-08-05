@@ -27,7 +27,7 @@ public class Report extends BaseTimeEntity {
     private Long id;
 
     private LocalDate checkupDate;
-    private Integer round; // 1차, 2차 등
+    private Integer round;
 
     @Embedded
     private Measurement measurement;

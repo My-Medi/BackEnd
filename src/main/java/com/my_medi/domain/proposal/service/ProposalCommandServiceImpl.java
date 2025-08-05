@@ -20,6 +20,7 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
         Proposal proposal = Proposal.builder()
                 .user(user)
                 .lifeDescription(proposalRequestDto.getLifeDescription())
+
                 .weightManagement(proposalRequestDto.getHealthInterestsDto().getWeightManagement())
                 .bloodSugarControl(proposalRequestDto.getHealthInterestsDto().getBloodSugarControl())
                 .cholesterolControl(proposalRequestDto.getHealthInterestsDto().getCholesterolControl())
@@ -43,9 +44,11 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
                 .exerciseTherapist(proposalRequestDto.getHelpTopicDto().getExerciseTherapist())
                 .recommendForMe(proposalRequestDto.getHelpTopicDto().getRecommendForMe())
                 .goal(proposalRequestDto.getGoal())
+                .requestNote(proposalRequestDto.getRequestNote())
                 .build();
 
         proposalRepository.save(proposal);
+
         return proposal.getId();
     }
 
@@ -54,7 +57,7 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
         Proposal proposal = proposalRepository.findByUserId(user.getId())
                 .orElseThrow(() -> ProposalHandler.NOT_FOUND);
 
-        proposal.updateLifeDescriptionnGoal(proposalRequestDto);
+        proposal.updateUserDetails(proposalRequestDto);
         proposal.updateHealthInterests(proposalRequestDto);
         proposal.updateAbnormalValue(proposalRequestDto);
         proposal.updateHelpTopic(proposalRequestDto);
