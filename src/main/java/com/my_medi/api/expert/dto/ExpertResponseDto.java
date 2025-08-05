@@ -1,6 +1,10 @@
 package com.my_medi.api.expert.dto;
 
 import com.my_medi.api.career.dto.CareerRequestDto;
+import com.my_medi.api.career.dto.CareerResponseDto;
+import com.my_medi.api.license.dto.LicenseRequestDto;
+import com.my_medi.api.license.dto.LicenseResponseDto;
+import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
@@ -20,7 +24,7 @@ public class ExpertResponseDto{
     public static class ExpertProfileDto{
         // Member 공통 필드
         private String name;
-        private LocalDate birthDate;
+        private String birthDate;
         private Gender gender;
         private String nickname;
         private String phoneNumber;
@@ -30,11 +34,17 @@ public class ExpertResponseDto{
         // Expert 전용 필드
         private Specialty specialty;
         private String organizationName;
-        private String licenseFileUrl;
         private String introduction;
+        private String introSentence;
 
-        // 추가
-        private List<CareerRequestDto> careers;
+        // 커리어 리스트
+        private List<CareerResponseDto> careers;
+
+        // 자격증 증명사진 리스트
+        private List<LicenseImageResponseDto> licenseImages;
+
+        // 자격증 리스트
+        private List<LicenseResponseDto> licenses;
 
     }
 

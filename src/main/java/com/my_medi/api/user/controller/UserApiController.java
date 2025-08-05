@@ -8,6 +8,7 @@ import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.dto.UserResponseDto.UserProfileDto;
 import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.common.annotation.AuthUser;
+import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -56,5 +57,11 @@ public class UserApiController {
     @DeleteMapping
     public ApiResponseDto<Long> deleteUser(@AuthUser User user) {
         return ApiResponseDto.onSuccess(userCommandService.deleteUserAccount(user.getId()));
+    }
+
+    @Operation(summary = "test age")
+    @GetMapping("/age")
+    public ApiResponseDto<Integer> getAge(@AuthUser User user) {
+        return ApiResponseDto.onSuccess(BirthDateUtil.getAge(user.getBirthDate()));
     }
 }

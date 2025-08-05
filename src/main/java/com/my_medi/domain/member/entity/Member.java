@@ -1,6 +1,6 @@
 package com.my_medi.domain.member.entity;
 
-import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.domain.expert.dto.UpdateProfileDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
@@ -46,8 +46,9 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     private String name;
 
     //생년월일
+    @Size(min = 6, max = 6, message = "생년월일은 6자리여야 합니다 (예: 000926)")
     @Column(name = "birth_date")
-    private LocalDate birthDate;
+    private String birthDate;
 
     //성별 필드 추가 (남자, 여자)
     @Enumerated(EnumType.STRING)
@@ -55,7 +56,7 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     private Gender gender;
 
     //닉네임
-    @Column(name = "nickname", unique = true, nullable = true) // 회원가입시 입력받지 않으므로 기본 null
+    @Column(name = "nickname", unique = true)
     private String nickname;
 
     //이메일
@@ -76,8 +77,6 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     @Column(name = "profile_img_url", nullable = true) // 회원가입시 입력받지 않으므로 기본 null
     private String profileImgUrl;
 
-
-    //TODO : dto 통일
     //User dto 전용
     public void modifyMemberInfoUser(UpdateUserDto dto){
         this.name = dto.getName();
@@ -89,7 +88,7 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     }
 
     //Expert dto 전용
-    public void modifyMemberInfoExpert(UpdateExpertDto dto){
+    public void modifyMemberInfoExpert(UpdateProfileDto dto){
         this.name = dto.getName();
         this.birthDate = dto.getBirthDate();
         this.nickname = dto.getNickname();

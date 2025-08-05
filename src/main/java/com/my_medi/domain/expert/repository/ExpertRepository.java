@@ -4,7 +4,10 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.dsl.ExpertQueryRepository;
 import com.my_medi.domain.member.entity.Member;
 import com.my_medi.domain.user.entity.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +19,6 @@ public interface ExpertRepository extends JpaRepository<Expert,Long>, ExpertQuer
     Optional<Expert> findByEmail(String email);
 
     boolean existsByEmail(String email);
-
 }
 
 

@@ -1,4 +1,4 @@
-package com.my_medi.api.career.controller;
+/* package com.my_medi.api.career.controller;
 
 import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.api.common.dto.ApiResponseDto;
@@ -40,5 +40,5 @@ public class CareerApiController {
         Long id = careerCommandService.deleteCareer(careerId);
         return ApiResponseDto.onSuccess(id);
     }
-}
+} */
 

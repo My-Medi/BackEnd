@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class RegisterMemberDto {
     private String name;
-    private LocalDate birthDate;
+    private String birthDate;
     private Gender gender;
     private String nickname;
     private String email;
