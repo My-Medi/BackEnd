@@ -1,4 +1,4 @@
-package com.my_medi.domain.report.entity;
+package com.my_medi.domain.report.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

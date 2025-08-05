@@ -1,13 +1,13 @@
-package com.my_medi.domain.report.entity;
+package com.my_medi.domain.report.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum WaistType {
+public enum UrinationDisorderStatus {
     NORMAL("정상"),
-    ABDOMINAL_OBESITY("복부비만");
+    SUSPECTED("배뇨장애 의심");
 
     private final String key;
 }

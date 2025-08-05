@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import com.my_medi.domain.report.enums.BmiCategory;
+import com.my_medi.domain.report.enums.WaistType;
 
 @Embeddable
 @Getter
