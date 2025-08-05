@@ -46,10 +46,12 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
                 .expert(expert)
                 .user(user)
                 .title(registerScheduleDto.getTitle())
-                .description(registerScheduleDto.getDescription())
-                .startTime(registerScheduleDto.getStartTime())
-                .endTime(registerScheduleDto.getEndTime())
                 .location(registerScheduleDto.getLocation())
+                .meetingDate(registerScheduleDto.getMeetingDate())
+                .hour(registerScheduleDto.getHour())
+                .minute(registerScheduleDto.getMinute())
+                .isAm(registerScheduleDto.isAm())
+                .memo(registerScheduleDto.getMemo())
                 .build();
 
         return scheduleRepository.save(schedule).getId();

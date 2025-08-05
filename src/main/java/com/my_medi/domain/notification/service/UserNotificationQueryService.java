@@ -1,10 +1,9 @@
 package com.my_medi.domain.notification.service;
 
 import com.my_medi.domain.notification.entity.UserNotification;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserNotificationQueryService {
-    List<UserNotification> getNotificationByUserId(Long userId);
-
-    UserNotification getNotificationById(Long notificationId);
+    Page<UserNotification> getUserNotificationListByPage(Long userId, Pageable pageable);
 }

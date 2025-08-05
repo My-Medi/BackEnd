@@ -2,7 +2,10 @@ package com.my_medi.domain.expert.entity;
 
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.career.entity.Career;
-import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.domain.expert.dto.UpdateProfileDto;
+import com.my_medi.domain.expert.dto.UpdateResumeDto;
+import com.my_medi.domain.license.entity.License;
+import com.my_medi.domain.licenseImage.entity.LicenseImage;
 import com.my_medi.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,11 +30,18 @@ public class Expert extends Member {
     //소속 회사 기관명
     private String organizationName;
 
-    // 자격증 (이미지) TODO: 자격증도 entity 따로 만들기. id랑 url 2개 필드로..
-    @Column(length = 1000)
-    private String licenseFileUrl;
+    // 자격증 증명사진(리스트)
+    @Builder.Default
+    @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LicenseImage> licenseImages = new ArrayList<>();
+
+    // 자격증(리스트)
+    @Builder.Default
+    @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<License> licenses = new ArrayList<>();
 
     // 경력사항(리스트)
+    @Builder.Default
     @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Career> careers = new ArrayList<>();
 
@@ -45,14 +55,28 @@ public class Expert extends Member {
     private String IntroSentence;
 
 
-    public void modifyExpertInfo(UpdateExpertDto dto) {
+    public void modifyExpertInfo(UpdateProfileDto dto) {
         //user 공통
         this.modifyMemberInfoExpert(dto);
+    }
 
-        //expert
-        this.specialty = dto.getSpecialty();
-        this.organizationName = dto.getOrganizationName();
-        this.introduction = dto.getIntroduction();
+    public void modifyResumeInfo(UpdateResumeDto dto) {
+        this.specialty = dto.getSpecialty(); // 전문분야
+        this.organizationName = dto.getOrganizationName(); //소속 회사, 기관명
+        this.introduction = dto.getIntroduction(); // 자기소개
+        this.IntroSentence = dto.getIntroSentences(); // 나를 소개하는 대표 문장 한줄
+
+        // 경력 초기화 후 다시 추가
+        this.careers.clear();
+        dto.getCareers().forEach(careerRequestDto -> this.careers.add(careerRequestDto.toEntity(this)));
+
+        // 자격증 초기화 후 다시 추가
+        this.licenses.clear();
+        dto.getLicenses().forEach(licenseDto -> this.licenses.add(licenseDto.toEntity(this)));
+
+        // 자격증 이미지 초기화 후 다시 추가
+        this.licenseImages.clear();
+        dto.getLicenseImages().forEach(licenseImageDto -> this.licenseImages.add(licenseImageDto.toEntity(this)));
 
     }
 

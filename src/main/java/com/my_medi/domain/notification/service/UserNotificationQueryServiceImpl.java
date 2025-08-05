@@ -1,12 +1,12 @@
 package com.my_medi.domain.notification.service;
 
 import com.my_medi.domain.notification.entity.UserNotification;
-import com.my_medi.domain.notification.exception.UserNotificationHandler;
 import com.my_medi.domain.notification.repository.UserNotificationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -15,13 +15,7 @@ public class UserNotificationQueryServiceImpl implements UserNotificationQuerySe
     private final UserNotificationRepository userNotificationRepository;
 
     @Override
-    public List<UserNotification> getNotificationByUserId(Long userId) {
-        return userNotificationRepository.findByUserId(userId);
-    }
-
-    @Override
-    public UserNotification getNotificationById(Long notificationId) {
-        return userNotificationRepository.findById(notificationId)
-                .orElseThrow(() -> UserNotificationHandler.NOT_FOUND);
+    public Page<UserNotification> getUserNotificationListByPage(Long userId, Pageable pageable) {
+        return userNotificationRepository.findAllByUserId(userId, pageable);
     }
 }

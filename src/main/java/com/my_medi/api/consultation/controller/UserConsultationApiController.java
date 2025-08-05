@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "[사용자 페이지] 상담요청 API")
 @RestController
@@ -47,11 +48,25 @@ public class UserConsultationApiController {
                 consultationRequestQueryService.getAllRequestByUser(user.getId()) :
                 consultationRequestQueryService.getRequestByUser(user.getId(), status);
 
-        List<UserConsultationDto> dtoList = requests.stream()
+        List<ConsultationRequest> deduplicated = requests;
+
+        if (status == RequestStatus.REQUESTED) {
+            deduplicated = requests.stream()
+                    .collect(Collectors.toMap(
+                            req -> req.getExpert().getId(),
+                            req -> req,
+                            (existing, duplicate) -> existing
+                    ))
+                    .values().stream()
+                    .toList();
+        }
+
+        List<UserConsultationDto> dtoList = deduplicated.stream()
                 .map(UserConsultationConvert::toDto)
                 .toList();
 
         return ApiResponseDto.onSuccess(dtoList);
+
     }
 
 

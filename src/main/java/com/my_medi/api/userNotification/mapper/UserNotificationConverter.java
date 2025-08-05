@@ -2,6 +2,7 @@ package com.my_medi.api.userNotification.mapper;
 
 import com.my_medi.api.userNotification.dto.UserNotificationResponseDto.*;
 import com.my_medi.domain.notification.entity.UserNotification;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,9 +18,7 @@ public class UserNotificationConverter {
         return dto;
     }
 
-    public static List<UserNotificationDto> toUserNotificationListDto(List<UserNotification> notificationList) {
-        return notificationList.stream()
-                .map(UserNotificationConverter::fromUserNotification)
-                .collect(Collectors.toList());
+    public static Page<UserNotificationDto> toUserNotificationPageDto(Page<UserNotification> notificationPage) {
+        return notificationPage.map(UserNotificationConverter::fromUserNotification);
     }
 }

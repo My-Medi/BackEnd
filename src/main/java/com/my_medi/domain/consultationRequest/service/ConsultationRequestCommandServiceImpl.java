@@ -85,6 +85,8 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         ConsultationRequest request = getRequestedConsultation(consultationId);
         validateExpertApprovalOrRejectionAuthority(request, expert);
         request.approve();
+        deleteOtherRequestedConsultations(request);
+
     }
 
     @Override
@@ -92,6 +94,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         ConsultationRequest request = getRequestedConsultation(consultationId);
         validateExpertApprovalOrRejectionAuthority(request, expert);
         request.reject();
+        deleteOtherRequestedConsultations(request);
     }
 
     private void validateExpertApprovalOrRejectionAuthority(ConsultationRequest request, Expert expert) {
@@ -108,6 +111,19 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         if (hasConflict) {
             throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
         }
+    }
+
+    private void deleteOtherRequestedConsultations(ConsultationRequest request) {
+        List<ConsultationRequest> toDelete = consultationRequestRepository
+                .findByUserIdAndExpertIdAndRequestStatus(
+                        request.getUser().getId(),
+                        request.getExpert().getId(),
+                        RequestStatus.REQUESTED
+                ).stream()
+                .filter(req -> !req.getId().equals(request.getId()))
+                .toList();
+
+        consultationRequestRepository.deleteAllInBatch(toDelete);
     }
 
 

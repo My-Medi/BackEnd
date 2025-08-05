@@ -1,4 +1,4 @@
-package com.my_medi.api.common.example;
+package com.my_medi.api.common.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.expert.dto.SpecialtyDto;

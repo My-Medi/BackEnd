@@ -1,6 +1,5 @@
 package com.my_medi.domain.career.service;
 
-
 import com.my_medi.api.career.dto.CareerRequestDto;
 
 import java.util.List;
