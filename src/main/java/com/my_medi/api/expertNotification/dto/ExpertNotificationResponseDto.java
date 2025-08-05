@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 public class ExpertNotificationResponseDto {
     @Data
     @Builder
@@ -16,5 +18,14 @@ public class ExpertNotificationResponseDto {
         private String notificationContent;
         private Long sourceId;
         private Boolean isRead;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ExpertNotificationSimplePageResponse {
+        private List<ExpertNotificationResponseDto.ExpertNotificationDto> content;
+        private Integer totalPages;
+        private Integer page;
     }
 }

@@ -1,5 +1,6 @@
 package com.my_medi.api.userNotification.controller;
 
+import com.my_medi.api.userNotification.dto.UserNotificationResponseDto.UserNotificationSimplePageResponse;
 import com.my_medi.api.userNotification.dto.UserNotificationResponseDto.UserNotificationDto;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.userNotification.mapper.UserNotificationConverter;
@@ -26,7 +27,7 @@ public class UserNotificationApiController {
 
     @Operation(summary = "사용자의 알림을 pagination으로 조회합니다.")
     @GetMapping
-    public ApiResponseDto<Page<UserNotificationDto>> getUserNotificationByPage(
+    public ApiResponseDto<UserNotificationSimplePageResponse> getUserNotificationByPage(
             @AuthUser User user,
             @RequestParam(defaultValue = "0") int currentPage,
             @RequestParam int pageSize) {
@@ -34,8 +35,9 @@ public class UserNotificationApiController {
         Page<UserNotification> userNotificationPage = userNotificationUseCase
                 .getPrioritizedNotificationDtoSliceByUserId(user.getId(), currentPage, pageSize);
 
-        return ApiResponseDto.onSuccess(UserNotificationConverter
-                .toUserNotificationPageDto(userNotificationPage));
+        return ApiResponseDto.onSuccess(
+                UserNotificationConverter.toUserNotificationPageDto(userNotificationPage)
+        );
     }
 
     @Operation(summary = "사용자의 알림을 '읽음' 상태로 만듭니다.")
