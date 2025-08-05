@@ -6,18 +6,38 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@Data
-@Builder
 public class UserConsultationDto {
-    private Long consultationId;
-    private Long expertId;
-    private RequestStatus status;
-    private Specialty specialty;
-    private String name;
-    private String nickname;
-    private String profileImgUrl;
-    private String phoneNumber;
-    private String introSentence;
-    private LocalDate requestDate;
+
+    @Data
+    @Builder
+    public static class UserConsultationStatusDto {
+        private Long consultationId;
+        private Long expertId;
+        private RequestStatus status;
+        private Specialty specialty;
+        private String name;
+        private String nickname;
+        private String profileImgUrl;
+        private String phoneNumber;
+        private String introSentence;
+        private LocalDate requestDate;
+    }
+
+    @Data
+    @Builder
+    public static class UserConsultationDetailDto {
+        private Long expertId;
+        private String name;
+        private String nickname;
+        private String phoneNumber;
+        private String introSentence;
+        private String profileImageUrl;
+        private LocalDate startedAt;
+        private String introduction;
+        private String organization;
+        private String specialty;
+        private List<String> career;
+    }
 }

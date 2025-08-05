@@ -40,7 +40,7 @@ public class UserConsultationApiController {
 
     @Operation(summary = "본인이 요청한 상담 목록을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<List<UserConsultationDto>> getMyConsultations(
+    public ApiResponseDto<List<UserConsultationDto.UserConsultationStatusDto>> getMyConsultations(
             @AuthUser User user,
             @RequestParam(required = false) RequestStatus status
     ) {
@@ -61,12 +61,11 @@ public class UserConsultationApiController {
                     .toList();
         }
 
-        List<UserConsultationDto> dtoList = deduplicated.stream()
+        List<UserConsultationDto.UserConsultationStatusDto> dtoList = deduplicated.stream()
                 .map(UserConsultationConvert::toDto)
                 .toList();
 
         return ApiResponseDto.onSuccess(dtoList);
-
     }
 
 

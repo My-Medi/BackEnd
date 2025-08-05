@@ -4,11 +4,11 @@ import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.expert.entity.Expert;
 
-
 public class UserConsultationConvert {
-    public static UserConsultationDto toDto(ConsultationRequest request) {
+
+    public static UserConsultationDto.UserConsultationStatusDto toDto(ConsultationRequest request) {
         Expert expert = request.getExpert();
-        return UserConsultationDto.builder()
+        return UserConsultationDto.UserConsultationStatusDto.builder()
                 .consultationId(request.getId())
                 .expertId(expert.getId())
                 .status(request.getRequestStatus())
