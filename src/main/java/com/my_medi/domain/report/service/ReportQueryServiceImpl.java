@@ -42,4 +42,9 @@ public class ReportQueryServiceImpl implements ReportQueryService{
 
         return ReportConverter.toComparingReportResponseDto(healthCheckupList, report);
     }
+
+    @Override
+    public long getReportCountByUser(User user) {
+        return reportRepository.countByUserId(user.getId());
+    }
 }

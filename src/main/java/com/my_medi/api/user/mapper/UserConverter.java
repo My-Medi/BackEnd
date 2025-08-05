@@ -3,6 +3,7 @@ package com.my_medi.api.user.mapper;
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.dto.UserResponseDto.UserProfileDto;
 import com.my_medi.common.util.BirthDateUtil;
+import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.entity.User;
 
 public class UserConverter {
@@ -23,14 +24,14 @@ public class UserConverter {
     }
 
 
-    public static UserResponseDto.UserProfileTopDto toUserProfileTopDto(User user){
+    public static UserResponseDto.UserProfileTopDto toUserProfileTopDto(User user, long reportCount){
         return UserResponseDto.UserProfileTopDto.builder()
                 .name(user.getName())
                 .nickname(user.getNickname())
                 .ageUser(BirthDateUtil.getAge(user.getBirthDate()))
                 .height(user.getHeight())
                 .weight(user.getWeight())
-                //TODO: 건강검진횟수(리포트 개수)
+                .reportCount(reportCount)
                 //TODO: 건강 상태 : 리포트 결과 데이터(entity 추가)
                 .build();
     }

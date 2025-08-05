@@ -32,5 +32,6 @@ public class UserResponseDto {
         private int ageUser;
         private Float height;
         private Float weight;
+        private long reportCount; // 건강검진 횟수
     }
 }

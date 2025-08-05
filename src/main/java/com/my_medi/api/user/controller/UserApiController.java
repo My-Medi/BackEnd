@@ -13,6 +13,7 @@ import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiController {
 
     private final UserCommandService userCommandService;
+    private final ReportQueryService reportQueryService;
 
     @Operation(summary = "사용자 계정을 생성합니다.")
     @PostMapping
@@ -66,7 +68,8 @@ public class UserApiController {
     @GetMapping("/profile")
     @Operation(summary = "사용자 자신의 마이홈 환자 페이지를 조회합니다. [마이홈 환자]")
     public ApiResponseDto<UserResponseDto.UserProfileTopDto> getMyUserProfileTop(@AuthUser User user) {
-        return ApiResponseDto.onSuccess(UserConverter.toUserProfileTopDto(user));
+        long reportCount = reportQueryService.getReportCountByUser(user); //
+        return ApiResponseDto.onSuccess(UserConverter.toUserProfileTopDto(user,reportCount));
     }
 
     @Operation(summary = "test age")
