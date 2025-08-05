@@ -69,6 +69,9 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
                             .notificationContent(i % 3 == 0 ?
                                     NotificationMessage.CONSULTATION_APPROVED.format("아무개") :
                                     NotificationMessage.SCHEDULE_REGISTERED.format("아무개"))
+                            .notificationType(i % 3 == 0 ?
+                                    NotificationType.CONSULTATION_RESPONSE :
+                                    NotificationType.SCHEDULE)
                             .sourceId(1L)       //존재하는지 존재하지 않는지 알 수 없음
                             .isRead(i % 2 == 0 ? true : false)
                             .build()
