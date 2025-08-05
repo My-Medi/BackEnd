@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -50,17 +51,19 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
     private List<Schedule> findUpcomingSchedules(SortType type, Long id) {
         LocalDate now = LocalDate.now();
         Pageable top3 = PageRequest.of(0, 3);
+        Pageable top1 = PageRequest.of(0, 1);
 
         return switch (type) {
-            case USER -> scheduleRepository.findUpcomingSchedulesByUser(id, now, top3);
-            case EXPERT -> scheduleRepository.findUpcomingSchedulesByExpert(id, now, top3);
+//            case USER -> scheduleRepository.findUpcomingSchedulesByUser(id, now, top3);
+            case USER -> Collections.emptyList();
+            case EXPERT -> scheduleRepository.findUpcomingSchedulesByExpert(id, now, top1);
         };
     }
 
-    @Override
-    public List<Schedule> getUpcomingSchedulesForUser(Long userId) {
-        return findUpcomingSchedules(SortType.USER, userId);
-    }
+//    @Override
+//    public List<Schedule> getUpcomingSchedulesForUser(Long userId) {
+//        return findUpcomingSchedules(SortType.USER, userId);
+//    }
 
     @Override
     public List<Schedule> getUpcomingSchedulesForExpert(Long expertId) {
@@ -69,9 +72,16 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
 
     public enum SortType { USER, EXPERT }
 
+    @Override
     public List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate meetingDate) {
         return scheduleRepository.findAllByExpertIdAndMeetingDate(expertId, meetingDate);
     }
+
+    @Override
+    public List<Schedule> getSchedulesByUserAndDate(Long userId, LocalDate meetingDate) {
+        return scheduleRepository.findAllByUserIdAndMeetingDate(userId, meetingDate);
+    }
+
 
 
 }
