@@ -72,10 +72,12 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
 
     public enum SortType { USER, EXPERT }
 
+    @Override
     public List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate meetingDate) {
         return scheduleRepository.findAllByExpertIdAndMeetingDate(expertId, meetingDate);
     }
 
+    @Override
     public List<Schedule> getSchedulesByUserAndDate(Long userId, LocalDate meetingDate) {
         return scheduleRepository.findAllByUserIdAndMeetingDate(userId, meetingDate);
     }
