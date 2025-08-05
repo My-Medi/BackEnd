@@ -26,17 +26,22 @@ public class UserQueryExpertApiController {
     private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
     @Operation(summary = "전문가 프로필 정보를 전체 조회합니다.")
-    @GetMapping("/experts/{expertId}/profiles/all")
+    @GetMapping("/experts/{expertId}/profiles/details")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileDto> getExpertProfile(@AuthUser User user,
                                                                                @PathVariable Long expertId) {
         // 전문가 엔티티 조회 -> 유저와 전문가 매칭 확인 -> DTO 변환 후 반환
         Expert expert = expertQueryService.getExpertById(expertId);
 
-        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), user.getId());
-
         ExpertResponseDto.ExpertProfileDto result = ExpertConverter.toExpertProfileDto(expert);
 
         return ApiResponseDto.onSuccess(result);
+    }
+
+    @GetMapping("/experts/{expertId}")
+    @Operation(summary = "사용자가 전문가의 프로필을 상세 조회합니다. [전문가 상세]", description = "[건강관리요청서] 보내기 전 ")
+    public ApiResponseDto<ExpertResponseDto.ExpertDetailForUserDto> getExpertDetailForUser(@PathVariable Long expertId) {
+        Expert expert = expertQueryService.getExpertById(expertId);
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertDetailForUserDto(expert));
     }
 
 

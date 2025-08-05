@@ -26,7 +26,7 @@ public class ExpertConverter {
                 .careers(
                         expert.getCareers().stream()
                                 .map(c -> CareerResponseDto.builder()
-                                        .id(c.getId())
+                                        .careerid(c.getId())
                                         .companyName(c.getCompanyName())
                                         .jobTitle(c.getJobTitle())
                                         .startDate(c.getStartDate())
@@ -78,10 +78,12 @@ public class ExpertConverter {
                 .introduction(expert.getIntroduction())
                 .organizationName(expert.getOrganizationName())
                 .specialty(expert.getSpecialty())
+
+                // TODO career response 변경(date-> 개월수 계산 적용)
                 .careers(
                         expert.getCareers().stream()
                                 .map(r -> CareerResponseDto.builder()
-                                        .id(r.getId())
+                                        .careerid(r.getId())
                                         .companyName(r.getCompanyName())
                                         .jobTitle(r.getJobTitle())
                                         .startDate(r.getStartDate())
