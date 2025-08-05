@@ -2,19 +2,23 @@ package com.my_medi.domain.expert.service;
 
 import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
-import com.my_medi.api.member.dto.RegisterMemberDto;
+import com.my_medi.api.license.mapper.LicenseConverter;
+import com.my_medi.api.licenseImage.mapper.LicenseImageConverter;
 import com.my_medi.common.util.EnumConvertUtil;
+import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.career.repository.CareerRepository;
-import com.my_medi.domain.career.service.CareerCommandService;
-import com.my_medi.domain.expert.dto.UpdateExpertDto;
+import com.my_medi.domain.expert.dto.UpdateProfileDto;
+import com.my_medi.domain.expert.dto.UpdateResumeDto;
 import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
+
+import com.my_medi.domain.license.entity.License;
+import com.my_medi.domain.license.repository.LicenseRepository;
+import com.my_medi.domain.licenseImage.entity.LicenseImage;
+import com.my_medi.domain.licenseImage.repository.LicenseImageRepository;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
-import com.my_medi.domain.user.entity.User;
-import com.my_medi.domain.user.exception.UserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +37,9 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final ExpertRepository expertRepository;
     private final PasswordEncoder passwordEncoder;
     private final CareerRepository careerRepository;
+    private final LicenseRepository licenseRepository;
+    private final LicenseImageRepository licenseImageRepository;
+
 
     @Override
     public Long registerExpert(RegisterExpertDto registerExpertDto) {
@@ -43,6 +50,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .birthDate(registerExpertDto.getMember().getBirthDate())
                 .gender(registerExpertDto.getMember().getGender())
                 .username(UUID.randomUUID().toString())
+                .nickname(registerExpertDto.getMember().getNickname())
                 .email(registerExpertDto.getMember().getEmail())
                 .phoneNumber(registerExpertDto.getMember().getPhoneNumber())
                 .profileImgUrl(registerExpertDto.getMember().getProfileImgUrl())
@@ -52,8 +60,9 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 //Expert
                 .specialty(registerExpertDto.getSpecialty())
                 .organizationName(registerExpertDto.getOrganizationName())
-                .licenseFileUrl(registerExpertDto.getLicenseFileUrl())
                 .introduction(registerExpertDto.getIntroduction())
+                .IntroSentence(registerExpertDto.getIntroSentence())
+
                 .build();
         expertRepository.save(expert); // ID가 생겨야 FK 설정 가능
 
@@ -63,17 +72,43 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                         .map(careerDto -> CareerConverter.toEntity(careerDto, expert))
                         .collect(Collectors.toList())
         );
+        // 자격증 이미지 저장
+        licenseImageRepository.saveAll(
+                registerExpertDto.getLicenseImages().stream()
+                        .map(imageDto -> LicenseImageConverter.toEntity(imageDto, expert))
+                        .collect(Collectors.toList())
+        );
+
+        // 자격증 리스트 저장
+        licenseRepository.saveAll(
+                registerExpertDto.getLicenses().stream()
+                        .map(licenseDto -> LicenseConverter.toEntity(licenseDto, expert))
+                        .collect(Collectors.toList())
+        );
+
+
 
         return expert.getId();
     }
 
 
+    // 피그마 [회원정보 수정페이지-전문가] 페이지
     @Override
-    public Long updateExpertInformation(Long expertId, UpdateExpertDto dto) {
+    public Long updateProfile(Long expertId, UpdateProfileDto updateProfileDto) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-        expert.modifyExpertInfo(dto);
+        expert.modifyExpertInfo(updateProfileDto);
         return expert.getId();
+    }
+
+    // 피그마 [이력서 관리] 페이지
+    @Override
+    public Long updateResume(Long expertId, UpdateResumeDto updateResumeDto) {
+        Expert expert = expertRepository.findById(expertId)
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+        expert.modifyResumeInfo(updateResumeDto);
+        return expert.getId();
+
     }
 
     @Override
@@ -86,29 +121,47 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     @Override
     public void registerDummyExperts(int count) {
         List<Expert> expertList = new ArrayList<>();
+        List<Career> careerList = new ArrayList<>();
+        List<License> licenseList = new ArrayList<>();
+        List<LicenseImage> licenseImageList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            expertList.add(
-                    Expert.builder()
-                            //member
-                            .name("전문가" + i)
-                            .birthDate(LocalDate.of(2000, 6,23))
-                            .gender(Gender.MALE)
-                            .username(UUID.randomUUID().toString())
-                            .email(UUID.randomUUID().toString().substring(0, 7) + i + "@gmail.com")
-                            .phoneNumber("010.1233.1233")
-                            .profileImgUrl(null)
-                            .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
-                            .loginId("expert" + UUID.randomUUID().toString().substring(0, 5))
-                            .password(passwordEncoder.encode("string"))
-                            //Expert
-                            .specialty(EnumConvertUtil.getRandomSpecialty())
-                            .organizationName("MY-MEDI")
-                            .licenseFileUrl(null)
-                            .introduction("마이 메디 소속 전문가입니다ㅏ")
-                            .build()
-            );
+            Expert expert = Expert.builder()
+                    //member
+                    .name("전문가" + i)
+                    .birthDate("000623")
+                    .gender(Gender.MALE)
+                    .username(UUID.randomUUID().toString())
+                    .email(UUID.randomUUID().toString().substring(0, 7) + i + "@gmail.com")
+                    .phoneNumber("010.1233.1233")
+                    .profileImgUrl(null)
+                    .role(Role.EXPERT) //role은 입력 x, EXPERT로 고정
+                    .loginId("expert" + UUID.randomUUID().toString().substring(0, 5))
+                    .password(passwordEncoder.encode("string"))
+                    //Expert
+                    .specialty(EnumConvertUtil.getRandomSpecialty())
+                    .organizationName("MY-MEDI")
+                    .introduction("마이 메디 소속 전문가입니다ㅏ")
+                    .build();
+            expertList.add(expert);
+
+            careerList.add(Career.builder()
+                    .expert(expert)
+                    .companyName("MY-MEDI")
+                    .jobTitle("medical")
+                    .startDate(LocalDate.of(2024, 3,8))
+                    .endDate(LocalDate.of(2025, 6, 9))
+                    .build());
+
+            licenseList.add(License.builder()
+                    .licenseName("medical license")
+                    .licenseDate(LocalDate.of(2025, 3,4))
+                    .licenseDescription("nice medic")
+                    .expert(expert)
+                    .build());
         }
         expertRepository.saveAll(expertList);
+        careerRepository.saveAll(careerList);
+        licenseRepository.saveAll(licenseList);
     }
 
 }

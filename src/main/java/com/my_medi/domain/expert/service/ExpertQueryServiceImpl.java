@@ -25,14 +25,13 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) //queryservice에는 readonly
-
 public class ExpertQueryServiceImpl implements ExpertQueryService {
     private final ExpertRepository expertRepository;
 
     @Override
     public Expert getExpertById(Long expertId) {
         return expertRepository.findById(expertId)
-                .orElseThrow(() -> ExpertHandler.NOT_FOUND); // ExpertHandler를 따로 만들어야 하는지?
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
     }
 
     @Override

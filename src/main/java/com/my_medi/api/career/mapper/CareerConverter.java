@@ -11,6 +11,7 @@ public class CareerConverter {
                 .jobTitle(dto.getJobTitle())
                 .startDate(dto.getStartDate())
                 .endDate(dto.getEndDate())
+                .expert(expert)
                 .build();
     }
 }

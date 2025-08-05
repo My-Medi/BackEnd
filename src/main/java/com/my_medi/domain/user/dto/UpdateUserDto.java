@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class UpdateUserDto {
 
     private String name;
-    private LocalDate birthDate;
+    private String birthDate;
     private String nickname;
     private String phoneNumber;
     private String profileImgUrl;
