@@ -81,11 +81,12 @@ public class UserConsultationApiController {
     }
 
     @Operation(summary = "상담 요청한 전문가의 상세 정보를 조회합니다.")
-    @GetMapping("/experts/{expertId}")
+    @GetMapping("/experts/{expertId}/requested")
     public ApiResponseDto<UserConsultationDto.ExpertRequestedDto> getExpertDetail(
+            @AuthUser User user,
             @PathVariable Long expertId
     ) {
-        ConsultationRequest request = consultationRequestQueryService.getRequestedExpertDetail(expertId);
+        ConsultationRequest request = consultationRequestQueryService.getRequestedExpertDetail(user.getId(), expertId);
         UserConsultationDto.ExpertRequestedDto detailDto = UserConsultationConvert.toDetailDto(request);
         return ApiResponseDto.onSuccess(detailDto);
     }

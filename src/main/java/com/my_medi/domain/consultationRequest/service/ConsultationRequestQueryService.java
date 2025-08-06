@@ -19,7 +19,7 @@ public interface ConsultationRequestQueryService {
 
     Page<ConsultationRequest> getAllRequestByExpert(Long expertId, Pageable pageable);
 
-    ConsultationRequest getRequestedExpertDetail(Long expertId);
+    ConsultationRequest getRequestedExpertDetail(Long userId, Long expertId);
 
     ConsultationRequest getMatchedExpertDetail(Long userId, Long expertId);
 

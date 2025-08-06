@@ -38,10 +38,12 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
     List<ConsultationRequest> findByUserIdAndExpertIdAndRequestStatus(Long userId, Long expertId, RequestStatus requestStatus);
 
     @Query("SELECT r FROM ConsultationRequest r " +
-            "WHERE r.expert.id = :expertId AND r.requestStatus = :status " +
+            "WHERE r.expert.id = :expertId AND r.user.id = :userId AND r.requestStatus = :status " +
             "ORDER BY r.createdDate DESC")
-    List<ConsultationRequest> findLatestRequestedByExpert(@Param("expertId") Long expertId,
+    List<ConsultationRequest> findLatestRequestedByExpert(@Param("userId") Long userId,
+                                                          @Param("expertId") Long expertId,
                                                           @Param("status") RequestStatus status);
+
 
     @Query("SELECT r FROM ConsultationRequest r " +
             "WHERE r.user.id = :userId AND r.expert.id = :expertId AND r.requestStatus = :status")

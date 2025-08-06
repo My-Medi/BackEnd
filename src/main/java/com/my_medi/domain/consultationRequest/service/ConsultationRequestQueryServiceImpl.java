@@ -47,9 +47,9 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
     }
 
     @Override
-    public ConsultationRequest getRequestedExpertDetail(Long expertId) {
+    public ConsultationRequest getRequestedExpertDetail(Long userId, Long expertId) {
         List<ConsultationRequest> results =
-                consultationRequestRepository.findLatestRequestedByExpert(expertId, RequestStatus.REQUESTED);
+                consultationRequestRepository.findLatestRequestedByExpert(userId, expertId, RequestStatus.REQUESTED);
 
         return results.stream()
                 .findFirst()
