@@ -21,4 +21,7 @@ public interface ConsultationRequestQueryService {
 
     ConsultationRequest getRequestedExpertDetail(Long expertId);
 
+    ConsultationRequest getMatchedExpertDetail(Long userId, Long expertId);
+
+
 }

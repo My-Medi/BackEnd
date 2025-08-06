@@ -90,4 +90,15 @@ public class UserConsultationApiController {
         return ApiResponseDto.onSuccess(detailDto);
     }
 
+    @Operation(summary = "매칭된 전문가의 상세 정보를 조회합니다.")
+    @GetMapping("/experts/{expertId}/matched")
+    public ApiResponseDto<UserConsultationDto.ExpertRequestedDto> getMatchedExpertDetail(
+            @AuthUser User user,
+            @PathVariable Long expertId
+    ) {
+        ConsultationRequest request = consultationRequestQueryService.getMatchedExpertDetail(user.getId(), expertId);
+        UserConsultationDto.ExpertRequestedDto detailDto = UserConsultationConvert.toDetailDto(request);
+        return ApiResponseDto.onSuccess(detailDto);
+    }
+
 }

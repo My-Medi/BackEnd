@@ -56,5 +56,11 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
     }
 
+    @Override
+    public ConsultationRequest getMatchedExpertDetail(Long userId, Long expertId) {
+        return consultationRequestRepository
+                .findMatchedRequest(userId, expertId, RequestStatus.ACCEPTED)
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+    }
 }
 
