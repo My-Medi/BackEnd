@@ -19,7 +19,9 @@ public class ExpertConsultationConverter {
                 .gender(user.getGender())
                 .weight(user.getWeight())
                 .height(user.getHeight())
-                .age(String.valueOf("만 "+BirthDateUtil.getAge(user.getBirthDate())) + "세")
+                .age(user.getBirthDate() != null
+                        ? "만 " + BirthDateUtil.getAge(user.getBirthDate()) + "세"
+                        : "정보 없음")
                 .build();
     }
 

@@ -5,8 +5,11 @@ import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ConsultationRequestRepository extends JpaRepository<ConsultationRequest, Long> {
 
@@ -33,6 +36,12 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
     boolean existsByExpertIdAndUserIdAndRequestStatus(Long expertId, Long userId, RequestStatus requestStatus);
 
     List<ConsultationRequest> findByUserIdAndExpertIdAndRequestStatus(Long userId, Long expertId, RequestStatus requestStatus);
+
+    @Query("SELECT r FROM ConsultationRequest r " +
+            "WHERE r.expert.id = :expertId AND r.requestStatus = :status " +
+            "ORDER BY r.createdDate DESC")
+    List<ConsultationRequest> findLatestRequestedByExpert(@Param("expertId") Long expertId,
+                                                          @Param("status") RequestStatus status);
 
 
 }

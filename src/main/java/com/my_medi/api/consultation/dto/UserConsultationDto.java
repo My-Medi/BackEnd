@@ -27,17 +27,17 @@ public class UserConsultationDto {
 
     @Data
     @Builder
-    public static class UserConsultationDetailDto {
+    public static class ExpertRequestedDto {
         private Long expertId;
         private String name;
         private String nickname;
         private String phoneNumber;
         private String introSentence;
         private String profileImageUrl;
-        private LocalDate startedAt;
+        private LocalDate matchedAt;
         private String introduction;
         private String organization;
-        private String specialty;
+        private Specialty specialty;
         private List<String> career;
     }
 }

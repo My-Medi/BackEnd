@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,6 +78,16 @@ public class UserConsultationApiController {
                                                    @PathVariable Long consultationId) {
         consultationRequestCommandService.cancelRequest(consultationId, user.getId());
         return ApiResponseDto.onSuccess(consultationId);
+    }
+
+    @Operation(summary = "상담 요청한 전문가의 상세 정보를 조회합니다.")
+    @GetMapping("/experts/{expertId}")
+    public ApiResponseDto<UserConsultationDto.ExpertRequestedDto> getExpertDetail(
+            @PathVariable Long expertId
+    ) {
+        ConsultationRequest request = consultationRequestQueryService.getRequestedExpertDetail(expertId);
+        UserConsultationDto.ExpertRequestedDto detailDto = UserConsultationConvert.toDetailDto(request);
+        return ApiResponseDto.onSuccess(detailDto);
     }
 
 }
