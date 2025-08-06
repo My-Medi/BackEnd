@@ -7,6 +7,7 @@ import com.my_medi.api.consultation.service.ConsultationUseCase;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
+import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestCommandService;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestQueryService;
 import com.my_medi.domain.user.entity.User;
@@ -28,7 +29,8 @@ public class UserConsultationApiController {
 
     private final ConsultationRequestCommandService consultationRequestCommandService;
     private final ConsultationUseCase consultationUseCase;
-    private final ConsultationRequestQueryService consultationRequestQueryService;
+    private final ConsultationRequestQueryService consultationRequestQueryService;;
+    private final ConsultationRequestRepository consultationRequestRepository;
 
     @Operation(summary = "전문가에게 상담요청을 보냅니다.")
     @PostMapping("/experts/{expertId}")
@@ -87,18 +89,26 @@ public class UserConsultationApiController {
             @PathVariable Long expertId
     ) {
         ConsultationRequest request = consultationRequestQueryService.getRequestedExpertDetail(user.getId(), expertId);
-        UserConsultationDto.ExpertRequestedDto detailDto = UserConsultationConvert.toDetailDto(request);
-        return ApiResponseDto.onSuccess(detailDto);
+
+        int requestCount = consultationRequestRepository
+                .countByUserIdAndExpertIdAndRequestStatus(user.getId(), expertId, RequestStatus.REQUESTED);
+
+        UserConsultationDto.ExpertRequestedDto dto =
+                UserConsultationConvert.toRequestedDetailDto(request, requestCount);
+
+        return ApiResponseDto.onSuccess(dto);
     }
+
+
 
     @Operation(summary = "매칭된 전문가의 상세 정보를 조회합니다.")
     @GetMapping("/experts/{expertId}/matched")
-    public ApiResponseDto<UserConsultationDto.ExpertRequestedDto> getMatchedExpertDetail(
+    public ApiResponseDto<UserConsultationDto.ExpertAcceptedDto> getMatchedExpertDetail(
             @AuthUser User user,
             @PathVariable Long expertId
     ) {
         ConsultationRequest request = consultationRequestQueryService.getMatchedExpertDetail(user.getId(), expertId);
-        UserConsultationDto.ExpertRequestedDto detailDto = UserConsultationConvert.toDetailDto(request);
+        UserConsultationDto.ExpertAcceptedDto detailDto = UserConsultationConvert.toDetailDto(request);
         return ApiResponseDto.onSuccess(detailDto);
     }
 

@@ -25,14 +25,41 @@ public class UserConsultationConvert {
                 .build();
     }
 
-    public static UserConsultationDto.ExpertRequestedDto toDetailDto(ConsultationRequest request) {
+    public static UserConsultationDto.ExpertAcceptedDto toDetailDto(ConsultationRequest request) {
+        Expert expert = request.getExpert();
+
+        return UserConsultationDto.ExpertAcceptedDto.builder()
+                .expertId(expert.getId())
+                .name(expert.getName())
+                .nickname(expert.getNickname())
+                .phoneNumber(expert.getPhoneNumber())
+                .introSentence(expert.getIntroSentence())
+                .profileImageUrl(expert.getProfileImgUrl())
+                .matchedAt(request.getCreatedDate().toLocalDate())
+                .introduction(expert.getIntroduction())
+                .organization(expert.getOrganizationName())
+                .specialty(expert.getSpecialty())
+                .career(
+                        expert.getCareers().stream()
+                                .map(career -> String.format(
+                                        "%s %d개월",
+                                        career.getJobTitle(),
+                                        calculateMonthsBetween(career.getStartDate(), career.getEndDate())
+                                ))
+                                .toList()
+                )
+                .build();
+    }
+
+    public static UserConsultationDto.ExpertRequestedDto toRequestedDetailDto(
+            ConsultationRequest request, int requestCount
+    ) {
         Expert expert = request.getExpert();
 
         return UserConsultationDto.ExpertRequestedDto.builder()
                 .expertId(expert.getId())
                 .name(expert.getName())
                 .nickname(expert.getNickname())
-                .phoneNumber(expert.getPhoneNumber())
                 .introSentence(expert.getIntroSentence())
                 .profileImageUrl(expert.getProfileImgUrl())
                 .requestedAt(request.getCreatedDate().toLocalDate())
@@ -48,6 +75,10 @@ public class UserConsultationConvert {
                                 ))
                                 .toList()
                 )
+                .requestCount(requestCount)
                 .build();
     }
+
+
+
 }

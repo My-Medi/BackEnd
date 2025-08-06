@@ -44,6 +44,9 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
                                                           @Param("expertId") Long expertId,
                                                           @Param("status") RequestStatus status);
 
+    int countByUserIdAndExpertIdAndRequestStatus(Long userId, Long expertId, RequestStatus status);
+
+
 
     @Query("SELECT r FROM ConsultationRequest r " +
             "WHERE r.user.id = :userId AND r.expert.id = :expertId AND r.requestStatus = :status")
