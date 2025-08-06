@@ -9,4 +9,6 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     Optional<Report> findByUserIdAndRound(Long userId, Integer round);
 
     Integer countByUserId(Long id);
+
+    Optional<Report> findTopByUserIdOrderByRoundDesc(Long userId);
 }

@@ -9,6 +9,7 @@ import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.report.entity.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static com.my_medi.common.util.HealthMetricCalculator.calculateAverage;
@@ -117,6 +118,60 @@ public class ReportConverter {
                 .elderlyPhysicalFunctionStatus(additionalTest.getElderlyPhysicalFunctionStatus())
                 .elderlyFunctionTest(additionalTest.getElderlyFunctionTest())
                 .build();
+    }
+
+    public static Optional<ReportSummaryDto> toUserReportSummaryDto(Report report) {
+        if (report == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(ReportSummaryDto.builder()
+                        .id(report.getId())
+                        .userId(report.getUser().getId())
+                        .round(report.getRound())
+                        .checkupDate(report.getCheckupDate())
+                .obesity(ReportSummaryDto.ObesityDto.builder()
+                        .bmi(report.getMeasurement().getBmi())
+                        .bmiCategory(report.getMeasurement().getBmiCategory().name())
+                        .waist(report.getMeasurement().getWaist())
+                        .build())
+
+                .hypertension(ReportSummaryDto.HypertensionDto.builder()
+                        .systolic(report.getBloodPressure().getSystolic())
+                        .diastolic(report.getBloodPressure().getDiastolic())
+                        .build())
+
+                .diabetes(ReportSummaryDto.DiabetesDto.builder()
+                        .fastingGlucose(report.getBloodTest().getFastingGlucose())
+                        .build())
+
+                .kidney(ReportSummaryDto.KidneyDto.builder()
+                        .creatinine(report.getBloodTest().getCreatinine())
+                        .egfr(report.getBloodTest().getEgfr())
+                        .build())
+
+                .liver(ReportSummaryDto.LiverDto.builder()
+                        .ast(report.getBloodTest().getAst())
+                        .alt(report.getBloodTest().getAlt())
+                        .gtp(report.getBloodTest().getGtp())
+                        .build())
+
+                .anemia(ReportSummaryDto.AnemiaDto.builder()
+                        .hemoglobin(report.getBloodTest().getHemoglobin())
+                        .build())
+
+                .dyslipidemia(ReportSummaryDto.DyslipidemiaDto.builder()
+                        .totalCholesterol(report.getBloodTest().getTotalCholesterol())
+                        .hdl(report.getBloodTest().getHdl())
+                        .triglyceride(report.getBloodTest().getTriglyceride())
+                        .ldl(report.getBloodTest().getLdl())
+                        .build())
+
+                .urine(ReportSummaryDto.UrineDto.builder()
+                        .proteinuria(report.getUrineTest().getTestRequired() ? "비정상" : "정상")
+                        .build())
+
+                .build());
     }
 
     // Dto -> Entity
