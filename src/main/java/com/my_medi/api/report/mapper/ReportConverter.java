@@ -9,7 +9,6 @@ import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.report.entity.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 import static com.my_medi.common.util.HealthMetricCalculator.calculateAverage;
