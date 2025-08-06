@@ -15,4 +15,6 @@ public interface ExpertCommandService {
     Long updateResume(Long expertId, UpdateResumeDto dto);
 
     void deleteExpertAccount(Long expertId);
+
+    void registerDummyExperts(int count);
 }

@@ -74,4 +74,26 @@ public class ExpertResponseDto{
         private List<CareerResponseDto> careers; // 경력사항
 
     }
+
+    @Data
+    @Builder
+    public static class ExpertSummaryProfileDto{
+        private Long expertId;
+        private Specialty specialty;
+        private String name;
+        private String nickname;
+
+        private String introduction;
+        private String organizationName;
+        //TODO 필드 추가(경력 사항)
+    }
+
+    @Data
+    @Builder
+    public static class ExpertProfileListDto{
+        @Builder.Default
+        private List<ExpertSummaryProfileDto> expertSummaryProfileDtoList = new ArrayList<>();
+        private final int page;
+        private final int totalPages;
+    }
 }

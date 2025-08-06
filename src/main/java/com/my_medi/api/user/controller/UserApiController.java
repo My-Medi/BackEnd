@@ -12,9 +12,11 @@ import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.common.util.BirthDateUtil;
+
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.service.ExpertQueryService;
 import com.my_medi.domain.report.service.ReportQueryService;
+
 import com.my_medi.domain.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
@@ -73,8 +75,7 @@ public class UserApiController {
         long reportCount = reportQueryService.getReportCountByUser(user); //
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileTopDto(user,reportCount));
     }
-
-
+  
     @Operation(summary = "test age")
     @GetMapping("/age")
     public ApiResponseDto<Integer> getAge(@AuthUser User user) {

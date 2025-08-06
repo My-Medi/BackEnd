@@ -1,6 +1,5 @@
 package com.my_medi.domain.proposal.service;
 
-import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.exception.ProposalHandler;
 import com.my_medi.domain.proposal.repository.ProposalRepository;

@@ -8,8 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -35,10 +37,7 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        LocalDateTime start = startDate.atStartOfDay();
-        LocalDateTime end = endDate.atTime(23, 59, 59);
-
-        return scheduleRepository.findByExpertIdAndStartTimeBetween(expertId, start, end);
+        return scheduleRepository.findByExpertIdAndMeetingDateBetween(expertId, startDate, endDate);
     }
 
     @Override
@@ -46,26 +45,25 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        LocalDateTime start = startDate.atStartOfDay();
-        LocalDateTime end = endDate.atTime(23, 59, 59);
-
-        return scheduleRepository.findByUserIdAndStartTimeBetween(userId, start, end);
+        return scheduleRepository.findByUserIdAndMeetingDateBetween(userId, startDate, endDate);
     }
 
-
     private List<Schedule> findUpcomingSchedules(SortType type, Long id) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
+        Pageable top3 = PageRequest.of(0, 3);
+        Pageable top1 = PageRequest.of(0, 1);
 
         return switch (type) {
-            case USER -> scheduleRepository.findTop3ByUserIdAndStartTimeAfterOrderByStartTimeAsc(id, now);
-            case EXPERT -> scheduleRepository.findTop3ByExpertIdAndStartTimeAfterOrderByStartTimeAsc(id, now);
+//            case USER -> scheduleRepository.findUpcomingSchedulesByUser(id, now, top3);
+            case USER -> Collections.emptyList();
+            case EXPERT -> scheduleRepository.findUpcomingSchedulesByExpert(id, now, top1);
         };
     }
 
-    @Override
-    public List<Schedule> getUpcomingSchedulesForUser(Long userId) {
-        return findUpcomingSchedules(SortType.USER, userId);
-    }
+//    @Override
+//    public List<Schedule> getUpcomingSchedulesForUser(Long userId) {
+//        return findUpcomingSchedules(SortType.USER, userId);
+//    }
 
     @Override
     public List<Schedule> getUpcomingSchedulesForExpert(Long expertId) {
@@ -73,5 +71,17 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
     }
 
     public enum SortType { USER, EXPERT }
+
+    @Override
+    public List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate meetingDate) {
+        return scheduleRepository.findAllByExpertIdAndMeetingDate(expertId, meetingDate);
+    }
+
+    @Override
+    public List<Schedule> getSchedulesByUserAndDate(Long userId, LocalDate meetingDate) {
+        return scheduleRepository.findAllByUserIdAndMeetingDate(userId, meetingDate);
+    }
+
+
 
 }

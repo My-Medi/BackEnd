@@ -3,7 +3,6 @@ package com.my_medi.domain.report.service;
 import com.my_medi.api.report.dto.ComparingReportResponseDto;
 import com.my_medi.api.report.mapper.ReportConverter;
 import com.my_medi.common.util.BirthDateUtil;
-import com.my_medi.common.util.HealthMetricCalculator;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.healthCheckup.repository.HealthCheckupRepository;
 import com.my_medi.domain.report.entity.Report;

@@ -3,8 +3,7 @@
     active:
       - ${ACTIVE_PROFILE}
       - security
-      - gpt
-      - s3
+      - infra
 
   servlet:
     multipart:
