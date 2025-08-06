@@ -107,8 +107,15 @@ public class ReportConverter {
     }
 
     public static AdditionalTestDto toAdditionalTestDto(Report report) {
+        AdditionalTest additionalTest = report.getAdditionalTest();
+
         return AdditionalTestDto.builder()
-                .needsFurtherTest(report.getAdditionalTest().getNeedsFurtherTest())
+                .b8Hepatitis(additionalTest.getB8Hepatitis())
+                .depression(additionalTest.getDepression())
+                .cognitiveImpairment(additionalTest.getCognitiveImpairment())
+                .boneDensityStatus(additionalTest.getBoneDensityStatus())
+                .elderlyPhysicalFunctionStatus(additionalTest.getElderlyPhysicalFunctionStatus())
+                .elderlyFunctionTest(additionalTest.getElderlyFunctionTest())
                 .build();
     }
 
@@ -180,7 +187,12 @@ public class ReportConverter {
 
     public static AdditionalTest toAdditionalTest(AdditionalTestDto additionalTestDto) {
         return AdditionalTest.builder()
-                .needsFurtherTest(additionalTestDto.getNeedsFurtherTest())
+                .b8Hepatitis(additionalTestDto.getB8Hepatitis())
+                .depression(additionalTestDto.getDepression())
+                .cognitiveImpairment(additionalTestDto.getCognitiveImpairment())
+                .boneDensityStatus(additionalTestDto.getBoneDensityStatus())
+                .elderlyPhysicalFunctionStatus(additionalTestDto.getElderlyPhysicalFunctionStatus())
+                .elderlyFunctionTest(additionalTestDto.getElderlyFunctionTest())
                 .build();
     }
 
