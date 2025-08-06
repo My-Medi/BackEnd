@@ -23,7 +23,7 @@ public class ExpertResponseDto{
     @Data
     @Builder
     public static class ExpertProfileDto{
-        private int id;
+        private int expertId;
         // Member 공통 필드
         private String name;
         private String birthDate;
@@ -53,7 +53,7 @@ public class ExpertResponseDto{
     @Data
     @Builder
     public static class ExpertProfileTopDto{
-        private int id;
+        private int expertId;
         private String nickname; //닉네임
         private String name; // 이름
         private int age; // expert의 나이
@@ -64,7 +64,7 @@ public class ExpertResponseDto{
     @Data
     @Builder
     public static class ExpertDetailForUserDto{
-        private int id;
+        private int expertId;
         private String nickname; //닉네임
         private String name; // 이름
         private String profileImgUrl; // 프로필 이미지
