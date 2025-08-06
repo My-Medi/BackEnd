@@ -1,7 +1,10 @@
 package com.my_medi.domain.report.entity;
 
+import com.my_medi.domain.report.enums.additionalTest.BoneDensityStatus;
+import com.my_medi.domain.report.enums.additionalTest.CognitiveImpairmentStatus;
+import com.my_medi.domain.report.enums.additionalTest.DepressionStatus;
+import com.my_medi.domain.report.enums.additionalTest.ElderlyPhysicalFunctionStatus;
 import jakarta.persistence.*;
-import com.my_medi.domain.report.enums.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

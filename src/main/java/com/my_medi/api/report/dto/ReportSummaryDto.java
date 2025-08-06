@@ -1,5 +1,6 @@
 package com.my_medi.api.report.dto;
 
+import com.my_medi.domain.report.enums.UrineTestStatus;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -77,6 +78,6 @@ public class ReportSummaryDto {
     @Getter
     @Builder
     public static class UrineDto {
-        private String proteinuria;
+        private UrineTestStatus urineTestStatus;
     }
 }

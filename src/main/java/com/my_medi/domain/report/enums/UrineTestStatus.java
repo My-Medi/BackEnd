@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum BoneDensityStatus {
+public enum UrineTestStatus {
     NORMAL("정상"),
-    OSTEOPENIA("골감소증"),
-    OSTEOPOROSIS("골다공증");
+    BORDERLINE("경계"),
+    PROTEINURIA("단백뇨 의심");
 
     private final String key;
 }

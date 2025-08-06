@@ -1,4 +1,4 @@
-package com.my_medi.domain.report.enums;
+package com.my_medi.domain.report.enums.additionalTest;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

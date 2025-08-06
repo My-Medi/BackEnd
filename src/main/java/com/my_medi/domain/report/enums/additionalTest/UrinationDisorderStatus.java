@@ -1,13 +1,13 @@
-package com.my_medi.domain.report.enums;
+package com.my_medi.domain.report.enums.additionalTest;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum DailyLifeStatus {
+public enum UrinationDisorderStatus {
     NORMAL("정상"),
-    NEEDS_ASSISTANCE("일상생활 도움 필요");
+    SUSPECTED("배뇨장애 의심");
 
     private final String key;
 }
