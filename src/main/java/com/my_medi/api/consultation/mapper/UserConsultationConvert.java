@@ -3,6 +3,9 @@ package com.my_medi.api.consultation.mapper;
 import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.expert.entity.Expert;
+
+import java.time.LocalDate;
+
 import static com.my_medi.common.util.PeriodUtil.calculateMonthsBetween;
 
 
@@ -52,17 +55,17 @@ public class UserConsultationConvert {
     }
 
     public static UserConsultationDto.ExpertRequestedDto toRequestedDetailDto(
-            ConsultationRequest request, int requestCount
+            Expert expert,
+            int requestCount,
+            LocalDate requestedAt
     ) {
-        Expert expert = request.getExpert();
-
         return UserConsultationDto.ExpertRequestedDto.builder()
                 .expertId(expert.getId())
                 .name(expert.getName())
                 .nickname(expert.getNickname())
                 .introSentence(expert.getIntroSentence())
                 .profileImageUrl(expert.getProfileImgUrl())
-                .requestedAt(request.getCreatedDate().toLocalDate())
+                .requestedAt(requestedAt)
                 .introduction(expert.getIntroduction())
                 .organization(expert.getOrganizationName())
                 .specialty(expert.getSpecialty())
