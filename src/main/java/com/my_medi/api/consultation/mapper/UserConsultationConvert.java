@@ -1,6 +1,7 @@
 package com.my_medi.api.consultation.mapper;
 
 import com.my_medi.api.consultation.dto.UserConsultationDto;
+import com.my_medi.common.util.FormUtil;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.expert.entity.Expert;
 
@@ -44,13 +45,14 @@ public class UserConsultationConvert {
                 .specialty(expert.getSpecialty())
                 .career(
                         expert.getCareers().stream()
-                                .map(career -> String.format(
-                                        "%s %d개월",
+                                .map(career -> FormUtil.formatCareerPeriod(
                                         career.getJobTitle(),
-                                        calculateMonthsBetween(career.getStartDate(), career.getEndDate())
+                                        career.getStartDate(),
+                                        career.getEndDate()
                                 ))
                                 .toList()
                 )
+
                 .build();
     }
 
@@ -71,13 +73,14 @@ public class UserConsultationConvert {
                 .specialty(expert.getSpecialty())
                 .career(
                         expert.getCareers().stream()
-                                .map(career -> String.format(
-                                        "%s %d개월",
+                                .map(career -> FormUtil.formatCareerPeriod(
                                         career.getJobTitle(),
-                                        calculateMonthsBetween(career.getStartDate(), career.getEndDate())
+                                        career.getStartDate(),
+                                        career.getEndDate()
                                 ))
                                 .toList()
                 )
+
                 .requestCount(requestCount)
                 .build();
     }

@@ -2,6 +2,7 @@ package com.my_medi.api.consultation.mapper;
 
 import com.my_medi.api.consultation.dto.ExpertConsultationDto;
 import com.my_medi.common.util.BirthDateUtil;
+import com.my_medi.common.util.FormUtil;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.user.entity.User;
 
@@ -19,9 +20,7 @@ public class ExpertConsultationConverter {
                 .gender(user.getGender())
                 .weight(user.getWeight())
                 .height(user.getHeight())
-                .age(user.getBirthDate() != null
-                        ? "만 " + BirthDateUtil.getAge(user.getBirthDate()) + "세"
-                        : "정보 없음")
+                .age(FormUtil.formatAge(user.getBirthDate()))
                 .build();
     }
 
@@ -36,7 +35,7 @@ public class ExpertConsultationConverter {
                 .height(user.getHeight())
                 .weight(user.getWeight())
                 .profileImage(user.getProfileImgUrl())
-                .age(String.valueOf("만 "+BirthDateUtil.getAge(user.getBirthDate())) + "세")
+                .age(FormUtil.formatAge(user.getBirthDate()))
                 //TODO: 최근 건강검진일, 건강관심분야 추가
                 .build();
     }
