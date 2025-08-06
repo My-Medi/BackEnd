@@ -34,7 +34,7 @@ public class UserConsultationDto {
         private String phoneNumber;
         private String introSentence;
         private String profileImageUrl;
-        private LocalDate matchedAt;
+        private LocalDate requestedAt;
         private String introduction;
         private String organization;
         private Specialty specialty;

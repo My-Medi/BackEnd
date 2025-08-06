@@ -35,7 +35,7 @@ public class UserConsultationConvert {
                 .phoneNumber(expert.getPhoneNumber())
                 .introSentence(expert.getIntroSentence())
                 .profileImageUrl(expert.getProfileImgUrl())
-                .matchedAt(request.getCreatedDate().toLocalDate())
+                .requestedAt(request.getCreatedDate().toLocalDate())
                 .introduction(expert.getIntroduction())
                 .organization(expert.getOrganizationName())
                 .specialty(expert.getSpecialty())
