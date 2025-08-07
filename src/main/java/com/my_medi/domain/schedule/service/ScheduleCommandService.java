@@ -11,4 +11,6 @@ public interface ScheduleCommandService {
     Long editSchedule(Long expertId, Long scheduleId , EditScheduleDto editScheduleDto);
 
     Long removeSchedule(Long expertId, Long scheduleId);
+
+    void createScheduleDummy(Long expertId, Long userId, int year, int month, int count);
 }
