@@ -20,6 +20,7 @@ public class ExpertConverter {
                 .birthDate(expert.getBirthDate())
                 .gender(expert.getGender())
                 .nickname(expert.getNickname())
+                .email(expert.getEmail())
                 .phoneNumber(expert.getPhoneNumber())
                 .profileImgUrl(expert.getProfileImgUrl())
                 .role(expert.getRole())

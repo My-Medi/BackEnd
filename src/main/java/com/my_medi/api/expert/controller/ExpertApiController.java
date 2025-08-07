@@ -55,8 +55,9 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(expertCommandService.updateResume(expert.getId(), updateResumeDto));
     }
 
-    @GetMapping
+
     @Operation(summary = "전문가 내 프로필의 이력서, 회원 정보 모든 내용을 조회합니다.[사용 안하는 api]")
+    @GetMapping
     public ApiResponseDto<ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
     }

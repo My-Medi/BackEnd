@@ -26,6 +26,7 @@ public class ExpertResponseDto{
         private Long expertId;
         // Member 공통 필드
         private String name;
+        private String email;
         private String birthDate;
         private Gender gender;
         private String nickname;
