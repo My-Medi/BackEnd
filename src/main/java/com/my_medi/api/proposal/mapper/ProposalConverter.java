@@ -18,6 +18,7 @@ public class ProposalConverter {
                 .abnormalValueDto(toAbnormalValueDto(proposal))
                 .helpTopicDto(toHelpTopicDto(proposal))
                 .goal(proposal.getGoal())
+                .requestNote(proposal.getRequestNote())
                 .build();
     }
 

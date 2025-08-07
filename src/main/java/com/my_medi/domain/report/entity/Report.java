@@ -27,7 +27,8 @@ public class Report extends BaseTimeEntity {
     private Long id;
 
     private LocalDate checkupDate;
-    private Integer round; // 1차, 2차 등
+    private String hospitalName;
+    private Integer round;
 
     @Embedded
     private Measurement measurement;
@@ -47,12 +48,17 @@ public class Report extends BaseTimeEntity {
     @Embedded
     private Interview interview;
 
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "additional_test_id")
     private AdditionalTest additionalTest;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Boolean hasAdditionalTest() {
+        return this.additionalTest != null;
+    }
 
     public void updateCheckupDate(LocalDate checkupDate) {
         this.checkupDate = checkupDate;

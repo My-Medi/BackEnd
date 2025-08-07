@@ -1,5 +1,7 @@
 package com.my_medi.api.report.dto;
 
+import com.my_medi.domain.report.enums.interview.LifestyleHabitsStatus;
+import com.my_medi.domain.report.enums.interview.PositiveNegativeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InterviewDto {
-    private Boolean hasPastDisease;
-    private Boolean onMedication;
-    private Boolean needsSmokingCessation;
-    private Boolean needsAlcoholRestriction;
-    private Boolean needsExercise;
-    private Boolean needsMuscleExercise;
+    private PositiveNegativeStatus hasPastDisease;
+
+    private PositiveNegativeStatus onMedication;
+
+    private LifestyleHabitsStatus lifestyleHabitsStatus;
 }

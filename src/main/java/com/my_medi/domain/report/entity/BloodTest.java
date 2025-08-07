@@ -1,6 +1,9 @@
 package com.my_medi.domain.report.entity;
 
+import com.my_medi.domain.report.enums.bloodTest.*;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,22 +15,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BloodTest {
-    private Double hemoglobin;      //혈색소
-    private Boolean anemia;
-
-    private Integer fastingGlucose; //공복혈당
-    private Boolean diabetes;
-
+    private Double hemoglobin;
+    @Enumerated(EnumType.STRING)
+    private HemoglobinStatus hemoglobinStatus;
+    private Integer fastingGlucose;
+    @Enumerated(EnumType.STRING)
+    private FastingGlucoseStatus fastingGlucoseType;
     private Integer totalCholesterol;
-    private Integer hdl;            //고밀도 콜레스트롤
-    private Integer triglyceride;   //중성지방
-    private Integer ldl;            //저밀도 콜레스트롤
-    private Boolean hyperlipidemia; //고지혈증
-
-    private Double creatinine; // ex: 0.9
-    private Integer egfr;       //신사과체여과율
-
+    private Integer hdl;
+    private Integer triglyceride;
+    private Integer ldl;
+    @Enumerated(EnumType.STRING)
+    private CholesterolStatus cholesterolStatus;
+    private Double creatinine;
+    private Integer egfr;
+    @Enumerated(EnumType.STRING)
+    private RenalFunctionStatus renalFunctionStatus;
     private Integer ast;
     private Integer alt;
-    private Integer gtp;        //감마지티피
+    private Integer gtp;
+    @Enumerated(EnumType.STRING)
+    private LiverFunctionStatus liverFunctionStatus;
 }

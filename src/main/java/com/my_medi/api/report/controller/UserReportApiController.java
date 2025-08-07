@@ -3,6 +3,7 @@ package com.my_medi.api.report.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.report.dto.ComparingReportResponseDto;
 import com.my_medi.api.report.dto.EditReportRequestDto;
+import com.my_medi.api.report.dto.ReportSummaryDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.mapper.ReportConverter;
@@ -37,6 +38,13 @@ public class UserReportApiController {
                                                        @RequestParam Integer round) {
         Report report = reportQueryService.getReportByRound(user.getId(), round);
         return ApiResponseDto.onSuccess(ReportConverter.toUserReportDto(report));
+    }
+
+    @Operation(summary = "사용자의 가장 최근 리포트의 요약본을 가져옵니다.")
+    @GetMapping("/summary")
+    public ApiResponseDto<ReportSummaryDto> getUserReportSummary(@AuthUser User user) {
+        Report report = reportQueryService.getLatestReportByUserId(user.getId());
+        return ApiResponseDto.onSuccess(ReportConverter.toUserReportSummaryDto(report));
     }
 
     @Operation(summary = "사용자가 본인의 건강리포트를 생성합니다.")

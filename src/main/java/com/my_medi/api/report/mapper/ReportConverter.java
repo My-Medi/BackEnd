@@ -22,6 +22,7 @@ public class ReportConverter {
         return UserReportDto.builder()
                 .id(report.getId())
                 .userId(report.getUser().getId())
+                .hospitalName(report.getHospitalName())
                 .checkupDate(report.getCheckupDate())
                 .round(report.getRound())
                 .measurementDto(toMeasurementDto(report))
@@ -30,7 +31,9 @@ public class ReportConverter {
                 .urineTestDto(toUrineTestDto(report))
                 .imagingTestDto(toImagingTestDto(report))
                 .interviewDto(toInterviewDto(report))
-                .additionalTestDto(toAdditionalTestDto(report))
+                .additionalTestDto(
+                        report.hasAdditionalTest() ? toAdditionalTestDto(report) : null
+                )
                 .build();
     }
 
@@ -56,7 +59,7 @@ public class ReportConverter {
         return BloodPressureDto.builder()
                 .systolic(bloodPressure.getSystolic())
                 .diastolic(bloodPressure.getDiastolic())
-                .highRisk(bloodPressure.getHighRisk())
+                .bloodPressureStatus(bloodPressure.getBloodPressureStatus())
                 .build();
     }
 
@@ -64,32 +67,39 @@ public class ReportConverter {
         BloodTest bloodTest = report.getBloodTest();
 
         return BloodTestDto.builder()
-                .alt(bloodTest.getAlt())
-                .anemia(bloodTest.getAnemia())
-                .ast(bloodTest.getAst())
-                .creatinine(bloodTest.getCreatinine())
-                .diabetes(bloodTest.getDiabetes())
-                .egfr(bloodTest.getEgfr())
-                .fastingGlucose(bloodTest.getFastingGlucose())
-                .gtp(bloodTest.getGtp())
-                .hdl(bloodTest.getHdl())
                 .hemoglobin(bloodTest.getHemoglobin())
-                .hyperlipidemia(bloodTest.getHyperlipidemia())
-                .ldl(bloodTest.getLdl())
+                .hemoglobinStatus(bloodTest.getHemoglobinStatus())
+
+                .fastingGlucose(bloodTest.getFastingGlucose())
+                .fastingGlucoseType(bloodTest.getFastingGlucoseType())
+
                 .totalCholesterol(bloodTest.getTotalCholesterol())
+                .hdl(bloodTest.getHdl())
                 .triglyceride(bloodTest.getTriglyceride())
+                .ldl(bloodTest.getLdl())
+                .cholesterolStatus(bloodTest.getCholesterolStatus())
+
+                .creatinine(bloodTest.getCreatinine())
+                .egfr(bloodTest.getEgfr())
+                .renalFunctionStatus(bloodTest.getRenalFunctionStatus())
+
+                .ast(bloodTest.getAst())
+                .alt(bloodTest.getAlt())
+                .gtp(bloodTest.getGtp())
+                .liverFunctionStatus(bloodTest.getLiverFunctionStatus())
+
                 .build();
     }
 
     public static UrineTestDto toUrineTestDto(Report report) {
         return UrineTestDto.builder()
-                .testRequired(report.getUrineTest().getTestRequired())
+                .urineTestStatus(report.getUrineTest().getUrineTestStatus())
                 .build();
     }
 
     public static ImagingTestDto toImagingTestDto(Report report) {
         return ImagingTestDto.builder()
-                .chestXrayNormal(report.getImagingTest().getChestXrayNormal())
+                .imagingTestStatus(report.getImagingTest().getImagingTestStatus())
                 .build();
     }
 
@@ -99,16 +109,70 @@ public class ReportConverter {
         return InterviewDto.builder()
                 .hasPastDisease(interview.getHasPastDisease())
                 .onMedication(interview.getOnMedication())
-                .needsSmokingCessation(interview.getNeedsSmokingCessation())
-                .needsAlcoholRestriction(interview.getNeedsAlcoholRestriction())
-                .needsExercise(interview.getNeedsExercise())
-                .needsMuscleExercise(interview.getNeedsMuscleExercise())
+                .lifestyleHabitsStatus(interview.getLifestyleHabitsStatus())
                 .build();
     }
 
     public static AdditionalTestDto toAdditionalTestDto(Report report) {
+        AdditionalTest additionalTest = report.getAdditionalTest();
+
         return AdditionalTestDto.builder()
-                .needsFurtherTest(report.getAdditionalTest().getNeedsFurtherTest())
+                .b8Hepatitis(additionalTest.getB8Hepatitis())
+                .depression(additionalTest.getDepression())
+                .cognitiveImpairment(additionalTest.getCognitiveImpairment())
+                .boneDensityStatus(additionalTest.getBoneDensityStatus())
+                .elderlyPhysicalFunctionStatus(additionalTest.getElderlyPhysicalFunctionStatus())
+                .elderlyFunctionTest(additionalTest.getElderlyFunctionTest())
+                .build();
+    }
+
+    public static ReportSummaryDto toUserReportSummaryDto(Report report) {
+        return ReportSummaryDto.builder()
+                        .reportId(report.getId())
+                        .userId(report.getUser().getId())
+                        .checkupDate(report.getCheckupDate())
+                        .round(report.getRound())
+
+                .obesity(ReportSummaryDto.ObesityDto.builder()
+                        .bmi(report.getMeasurement().getBmi())
+                        .waistType(report.getMeasurement().getWaistType())
+                        .build())
+
+                .hypertension(ReportSummaryDto.HypertensionDto.builder()
+                        .systolic(report.getBloodPressure().getSystolic())
+                        .diastolic(report.getBloodPressure().getDiastolic())
+                        .build())
+
+                .diabetes(ReportSummaryDto.DiabetesDto.builder()
+                        .fastingGlucose(report.getBloodTest().getFastingGlucose())
+                        .build())
+
+                .kidney(ReportSummaryDto.KidneyDto.builder()
+                        .creatinine(report.getBloodTest().getCreatinine())
+                        .egfr(report.getBloodTest().getEgfr())
+                        .build())
+
+                .liver(ReportSummaryDto.LiverDto.builder()
+                        .ast(report.getBloodTest().getAst())
+                        .alt(report.getBloodTest().getAlt())
+                        .gtp(report.getBloodTest().getGtp())
+                        .build())
+
+                .anemia(ReportSummaryDto.AnemiaDto.builder()
+                        .hemoglobin(report.getBloodTest().getHemoglobin())
+                        .build())
+
+                .dyslipidemia(ReportSummaryDto.DyslipidemiaDto.builder()
+                        .totalCholesterol(report.getBloodTest().getTotalCholesterol())
+                        .hdl(report.getBloodTest().getHdl())
+                        .triglyceride(report.getBloodTest().getTriglyceride())
+                        .ldl(report.getBloodTest().getLdl())
+                        .build())
+
+                .urine(ReportSummaryDto.UrineDto.builder()
+                        .urineTestStatus(report.getUrineTest().getUrineTestStatus())
+                        .build())
+
                 .build();
     }
 
@@ -132,38 +196,44 @@ public class ReportConverter {
         return BloodPressure.builder()
                 .systolic(bloodPressureDto.getSystolic())
                 .diastolic(bloodPressureDto.getDiastolic())
-                .highRisk(bloodPressureDto.getHighRisk())
+                .bloodPressureStatus(bloodPressureDto.getBloodPressureStatus())
                 .build();
     }
 
     public static BloodTest toBloodTest(BloodTestDto bloodTestDto) {
         return BloodTest.builder()
-                .alt(bloodTestDto.getAlt())
-                .anemia(bloodTestDto.getAnemia())
-                .ast(bloodTestDto.getAst())
-                .creatinine(bloodTestDto.getCreatinine())
-                .diabetes(bloodTestDto.getDiabetes())
-                .egfr(bloodTestDto.getEgfr())
-                .fastingGlucose(bloodTestDto.getFastingGlucose())
-                .gtp(bloodTestDto.getGtp())
-                .hdl(bloodTestDto.getHdl())
                 .hemoglobin(bloodTestDto.getHemoglobin())
-                .hyperlipidemia(bloodTestDto.getHyperlipidemia())
-                .ldl(bloodTestDto.getLdl())
+                .hemoglobinStatus(bloodTestDto.getHemoglobinStatus())
+
+                .fastingGlucose(bloodTestDto.getFastingGlucose())
+                .fastingGlucoseType(bloodTestDto.getFastingGlucoseType())
+
                 .totalCholesterol(bloodTestDto.getTotalCholesterol())
+                .hdl(bloodTestDto.getHdl())
                 .triglyceride(bloodTestDto.getTriglyceride())
+                .ldl(bloodTestDto.getLdl())
+                .cholesterolStatus(bloodTestDto.getCholesterolStatus())
+
+                .creatinine(bloodTestDto.getCreatinine())
+                .egfr(bloodTestDto.getEgfr())
+                .renalFunctionStatus(bloodTestDto.getRenalFunctionStatus())
+
+                .ast(bloodTestDto.getAst())
+                .alt(bloodTestDto.getAlt())
+                .gtp(bloodTestDto.getGtp())
+                .liverFunctionStatus(bloodTestDto.getLiverFunctionStatus())
                 .build();
     }
 
     public static UrineTest toUrineTest(UrineTestDto urineTestDto) {
         return UrineTest.builder()
-                .testRequired(urineTestDto.getTestRequired())
+                .urineTestStatus(urineTestDto.getUrineTestStatus())
                 .build();
     }
 
     public static ImagingTest toImagingTest(ImagingTestDto imagingTestDto) {
         return ImagingTest.builder()
-                .chestXrayNormal(imagingTestDto.getChestXrayNormal())
+                .imagingTestStatus(imagingTestDto.getImagingTestStatus())
                 .build();
     }
 
@@ -171,16 +241,18 @@ public class ReportConverter {
         return Interview.builder()
                 .hasPastDisease(interviewDto.getHasPastDisease())
                 .onMedication(interviewDto.getOnMedication())
-                .needsSmokingCessation(interviewDto.getNeedsSmokingCessation())
-                .needsAlcoholRestriction(interviewDto.getNeedsAlcoholRestriction())
-                .needsExercise(interviewDto.getNeedsExercise())
-                .needsMuscleExercise(interviewDto.getNeedsMuscleExercise())
+                .lifestyleHabitsStatus(interviewDto.getLifestyleHabitsStatus())
                 .build();
     }
 
     public static AdditionalTest toAdditionalTest(AdditionalTestDto additionalTestDto) {
         return AdditionalTest.builder()
-                .needsFurtherTest(additionalTestDto.getNeedsFurtherTest())
+                .b8Hepatitis(additionalTestDto.getB8Hepatitis())
+                .depression(additionalTestDto.getDepression())
+                .cognitiveImpairment(additionalTestDto.getCognitiveImpairment())
+                .boneDensityStatus(additionalTestDto.getBoneDensityStatus())
+                .elderlyPhysicalFunctionStatus(additionalTestDto.getElderlyPhysicalFunctionStatus())
+                .elderlyFunctionTest(additionalTestDto.getElderlyFunctionTest())
                 .build();
     }
 

@@ -14,6 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public enum UserNotificationErrorStatus implements BaseErrorCode {
 
+    // Entity userNotification (4250-4299)
     USER_NOTIFICATION_NOT_FOUND(HttpStatus.BAD_REQUEST, 4250, "user 알림을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;

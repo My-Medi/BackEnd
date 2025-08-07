@@ -99,6 +99,7 @@ public class ExpertConverter {
                 )
                 .build();
     }
+
     public static ExpertSummaryProfileDto toExpertSummaryProfileDto(Expert expert) {
         return ExpertSummaryProfileDto.builder()
                 .expertId(expert.getId())

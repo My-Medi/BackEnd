@@ -1,5 +1,6 @@
 package com.my_medi.api.report.dto;
 
+import com.my_medi.domain.report.enums.bloodTest.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,18 +11,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BloodTestDto {
-    private Integer alt;
-    private Boolean anemia;
-    private Integer ast;
-    private Double creatinine;
-    private Boolean diabetes;
-    private Integer egfr;
-    private Integer fastingGlucose;
-    private Integer gtp;
-    private Integer hdl;
     private Double hemoglobin;
-    private Boolean hyperlipidemia;
-    private Integer ldl;
+    private HemoglobinStatus hemoglobinStatus;
+
+    private Integer fastingGlucose;
+    private FastingGlucoseStatus fastingGlucoseType;
+
     private Integer totalCholesterol;
+    private Integer hdl;
     private Integer triglyceride;
+    private Integer ldl;
+    private CholesterolStatus cholesterolStatus;
+
+    private Double creatinine;
+    private Integer egfr;
+    private RenalFunctionStatus renalFunctionStatus;
+
+    private Integer ast;
+    private Integer alt;
+    private Integer gtp;
+    private LiverFunctionStatus liverFunctionStatus;
 }

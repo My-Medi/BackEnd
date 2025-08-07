@@ -10,6 +10,9 @@ public class ProposalResponseDto {
         private Long id;
         private Long userId;
 
+        // 5. 직업 및 생활패턴
+        private String lifeDescription;
+
         // 1. 건강 관심 분야(중복 선택 가능)
         private HealthInterestsDto healthInterestsDto;
 
@@ -22,7 +25,6 @@ public class ProposalResponseDto {
         // 4. 목표나 기대하는 변화가 있다면 적어주세요.
         private String goal;
 
-        // 5. 직업 및 생활패턴
-        private String lifeDescription;
+        private String requestNote;
     }
 }

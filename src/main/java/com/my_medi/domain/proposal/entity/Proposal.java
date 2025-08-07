@@ -25,7 +25,7 @@ public class Proposal extends BaseTimeEntity {
     private User user;
 
     // 1. 직업 및 생활패턴
-    @Column(name = "life_description", nullable = false, length = 50)
+    @Column(name = "life_description", nullable = false, length = 200)
     private String lifeDescription;
 
     // 2. 건강 관심 분야(중복 선택 가능)
@@ -55,12 +55,17 @@ public class Proposal extends BaseTimeEntity {
     private Boolean recommendForMe;
 
     // 5. 목표나 기대하는 변화가 있다면 적어주세요.
-    @Column(name = "goal", nullable = false, length = 50)
+    @Column(name = "goal", nullable = false, length = 500)
     private String goal;
 
-    public void updateLifeDescriptionnGoal(ProposalRequestDto proposalRequestDto) {
+    // 6. 요청사항
+    @Column(name = "request_note", nullable = false, length = 500)
+    private String requestNote;
+
+    public void updateUserDetails(ProposalRequestDto proposalRequestDto) {
         this.lifeDescription = proposalRequestDto.getLifeDescription();
         this.goal = proposalRequestDto.getGoal();
+        this.requestNote = proposalRequestDto.getRequestNote();
     }
 
     public void updateHealthInterests(ProposalRequestDto proposalRequestDto) {

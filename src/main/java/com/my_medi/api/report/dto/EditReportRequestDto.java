@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditReportRequestDto {
+    private String hospitalName;
     private LocalDate checkupDate;
     private MeasurementDto measurementDto;
     private BloodPressureDto bloodPressureDto;
@@ -19,5 +20,6 @@ public class EditReportRequestDto {
     private UrineTestDto urineTestDto;
     private ImagingTestDto imagingTestDto;
     private InterviewDto interviewDto;
+    private Boolean hasAdditionalTest;
     private AdditionalTestDto additionalTestDto;
 }
