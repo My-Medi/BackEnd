@@ -16,6 +16,7 @@ public class ReportResponseDto {
         private Long id;
         private Long userId;
 
+        private String hospitalName;
         private LocalDate checkupDate;
         private Integer round;
 

@@ -16,13 +16,13 @@ public interface ScheduleQueryService {
 
     List<Schedule> getUserSchedulesByMonth(Long userId, int year, int month);
 
-    List<Schedule> getUpcomingSchedulesForUser(Long userId);
+//    List<Schedule> getUpcomingSchedulesForUser(Long userId);
 
     List<Schedule> getUpcomingSchedulesForExpert(Long expertId);
 
     List<Schedule> getSchedulesByExpertAndDate(Long expertId, LocalDate date);
 
-
+    List<Schedule> getSchedulesByUserAndDate(Long userId, LocalDate date);
 
 
 }

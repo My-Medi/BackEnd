@@ -6,9 +6,10 @@ import lombok.Data;
 @Data
 @Builder
 public class ProposalRequestDto {
+    private String lifeDescription;
     private HealthInterestsDto healthInterestsDto;
     private AbnormalValueDto abnormalValueDto;
     private HelpTopicDto helpTopicDto;
     private String goal;
-    private String lifeDescription;
+    private String requestNote;
 }

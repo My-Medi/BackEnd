@@ -1,5 +1,6 @@
 package com.my_medi.api.report.dto;
 
+import com.my_medi.domain.report.enums.BloodPressureStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class BloodPressureDto {
     private Integer systolic;
     private Integer diastolic;
-    private Boolean highRisk;
+    private BloodPressureStatus bloodPressureStatus;
 }

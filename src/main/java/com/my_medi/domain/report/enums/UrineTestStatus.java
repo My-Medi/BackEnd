@@ -1,15 +1,14 @@
-package com.my_medi.domain.report.entity;
+package com.my_medi.domain.report.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum BmiCategory {
-    UNDERWEIGHT("저체중"),
+public enum UrineTestStatus {
     NORMAL("정상"),
-    OVERWEIGHT("과체중"),
-    OBESE("비만");
+    BORDERLINE("경계"),
+    PROTEINURIA("단백뇨 의심");
 
     private final String key;
 }

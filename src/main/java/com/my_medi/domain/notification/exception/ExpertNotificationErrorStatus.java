@@ -13,7 +13,9 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public enum ExpertNotificationErrorStatus implements BaseErrorCode {
-    EXPERT_NOTIFICATION_NOT_FOUND(HttpStatus.BAD_REQUEST, 4200, "해당 notification은 찾을 수 없습니다");
+
+    // Entity expertNotification (4200-4249)
+    EXPERT_NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, 4200, "expert 알림을 찾을 수 없습니다");
 
     private final HttpStatus httpStatus;
     private final Integer code;

@@ -13,7 +13,10 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public enum ProposalErrorStatus implements BaseErrorCode {
+
+    // Entity proposal(4300-4349)
     PROPOSAL_NOT_FOUND(HttpStatus.BAD_REQUEST, 4300, "제안서를 찾을 수 없습니다");
+
     private final HttpStatus httpStatus;
     private final Integer code;
     private final String message;

@@ -37,7 +37,7 @@ public class ExpertApiController {
     private final ExpertCommandService expertCommandService;
     private final ExpertQueryService expertQueryService;
 
-    @Operation(summary = "전문가 계정을 생성합니다.")
+    @Operation(summary = "전문가 계정을 생성합니다.[회원가입 플로우 전문가 ver.]")
     @PostMapping
     public ApiResponseDto<Long> registerExpertAccount(@RequestBody RegisterExpertDto registerExpertDto) {
         return ApiResponseDto.onSuccess(expertCommandService.registerExpert(registerExpertDto));
@@ -55,8 +55,9 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(expertCommandService.updateResume(expert.getId(), updateResumeDto));
     }
 
+
+    @Operation(summary = "전문가 내 프로필의 이력서, 회원 정보 모든 내용을 조회합니다.[사용 안하는 api]")
     @GetMapping
-    @Operation(summary = "전문가 내 프로필을 조회합니다.")
     public ApiResponseDto<ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
     }
@@ -66,6 +67,12 @@ public class ExpertApiController {
     public ApiResponseDto<Void> deleteUser(@AuthExpert Expert expert) {
         expertCommandService.deleteExpertAccount(expert.getId());
         return ApiResponseDto.onSuccess(null);
+    }
+
+    @GetMapping("/profiles")
+    @Operation(summary = "전문가 자신의 마이홈 전문가 페이지를 조회합니다. [마이홈 전문가 페이지]")
+    public ApiResponseDto<ExpertResponseDto.ExpertProfileTopDto> getMyExpertProfileTop(@AuthExpert Expert expert) {
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileTopDto(expert));
     }
 
 }

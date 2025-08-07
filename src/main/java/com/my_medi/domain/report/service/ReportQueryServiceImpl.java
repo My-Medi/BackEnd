@@ -29,6 +29,12 @@ public class ReportQueryServiceImpl implements ReportQueryService{
     }
 
     @Override
+    public Report getLatestReportByUserId(Long userId) {
+        return reportRepository.findTopByUserIdOrderByRoundDesc(userId)
+                .orElseThrow(() -> ReportHandler.NOT_FOUND);
+    }
+
+    @Override
     public ComparingReportResponseDto compareReport(User user, Integer round) {
         Report report = reportRepository.findByUserIdAndRound(user.getId(), round)
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
@@ -40,5 +46,10 @@ public class ReportQueryServiceImpl implements ReportQueryService{
                 .findByAgeGroupsAndGender(ageGroup5yrRange, user.getGender().getKey());
 
         return ReportConverter.toComparingReportResponseDto(healthCheckupList, report);
+    }
+
+    @Override
+    public long getReportCountByUser(User user) {
+        return reportRepository.countByUserId(user.getId());
     }
 }

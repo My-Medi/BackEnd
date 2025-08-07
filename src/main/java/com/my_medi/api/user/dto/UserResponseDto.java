@@ -13,14 +13,25 @@ public class UserResponseDto {
     @Builder
     public static class UserProfileDto{
         //TODO 채워넣기 유저랑 전문가 계정 등록하는 api 생성 jwt security 설정
-        private Long id;
+        private Long userid;
         private String name;
+        private String nickname;
         private String birthDate;
         private Gender gender;
         private String email;
         private String phoneNumber;
         private String profileImgUrl;
-        private String username;
         private Role role;
+    }
+
+    @Data
+    @Builder
+    public static class UserProfileTopDto{
+        private String name;
+        private String nickname;
+        private int age;
+        private Float height;
+        private Float weight;
+        private long reportCount; // 건강검진 횟수
     }
 }

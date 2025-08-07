@@ -33,7 +33,10 @@ public class ReportCommandServiceImpl implements ReportCommandService{
                 .urineTest(ReportConverter.toUrineTest(writeReportRequestDto.getUrineTestDto()))
                 .imagingTest(ReportConverter.toImagingTest(writeReportRequestDto.getImagingTestDto()))
                 .interview(ReportConverter.toInterview(writeReportRequestDto.getInterviewDto()))
-                .additionalTest(ReportConverter.toAdditionalTest(writeReportRequestDto.getAdditionalTestDto()))
+                .additionalTest(
+                        writeReportRequestDto.getHasAdditionalTest()
+                                ? ReportConverter.toAdditionalTest(writeReportRequestDto.getAdditionalTestDto()) : null
+                )
                 .build();
 
         reportRepository.save(report);
@@ -57,8 +60,12 @@ public class ReportCommandServiceImpl implements ReportCommandService{
         report.updateUrineTest(ReportConverter.toUrineTest(editReportRequestDto.getUrineTestDto()));
         report.updateImagingTest(ReportConverter.toImagingTest(editReportRequestDto.getImagingTestDto()));
         report.updateInterview(ReportConverter.toInterview(editReportRequestDto.getInterviewDto()));
-        report.updateAdditionalTest(ReportConverter.toAdditionalTest(editReportRequestDto.getAdditionalTestDto()));
-
+        if (editReportRequestDto.getHasAdditionalTest()) {
+            report.updateAdditionalTest(ReportConverter.toAdditionalTest(editReportRequestDto.getAdditionalTestDto()));
+        }
+        else {
+            report.updateAdditionalTest(null);
+        }
         return report.getId();
     }
 }

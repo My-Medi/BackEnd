@@ -26,14 +26,15 @@ public enum ErrorStatus implements BaseErrorCode{
     _UNAUTHORIZED(UNAUTHORIZED, 4001, "로그인이 필요합니다."),
     _FORBIDDEN(FORBIDDEN, 4002, "금지된 요청입니다.");
 
-    //user (4050-4099)
-    //schedule(4100-4149)
-    //consultationRequest(4150-4199)
-    // expertNotification(4200-4249)
-    //userNotification(4250-4299)
-    //proposal(4300-4349)
-    //인증 관련 오류(4350~4399)
-    //image(4400-4449)
+    // user (4050-4099)
+    // schedule (4100-4149)
+    // consultationRequest (4150-4199)
+    // expertNotification (4200-4249)
+    // userNotification (4250-4299)
+    // proposal (4300-4349)
+    // 인증 관련 오류 (4350~4399)
+    // image (4400-4449)
+    // report (4500~4549)
 
     private final HttpStatus httpStatus;
     private final Integer code;

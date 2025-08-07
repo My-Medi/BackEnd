@@ -13,7 +13,9 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public enum ReportErrorStatus implements BaseErrorCode {
-    REPORT_NOT_FOUND(HttpStatus.BAD_REQUEST, 4300, "리포트를 찾을 수 없습니다");
+
+    // Entity report (4500~4549)
+    REPORT_NOT_FOUND(HttpStatus.BAD_REQUEST, 4500, "리포트를 찾을 수 없습니다");
 
     private final HttpStatus httpStatus;
     private final Integer code;

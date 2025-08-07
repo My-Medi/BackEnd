@@ -5,8 +5,12 @@ import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ConsultationRequestRepository extends JpaRepository<ConsultationRequest, Long> {
 
@@ -34,5 +38,32 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
 
     List<ConsultationRequest> findByUserIdAndExpertIdAndRequestStatus(Long userId, Long expertId, RequestStatus requestStatus);
 
+    @Query("SELECT r FROM ConsultationRequest r " +
+            "WHERE r.expert.id = :expertId AND r.user.id = :userId AND r.requestStatus = :status " +
+            "ORDER BY r.createdDate DESC")
+    List<ConsultationRequest> findLatestRequestedByExpert(@Param("userId") Long userId,
+                                                          @Param("expertId") Long expertId,
+                                                          @Param("status") RequestStatus status);
+
+    int countByUserIdAndExpertIdAndRequestStatus(Long userId, Long expertId, RequestStatus status);
+
+
+
+    @Query("SELECT r FROM ConsultationRequest r " +
+            "WHERE r.user.id = :userId AND r.expert.id = :expertId AND r.requestStatus = :status")
+    Optional<ConsultationRequest> findMatchedRequest(@Param("userId") Long userId,
+                                                     @Param("expertId") Long expertId,
+                                                     @Param("status") RequestStatus status);
+
+
+    @Query("SELECT r.createdDate FROM ConsultationRequest r " +
+            "WHERE r.user.id = :userId AND r.expert.id = :expertId AND r.requestStatus = :status " +
+            "ORDER BY r.createdDate DESC")
+    List<LocalDateTime> findLatestRequestedDates(
+            @Param("userId") Long userId,
+            @Param("expertId") Long expertId,
+            @Param("status") RequestStatus status,
+            Pageable pageable
+    );
 
 }

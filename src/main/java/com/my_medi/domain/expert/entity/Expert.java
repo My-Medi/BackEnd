@@ -79,5 +79,4 @@ public class Expert extends Member {
         dto.getLicenseImages().forEach(licenseImageDto -> this.licenseImages.add(licenseImageDto.toEntity(this)));
 
     }
-
 }

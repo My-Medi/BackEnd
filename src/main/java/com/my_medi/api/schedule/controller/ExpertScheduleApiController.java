@@ -65,7 +65,7 @@ public class ExpertScheduleApiController {
         return ApiResponseDto.onSuccess(scheduleId);
     }
 
-    @Operation(summary = "전문가의 가장 임박한 3개의 스케줄을 조회합니다.")
+    @Operation(summary = "전문가의 가장 임박한 1개의 스케줄을 조회합니다.")
     @GetMapping("/upcoming")
     public ApiResponseDto<List<ScheduleResponseDto.ScheduleDetailDto>> getUpcomingSchedules(
             @AuthExpert Expert expert) {

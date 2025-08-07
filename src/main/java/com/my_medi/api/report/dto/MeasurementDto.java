@@ -1,7 +1,8 @@
 package com.my_medi.api.report.dto;
 
-import com.my_medi.domain.report.entity.BmiCategory;
-import com.my_medi.domain.report.entity.WaistType;
+import com.my_medi.domain.report.enums.BmiCategory;
+import com.my_medi.domain.report.enums.bloodTest.HearingStatus;
+import com.my_medi.domain.report.enums.WaistType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,6 @@ public class MeasurementDto {
     private Double waist;
     private WaistType waistType;
     private String vision;
-    private String hearingLeft;
-    private String hearingRight;
+    private HearingStatus hearingLeft;
+    private HearingStatus hearingRight;
 }
