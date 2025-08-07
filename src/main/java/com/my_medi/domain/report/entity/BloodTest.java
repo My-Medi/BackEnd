@@ -20,7 +20,7 @@ public class BloodTest {
     private HemoglobinStatus hemoglobinStatus;
     private Integer fastingGlucose;
     @Enumerated(EnumType.STRING)
-    private FastingGlucoseStatus fastingClucoseType;
+    private FastingGlucoseStatus fastingGlucoseType;
     private Integer totalCholesterol;
     private Integer hdl;
     private Integer triglyceride;

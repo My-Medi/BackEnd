@@ -15,7 +15,7 @@ public class BloodTestDto {
     private HemoglobinStatus hemoglobinStatus;
 
     private Integer fastingGlucose;
-    private FastingGlucoseStatus fastingClucoseType;
+    private FastingGlucoseStatus fastingGlucoseType;
 
     private Integer totalCholesterol;
     private Integer hdl;

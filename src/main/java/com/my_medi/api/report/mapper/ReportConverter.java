@@ -70,7 +70,7 @@ public class ReportConverter {
                 .hemoglobinStatus(bloodTest.getHemoglobinStatus())
 
                 .fastingGlucose(bloodTest.getFastingGlucose())
-                .fastingClucoseType(bloodTest.getFastingClucoseType())
+                .fastingGlucoseType(bloodTest.getFastingGlucoseType())
 
                 .totalCholesterol(bloodTest.getTotalCholesterol())
                 .hdl(bloodTest.getHdl())
@@ -142,7 +142,7 @@ public class ReportConverter {
 >>>>>>> 0440ed4 ([MEDI-81] feat: create latest user report's summay API)
                 .obesity(ReportSummaryDto.ObesityDto.builder()
                         .bmi(report.getMeasurement().getBmi())
-                        .bmiCategory(report.getMeasurement().getBmiCategory().name())
+                        .bmiCategory(report.getMeasurement().getBmiCategory())
                         .waist(report.getMeasurement().getWaist())
                         .build())
 
@@ -218,7 +218,7 @@ public class ReportConverter {
                 .hemoglobinStatus(bloodTestDto.getHemoglobinStatus())
 
                 .fastingGlucose(bloodTestDto.getFastingGlucose())
-                .fastingClucoseType(bloodTestDto.getFastingClucoseType())
+                .fastingGlucoseType(bloodTestDto.getFastingGlucoseType())
 
                 .totalCholesterol(bloodTestDto.getTotalCholesterol())
                 .hdl(bloodTestDto.getHdl())

@@ -1,14 +1,12 @@
 package com.my_medi.api.report.dto;
 
-<<<<<<< HEAD
+import com.my_medi.domain.report.enums.BmiCategory;
 import com.my_medi.domain.report.enums.UrineTestStatus;
-=======
->>>>>>> 0440ed4 ([MEDI-81] feat: create latest user report's summay API)
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,7 +29,7 @@ public class ReportSummaryDto {
     @Builder
     public static class ObesityDto {
         private Double bmi;
-        private String bmiCategory;
+        private BmiCategory bmiCategory;
         private Double waist;
     }
 
@@ -81,10 +79,6 @@ public class ReportSummaryDto {
     @Getter
     @Builder
     public static class UrineDto {
-<<<<<<< HEAD
         private UrineTestStatus urineTestStatus;
-=======
-        private String proteinuria;
->>>>>>> 0440ed4 ([MEDI-81] feat: create latest user report's summay API)
     }
 }
