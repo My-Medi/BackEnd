@@ -87,7 +87,8 @@ public class ExpertResponseDto{
 
         private String introduction;
         private String organizationName;
-        //TODO 필드 추가(경력 사항)
+        @Builder.Default
+        private List<CareerResponseDto> careerResponseDtoList = new ArrayList<>();
     }
 
     @Data

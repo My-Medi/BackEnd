@@ -47,8 +47,9 @@ public class UserQueryExpertApiController {
         return ApiResponseDto.onSuccess(result);
     }
 
-    @GetMapping("/experts/{expertId}")
+
     @Operation(summary = "사용자가 전문가의 프로필을 상세 조회합니다. [전문가 상세]", description = "[건강관리요청서] 보내기 전 ")
+    @GetMapping("/experts/{expertId}")
     public ApiResponseDto<ExpertResponseDto.ExpertDetailForUserDto> getExpertDetailForUser(@PathVariable Long expertId) {
         Expert expert = expertQueryService.getExpertById(expertId);
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertDetailForUserDto(expert));

@@ -32,7 +32,7 @@ public class ExpertConverter {
                 .careers(
                         expert.getCareers().stream()
                                 .map(c -> CareerResponseDto.builder()
-                                        .careerid(c.getId())
+                                        .careerId(c.getId())
                                         .companyName(c.getCompanyName())
                                         .jobTitle(c.getJobTitle())
                                         .startDate(c.getStartDate())
@@ -90,7 +90,7 @@ public class ExpertConverter {
                 .careers(
                         expert.getCareers().stream()
                                 .map(r -> CareerResponseDto.builder()
-                                        .careerid(r.getId())
+                                        .careerId(r.getId())
                                         .companyName(r.getCompanyName())
                                         .jobTitle(r.getJobTitle())
                                         .startDate(r.getStartDate())
@@ -111,6 +111,17 @@ public class ExpertConverter {
                 .organizationName(expert.getOrganizationName())
                 .name(expert.getName())
                 .nickname(expert.getNickname())
+                .careerResponseDtoList(
+                        expert.getCareers().stream()
+                                .map(r -> CareerResponseDto.builder()
+                                        .careerId(r.getId())
+                                        .companyName(r.getCompanyName())
+                                        .jobTitle(r.getJobTitle())
+                                        .startDate(r.getStartDate())
+                                        .endDate(r.getEndDate())
+                                        .build())
+                                .toList()
+                )
                 .build();
     }
 
