@@ -8,4 +8,6 @@ public interface ReportQueryService {
     Report getReportByRound(Long userId, Integer round);
 
     ComparingReportResponseDto compareReport(User user, Integer round);
+
+    long getReportCountByUser(User user);
 }

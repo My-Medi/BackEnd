@@ -5,6 +5,7 @@ import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.license.dto.LicenseRequestDto;
 import com.my_medi.api.license.dto.LicenseResponseDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
+import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.expert.entity.Specialty;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
@@ -22,6 +23,7 @@ public class ExpertResponseDto{
     @Data
     @Builder
     public static class ExpertProfileDto{
+        private int expertId;
         // Member 공통 필드
         private String name;
         private String birthDate;
@@ -45,6 +47,31 @@ public class ExpertResponseDto{
 
         // 자격증 리스트
         private List<LicenseResponseDto> licenses;
+
+    }
+
+    @Data
+    @Builder
+    public static class ExpertProfileTopDto{
+        private int expertId;
+        private String nickname; //닉네임
+        private String name; // 이름
+        private int age; // expert의 나이
+        private Specialty specialty;// 전문 분야
+
+    }
+
+    @Data
+    @Builder
+    public static class ExpertDetailForUserDto{
+        private int expertId;
+        private String nickname; //닉네임
+        private String name; // 이름
+        private String profileImgUrl; // 프로필 이미지
+        private String introduction; // 전문가 소개
+        private String organizationName; // 소속 회사
+        private Specialty specialty; // 분야
+        private List<CareerResponseDto> careers; // 경력사항
 
     }
 

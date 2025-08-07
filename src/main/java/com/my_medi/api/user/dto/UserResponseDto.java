@@ -23,4 +23,15 @@ public class UserResponseDto {
         private String username;
         private Role role;
     }
+
+    @Data
+    @Builder
+    public static class UserProfileTopDto{
+        private String name;
+        private String nickname;
+        private int age;
+        private Float height;
+        private Float weight;
+        private long reportCount; // 건강검진 횟수
+    }
 }
