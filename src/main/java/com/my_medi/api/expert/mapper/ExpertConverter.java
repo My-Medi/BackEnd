@@ -99,6 +99,16 @@ public class ExpertConverter {
                 )
                 .build();
     }
+    public static ExpertSummaryProfileDto toExpertSummaryProfileDto(Expert expert) {
+        return ExpertSummaryProfileDto.builder()
+                .expertId(expert.getId())
+                .introduction(expert.getIntroduction())
+                .specialty(expert.getSpecialty())
+                .organizationName(expert.getOrganizationName())
+                .name(expert.getName())
+                .nickname(expert.getNickname())
+                .build();
+    }
         public static ExpertSummaryProfileDto toExpertSummaryProfileDto (Expert expert){
             return ExpertSummaryProfileDto.builder()
                     .expertId(expert.getId())
