@@ -45,5 +45,22 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
     public List<ConsultationRequest> getRequestByUser(Long userId, RequestStatus requestStatus) {
         return consultationRequestRepository.findByUserIdAndRequestStatus(userId, requestStatus);
     }
+
+    @Override
+    public ConsultationRequest getRequestedExpertDetail(Long userId, Long expertId) {
+        List<ConsultationRequest> results =
+                consultationRequestRepository.findLatestRequestedByExpert(userId, expertId, RequestStatus.REQUESTED);
+
+        return results.stream()
+                .findFirst()
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+    }
+
+    @Override
+    public ConsultationRequest getMatchedExpertDetail(Long userId, Long expertId) {
+        return consultationRequestRepository
+                .findMatchedRequest(userId, expertId, RequestStatus.ACCEPTED)
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+    }
 }
 

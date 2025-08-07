@@ -18,4 +18,10 @@ public interface ConsultationRequestQueryService {
     Page<ConsultationRequest> getRequestByExpert(Long expertId, RequestStatus status, Pageable pageable);
 
     Page<ConsultationRequest> getAllRequestByExpert(Long expertId, Pageable pageable);
+
+    ConsultationRequest getRequestedExpertDetail(Long userId, Long expertId);
+
+    ConsultationRequest getMatchedExpertDetail(Long userId, Long expertId);
+
+
 }

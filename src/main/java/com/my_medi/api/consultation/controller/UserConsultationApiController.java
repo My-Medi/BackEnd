@@ -4,17 +4,27 @@ import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.api.consultation.mapper.UserConsultationConvert;
 import com.my_medi.api.consultation.service.ConsultationUseCase;
+import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidator;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
+import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
+import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestCommandService;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestQueryService;
+import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.expert.exception.ExpertHandler;
+import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +36,12 @@ public class UserConsultationApiController {
 
     private final ConsultationRequestCommandService consultationRequestCommandService;
     private final ConsultationUseCase consultationUseCase;
-    private final ConsultationRequestQueryService consultationRequestQueryService;
+    private final ConsultationRequestQueryService consultationRequestQueryService;;
+    private final ConsultationRequestRepository consultationRequestRepository;
+    private final ExpertRepository expertRepository;
+    private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
+
+
 
     @Operation(summary = "전문가에게 상담요청을 보냅니다.")
     @PostMapping("/experts/{expertId}")
@@ -40,7 +55,7 @@ public class UserConsultationApiController {
 
     @Operation(summary = "본인이 요청한 상담 목록을 조회합니다.")
     @GetMapping
-    public ApiResponseDto<List<UserConsultationDto>> getMyConsultations(
+    public ApiResponseDto<List<UserConsultationDto.UserConsultationStatusDto>> getMyConsultations(
             @AuthUser User user,
             @RequestParam(required = false) RequestStatus status
     ) {
@@ -61,12 +76,11 @@ public class UserConsultationApiController {
                     .toList();
         }
 
-        List<UserConsultationDto> dtoList = deduplicated.stream()
+        List<UserConsultationDto.UserConsultationStatusDto> dtoList = deduplicated.stream()
                 .map(UserConsultationConvert::toDto)
                 .toList();
 
         return ApiResponseDto.onSuccess(dtoList);
-
     }
 
 
@@ -78,5 +92,53 @@ public class UserConsultationApiController {
         consultationRequestCommandService.cancelRequest(consultationId, user.getId());
         return ApiResponseDto.onSuccess(consultationId);
     }
+
+    @Operation(summary = "상담 요청한 전문가의 상세 정보를 조회합니다.")
+    @GetMapping("/experts/{expertId}/requested")
+    public ApiResponseDto<UserConsultationDto.ExpertRequestedDto> getExpertDetail(
+            @AuthUser User user,
+            @PathVariable Long expertId
+    ) {
+        int requestCount = consultationRequestRepository
+                .countByUserIdAndExpertIdAndRequestStatus(user.getId(), expertId, RequestStatus.REQUESTED);
+
+        if (requestCount == 0) {
+            throw ConsultationRequestHandler.NOT_FOUND;
+        }
+
+        PageRequest page = PageRequest.of(0, 1);
+
+        LocalDate requestedAt = consultationRequestRepository
+                .findLatestRequestedDates(user.getId(), expertId, RequestStatus.REQUESTED, page)
+                .stream()
+                .findFirst()
+                .map(LocalDateTime::toLocalDate)
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+
+        Expert expert = expertRepository.findById(expertId)
+                .orElseThrow(() -> ExpertHandler.NOT_FOUND);
+
+        UserConsultationDto.ExpertRequestedDto dto =
+                UserConsultationConvert.toRequestedDetailDto(
+                        expert,
+                        requestCount,
+                        requestedAt
+                );
+
+        return ApiResponseDto.onSuccess(dto);
+    }
+
+    @Operation(summary = "매칭된 전문가의 상세 정보를 조회합니다.")
+    @GetMapping("/experts/{expertId}/matched")
+    public ApiResponseDto<UserConsultationDto.ExpertAcceptedDto> getMatchedExpertDetail(
+            @AuthUser User user,
+            @PathVariable Long expertId
+    ) {
+        ConsultationRequest request = consultationRequestQueryService.getMatchedExpertDetail(user.getId(), expertId);
+        UserConsultationDto.ExpertAcceptedDto detailDto = UserConsultationConvert.toDetailDto(request);
+        return ApiResponseDto.onSuccess(detailDto);
+    }
+
+
 
 }
