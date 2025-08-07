@@ -65,7 +65,7 @@ public class Proposal extends BaseTimeEntity {
     public void updateUserDetails(ProposalRequestDto proposalRequestDto) {
         this.lifeDescription = proposalRequestDto.getLifeDescription();
         this.goal = proposalRequestDto.getGoal();
-        this.requestNote = requestNote;
+        this.requestNote = proposalRequestDto.getRequestNote();
     }
 
     public void updateHealthInterests(ProposalRequestDto proposalRequestDto) {

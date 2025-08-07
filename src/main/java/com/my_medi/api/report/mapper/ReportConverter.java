@@ -133,13 +133,8 @@ public class ReportConverter {
         return Optional.of(ReportSummaryDto.builder()
                         .id(report.getId())
                         .userId(report.getUser().getId())
-<<<<<<< HEAD
                         .checkupDate(report.getCheckupDate())
                         .round(report.getRound())
-=======
-                        .round(report.getRound())
-                        .checkupDate(report.getCheckupDate())
->>>>>>> 0440ed4 ([MEDI-81] feat: create latest user report's summay API)
                 .obesity(ReportSummaryDto.ObesityDto.builder()
                         .bmi(report.getMeasurement().getBmi())
                         .bmiCategory(report.getMeasurement().getBmiCategory())
@@ -178,11 +173,7 @@ public class ReportConverter {
                         .build())
 
                 .urine(ReportSummaryDto.UrineDto.builder()
-<<<<<<< HEAD
                         .urineTestStatus(report.getUrineTest().getUrineTestStatus())
-=======
-                        .proteinuria(report.getUrineTest().getTestRequired() ? "비정상" : "정상")
->>>>>>> 0440ed4 ([MEDI-81] feat: create latest user report's summay API)
                         .build())
 
                 .build());
