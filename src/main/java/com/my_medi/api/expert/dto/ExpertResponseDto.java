@@ -82,6 +82,7 @@ public class ExpertResponseDto{
         private Specialty specialty;
         private String name;
         private String nickname;
+        private String profileImgUrl;
 
         private String introduction;
         private String organizationName;

@@ -104,6 +104,7 @@ public class ExpertConverter {
                     .expertId(expert.getId())
                     .introduction(expert.getIntroduction())
                     .specialty(expert.getSpecialty())
+                    .profileImgUrl(expert.getProfileImgUrl())
                     .organizationName(expert.getOrganizationName())
                     .name(expert.getName())
                     .nickname(expert.getNickname())
