@@ -10,4 +10,6 @@ public interface ReportQueryService {
     ComparingReportResponseDto compareReport(User user, Integer round);
 
     Report getLatestReportByUserId(Long userId);
+
+    long getReportCountByUser(User user);
 }

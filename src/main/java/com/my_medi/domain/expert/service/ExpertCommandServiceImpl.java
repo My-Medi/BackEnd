@@ -13,6 +13,9 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 
+import com.my_medi.domain.license.repository.LicenseRepository;
+import com.my_medi.domain.licenseImage.repository.LicenseImageRepository;
+
 import com.my_medi.domain.license.entity.License;
 import com.my_medi.domain.license.repository.LicenseRepository;
 import com.my_medi.domain.licenseImage.entity.LicenseImage;

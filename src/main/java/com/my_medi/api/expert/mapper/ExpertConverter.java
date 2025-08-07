@@ -5,6 +5,7 @@ import com.my_medi.api.career.dto.CareerResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
 import com.my_medi.api.license.dto.LicenseResponseDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
+import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileListDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertSummaryProfileDto;
@@ -29,7 +30,7 @@ public class ExpertConverter {
                 .careers(
                         expert.getCareers().stream()
                                 .map(c -> CareerResponseDto.builder()
-                                        .id(c.getId())
+                                        .careerid(c.getId())
                                         .companyName(c.getCompanyName())
                                         .jobTitle(c.getJobTitle())
                                         .startDate(c.getStartDate())
@@ -64,6 +65,36 @@ public class ExpertConverter {
                 .build();
     }
 
+    public static ExpertResponseDto.ExpertProfileTopDto toExpertProfileTopDto(Expert expert) {
+        return ExpertResponseDto.ExpertProfileTopDto.builder()
+                .nickname(expert.getNickname())
+                .name(expert.getName())
+                .age(BirthDateUtil.getAge(expert.getBirthDate())) // 나이
+                .specialty(expert.getSpecialty())
+                .build();
+    }
+
+    public static ExpertResponseDto.ExpertDetailForUserDto toExpertDetailForUserDto(Expert expert) {
+        return ExpertResponseDto.ExpertDetailForUserDto.builder()
+                .nickname(expert.getNickname())
+                .name(expert.getName())
+                .profileImgUrl(expert.getProfileImgUrl())
+                .introduction(expert.getIntroduction())
+                .organizationName(expert.getOrganizationName())
+                .specialty(expert.getSpecialty())
+
+                // TODO career response 변경(date-> 개월수 계산 적용)
+                .careers(
+                        expert.getCareers().stream()
+                                .map(r -> CareerResponseDto.builder()
+                                        .careerid(r.getId())
+                                        .companyName(r.getCompanyName())
+                                        .jobTitle(r.getJobTitle())
+                                        .startDate(r.getStartDate())
+                                        .endDate(r.getEndDate())
+                                        .build())
+                                .toList()
+                )
     public static ExpertSummaryProfileDto toExpertSummaryProfileDto(Expert expert) {
         return ExpertSummaryProfileDto.builder()
                 .expertId(expert.getId())
