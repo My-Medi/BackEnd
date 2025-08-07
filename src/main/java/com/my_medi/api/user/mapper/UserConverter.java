@@ -11,8 +11,9 @@ public class UserConverter {
     public static UserProfileDto toUserProfileDto(User user) {
         return UserProfileDto.builder()
                 //TODO 채워넣기
-                .id(user.getId())
+                .userid(user.getId())
                 .name(user.getName())
+                .nickname(user.getNickname())
                 .birthDate(user.getBirthDate())
                 .gender(user.getGender())
                 .email(user.getEmail())
