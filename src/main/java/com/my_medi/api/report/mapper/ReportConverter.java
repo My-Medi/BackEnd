@@ -32,7 +32,9 @@ public class ReportConverter {
                 .urineTestDto(toUrineTestDto(report))
                 .imagingTestDto(toImagingTestDto(report))
                 .interviewDto(toInterviewDto(report))
-                .additionalTestDto(toAdditionalTestDto(report))
+                .additionalTestDto(
+                        report.hasAdditionalTest() ? toAdditionalTestDto(report) : null
+                )
                 .build();
     }
 
@@ -125,20 +127,15 @@ public class ReportConverter {
                 .build();
     }
 
-    public static Optional<ReportSummaryDto> toUserReportSummaryDto(Report report) {
-        if (report == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(ReportSummaryDto.builder()
-                        .id(report.getId())
+    public static ReportSummaryDto toUserReportSummaryDto(Report report) {
+        return ReportSummaryDto.builder()
+                        .reportId(report.getId())
                         .userId(report.getUser().getId())
                         .checkupDate(report.getCheckupDate())
                         .round(report.getRound())
                 .obesity(ReportSummaryDto.ObesityDto.builder()
                         .bmi(report.getMeasurement().getBmi())
-                        .bmiCategory(report.getMeasurement().getBmiCategory())
-                        .waist(report.getMeasurement().getWaist())
+                        .waistType(report.getMeasurement().getWaistType())
                         .build())
 
                 .hypertension(ReportSummaryDto.HypertensionDto.builder()
@@ -176,7 +173,7 @@ public class ReportConverter {
                         .urineTestStatus(report.getUrineTest().getUrineTestStatus())
                         .build())
 
-                .build());
+                .build();
     }
 
     // Dto -> Entity

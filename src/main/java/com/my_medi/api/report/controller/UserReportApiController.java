@@ -22,8 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
-
 @Tag(name = "[사용자 페이지]건강리포트 API")
 @RestController
 @RequestMapping("/api/v1/users/reports")
@@ -44,7 +42,7 @@ public class UserReportApiController {
 
     @Operation(summary = "사용자의 가장 최근 리포트의 요약본을 가져옵니다.")
     @GetMapping("/summary")
-    public ApiResponseDto<Optional<ReportSummaryDto>> getUserReportSummary(@AuthUser User user) {
+    public ApiResponseDto<ReportSummaryDto> getUserReportSummary(@AuthUser User user) {
         Report report = reportQueryService.getLatestReportByUserId(user.getId());
         return ApiResponseDto.onSuccess(ReportConverter.toUserReportSummaryDto(report));
     }

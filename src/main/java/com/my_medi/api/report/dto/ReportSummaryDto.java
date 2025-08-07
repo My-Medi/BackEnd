@@ -2,6 +2,7 @@ package com.my_medi.api.report.dto;
 
 import com.my_medi.domain.report.enums.BmiCategory;
 import com.my_medi.domain.report.enums.UrineTestStatus;
+import com.my_medi.domain.report.enums.WaistType;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportSummaryDto {
-    private Long id;
+    private Long reportId;
     private Long userId;
     private Integer round;
     private LocalDate checkupDate;
@@ -29,8 +30,7 @@ public class ReportSummaryDto {
     @Builder
     public static class ObesityDto {
         private Double bmi;
-        private BmiCategory bmiCategory;
-        private Double waist;
+        private WaistType waistType;
     }
 
     @Getter

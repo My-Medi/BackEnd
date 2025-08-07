@@ -20,5 +20,6 @@ public class WriteReportRequestDto {
     private UrineTestDto urineTestDto;
     private ImagingTestDto imagingTestDto;
     private InterviewDto interviewDto;
+    private Boolean hasAdditionalTest;
     private AdditionalTestDto additionalTestDto;
 }

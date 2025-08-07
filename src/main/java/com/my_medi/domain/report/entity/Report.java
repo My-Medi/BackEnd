@@ -56,7 +56,7 @@ public class Report extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public boolean hasAdditionalTest() {
+    public Boolean hasAdditionalTest() {
         return this.additionalTest != null;
     }
 
