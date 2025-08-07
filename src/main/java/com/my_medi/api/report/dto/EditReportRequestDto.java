@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditReportRequestDto {
+    private String hospitalName;
     private LocalDate checkupDate;
     private MeasurementDto measurementDto;
     private BloodPressureDto bloodPressureDto;

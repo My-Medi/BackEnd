@@ -27,6 +27,7 @@ public class Report extends BaseTimeEntity {
     private Long id;
 
     private LocalDate checkupDate;
+    private String hospitalName;
     private Integer round;
 
     @Embedded
