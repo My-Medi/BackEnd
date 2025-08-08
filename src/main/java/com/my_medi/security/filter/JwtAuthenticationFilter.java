@@ -1,5 +1,6 @@
 package com.my_medi.security.filter;
 
+import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.security.exception.JwtAuthenticationException;
 import com.my_medi.security.exception.JwtAuthenticationExpiredException;
 import jakarta.servlet.FilterChain;
@@ -16,6 +17,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+import static com.my_medi.common.consts.StaticVariable.HEALTH_CHECK_ENDPOINT;
+import static com.my_medi.common.consts.StaticVariable.REISSUE_ENDPOINT;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         token = resolveToken(request);
 
         if (token != null) {
+            // 만료 케이스만 해당 필터에서 처리. 나머지는 JwtExceptionFilter 에서 처리
             try {
                 tokenService.validateToken(token);
                 // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
@@ -43,11 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.info("set Authentication to security context for '{}', uri: '{}', Role '{}'",
                         authentication.getName(), requestURI, authentication.getAuthorities());
             } catch (JwtAuthenticationExpiredException e) {
-                if(!requestURI.equals("/api/v1/tokens/reissue")) throw JwtAuthenticationException.TOKEN_IS_EXPIRED;
-                log.debug("토큰 만료, 재발급 시도이므로 통과합니다.");
+                if(!requestURI.equals(REISSUE_ENDPOINT)) throw JwtAuthenticationException.TOKEN_IS_EXPIRED;
+                log.debug("토큰 만료지만 재발급 시도이므로 통과합니다.");
             }
         } else {
-            if (!requestURI.equals("/api/v1/test/health-check")) {
+            if (!requestURI.equals(HEALTH_CHECK_ENDPOINT)) {
                 log.info("no valid JWT token found, uri: {}", requestURI);
             }
         }
