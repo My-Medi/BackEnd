@@ -7,6 +7,7 @@ import com.my_medi.common.service.RedisService;
 import com.my_medi.domain.member.entity.Member;
 import com.my_medi.domain.member.service.MemberQueryService;
 import com.my_medi.security.exception.JwtAuthenticationException;
+import com.my_medi.security.exception.JwtAuthenticationExpiredException;
 import com.my_medi.security.exception.SecurityErrorStatus;
 import com.my_medi.security.jwt.dto.JwtToken;
 import com.my_medi.security.jwt.dto.MemberLoginRequestDto;
@@ -154,16 +155,16 @@ public class TokenServiceImpl implements TokenService{
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            throw new JwtAuthenticationException(SecurityErrorStatus.AUTH_INVALID_TOKEN);
+            throw JwtAuthenticationException.INVALID_TOKEN;
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
-            throw new JwtAuthenticationException(SecurityErrorStatus.AUTH_TOKEN_HAS_EXPIRED);
+            throw JwtAuthenticationExpiredException.EXPIRED;
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
-            throw new JwtAuthenticationException(SecurityErrorStatus.AUTH_TOKEN_IS_UNSUPPORTED);
+            throw JwtAuthenticationException.TOKEN_IS_UNSUPPORTED;
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
-            throw new JwtAuthenticationException(SecurityErrorStatus.AUTH_IS_NULL);
+            throw JwtAuthenticationException.AUTH_NULL;
         }
     }
 

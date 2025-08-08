@@ -17,6 +17,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         SecurityErrorStatus errorStatus = SecurityErrorStatus.AUTH_MUST_AUTHORIZED_URI;
-        CustomErrorSend.handleException(response, errorStatus, authException.getMessage());
+        CustomErrorSend.handleException(response, errorStatus, errorStatus.getMessage());
     }
 }

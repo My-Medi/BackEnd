@@ -12,7 +12,17 @@ public class JwtAuthenticationException extends AuthenticationException {
 
     public static final AuthenticationException WRONG_PASSWORD
             = new JwtAuthenticationException(SecurityErrorStatus.AUTH_WRONG_PASSWORD);
+    public static final AuthenticationException INVALID_TOKEN
+            = new JwtAuthenticationException(SecurityErrorStatus.AUTH_INVALID_TOKEN);
+
+    public static final AuthenticationException TOKEN_IS_UNSUPPORTED
+            = new JwtAuthenticationException(SecurityErrorStatus.AUTH_TOKEN_IS_UNSUPPORTED);
+
+    public static final AuthenticationException AUTH_NULL
+            = new JwtAuthenticationException(SecurityErrorStatus.AUTH_IS_NULL);
+
     public JwtAuthenticationException(SecurityErrorStatus errorStatus) {
         super(errorStatus.name());
     }
+
 }
