@@ -1,7 +1,6 @@
 package com.my_medi.security.jwt.service;
 
 import com.my_medi.common.consts.StaticVariable;
-import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.common.exception.GeneralException;
 import com.my_medi.common.service.RedisService;
 import com.my_medi.domain.member.entity.Member;
@@ -16,10 +15,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.AuthenticationHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

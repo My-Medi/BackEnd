@@ -4,6 +4,8 @@ import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.common.exception.GeneralException;
 import org.springframework.security.core.AuthenticationException;
 
+import java.io.IOException;
+
 public class JwtAuthenticationException extends AuthenticationException {
     public static final AuthenticationException UNAUTHORIZED_LOGIN_DATA
             = new JwtAuthenticationException(SecurityErrorStatus.AUTH_UNAUTHORIZED_LOGIN_DATA_RETRIEVAL_ERROR);
@@ -20,6 +22,8 @@ public class JwtAuthenticationException extends AuthenticationException {
 
     public static final AuthenticationException AUTH_NULL
             = new JwtAuthenticationException(SecurityErrorStatus.AUTH_IS_NULL);
+    public static final AuthenticationException TOKEN_IS_EXPIRED
+            = new JwtAuthenticationException(SecurityErrorStatus.AUTH_TOKEN_HAS_EXPIRED);
 
     public JwtAuthenticationException(SecurityErrorStatus errorStatus) {
         super(errorStatus.name());
