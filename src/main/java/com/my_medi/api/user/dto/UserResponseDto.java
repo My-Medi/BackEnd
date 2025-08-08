@@ -21,7 +21,12 @@ public class UserResponseDto {
         private String email;
         private String phoneNumber;
         private String profileImgUrl;
+        private Float height;
+        private Float weight;
+        private String loginId;
+        private String password;
         private Role role;
+
     }
 
     @Data

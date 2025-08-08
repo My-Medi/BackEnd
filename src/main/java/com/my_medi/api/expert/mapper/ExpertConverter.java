@@ -16,13 +16,13 @@ public class ExpertConverter {
     public static ExpertResponseDto.ExpertProfileDto toExpertProfileDto(Expert expert) {
         return ExpertResponseDto.ExpertProfileDto.builder()
                 .expertId(expert.getId())
-                .name(expert.getName())
-                .birthDate(expert.getBirthDate())
-                .gender(expert.getGender())
-                .nickname(expert.getNickname())
-                .email(expert.getEmail())
-                .phoneNumber(expert.getPhoneNumber())
-                .profileImgUrl(expert.getProfileImgUrl())
+                .name(expert.getName()) // 성명
+                .birthDate(expert.getBirthDate()) //생년월일
+                .gender(expert.getGender()) // 성별
+                .nickname(expert.getNickname()) //닉네임
+                .email(expert.getEmail()) //이메일
+                .phoneNumber(expert.getPhoneNumber()) //전화번호
+                .profileImgUrl(expert.getProfileImgUrl()) //프로필이미지
                 .role(expert.getRole())
                 .specialty(expert.getSpecialty())
                 .organizationName(expert.getOrganizationName())
