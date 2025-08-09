@@ -44,7 +44,7 @@ public class ExpertApiController {
     }
 
     @Operation(summary = "전문가 계정의 회원 정보를 수정합니다.[회원정보 수정페이지-전문가] ")
-    @PatchMapping("/profiles")
+    @PatchMapping
     public ApiResponseDto<Long> editProfileAccount(@AuthExpert Expert expert, @RequestBody UpdateProfileDto updateProfileDto) {
         return ApiResponseDto.onSuccess(expertCommandService.updateProfile(expert.getId(), updateProfileDto));
     }
@@ -69,7 +69,7 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(null);
     }
 
-    @GetMapping("/profiles")
+    @GetMapping("/profile")
     @Operation(summary = "전문가 자신의 마이홈 전문가 페이지를 조회합니다. [마이홈 전문가 페이지]")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileTopDto> getMyExpertProfileTop(@AuthExpert Expert expert) {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileTopDto(expert));
