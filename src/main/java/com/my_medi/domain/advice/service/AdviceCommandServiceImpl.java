@@ -17,7 +17,7 @@ public class AdviceCommandServiceImpl implements AdviceCommandService {
     private final AdviceRepository adviceRepository;
 
     @Override
-    public Long registExpertAdviceToUser(Expert expert, User user, AdviceRequestDto adviceRequestDto) {
+    public Long registerExpertAdviceToUser(Expert expert, User user, AdviceRequestDto adviceRequestDto) {
         Advice advice = Advice.builder()
                 .user(user)
                 .expert(expert)

@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface AdviceRepository extends JpaRepository<Advice, Long> {
     Page<Advice> findAllByUserId(Long userId, Pageable pageable);
     Page<Advice> findAllByExpertId(Long expertId, Pageable pageable);
-    Optional<Advice> findTop1ByUserIdOrderByCreatedDateDesc(Long userId);
+    Optional<Advice> findTop1ByUserIdOrderByCreatedDateDescIdDesc(Long userId);
 }

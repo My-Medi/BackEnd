@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class UserNotificationUseCase {
     private final UserNotificationQueryService userNotificationQueryService;
 
-    public Page<UserNotification> getPrioritizedNotificationDtoSliceByUserId
+    public Page<UserNotification> getPrioritizedNotificationDtoPageByUserId
             (Long userId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(
                 currentPage,

@@ -14,21 +14,21 @@ import org.springframework.stereotype.Service;
 public class AdviceUseCase {
     private final AdviceQueryService adviceQueryService;
 
-    public Page<Advice> getPrioritizedAdviceDtoSliceByUserId(Long userId, Integer currentPage, Integer pageSize) {
+    public Page<Advice> getPrioritizedAdviceDtoPageByUserId(Long userId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.asc("createdDate"))
+                Sort.by(Sort.Order.desc("createdDate"), Sort.Order.desc("id"))
         );
 
         return adviceQueryService.getAdviceListByPageForUser(userId, pageable);
     }
 
-    public Page<Advice> getPrioritizedAdviceDtoSliceByExpertId(Long expertId, Integer currentPage, Integer pageSize) {
+    public Page<Advice> getPrioritizedAdviceDtoPageByExpertId(Long expertId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.asc("createdDate"))
+                Sort.by(Sort.Order.desc("createdDate"), Sort.Order.desc("id"))
         );
 
         return adviceQueryService.getAdviceListByPageForExpert(expertId, pageable);

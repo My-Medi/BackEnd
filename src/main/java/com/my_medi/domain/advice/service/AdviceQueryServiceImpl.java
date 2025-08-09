@@ -28,6 +28,6 @@ public class AdviceQueryServiceImpl implements AdviceQueryService {
 
     @Override
     public Optional<Advice> getLatestAdviceOfUser(Long userId) {
-        return adviceRepository.findTop1ByUserIdOrderByCreatedDateDesc(userId);
+        return adviceRepository.findTop1ByUserIdOrderByCreatedDateDescIdDesc(userId);
     }
 }
