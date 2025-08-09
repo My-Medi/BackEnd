@@ -10,16 +10,31 @@ public class ComparingReportResponseDto {
     private int totalDataSize;
     private int ageGroup10Yr;
 
+    //비만/복부비만
     private ComparingBmiDto comparingBmiDto;
     private ComparingWaistDto comparingWaistDto;
 
+    //고혈압
     private ComparingSystolicBpDto comparingSystolicBpDto;
     private ComparingDiastolicBpDto comparingDiastolicBpDto;
 
+    //빈혈
     private ComparingHemoglobinDto comparingHemoglobinDto;
-    private ComparingFastingBloodSugarDto comparingFastingBloodSugarDto;
-    private ComparingSerumCreatinineDto comparingSerumCreatinineDto;
 
+    //당뇨병
+    private ComparingFastingBloodSugarDto comparingFastingBloodSugarDto;
+
+    //이상지질혈증
+    private ComparingTotalCholesterol comparingTotalCholesterol;
+    private ComparingHDL comparingHDL;
+    private ComparingTriglyceride comparingTriglyceride;
+    private ComparingLDL comparingLDL;
+
+    //신장질환
+    private ComparingSerumCreatinineDto comparingSerumCreatinineDto;
+    private ComparingE_GFR comparingEGfr;
+
+    //간장질환
     private ComparingAstDto comparingAstDto;
     private ComparingAltDto comparingAltDto;
     private ComparingGammaGtpDto comparingGammaGtpDto;
@@ -112,5 +127,44 @@ public class ComparingReportResponseDto {
         private HealthStatus healthStatus;
     }
 
+    @Data
+    @Builder
+    public static class ComparingTotalCholesterol{
+        private Integer totalCholesterol;
+        private Integer averageTotalCholesterol;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingHDL{
+        private Integer hdl;
+        private Integer averageHDL;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingTriglyceride{
+        private Integer triglyceride;
+        private Integer averageTriglyceride;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingLDL{
+        private Integer ldl;
+        private Integer averageLDL;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingE_GFR{
+        private Integer e_gfr;
+        private Integer averageE_GFR;
+        private HealthStatus healthStatus;
+    }
 
 }

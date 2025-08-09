@@ -76,7 +76,7 @@ public class HealthMetricCalculator {
        ========================= */
 
     // 공복혈당 (mg/dL)
-    public static HealthStatus classifyFastingGlucose(Double mgPerdL) {
+    public static HealthStatus classifyFastingGlucose(Integer mgPerdL) {
         if (mgPerdL == null) return UNKNOWN;
         // 70-89 / 90-99 / 100-110 / 111-125 / >=126
         if (Range.between(70, 89).contains(mgPerdL)) return HealthStatus.SAFE;
@@ -88,7 +88,7 @@ public class HealthMetricCalculator {
     }
 
     // 총 콜레스테롤 (mg/dL)
-    public static HealthStatus classifyTotalCholesterol(Double mgPerdL) {
+    public static HealthStatus classifyTotalCholesterol(Integer mgPerdL) {
         if (mgPerdL == null) return UNKNOWN;
         if (Range.lt(160).contains(mgPerdL)) return HealthStatus.SAFE;
         if (Range.between(160, 179).contains(mgPerdL)) return HealthStatus.NORMAL;
@@ -132,7 +132,7 @@ public class HealthMetricCalculator {
     }
 
     // AST (IU/L)
-    public static HealthStatus classifyAST(Double iuPerL) {
+    public static HealthStatus classifyAST(Integer iuPerL) {
         if (iuPerL == null) return UNKNOWN;
         if (Range.between(0, 20).contains(iuPerL)) return HealthStatus.SAFE;
         if (Range.between(21, 30).contains(iuPerL)) return HealthStatus.NORMAL;
@@ -143,7 +143,7 @@ public class HealthMetricCalculator {
     }
 
     // ALT (IU/L)
-    public static HealthStatus classifyALT(Double iuPerL) {
+    public static HealthStatus classifyALT(Integer iuPerL) {
         if (iuPerL == null) return UNKNOWN;
         if (Range.between(0, 20).contains(iuPerL)) return HealthStatus.SAFE;
         if (Range.between(21, 30).contains(iuPerL)) return HealthStatus.NORMAL;
@@ -154,7 +154,7 @@ public class HealthMetricCalculator {
     }
 
     // 감마-GTP (IU/L) — 성별별 기준
-    public static HealthStatus classifyGammaGTP(Double iuPerL, Gender gender) {
+    public static HealthStatus classifyGammaGTP(Integer iuPerL, Gender gender) {
         if (iuPerL == null || gender == null) return UNKNOWN;
         if (gender == Gender.MALE) {
             if (Range.lt(40).contains(iuPerL)) return HealthStatus.SAFE;
@@ -204,13 +204,6 @@ public class HealthMetricCalculator {
         return UNKNOWN;
     }
 
-    // 혈압 (mmHg): 수축기/이완기 각각 분류 후 더 위험한 쪽을 반환
-    public static HealthStatus classifyBloodPressure(Integer systolic, Integer diastolic) {
-        if (systolic == null || diastolic == null) return UNKNOWN;
-        HealthStatus s = classifySystolic(systolic);
-        HealthStatus d = classifyDiastolic(diastolic);
-        return worst(s, d);
-    }
 
     private static HealthStatus worst(HealthStatus a, HealthStatus b) {
         if (a == null) return b == null ? UNKNOWN : b;
@@ -218,7 +211,8 @@ public class HealthMetricCalculator {
         return (a.getSeverity() >= b.getSeverity()) ? a : b;
     }
 
-    private static HealthStatus classifySystolic(int sys) {
+    // 혈압 (mmHg): 수축기/이완기 각각 분류 후 더 위험한 쪽을 반환
+    public static HealthStatus classifySystolic(int sys) {
         if (Range.lt(110).contains(sys)) return HealthStatus.SAFE;
         if (Range.between(110, 119).contains(sys)) return HealthStatus.NORMAL;
         if (Range.between(120, 129).contains(sys)) return HealthStatus.WATCH;
@@ -227,7 +221,7 @@ public class HealthMetricCalculator {
         return UNKNOWN;
     }
 
-    private static HealthStatus classifyDiastolic(int dia) {
+    public static HealthStatus classifyDiastolic(int dia) {
         if (Range.lt(75).contains(dia)) return HealthStatus.SAFE;
         if (Range.between(75, 79).contains(dia)) return HealthStatus.NORMAL;
         if (Range.between(80, 84).contains(dia)) return HealthStatus.WATCH;
