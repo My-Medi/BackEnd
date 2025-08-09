@@ -13,11 +13,15 @@ import java.time.LocalDate;
 public class UpdateProfileDto {
     // Member 공통 필드
     private String name;
+    private String nickname;
     private String birthDate;
     private Gender gender;
-    private String nickname;
+    private String email;
     private String phoneNumber;
     private String profileImgUrl;
+    private String loginId;
+    private String password;
+
 
     // Expert 전용 필드 사라짐. 회원정보수정, 이력서 수정 분리
     //private Specialty specialty;

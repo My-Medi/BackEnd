@@ -51,13 +51,13 @@ public class UserApiController {
         return ApiResponseDto.onSuccess(userCommandService.registerUser(registerMemberDto));
     }
 
-    @Operation(summary = "사용자 계정을 수정합니다.")
+    @Operation(summary = "사용자 계정을 수정합니다. [회원정보 수정페이지-개인]")
     @PatchMapping
     public ApiResponseDto<Long> editUserAccount(@AuthUser User user, @RequestBody UpdateUserDto updateUserDto) {
         return ApiResponseDto.onSuccess(userCommandService.updateUserInformation(user.getId(), updateUserDto));
     }
 
-    @Operation(summary = "사용자 본인의 프로필을 조회합니다.[사용 안하는 api]")
+    @Operation(summary = "사용자 본인의 프로필을 조회합니다.[회원정보 수정페이지-개인]")
     @GetMapping
     public ApiResponseDto<UserProfileDto> getMyProfile(@AuthUser User user) {
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
