@@ -28,8 +28,8 @@ public class ExpertConverter {
                 .organizationName(expert.getOrganizationName())
                 .introduction(expert.getIntroduction())
                 .introSentence(expert.getIntroSentence())
-                // career 추가
-                .careers(
+                // TODO : GET/RESUME api 따로 만들 예정
+                /*.careers(
                         expert.getCareers().stream()
                                 .map(c -> CareerResponseDto.builder()
                                         .careerId(c.getId())
@@ -63,7 +63,7 @@ public class ExpertConverter {
                                         .build()
                                 )
                                 .toList()
-                )
+                )*/
                 .build();
     }
 
