@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface AdviceQueryService {
-    Page<Advice> getAdviceListByPage(Long userId, Pageable pageable);
+    Page<Advice> getAdviceListByPageForUser(Long userId, Pageable pageable);
+    Page<Advice> getAdviceListByPageForExpert(Long expertId, Pageable pageable);
     Optional<Advice> getLatestAdviceOfUser(Long userId);
 }
