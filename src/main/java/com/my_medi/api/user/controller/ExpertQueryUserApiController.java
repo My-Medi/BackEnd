@@ -27,14 +27,14 @@ public class ExpertQueryUserApiController {
 
     @Operation(summary = "사용자 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/approved")
-    public ApiResponseDto<UserResponseDto.UserProfileDto> getUserProfile(@AuthExpert Expert expert,
+    public ApiResponseDto<UserResponseDto.UserInfoDto> getUserProfile(@AuthExpert Expert expert,
                                                                          @PathVariable Long userId) {
         // 전문가와 유저가 매칭된 상태인지 확인 (ACCEPTED) -> 유저 정보 조회 -> DTO로 변환해서 반환
         expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
 
         User user = userQueryService.getUserById(userId);
 
-        return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
+        return ApiResponseDto.onSuccess(UserConverter.toUserInfoDto(user));
     }
 
 }
