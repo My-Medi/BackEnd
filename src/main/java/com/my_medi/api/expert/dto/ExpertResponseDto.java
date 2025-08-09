@@ -40,15 +40,6 @@ public class ExpertResponseDto{
         private String introduction;
         private String introSentence;
 
-        // 커리어 리스트
-        private List<CareerResponseDto> careers;
-
-        // 자격증 증명사진 리스트
-        private List<LicenseImageResponseDto> licenseImages;
-
-        // 자격증 리스트
-        private List<LicenseResponseDto> licenses;
-
     }
 
     @Data
@@ -99,4 +90,14 @@ public class ExpertResponseDto{
         private final int page;
         private final int totalPages;
     }
+    //TODO : GET/RESUME api dto 따로 만들 예정
+
+    /*        // 커리어 리스트
+        private List<CareerResponseDto> careers;
+
+        // 자격증 증명사진 리스트
+        private List<LicenseImageResponseDto> licenseImages;
+
+        // 자격증 리스트
+        private List<LicenseResponseDto> licenses;*/
 }

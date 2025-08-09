@@ -11,13 +11,15 @@ public class UserConverter {
     public static UserProfileDto toUserProfileDto(User user) {
         return UserProfileDto.builder()
                 .userid(user.getId())
-                .name(user.getName())
-                .nickname(user.getNickname())
-                .birthDate(user.getBirthDate())
-                .gender(user.getGender())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .profileImgUrl(user.getProfileImgUrl())
+                .name(user.getName()) //성명
+                .nickname(user.getNickname()) //닉네임
+                .birthDate(user.getBirthDate()) //생년월일
+                .gender(user.getGender()) //성별
+                .email(user.getEmail()) //이메일
+                .phoneNumber(user.getPhoneNumber()) //전화번호
+                .profileImgUrl(user.getProfileImgUrl()) //프로필이미지
+                .height(user.getHeight()) // 키
+                .weight(user.getWeight()) // 몸무게
                 .role(user.getRole())
                 .build();
     }
