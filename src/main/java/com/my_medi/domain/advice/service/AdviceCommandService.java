@@ -7,5 +7,7 @@ import com.my_medi.domain.user.entity.User;
 public interface AdviceCommandService {
     Long registExpertAdviceToUser(Expert expert, User use, AdviceRequestDto adviceRequestDto);
 
-    Long editExpertAdviceToUser(Expert expert, User use, AdviceRequestDto adviceRequestDto);
+    Long editExpertAdviceToUser(Long adviceId, AdviceRequestDto adviceRequestDto);
+
+    Long deleteExpertAdviceFromUser(Long adviceId);
 }

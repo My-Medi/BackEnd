@@ -30,12 +30,19 @@ public class AdviceCommandServiceImpl implements AdviceCommandService {
     }
 
     @Override
-    public Long editExpertAdviceToUser(Expert expert, User user, AdviceRequestDto adviceRequestDto) {
-        Advice advice = adviceRepository.findByUserIdAndExpertId(user.getId(), expert.getId())
+    public Long editExpertAdviceToUser(Long adviceId, AdviceRequestDto adviceRequestDto) {
+        Advice advice = adviceRepository.findById(adviceId)
                 .orElseThrow(() -> AdviceHandler.NOT_FOUND);
 
         advice.updateAdvice(adviceRequestDto.getAdviceComment());
 
         return advice.getId();
+    }
+
+    @Override
+    public Long deleteExpertAdviceFromUser(Long adviceId) {
+        adviceRepository.deleteById(adviceId);
+
+        return adviceId;
     }
 }
