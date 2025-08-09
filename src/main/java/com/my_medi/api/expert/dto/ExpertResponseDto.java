@@ -92,12 +92,22 @@ public class ExpertResponseDto{
     }
     //TODO : GET/RESUME api dto 따로 만들 예정
 
-    /*        // 커리어 리스트
+    @Data
+    @Builder
+    public static class ExpertResumeProfileDto{
+        // 이력서 수정 분리
+        private Specialty specialty;
+        private String organizationName;
+        private String introduction;
+        private String introSentences;
+
         private List<CareerResponseDto> careers;
 
         // 자격증 증명사진 리스트
         private List<LicenseImageResponseDto> licenseImages;
 
         // 자격증 리스트
-        private List<LicenseResponseDto> licenses;*/
+        private List<LicenseResponseDto> licenses;
+    }
+
 }

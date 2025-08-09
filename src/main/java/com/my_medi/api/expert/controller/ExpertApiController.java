@@ -49,12 +49,17 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(expertCommandService.updateProfile(expert.getId(), updateProfileDto));
     }
 
+    @Operation(summary = "전문가 계정의 이력서를 조회합니다. [이력서 관리]")
+    @GetMapping("/resume")
+    public ApiResponseDto<ExpertResponseDto.ExpertResumeProfileDto> getMyExpertResumeProfile(@AuthExpert Expert expert) {
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertResumeProfileDto(expert));
+    }
+
     @Operation(summary = "전문가 계정의 이력서를 수정합니다.[이력서 관리] ")
-    @PatchMapping("/resumes")
+    @PatchMapping("/resume")
     public ApiResponseDto<Long> editExpertAccount(@AuthExpert Expert expert, @RequestBody UpdateResumeDto updateResumeDto) {
         return ApiResponseDto.onSuccess(expertCommandService.updateResume(expert.getId(), updateResumeDto));
     }
-
 
     @Operation(summary = "전문가 내 프로필의 이력서, 회원 정보 모든 내용을 조회합니다.[회원정보 수정 전문가]")
     @GetMapping

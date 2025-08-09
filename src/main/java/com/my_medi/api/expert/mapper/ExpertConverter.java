@@ -28,42 +28,6 @@ public class ExpertConverter {
                 .organizationName(expert.getOrganizationName())
                 .introduction(expert.getIntroduction())
                 .introSentence(expert.getIntroSentence())
-                // TODO : GET/RESUME api 따로 만들 예정
-                /*.careers(
-                        expert.getCareers().stream()
-                                .map(c -> CareerResponseDto.builder()
-                                        .careerId(c.getId())
-                                        .companyName(c.getCompanyName())
-                                        .jobTitle(c.getJobTitle())
-                                        .startDate(c.getStartDate())
-                                        .endDate(c.getEndDate())
-                                        .build())
-                                .toList()
-                )
-                // licenseImages 추가
-                .licenseImages(
-                        expert.getLicenseImages().stream()
-                                .map(img -> LicenseImageResponseDto.builder()
-                                        .licenseImageId(img.getId())
-                                        .imageUrl(img.getImageUrl())
-                                        .imageTitle(img.getImageTitle())
-                                        .build()
-                                )
-                                .toList()
-                )
-
-                // license 추가
-                .licenses(
-                        expert.getLicenses().stream()
-                                .map(l -> LicenseResponseDto.builder()
-                                        .id(l.getId())
-                                        .licenseName(l.getLicenseName())
-                                        .licenseDate(l.getLicenseDate())
-                                        .licenseDescription(l.getLicenseDescription())
-                                        .build()
-                                )
-                                .toList()
-                )*/
                 .build();
     }
 
@@ -99,6 +63,51 @@ public class ExpertConverter {
                                 .toList()
                 )
                 .build();
+    }
+
+    public static ExpertResponseDto.ExpertResumeProfileDto toExpertResumeProfileDto(Expert expert) {
+        return ExpertResponseDto.ExpertResumeProfileDto.builder()
+                .specialty(expert.getSpecialty())
+                .organizationName(expert.getOrganizationName())
+                .introduction(expert.getIntroduction())
+                .introSentences(expert.getIntroSentence())
+                .careers(
+                        expert.getCareers().stream()
+                                .map(c -> CareerResponseDto.builder()
+                                        .careerId(c.getId())
+                                        .companyName(c.getCompanyName())
+                                        .jobTitle(c.getJobTitle())
+                                        .startDate(c.getStartDate())
+                                        .endDate(c.getEndDate())
+                                        .build())
+                                .toList()
+                )
+                // licenseImages 추가
+                .licenseImages(
+                        expert.getLicenseImages().stream()
+                                .map(img -> LicenseImageResponseDto.builder()
+                                        .licenseImageId(img.getId())
+                                        .imageUrl(img.getImageUrl())
+                                        .imageTitle(img.getImageTitle())
+                                        .build()
+                                )
+                                .toList()
+                )
+
+                // license 추가
+                .licenses(
+                        expert.getLicenses().stream()
+                                .map(l -> LicenseResponseDto.builder()
+                                        .id(l.getId())
+                                        .licenseName(l.getLicenseName())
+                                        .licenseDate(l.getLicenseDate())
+                                        .licenseDescription(l.getLicenseDescription())
+                                        .build()
+                                )
+                                .toList()
+                )
+                .build();
+
     }
 
 
