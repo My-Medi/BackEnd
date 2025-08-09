@@ -31,7 +31,7 @@ public class ExpertAdviceApiController {
 
     @Operation(summary = "전문가가 매칭된 사용자에게 조언을 등록합니다.")
     @PostMapping
-    public ApiResponseDto<Long> registExpertAdviceToUser(@AuthExpert Expert expert,
+    public ApiResponseDto<Long> registerExpertAdviceToUser(@AuthExpert Expert expert,
                                                          @RequestParam Long userId,
                                                          @RequestBody AdviceRequestDto adviceRequestDto) {
         expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
