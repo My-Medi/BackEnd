@@ -25,7 +25,6 @@ public class JwtExceptionFilter  extends OncePerRequestFilter {
         } catch (JwtAuthenticationException authException) {
             String errorCodeName = authException.getMessage();
             SecurityErrorStatus errorStatus = SecurityErrorStatus.valueOf(errorCodeName);
-
             CustomErrorSend.handleException(response, errorStatus, errorCodeName);
         }
     }
