@@ -38,7 +38,7 @@ public class ExpertAdviceApiController {
         User user = userRepository.findById(userId).orElseThrow(() -> UserHandler.NOT_FOUND);
 
         return ApiResponseDto.onSuccess(adviceCommandService
-                .registExpertAdviceToUser(expert, user, adviceRequestDto));
+                .registerExpertAdviceToUser(expert, user, adviceRequestDto));
     }
 
     @Operation(summary = "전문가가 자신이 등록한 조언들을 조회합니다.")
@@ -46,7 +46,7 @@ public class ExpertAdviceApiController {
     public ApiResponseDto<AdviceSimplePageResponse> getExpertAdvice(
             @AuthExpert Expert expert, @RequestParam(defaultValue = "0") int currentPage, @RequestParam int pageSize) {
         Page<Advice> advicePage = adviceUseCase
-                .getPrioritizedAdviceDtoSliceByExpertId(expert.getId(), currentPage, pageSize);
+                .getPrioritizedAdviceDtoPageByExpertId(expert.getId(), currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(AdviceConverter.toAdviceSimplePageResponse(advicePage));
     }

@@ -28,7 +28,7 @@ public class UserAdviceApiController {
     public ApiResponseDto<AdviceSimplePageResponse> getAllAdviceForUser(
             @AuthUser User user, @RequestParam(defaultValue = "0") int currentPage, @RequestParam int pageSize) {
         Page<Advice> advicePage = adviceUseCase
-                .getPrioritizedAdviceDtoSliceByUserId(user.getId(), currentPage, pageSize);
+                .getPrioritizedAdviceDtoPageByUserId(user.getId(), currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(AdviceConverter.toAdviceSimplePageResponse(advicePage));
     }
