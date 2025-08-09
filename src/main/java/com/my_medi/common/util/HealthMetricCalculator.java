@@ -1,6 +1,7 @@
 package com.my_medi.common.util;
 
 import com.my_medi.api.report.dto.HealthStatus;
+import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
 import org.apache.commons.lang3.Range;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import static com.my_medi.api.report.dto.HealthStatus.UNKNOWN;
+import static com.my_medi.common.consts.StaticVariable.*;
 
 public class HealthMetricCalculator {
 
@@ -99,7 +101,7 @@ public class HealthMetricCalculator {
     }
 
     // LDL-콜레스테롤 (mg/dL)
-    public static HealthStatus classifyLDL(Double mgPerdL) {
+    public static HealthStatus classifyLDL(Integer mgPerdL) {
         if (mgPerdL == null) return UNKNOWN;
         if (Range.lt(100).contains(mgPerdL)) return HealthStatus.SAFE;
         if (Range.between(100, 109).contains(mgPerdL)) return HealthStatus.NORMAL;
@@ -110,7 +112,7 @@ public class HealthMetricCalculator {
     }
 
     // HDL-콜레스테롤 (mg/dL) — 높을수록 좋음
-    public static HealthStatus classifyHDL(Double mgPerdL) {
+    public static HealthStatus classifyHDL(Integer mgPerdL) {
         if (mgPerdL == null) return UNKNOWN;
         if (Range.ge(70).contains(mgPerdL)) return HealthStatus.SAFE;
         if (Range.between(60, 69).contains(mgPerdL)) return HealthStatus.NORMAL;
@@ -121,7 +123,7 @@ public class HealthMetricCalculator {
     }
 
     // 중성지방 (mg/dL)
-    public static HealthStatus classifyTriglycerides(Double mgPerdL) {
+    public static HealthStatus classifyTriglycerides(Integer mgPerdL) {
         if (mgPerdL == null) return UNKNOWN;
         if (Range.lt(100).contains(mgPerdL)) return HealthStatus.SAFE;
         if (Range.between(100, 129).contains(mgPerdL)) return HealthStatus.NORMAL;
@@ -194,7 +196,7 @@ public class HealthMetricCalculator {
     }
 
     // eGFR (단위 없음)
-    public static HealthStatus classifyE_GFR(Double egfr) {
+    public static HealthStatus classifyE_GFR(Integer egfr) {
         if (egfr == null) return UNKNOWN;
         if (Range.ge(100).contains(egfr)) return HealthStatus.SAFE;
         if (Range.between(90, 99).contains(egfr)) return HealthStatus.NORMAL;
@@ -229,6 +231,129 @@ public class HealthMetricCalculator {
         if(Range.ge(90).contains(dia)) return HealthStatus.DANGER; // >= 140
         return UNKNOWN;
     }
+
+    // 체질량지수 (kg/m^2)
+    public static HealthStatus classifyBmi(Double bmi) {
+        if (bmi == null) return HealthStatus.UNKNOWN;
+        // 18.5–20.9 / 21.0–22.9 / 23.0–24.9 / 25.0–29.9 / ≥ 30.0
+        if (Range.between(18.5, 20.9).contains(bmi)) return HealthStatus.SAFE;
+        if (Range.between(21.0, 22.9).contains(bmi)) return HealthStatus.NORMAL;
+        if (Range.between(23.0, 24.9).contains(bmi)) return HealthStatus.WATCH;   // 과체중 전단계
+        if (Range.between(25.0, 29.9).contains(bmi)) return HealthStatus.CAUTION; // 비만 1단계
+        if (Range.ge(30.0).contains(bmi))           return HealthStatus.DANGER;   // 비만 2단계 이상
+        return HealthStatus.UNKNOWN; // (<18.5 등 표 미정의 영역)
+    }
+
+    // 허리둘레 (cm) — 성별 기준
+    public static HealthStatus classifyWaistCircumference(Double cm, Gender gender) {
+        if (cm == null || gender == null) return HealthStatus.UNKNOWN;
+
+        if (gender == Gender.MALE) {
+            // 남성: <80 / 80–84 / 85–89 / 90–94 / ≥95
+            if (Range.lt(80).contains(cm))                 return HealthStatus.SAFE;
+            if (Range.between(80, 84).contains(cm))        return HealthStatus.NORMAL;
+            if (Range.between(85, 89).contains(cm))        return HealthStatus.WATCH;   // 복부비만 전단계
+            if (Range.between(90, 94).contains(cm))        return HealthStatus.CAUTION; // 복부비만
+            if (Range.ge(95).contains(cm))                 return HealthStatus.DANGER;  // 고도 복부비만
+        } else {
+            // 여성: <70 / 70–74 / 75–79 / 80–84 / ≥85
+            if (Range.lt(70).contains(cm))                 return HealthStatus.SAFE;
+            if (Range.between(70, 74).contains(cm))        return HealthStatus.NORMAL;
+            if (Range.between(75, 79).contains(cm))        return HealthStatus.WATCH;   // 복부비만 전단계
+            if (Range.between(80, 84).contains(cm))        return HealthStatus.CAUTION; // 복부비만
+            if (Range.ge(85).contains(cm))                 return HealthStatus.DANGER;  // 고도 복부비만
+        }
+        return HealthStatus.UNKNOWN;
+    }
+
+    public static HealthStatus classifyHemoglobin(Double gPerdL, Gender gender) {
+        if (gPerdL == null || gender == null) return HealthStatus.UNKNOWN;
+
+        if (gender == Gender.MALE) {
+            // 남성
+            // SAFE: 14.0–15.0
+            if (Range.between(14.0, 15.0).contains(gPerdL)) return HealthStatus.SAFE;
+            // NORMAL: 15.1–16.5
+            if (Range.between(15.1, 16.5).contains(gPerdL)) return HealthStatus.NORMAL;
+            // WATCH: 13.0–13.9 (경도 빈혈)
+            if (Range.between(13.0, 13.9).contains(gPerdL)) return HealthStatus.WATCH;
+            // CAUTION: 12.0–12.9 (중등도 빈혈)
+            if (Range.between(12.0, 12.9).contains(gPerdL)) return HealthStatus.CAUTION;
+            // DANGER: < 12.0 (중증 빈혈) 또는 > 17.5 (다혈증 의심)
+            if (Range.lt(12.0).contains(gPerdL) || Range.gt(17.5).contains(gPerdL)) return HealthStatus.DANGER;
+            return HealthStatus.UNKNOWN; // (예: 16.6–17.5 구간)
+        } else {
+            // 여성
+            // SAFE: 12.5–13.5
+            if (Range.between(12.5, 13.5).contains(gPerdL)) return HealthStatus.SAFE;
+            // NORMAL: 13.6–15.0
+            if (Range.between(13.6, 15.0).contains(gPerdL)) return HealthStatus.NORMAL;
+            // WATCH: 11.5–12.4 (경도 빈혈)
+            if (Range.between(11.5, 12.4).contains(gPerdL)) return HealthStatus.WATCH;
+            // CAUTION: 10.5–11.4 (중등도 빈혈)
+            if (Range.between(10.5, 11.4).contains(gPerdL)) return HealthStatus.CAUTION;
+            // DANGER: < 10.5 (중증 빈혈) 또는 > 16.0 (다혈증 의심)
+            if (Range.lt(10.5).contains(gPerdL) || Range.gt(16.0).contains(gPerdL)) return HealthStatus.DANGER;
+            return HealthStatus.UNKNOWN; // (예: 15.1–16.0 구간)
+        }
+    }
+
+    public static Integer provideAverageTotalCholesterol(int ageGroup10Yr) {
+        if (ageGroup10Yr >= 60) {
+            return TOTAL_CHOLESTEROL_60;
+        }
+        switch (ageGroup10Yr){
+            case 20 : return TOTAL_CHOLESTEROL_20;
+            case 30 : return TOTAL_CHOLESTEROL_30;
+            case 40 : return TOTAL_CHOLESTEROL_40;
+            case 50 : return TOTAL_CHOLESTEROL_50;
+            case 60 : return TOTAL_CHOLESTEROL_60;
+            default: return null;
+        }
+    }
+
+    public static Integer provideAverageHDL(int ageGroup10Yr) {
+        if (ageGroup10Yr >= 60) {
+            return HDL_60;
+        }
+        switch (ageGroup10Yr){
+            case 20 : return HDL_20;
+            case 30 : return HDL_30;
+            case 40 : return HDL_40;
+            case 50 : return HDL_50;
+            case 60 : return HDL_60;
+            default: return null;
+        }
+    }
+
+    public static Integer provideAverageLDL(int ageGroup10Yr) {
+        if (ageGroup10Yr >= 60) {
+            return LDL_60;
+        }
+        switch (ageGroup10Yr){
+            case 20 : return LDL_20;
+            case 30 : return LDL_30;
+            case 40 : return LDL_40;
+            case 50 : return LDL_50;
+            case 60 : return LDL_60;
+            default: return null;
+        }
+    }
+
+    public static Integer provideAverageTriglyceride(int ageGroup10Yr) {
+        if (ageGroup10Yr >= 60) {
+            return TRIGLYCERIDE_60;
+        }
+        switch (ageGroup10Yr){
+            case 20 : return TRIGLYCERIDE_20;
+            case 30 : return TRIGLYCERIDE_30;
+            case 40 : return TRIGLYCERIDE_40;
+            case 50 : return TRIGLYCERIDE_50;
+            case 60 : return TRIGLYCERIDE_60;
+            default: return null;
+        }
+    }
+
 
     private static final class Range {
         final Double min;

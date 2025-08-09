@@ -6,6 +6,7 @@ import com.my_medi.api.report.dto.*;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.common.util.HealthMetricCalculator;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
+import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.*;
 
 import java.util.List;
@@ -257,6 +258,7 @@ public class ReportConverter {
 
     public static ComparingReportResponseDto toComparingReportResponseDto(List<HealthCheckup> healthCheckupList, Report report) {
         int ageGroup10Yr = BirthDateUtil.getAge(report.getUser().getBirthDate());
+        Gender gender = report.getUser().getGender();
         // 공공데이터 bmi 계산
         Function<HealthCheckup, Double> bmiExtractor = h -> {
             if (h.getHeight5cm() == null || h.getWeight5kg() == null) return null;
@@ -274,7 +276,14 @@ public class ReportConverter {
         Integer my_fastingGlucose = report.getBloodTest().getFastingGlucose();
         Integer my_ast = report.getBloodTest().getAst();
         Integer my_alt = report.getBloodTest().getAlt();
-        Integer gtp = report.getBloodTest().getGtp();
+        Integer my_hdl = report.getBloodTest().getHdl();
+        Integer my_gtp = report.getBloodTest().getGtp();
+        Integer my_total_cholesterol = report.getBloodTest().getTotalCholesterol();
+        Integer my_ldl = report.getBloodTest().getLdl();
+        Integer my_egfr = report.getBloodTest().getEgfr();
+        Integer my_triglyceride = report.getBloodTest().getTriglyceride();
+        Double my_creatinine = report.getBloodTest().getCreatinine();
+
 
         return ComparingReportResponseDto.builder()
                 .totalDataSize(healthCheckupList.size())
@@ -283,12 +292,13 @@ public class ReportConverter {
                         .bmi(my_bmi)
                         .averageBmi(HealthMetricCalculator.calculateAverageBmi(healthCheckupList))
                         .percentageBmi(calculatePercentile(healthCheckupList, my_bmi, bmiExtractor))
-//                        .healthStatus()
+                        .healthStatus(classifyBmi(my_bmi))
                         .build())
                 .comparingWaistDto(ComparingWaistDto.builder()
                         .waist(my_waist)
                         .averageWaist(calculateAverage(healthCheckupList, HealthCheckup::getWaistCm))
                         .percentageWaist(calculatePercentile(healthCheckupList, my_waist, HealthCheckup::getWaistCm))
+                        .healthStatus(classifyWaistCircumference(my_waist, gender))
                         .build())
                 .comparingSystolicBpDto(ComparingSystolicBpDto.builder()
                         .systolicBp(my_systolic)
@@ -306,7 +316,7 @@ public class ReportConverter {
                         .hemoglobin(my_hemoglobin)
                         .averageHemoglobin(calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin))
                         .percentageHemoglobin(calculatePercentile(healthCheckupList, my_hemoglobin, HealthCheckup::getHemoglobin))
-//                        .healthStatus()
+                        .healthStatus(classifyHemoglobin(my_hemoglobin, gender))
                         .build())
                 .comparingFastingBloodSugarDto(ComparingFastingBloodSugarDto.builder()
                         .fastingBloodSugar(my_fastingGlucose)
@@ -315,8 +325,9 @@ public class ReportConverter {
                         .healthStatus(classifyFastingGlucose(my_fastingGlucose))
                         .build())
                 .comparingSerumCreatinineDto(ComparingSerumCreatinineDto.builder()
-                        .serumCreatinine(report.getBloodTest().getCreatinine())
+                        .serumCreatinine(my_creatinine)
                         .averageSerumCreatinine(0.8)
+                        .healthStatus(classifyCreatinine(my_creatinine, gender))
                         .build())
                 .comparingAstDto(ComparingAstDto.builder()
                         .ast(my_ast)
@@ -331,35 +342,35 @@ public class ReportConverter {
                         .healthStatus(classifyALT(my_alt))
                         .build())
                 .comparingGammaGtpDto(ComparingGammaGtpDto.builder()
-                        .gammaGtp(gtp)
+                        .gammaGtp(my_gtp)
                         .averageGammaGtp(calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp))
-                        .percentageGammaGtp(calculatePercentile(healthCheckupList, gtp, HealthCheckup::getGammaGtp))
-                        .healthStatus(classifyGammaGTP(gtp, report.getUser().getGender()))
+                        .percentageGammaGtp(calculatePercentile(healthCheckupList, my_gtp, HealthCheckup::getGammaGtp))
+                        .healthStatus(classifyGammaGTP(my_gtp, gender))
                         .build())
                 .comparingTotalCholesterol(ComparingTotalCholesterol.builder()
-                        .totalCholesterol(report.getBloodTest().getTotalCholesterol())
+                        .totalCholesterol(my_total_cholesterol)
                         .averageTotalCholesterol(provideAverageTotalCholesterol(ageGroup10Yr))
-                        .healthStatus(classifyTotalCholesterol(report.getBloodTest().getTotalCholesterol()))
+                        .healthStatus(classifyTotalCholesterol(my_total_cholesterol))
                         .build())
                 .comparingHDL(ComparingHDL.builder()
-                        .hdl(report.getBloodTest().getHdl())
+                        .hdl(my_hdl)
                         .averageHDL(provideAverageHDL(ageGroup10Yr))
-                        .healthStatus()
+                        .healthStatus(classifyHDL(my_hdl))
                         .build())
                 .comparingLDL(ComparingLDL.builder()
-                        .ldl(report.getBloodTest().getLdl())
+                        .ldl(my_ldl)
                         .averageLDL(provideAverageLDL(ageGroup10Yr))
-                        .healthStatus()
+                        .healthStatus(classifyLDL(my_ldl))
                         .build())
                 .comparingTriglyceride(ComparingTriglyceride.builder()
-                        .triglyceride(report.getBloodTest().getTriglyceride())
+                        .triglyceride(my_triglyceride)
                         .averageTriglyceride(provideAverageTriglyceride(ageGroup10Yr))
-                        .healthStatus()
+                        .healthStatus(classifyTriglycerides(my_triglyceride))
                         .build())
                 .comparingEGfr(ComparingE_GFR.builder()
-                        .e_gfr(report.getBloodTest().getEgfr())
-                        .averageE_GFR(provideAverageE_GFR(ageGroup10Yr))
-                        .healthStatus()
+                        .e_gfr(my_egfr)
+                        .averageE_GFR(78)
+                        .healthStatus(classifyE_GFR(my_egfr))
                         .build())
                 .build();
     }
