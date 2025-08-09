@@ -11,8 +11,7 @@ public class UserResponseDto {
 
     @Data
     @Builder
-    public static class UserProfileDto{
-        //TODO 채워넣기 유저랑 전문가 계정 등록하는 api 생성 jwt security 설정
+    public static class UserInfoDto{
         private Long userid;
         private String name;
         private String nickname;

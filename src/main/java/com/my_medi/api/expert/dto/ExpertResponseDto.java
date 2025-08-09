@@ -20,9 +20,10 @@ import java.util.List;
 @Builder
 public class ExpertResponseDto{
 
+    //유저 상세 조회
     @Data
     @Builder
-    public static class ExpertProfileDto{
+    public static class ExpertInfoDto{
         private Long expertId;
         // Member 공통 필드
         private String name;
@@ -90,11 +91,10 @@ public class ExpertResponseDto{
         private final int page;
         private final int totalPages;
     }
-    //TODO : GET/RESUME api dto 따로 만들 예정
 
     @Data
     @Builder
-    public static class ExpertResumeProfileDto{
+    public static class ExpertResumeDto{
         // 이력서 수정 분리
         private Specialty specialty;
         private String organizationName;

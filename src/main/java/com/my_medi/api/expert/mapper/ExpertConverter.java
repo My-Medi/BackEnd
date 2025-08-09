@@ -6,15 +6,14 @@ import com.my_medi.api.expert.dto.ExpertResponseDto;
 import com.my_medi.api.license.dto.LicenseResponseDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
 import com.my_medi.common.util.BirthDateUtil;
-import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileListDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertSummaryProfileDto;
 import com.my_medi.domain.expert.entity.Expert;
 import org.springframework.data.domain.Page;
 
 public class ExpertConverter {
-    public static ExpertResponseDto.ExpertProfileDto toExpertProfileDto(Expert expert) {
-        return ExpertResponseDto.ExpertProfileDto.builder()
+    public static ExpertResponseDto.ExpertInfoDto toExpertInfoDto(Expert expert) {
+        return ExpertResponseDto.ExpertInfoDto.builder()
                 .expertId(expert.getId())
                 .name(expert.getName()) // 성명
                 .birthDate(expert.getBirthDate()) //생년월일
@@ -33,6 +32,7 @@ public class ExpertConverter {
 
     public static ExpertResponseDto.ExpertProfileTopDto toExpertProfileTopDto(Expert expert) {
         return ExpertResponseDto.ExpertProfileTopDto.builder()
+                .expertId(expert.getId())
                 .nickname(expert.getNickname())
                 .name(expert.getName())
                 .age(BirthDateUtil.getAge(expert.getBirthDate())) // 나이
@@ -65,8 +65,8 @@ public class ExpertConverter {
                 .build();
     }
 
-    public static ExpertResponseDto.ExpertResumeProfileDto toExpertResumeProfileDto(Expert expert) {
-        return ExpertResponseDto.ExpertResumeProfileDto.builder()
+    public static ExpertResponseDto.ExpertResumeDto toExpertResumeDto(Expert expert) {
+        return ExpertResponseDto.ExpertResumeDto.builder()
                 .specialty(expert.getSpecialty())
                 .organizationName(expert.getOrganizationName())
                 .introduction(expert.getIntroduction())
