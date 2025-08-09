@@ -63,7 +63,7 @@ public class UserApiController {
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
     }
 
-    @Operation(summary = "[구현 x] 사용자 본인의 계정을 삭제합니다.")
+    @Operation(summary = "사용자 본인의 계정을 삭제합니다.")
     @DeleteMapping
     public ApiResponseDto<Long> deleteUser(@AuthUser User user) {
         return ApiResponseDto.onSuccess(userCommandService.deleteUserAccount(user.getId()));

@@ -11,4 +11,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     Integer countByUserId(Long id);
 
     Optional<Report> findTopByUserIdOrderByRoundDesc(Long userId);
+
+    Optional<Report> findTopByUserIdOrderByCheckupDateDesc(Long userId);
+
 }

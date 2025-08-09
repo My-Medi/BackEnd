@@ -6,7 +6,13 @@ import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.proposal.entity.Proposal;
+import com.my_medi.domain.proposal.service.ProposalQueryService;
+import com.my_medi.domain.report.entity.Report;
+import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.entity.User;
+import com.my_medi.domain.user.exception.UserErrorStatus;
+import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.service.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExpertQueryUserApiController {
 
     private final UserQueryService userQueryService;
+    private final ProposalQueryService proposalQueryService;
+    private final ReportQueryService reportQueryService;
     private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
     @Operation(summary = "사용자 프로필 정보를 조회합니다.")
@@ -36,5 +44,16 @@ public class ExpertQueryUserApiController {
 
         return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
     }
+
+    @Operation(summary = "[건강관리요청서 확인하기]")
+    @GetMapping("/{userId}/info")
+    public ApiResponseDto<UserResponseDto.UserInfoDto> getUserInfo(@AuthExpert Expert expert,
+                                                                   @PathVariable Long userId){
+        User user = userQueryService.getUserById(userId);
+        Proposal proposal = proposalQueryService.getProposalByUserId(userId);
+        Report latestReport = reportQueryService.getLatestReportByUserId(userId);
+        return ApiResponseDto.onSuccess(UserConverter.toUserInfoDto(user,proposal,latestReport));
+    }
+
 
 }

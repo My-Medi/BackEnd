@@ -15,7 +15,6 @@ public class ProposalQueryServiceImpl implements ProposalQueryService {
 
     @Override
     public Proposal getProposalByUserId(Long userId) {
-        return proposalRepository.findByUserId(userId)
-                .orElseThrow(() -> ProposalHandler.NOT_FOUND);
+        return proposalRepository.findByUserId(userId).orElse(null);
     }
 }
