@@ -194,7 +194,7 @@ public class HealthMetricCalculator {
     }
 
     // eGFR (단위 없음)
-    public static HealthStatus classifyEgfr(Double egfr) {
+    public static HealthStatus classifyE_GFR(Double egfr) {
         if (egfr == null) return UNKNOWN;
         if (Range.ge(100).contains(egfr)) return HealthStatus.SAFE;
         if (Range.between(90, 99).contains(egfr)) return HealthStatus.NORMAL;
@@ -219,19 +219,21 @@ public class HealthMetricCalculator {
     }
 
     private static HealthStatus classifySystolic(int sys) {
-        if (sys < 110) return HealthStatus.SAFE;
-        if (sys <= 119) return HealthStatus.NORMAL;
-        if (sys <= 129) return HealthStatus.WATCH;
-        if (sys <= 139) return HealthStatus.CAUTION;
-        return HealthStatus.DANGER; // >= 140
+        if (Range.lt(110).contains(sys)) return HealthStatus.SAFE;
+        if (Range.between(110, 119).contains(sys)) return HealthStatus.NORMAL;
+        if (Range.between(120, 129).contains(sys)) return HealthStatus.WATCH;
+        if (Range.between(130, 139).contains(sys)) return HealthStatus.CAUTION;
+        if(Range.ge(140).contains(sys)) return HealthStatus.DANGER; // >= 140
+        return UNKNOWN;
     }
 
     private static HealthStatus classifyDiastolic(int dia) {
-        if (dia < 75) return HealthStatus.SAFE;
-        if (dia <= 79) return HealthStatus.NORMAL;
-        if (dia <= 84) return HealthStatus.WATCH;
-        if (dia <= 89) return HealthStatus.CAUTION;
-        return HealthStatus.DANGER; // >= 90
+        if (Range.lt(75).contains(dia)) return HealthStatus.SAFE;
+        if (Range.between(75, 79).contains(dia)) return HealthStatus.NORMAL;
+        if (Range.between(80, 84).contains(dia)) return HealthStatus.WATCH;
+        if (Range.between(85, 89).contains(dia)) return HealthStatus.CAUTION;
+        if(Range.ge(90).contains(dia)) return HealthStatus.DANGER; // >= 140
+        return UNKNOWN;
     }
 
     private static final class Range {
