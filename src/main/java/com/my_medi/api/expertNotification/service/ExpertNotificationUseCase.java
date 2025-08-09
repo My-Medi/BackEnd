@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class ExpertNotificationUseCase {
     private final ExpertNotificationQueryService expertNotificationQueryService;
 
-    public Page<ExpertNotification> getPrioritizedNotificationDtoSliceByExpertId
+    public Page<ExpertNotification> getPrioritizedNotificationDtoPageByExpertId
             (Long expertId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(
                 currentPage,

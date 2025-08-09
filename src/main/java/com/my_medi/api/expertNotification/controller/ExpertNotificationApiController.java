@@ -32,7 +32,7 @@ public class ExpertNotificationApiController {
             @RequestParam int pageSize) {
 
         Page<ExpertNotification> expertNotificationPage = expertNotificationUseCase
-                .getPrioritizedNotificationDtoSliceByExpertId(expert.getId(), currentPage, pageSize);
+                .getPrioritizedNotificationDtoPageByExpertId(expert.getId(), currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(
                 ExpertNotificationConverter.toExpertNotificationPageDto(expertNotificationPage)
