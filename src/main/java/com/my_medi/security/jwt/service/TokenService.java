@@ -22,4 +22,5 @@ public interface TokenService {
     boolean existsRefreshToken(String refreshToken);
 
     Date parseExpiration(String token);
+
 }
