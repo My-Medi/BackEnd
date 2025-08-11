@@ -25,5 +25,35 @@ public class StaticVariable {
     public static final String IMAGING_TEST = "imagingTest";
     public static final String INTERVIEW = "interview";
     public static final String ADDITIONAL_TEST = "additionalTest";
+    //total cholesterol average
+    public static final Integer TOTAL_CHOLESTEROL_20 = 172;
+    public static final Integer TOTAL_CHOLESTEROL_30 = 189;
+    public static final Integer TOTAL_CHOLESTEROL_40 = 202;
+    public static final Integer TOTAL_CHOLESTEROL_50 = 218;
+    public static final Integer TOTAL_CHOLESTEROL_60 = 236;
+
+    //Triglyceride average
+    public static final Integer TRIGLYCERIDE_20 = 92;
+    public static final Integer TRIGLYCERIDE_30 = 158;
+    public static final Integer TRIGLYCERIDE_40 = 142;
+    public static final Integer TRIGLYCERIDE_50 = 162;
+    public static final Integer TRIGLYCERIDE_60 = 180;
+
+    //HDL average
+    public static final Integer HDL_20 = 60;
+    public static final Integer HDL_30 = 54;
+    public static final Integer HDL_40 = 48;
+    public static final Integer HDL_50 = 43;
+    public static final Integer HDL_60 = 38;
+
+    //LDL average
+    public static final Integer LDL_20 = 98;
+    public static final Integer LDL_30 = 115;
+    public static final Integer LDL_40 = 132;
+    public static final Integer LDL_50 = 143;
+    public static final Integer LDL_60 = 155;
+
+    public static final Double CREATININE_AVERAGE = 0.8;
+    public static final Integer E_GFR_AVERAGE = 78;
 }
 
