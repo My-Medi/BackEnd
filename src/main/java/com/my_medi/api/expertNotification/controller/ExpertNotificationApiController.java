@@ -24,13 +24,14 @@ public class ExpertNotificationApiController {
     private final ExpertNotificationUseCase expertNotificationUseCase;
     private final ExpertNotificationCommandService expertNotificationCommandService;
 
-    @Operation(summary = "전문가의 알림을 paginatin으로 조회합니다.")
+    @Operation(summary = "전문가의 알림을 pagination 으로 조회합니다.")
     @GetMapping
     public ApiResponseDto<ExpertNotificationSimplePageResponse> getExpertNotificationByPage(
             @AuthExpert Expert expert,
             @RequestParam(defaultValue = "0") int currentPage,
             @RequestParam int pageSize) {
 
+        //TODO service method명 직관적으로 변경
         Page<ExpertNotification> expertNotificationPage = expertNotificationUseCase
                 .getPrioritizedNotificationDtoSliceByExpertId(expert.getId(), currentPage, pageSize);
 
