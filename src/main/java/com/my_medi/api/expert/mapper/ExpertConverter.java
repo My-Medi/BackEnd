@@ -116,6 +116,7 @@ public class ExpertConverter {
         return ExpertSummaryProfileDto.builder()
                 .expertId(expert.getId())
                 .introduction(expert.getIntroduction())
+                .introSentence(expert.getIntroSentence())
                 .specialty(expert.getSpecialty())
                 .profileImgUrl(expert.getProfileImgUrl())
                 .organizationName(expert.getOrganizationName())

@@ -64,7 +64,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
                 .specialty(registerExpertDto.getSpecialty())
                 .organizationName(registerExpertDto.getOrganizationName())
                 .introduction(registerExpertDto.getIntroduction())
-                .IntroSentence(registerExpertDto.getIntroSentence())
+                .introSentence(registerExpertDto.getIntroSentence())
 
                 .build();
         expertRepository.save(expert); // ID가 생겨야 FK 설정 가능
