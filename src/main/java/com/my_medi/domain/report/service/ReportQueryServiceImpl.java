@@ -1,6 +1,6 @@
 package com.my_medi.domain.report.service;
 
-import com.my_medi.api.report.dto.ComparingReportResponseDto;
+import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
 import com.my_medi.api.report.mapper.ReportConverter;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
@@ -35,7 +35,7 @@ public class ReportQueryServiceImpl implements ReportQueryService{
     }
 
     @Override
-    public ComparingReportResponseDto compareReport(User user, Integer round) {
+    public ComparingHealthCheckupResponseDto compareReport(User user, Integer round) {
         Report report = reportRepository.findByUserIdAndRound(user.getId(), round)
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
         //find ageGrouped10Yr

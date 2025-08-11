@@ -1,48 +1,16 @@
-package com.my_medi.api.report.dto;
+package com.my_medi.api.healthCheckup.dto;
 
+import com.my_medi.api.report.dto.HealthStatus;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class ComparingReportResponseDto {
-
-    private int totalDataSize;
-    private int ageGroup10Yr;
-
-    //비만/복부비만
-    private ComparingBmiDto comparingBmiDto;
-    private ComparingWaistDto comparingWaistDto;
-
-    //고혈압
-    private ComparingSystolicBpDto comparingSystolicBpDto;
-    private ComparingDiastolicBpDto comparingDiastolicBpDto;
-
-    //빈혈
-    private ComparingHemoglobinDto comparingHemoglobinDto;
-
-    //당뇨병
-    private ComparingFastingBloodSugarDto comparingFastingBloodSugarDto;
-
-    //이상지질혈증
-    private ComparingTotalCholesterol comparingTotalCholesterol;
-    private ComparingHDL comparingHDL;
-    private ComparingTriglyceride comparingTriglyceride;
-    private ComparingLDL comparingLDL;
-
-    //신장질환
-    private ComparingSerumCreatinineDto comparingSerumCreatinineDto;
-    private ComparingE_GFR comparingEGfr;
-
-    //간장질환
-    private ComparingAstDto comparingAstDto;
-    private ComparingAltDto comparingAltDto;
-    private ComparingGammaGtpDto comparingGammaGtpDto;
-
+public class ComparingHealthCheckupResponseDto {
 
     @Data
     @Builder
-    public static class ComparingBmiDto{
+    public static class ComparingBmi{
         private Double bmi;
         private Double averageBmi;
         private Double percentageBmi;
@@ -51,7 +19,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingWaistDto{
+    public static class ComparingWaist{
         private Double waist;
         private Double averageWaist;
         private Double percentageWaist;
@@ -60,7 +28,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingSystolicBpDto{
+    public static class ComparingSystolicBp{
         private Integer systolicBp;
         private Double averageSystolicBp;
         private Double percentageSystolicBp;
@@ -69,7 +37,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingDiastolicBpDto{
+    public static class ComparingDiastolicBp{
         private Integer diastolicBp;
         private Double averageDiastolicBp;
         private Double percentageDiastolicBp;
@@ -77,7 +45,7 @@ public class ComparingReportResponseDto {
     }
     @Data
     @Builder
-    public static class ComparingHemoglobinDto{
+    public static class ComparingHemoglobin{
         private Double hemoglobin;
         private Double averageHemoglobin;
         private Double percentageHemoglobin;
@@ -85,7 +53,7 @@ public class ComparingReportResponseDto {
     }
     @Data
     @Builder
-    public static class ComparingFastingBloodSugarDto{
+    public static class ComparingFastingBloodSugar{
         private Integer fastingBloodSugar;
         private Double averageFastingBloodSugar;
         private Double percentageFastingBloodSugar;
@@ -94,7 +62,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingSerumCreatinineDto{
+    public static class ComparingSerumCreatinine{
         private Double serumCreatinine;
         @Builder.Default
         private Double averageSerumCreatinine = 0.8;
@@ -103,7 +71,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingAstDto{
+    public static class ComparingAst{
         private Integer ast;
         private Double averageAst;
         private Double percentageAst;
@@ -112,7 +80,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingAltDto{
+    public static class ComparingAlt{
         private Integer alt;
         private Double averageAlt;
         private Double percentageAlt;
@@ -120,7 +88,7 @@ public class ComparingReportResponseDto {
     }
     @Data
     @Builder
-    public static class ComparingGammaGtpDto{
+    public static class ComparingGammaGtp{
         private Integer gammaGtp;
         private Double averageGammaGtp;
         private Double percentageGammaGtp;

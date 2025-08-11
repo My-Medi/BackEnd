@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import static com.my_medi.api.report.dto.AssessmentDto.*;
+
 public class ReportResponseDto {
     @Data
     @Builder
@@ -27,5 +29,20 @@ public class ReportResponseDto {
         private ImagingTestDto imagingTestDto;
         private InterviewDto interviewDto;
         private AdditionalTestDto additionalTestDto;
+    }
+
+    @Data
+    @Builder
+    public static class ReportResultDto{
+        private int totalDataSize;
+        private int ageGroup10Yr;
+
+        private ObesityAssessmentDto obesityAssessmentDto;
+        private HypertensionAssessmentDto hypertensionAssessmentDto;
+        private AnemiaAssessmentDto anemiaAssessmentDto;
+        private DiabetesAssessmentDto diabetesAssessmentDto;
+        private DyslipidemiaAssessmentDto dyslipidemiaAssessmentDto;
+        private KidneyDiseaseAssessmentDto kidneyDiseaseAssessmentDto;
+        private LiverDiseaseAssessmentDto liverDiseaseAssessmentDto;
     }
 }
