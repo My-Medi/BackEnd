@@ -14,10 +14,6 @@ import java.util.Optional;
 
 public interface ConsultationRequestRepository extends JpaRepository<ConsultationRequest, Long> {
 
-    List<ConsultationRequest> findByExpertId(Long expertId);
-
-    List<ConsultationRequest> findByExpertIdAndRequestStatus(Long expertId, RequestStatus requestStatus);
-
     boolean existsByExpertIdAndUserIdAndRequestStatusNot(Long expertId, Long userId, RequestStatus requestStatus);
 
     long countByUserIdAndExpertId(Long userId, Long expertId);
@@ -31,8 +27,6 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
     Page<ConsultationRequest> findByExpertIdAndRequestStatus(Long expertId, RequestStatus requestStatus, Pageable pageable);
 
     List<ConsultationRequest> findByUserIdAndRequestStatus(Long userId, RequestStatus requestStatus);
-
-    List<ConsultationRequest> findByExpertIdAndUserId(Long expertId, Long userId);
 
     boolean existsByExpertIdAndUserIdAndRequestStatus(Long expertId, Long userId, RequestStatus requestStatus);
 

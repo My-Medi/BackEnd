@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ReportCommandServiceImpl implements ReportCommandService{
-    private final UserRepository userRepository;
     private final ReportRepository reportRepository;
 
     @Override
