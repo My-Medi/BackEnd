@@ -7,6 +7,7 @@ public class ProposalResponseDto {
     @Data
     @Builder
     public static class UserProposalDto {
+        //TODO id -> proposalId
         private Long id;
         private Long userId;
 

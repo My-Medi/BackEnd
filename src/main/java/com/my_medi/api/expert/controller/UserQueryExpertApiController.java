@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+//TODO endpoint /api/v1/users/experts로 변경하고 아래 API들의 엔드포인트 또한 반영
 @Slf4j
 @Tag(name = "[사용자 페이지] 전문가 조회 API")
 @RestController
