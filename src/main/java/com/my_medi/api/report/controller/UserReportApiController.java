@@ -3,6 +3,7 @@ package com.my_medi.api.report.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
 import com.my_medi.api.report.dto.EditReportRequestDto;
+import com.my_medi.api.report.dto.ReportResponseDto;
 import com.my_medi.api.report.dto.ReportSummaryDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
@@ -66,7 +67,7 @@ public class UserReportApiController {
 
     @Operation(summary = "본인 건강검진 리포트를 토대로 공공데이터와 비교한 결과값을 조회합니다.[전체]")
     @GetMapping("/comparing")
-    public ApiResponseDto<ComparingHealthCheckupResponseDto> comparingReport(@AuthUser User user,
+    public ApiResponseDto<ReportResponseDto.ReportResultDto> comparingReport(@AuthUser User user,
                                                                              @RequestParam Integer round) {
         return ApiResponseDto.onSuccess(reportQueryService.compareReport(user, round));
     }

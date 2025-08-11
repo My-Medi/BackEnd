@@ -7,6 +7,7 @@ import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.dto.*;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.common.util.HealthMetricCalculator;
+import com.my_medi.common.util.ReportEvaluationUtil;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.*;

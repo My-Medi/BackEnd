@@ -13,6 +13,7 @@ public class AssessmentDto {
     public static class ObesityAssessmentDto{
         private ComparingBmi comparingBmiDto;
         private ComparingWaist comparingWaistDto;
+        private AverageComparisonResult averageComparisonResult;
     }
 
 
@@ -22,6 +23,8 @@ public class AssessmentDto {
     public static class HypertensionAssessmentDto{
         private ComparingSystolicBp comparingSystolicBpDto;
         private ComparingDiastolicBp comparingDiastolicBpDto;
+        private AverageComparisonResult averageComparisonResult;
+
     }
 
     //빈혈
@@ -29,6 +32,8 @@ public class AssessmentDto {
     @Builder
     public static class AnemiaAssessmentDto{
         private ComparingHemoglobin comparingHemoglobinDto;
+        private AverageComparisonResult averageComparisonResult;
+
     }
 
     //당뇨병
@@ -36,6 +41,8 @@ public class AssessmentDto {
     @Builder
     public static class DiabetesAssessmentDto{
         private ComparingFastingBloodSugar comparingFastingBloodSugarDto;
+        private AverageComparisonResult averageComparisonResult;
+
     }
 
 
@@ -47,6 +54,8 @@ public class AssessmentDto {
         private ComparingHDL comparingHDL;
         private ComparingTriglyceride comparingTriglyceride;
         private ComparingLDL comparingLDL;
+        private AverageComparisonResult averageComparisonResult;
+
     }
 
 
@@ -56,6 +65,8 @@ public class AssessmentDto {
     public static class KidneyDiseaseAssessmentDto{
         private ComparingSerumCreatinine comparingSerumCreatinineDto;
         private ComparingE_GFR comparingEGfr;
+        private AverageComparisonResult averageComparisonResult;
+
     }
 
 
@@ -66,5 +77,6 @@ public class AssessmentDto {
         private ComparingAst comparingAstDto;
         private ComparingAlt comparingAltDto;
         private ComparingGammaGtp comparingGammaGtpDto;
+        private AverageComparisonResult averageComparisonResult;
     }
 }
