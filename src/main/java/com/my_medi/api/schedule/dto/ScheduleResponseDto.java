@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ScheduleResponseDto {
+    //TODO id -> scheduleId와 같이 명확하게
 
     @Data
     @Builder
