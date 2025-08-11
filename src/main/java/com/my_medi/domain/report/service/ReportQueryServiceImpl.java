@@ -1,8 +1,11 @@
 package com.my_medi.domain.report.service;
 
-import com.my_medi.api.report.dto.ComparingReportResponseDto;
+import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
+import com.my_medi.api.report.dto.ReportResponseDto;
+import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.api.report.mapper.ReportConverter;
 import com.my_medi.common.util.BirthDateUtil;
+import com.my_medi.common.util.ReportEvaluationUtil;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.healthCheckup.repository.HealthCheckupRepository;
 import com.my_medi.domain.report.entity.Report;
@@ -30,12 +33,11 @@ public class ReportQueryServiceImpl implements ReportQueryService{
 
     @Override
     public Report getLatestReportByUserId(Long userId) {
-        return reportRepository.findTopByUserIdOrderByRoundDesc(userId)
-                .orElseThrow(() -> ReportHandler.NOT_FOUND);
+        return reportRepository.findTopByUserIdOrderByRoundDesc(userId).orElse(null);
     }
 
     @Override
-    public ComparingReportResponseDto compareReport(User user, Integer round) {
+    public ReportResultDto compareReport(User user, Integer round) {
         Report report = reportRepository.findByUserIdAndRound(user.getId(), round)
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
         //find ageGrouped10Yr
@@ -45,11 +47,14 @@ public class ReportQueryServiceImpl implements ReportQueryService{
         List<HealthCheckup> healthCheckupList = healthCheckupRepository
                 .findByAgeGroupsAndGender(ageGroup5yrRange, user.getGender().getKey());
 
-        return ReportConverter.toComparingReportResponseDto(healthCheckupList, report);
+        ReportResultDto reportResultDto = ReportConverter.toReportResultDto(healthCheckupList, report);
+        ReportEvaluationUtil.evalAll(reportResultDto);
+        return reportResultDto;
     }
 
     @Override
     public long getReportCountByUser(User user) {
         return reportRepository.countByUserId(user.getId());
     }
+
 }

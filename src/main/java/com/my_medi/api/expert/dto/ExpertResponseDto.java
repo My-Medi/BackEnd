@@ -20,9 +20,10 @@ import java.util.List;
 @Builder
 public class ExpertResponseDto{
 
+    //유저 상세 조회
     @Data
     @Builder
-    public static class ExpertProfileDto{
+    public static class ExpertInfoDto{
         private Long expertId;
         // Member 공통 필드
         private String name;
@@ -39,15 +40,6 @@ public class ExpertResponseDto{
         private String organizationName;
         private String introduction;
         private String introSentence;
-
-        // 커리어 리스트
-        private List<CareerResponseDto> careers;
-
-        // 자격증 증명사진 리스트
-        private List<LicenseImageResponseDto> licenseImages;
-
-        // 자격증 리스트
-        private List<LicenseResponseDto> licenses;
 
     }
 
@@ -99,4 +91,23 @@ public class ExpertResponseDto{
         private final int page;
         private final int totalPages;
     }
+
+    @Data
+    @Builder
+    public static class ExpertResumeDto{
+        // 이력서 수정 분리
+        private Specialty specialty;
+        private String organizationName;
+        private String introduction;
+        private String introSentences;
+
+        private List<CareerResponseDto> careers;
+
+        // 자격증 증명사진 리스트
+        private List<LicenseImageResponseDto> licenseImages;
+
+        // 자격증 리스트
+        private List<LicenseResponseDto> licenses;
+    }
+
 }

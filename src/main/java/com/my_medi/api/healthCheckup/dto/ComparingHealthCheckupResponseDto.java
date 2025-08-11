@@ -1,33 +1,19 @@
-package com.my_medi.api.report.dto;
+package com.my_medi.api.healthCheckup.dto;
 
+import com.my_medi.api.report.dto.HealthStatus;
+import com.my_medi.common.consts.StaticVariable;
 import lombok.Builder;
 import lombok.Data;
 
+import static com.my_medi.common.consts.StaticVariable.CREATININE_AVERAGE;
+
 @Data
 @Builder
-public class ComparingReportResponseDto {
-
-    private int totalDataSize;
-    private int ageGroup10Yr;
-
-    private ComparingBmiDto comparingBmiDto;
-    private ComparingWaistDto comparingWaistDto;
-
-    private ComparingSystolicBpDto comparingSystolicBpDto;
-    private ComparingDiastolicBpDto comparingDiastolicBpDto;
-
-    private ComparingHemoglobinDto comparingHemoglobinDto;
-    private ComparingFastingBloodSugarDto comparingFastingBloodSugarDto;
-    private ComparingSerumCreatinineDto comparingSerumCreatinineDto;
-
-    private ComparingAstDto comparingAstDto;
-    private ComparingAltDto comparingAltDto;
-    private ComparingGammaGtpDto comparingGammaGtpDto;
-
+public class ComparingHealthCheckupResponseDto {
 
     @Data
     @Builder
-    public static class ComparingBmiDto{
+    public static class ComparingBmi{
         private Double bmi;
         private Double averageBmi;
         private Double percentageBmi;
@@ -36,7 +22,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingWaistDto{
+    public static class ComparingWaist{
         private Double waist;
         private Double averageWaist;
         private Double percentageWaist;
@@ -45,7 +31,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingSystolicBpDto{
+    public static class ComparingSystolicBp{
         private Integer systolicBp;
         private Double averageSystolicBp;
         private Double percentageSystolicBp;
@@ -54,7 +40,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingDiastolicBpDto{
+    public static class ComparingDiastolicBp{
         private Integer diastolicBp;
         private Double averageDiastolicBp;
         private Double percentageDiastolicBp;
@@ -62,7 +48,7 @@ public class ComparingReportResponseDto {
     }
     @Data
     @Builder
-    public static class ComparingHemoglobinDto{
+    public static class ComparingHemoglobin{
         private Double hemoglobin;
         private Double averageHemoglobin;
         private Double percentageHemoglobin;
@@ -70,7 +56,7 @@ public class ComparingReportResponseDto {
     }
     @Data
     @Builder
-    public static class ComparingFastingBloodSugarDto{
+    public static class ComparingFastingBloodSugar{
         private Integer fastingBloodSugar;
         private Double averageFastingBloodSugar;
         private Double percentageFastingBloodSugar;
@@ -79,16 +65,16 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingSerumCreatinineDto{
+    public static class ComparingSerumCreatinine{
         private Double serumCreatinine;
         @Builder.Default
-        private Double averageSerumCreatinine = 0.8;
+        private Double averageSerumCreatinine = CREATININE_AVERAGE;
         private HealthStatus healthStatus;
     }
 
     @Data
     @Builder
-    public static class ComparingAstDto{
+    public static class ComparingAst{
         private Integer ast;
         private Double averageAst;
         private Double percentageAst;
@@ -97,7 +83,7 @@ public class ComparingReportResponseDto {
 
     @Data
     @Builder
-    public static class ComparingAltDto{
+    public static class ComparingAlt{
         private Integer alt;
         private Double averageAlt;
         private Double percentageAlt;
@@ -105,12 +91,51 @@ public class ComparingReportResponseDto {
     }
     @Data
     @Builder
-    public static class ComparingGammaGtpDto{
+    public static class ComparingGammaGtp{
         private Integer gammaGtp;
         private Double averageGammaGtp;
         private Double percentageGammaGtp;
         private HealthStatus healthStatus;
     }
 
+    @Data
+    @Builder
+    public static class ComparingTotalCholesterol{
+        private Integer totalCholesterol;
+        private Integer averageTotalCholesterol;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingHDL{
+        private Integer hdl;
+        private Integer averageHDL;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingTriglyceride{
+        private Integer triglyceride;
+        private Integer averageTriglyceride;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingLDL{
+        private Integer ldl;
+        private Integer averageLDL;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingE_GFR{
+        private Integer e_gfr;
+        private Integer averageE_GFR;
+        private HealthStatus healthStatus;
+    }
 
 }

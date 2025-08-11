@@ -24,12 +24,12 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
                 .weightManagement(proposalRequestDto.getHealthInterestsDto().getWeightManagement())
                 .bloodSugarControl(proposalRequestDto.getHealthInterestsDto().getBloodSugarControl())
                 .cholesterolControl(proposalRequestDto.getHealthInterestsDto().getCholesterolControl())
-                .bloodPressureControl(proposalRequestDto.getHealthInterestsDto().getBloodPressureControl())
                 .liverFunctionCare(proposalRequestDto.getHealthInterestsDto().getLiverFunctionCare())
                 .sleepRecovery(proposalRequestDto.getHealthInterestsDto().getSleepRecovery())
                 .dietImprovement(proposalRequestDto.getHealthInterestsDto().getDietImprovement())
                 .exerciseRoutine(proposalRequestDto.getHealthInterestsDto().getExerciseRoutine())
                 .stressAndLifestyle(proposalRequestDto.getHealthInterestsDto().getStressAndLifestyle())
+                .other(proposalRequestDto.getHealthInterestsDto().getOther())
 
                 .fastingBloodSugar(proposalRequestDto.getAbnormalValueDto().getFastingBloodSugar())
                 .cholesterolLdl(proposalRequestDto.getAbnormalValueDto().getCholesterolLdl())

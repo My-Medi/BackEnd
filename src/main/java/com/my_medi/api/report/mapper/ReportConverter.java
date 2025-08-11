@@ -1,19 +1,26 @@
 package com.my_medi.api.report.mapper;
 
-import com.my_medi.api.report.dto.ComparingReportResponseDto.*;
+
+import com.my_medi.api.report.dto.ReportPartitionRequestDto.*;
+import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.dto.*;
 import com.my_medi.common.util.BirthDateUtil;
-import com.my_medi.common.util.HealthMetricCalculator;
+
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
+import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.function.Function;
 
-import static com.my_medi.common.util.HealthMetricCalculator.calculateAverage;
-import static com.my_medi.common.util.HealthMetricCalculator.calculatePercentile;
+import static com.my_medi.api.healthCheckup.mapper.HealthCheckupMapper.*;
+import static com.my_medi.api.report.dto.AssessmentDto.*;
+import static com.my_medi.common.util.HealthMetricCalculator.*;
 
+
+@Slf4j
 public class ReportConverter {
 
     // Entity -> Dto
@@ -256,67 +263,81 @@ public class ReportConverter {
                 .build();
     }
 
-    public static ComparingReportResponseDto toComparingReportResponseDto(List<HealthCheckup> healthCheckupList, Report report) {
+    public static ReportResultDto toReportResultDto(List<HealthCheckup> healthCheckupList, Report report) {
         int ageGroup10Yr = BirthDateUtil.getAge(report.getUser().getBirthDate());
+        Gender gender = report.getUser().getGender();
+        // 공공데이터 bmi 계산
         Function<HealthCheckup, Double> bmiExtractor = h -> {
             if (h.getHeight5cm() == null || h.getWeight5kg() == null) return null;
-            double heightCm = h.getHeight5cm() * 5 + 2.5;
-            double weightKg = h.getWeight5kg() * 5 + 2.5;
-            double heightM = heightCm / 100.0;
-            return weightKg / (heightM * heightM);
+            double heightCm = h.getHeight5cm() + 2.5;
+            double weightKg = h.getWeight5kg() + 2.5;
+            return calculateBmi(weightKg, heightCm);
         };
-        return ComparingReportResponseDto.builder()
+        // 사용자 수치
+        Double bmi = report.getMeasurement().getBmi();
+        Double waist = report.getMeasurement().getWaist();
+        Integer diastolicBp = report.getBloodPressure().getDiastolic();
+        Integer systolicBp = report.getBloodPressure().getSystolic();
+        Double hemoglobin = report.getBloodTest().getHemoglobin();
+        Integer fastingGlucose = report.getBloodTest().getFastingGlucose();
+        Integer ast = report.getBloodTest().getAst();
+        Integer alt = report.getBloodTest().getAlt();
+        Integer hdl = report.getBloodTest().getHdl();
+        Integer gtp = report.getBloodTest().getGtp();
+        Integer total_cholesterol = report.getBloodTest().getTotalCholesterol();
+        Integer ldl = report.getBloodTest().getLdl();
+        Integer egfr = report.getBloodTest().getEgfr();
+        Integer triglyceride = report.getBloodTest().getTriglyceride();
+        Double creatinine = report.getBloodTest().getCreatinine();
+
+
+        return ReportResultDto.builder()
                 .totalDataSize(healthCheckupList.size())
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
-                .comparingBmiDto(ComparingBmiDto.builder()
-                        .bmi(report.getMeasurement().getBmi())
-                        .averageBmi(HealthMetricCalculator.calculateAverageBmi(healthCheckupList))
-                        .percentageBmi(calculatePercentile(healthCheckupList, report.getMeasurement().getBmi(), bmiExtractor))
-                        .build())
-                .comparingWaistDto(ComparingWaistDto.builder()
-                        .waist(report.getMeasurement().getWaist())
-                        .averageWaist(calculateAverage(healthCheckupList, HealthCheckup::getWaistCm))
-                        .percentageWaist(calculatePercentile(healthCheckupList, report.getMeasurement().getWaist(), HealthCheckup::getWaistCm))
-                        .build())
-                .comparingSystolicBpDto(ComparingSystolicBpDto.builder()
-                        .systolicBp(report.getBloodPressure().getSystolic())
-                        .averageSystolicBp(calculateAverage(healthCheckupList, HealthCheckup::getSystolicBp))
-                        .percentageSystolicBp(calculatePercentile(healthCheckupList, report.getBloodPressure().getSystolic(), HealthCheckup::getSystolicBp))
-                        .build())
-                .comparingDiastolicBpDto(ComparingDiastolicBpDto.builder()
-                        .diastolicBp(report.getBloodPressure().getDiastolic())
-                        .averageDiastolicBp(calculateAverage(healthCheckupList, HealthCheckup::getDiastolicBp))
-                        .percentageDiastolicBp(calculatePercentile(healthCheckupList, report.getBloodPressure().getDiastolic(), HealthCheckup::getDiastolicBp))
-                        .build())
-                .comparingHemoglobinDto(ComparingHemoglobinDto.builder()
-                        .hemoglobin(report.getBloodTest().getHemoglobin())
-                        .averageHemoglobin(calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin))
-                        .percentageHemoglobin(calculatePercentile(healthCheckupList, report.getBloodTest().getHemoglobin(), HealthCheckup::getHemoglobin))
-                        .build())
-                .comparingFastingBloodSugarDto(ComparingFastingBloodSugarDto.builder()
-                        .fastingBloodSugar(report.getBloodTest().getFastingGlucose())
-                        .averageFastingBloodSugar(calculateAverage(healthCheckupList, HealthCheckup::getFastingBloodSugar))
-                        .percentageFastingBloodSugar(calculatePercentile(healthCheckupList, report.getBloodTest().getFastingGlucose(), HealthCheckup::getFastingBloodSugar))
-                        .build())
-                .comparingSerumCreatinineDto(ComparingSerumCreatinineDto.builder()
-                        .serumCreatinine(report.getBloodTest().getCreatinine())
-                        .averageSerumCreatinine(0.8)
-                        .build())
-                .comparingAstDto(ComparingAstDto.builder()
-                        .ast(report.getBloodTest().getAst())
-                        .averageAst(calculateAverage(healthCheckupList, HealthCheckup::getAst))
-                        .percentageAst(calculatePercentile(healthCheckupList, report.getBloodTest().getAst(), HealthCheckup::getAst))
-                        .build())
-                .comparingAltDto(ComparingAltDto.builder()
-                        .alt(report.getBloodTest().getAlt())
-                        .averageAlt(calculateAverage(healthCheckupList, HealthCheckup::getAlt))
-                        .percentageAlt(calculatePercentile(healthCheckupList, report.getBloodTest().getAlt(), HealthCheckup::getAlt))
-                        .build())
-                .comparingGammaGtpDto(ComparingGammaGtpDto.builder()
-                        .gammaGtp(report.getBloodTest().getGtp())
-                        .averageGammaGtp(calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp))
-                        .percentageGammaGtp(calculatePercentile(healthCheckupList,report.getBloodTest().getGtp(), HealthCheckup::getGammaGtp))
-                        .build())
+                .obesityAssessmentDto(ObesityAssessmentDto.builder()
+                        .comparingBmi(toComparingBmiDto(healthCheckupList, bmi, bmiExtractor))
+                        .comparingWaist(toComparingWaistDto(healthCheckupList, waist, gender))
+                        .build()
+                )
+                .hypertensionAssessmentDto(
+                        HypertensionAssessmentDto.builder()
+                                .comparingDiastolicBp(toComparingDiastolicBpDto(healthCheckupList, diastolicBp))
+                                .comparingSystolicBp(toComparingSystolicBpDto(healthCheckupList, systolicBp))
+                                .build()
+                )
+                .anemiaAssessmentDto(
+                        AnemiaAssessmentDto.builder()
+                                .comparingHemoglobin(toComparingHemoglobinDto(healthCheckupList, hemoglobin, gender))
+                                .build()
+                )
+                .diabetesAssessmentDto(
+                        DiabetesAssessmentDto.builder()
+                                .comparingFastingBloodSugar(toComparingFastingBloodSugarDto(healthCheckupList, fastingGlucose))
+                                .build()
+                )
+                .dyslipidemiaAssessmentDto(
+                        DyslipidemiaAssessmentDto.builder()
+                                .comparingTotalCholesterol(toComparingTotalCholesterol(total_cholesterol, ageGroup10Yr))
+                                .comparingHDL(toComparingHDL(hdl, ageGroup10Yr))
+                                .comparingLDL(toComparingLDL(ldl, ageGroup10Yr))
+                                .comparingTriglyceride(toComparingTriglyceride(triglyceride, ageGroup10Yr))
+                                .build()
+                )
+                .kidneyDiseaseAssessmentDto(
+                        KidneyDiseaseAssessmentDto.builder()
+                                .comparingEGfr(toComparingE_GFR(egfr))
+                                .comparingSerumCreatinine(toComparingSerumCreatinineDto(healthCheckupList, creatinine, gender))
+                                .build()
+                )
+                .liverDiseaseAssessmentDto(
+                        LiverDiseaseAssessmentDto.builder()
+                                .comparingAlt(toComparingAltDto(healthCheckupList, alt))
+                                .comparingAst(toComparingAstDto(healthCheckupList, ast))
+                                .comparingGammaGtp(toComparingGammaGtpDto(healthCheckupList, gtp, gender))
+                                .build()
+                )
                 .build();
     }
+
+
 }

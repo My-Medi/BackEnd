@@ -2,7 +2,6 @@ package com.my_medi.api.expert.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto;
-import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileDto;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.api.expert.mapper.ExpertConverter;
 import com.my_medi.api.member.dto.RegisterMemberDto;
@@ -44,22 +43,27 @@ public class ExpertApiController {
     }
 
     @Operation(summary = "전문가 계정의 회원 정보를 수정합니다.[회원정보 수정페이지-전문가] ")
-    @PatchMapping("/profiles")
+    @PatchMapping
     public ApiResponseDto<Long> editProfileAccount(@AuthExpert Expert expert, @RequestBody UpdateProfileDto updateProfileDto) {
         return ApiResponseDto.onSuccess(expertCommandService.updateProfile(expert.getId(), updateProfileDto));
     }
 
+    @Operation(summary = "전문가 계정의 이력서를 조회합니다. [이력서 관리]")
+    @GetMapping("/resume")
+    public ApiResponseDto<ExpertResponseDto.ExpertResumeDto> getMyExpertResumeProfile(@AuthExpert Expert expert) {
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertResumeDto(expert));
+    }
+
     @Operation(summary = "전문가 계정의 이력서를 수정합니다.[이력서 관리] ")
-    @PatchMapping("/resumes")
+    @PatchMapping("/resume")
     public ApiResponseDto<Long> editExpertAccount(@AuthExpert Expert expert, @RequestBody UpdateResumeDto updateResumeDto) {
         return ApiResponseDto.onSuccess(expertCommandService.updateResume(expert.getId(), updateResumeDto));
     }
 
-
-    @Operation(summary = "전문가 내 프로필의 이력서, 회원 정보 모든 내용을 조회합니다.[사용 안하는 api]")
+    @Operation(summary = "전문가 내 프로필의 이력서, 회원 정보 모든 내용을 조회합니다.[회원정보 수정 전문가]")
     @GetMapping
-    public ApiResponseDto<ExpertProfileDto> getMyExpertProfile(@AuthExpert Expert expert) {
-        return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileDto(expert));
+    public ApiResponseDto<ExpertResponseDto.ExpertInfoDto> getMyExpertProfile(@AuthExpert Expert expert) {
+        return ApiResponseDto.onSuccess(ExpertConverter.toExpertInfoDto(expert));
     }
 
     @Operation(summary = "전문가 본인의 계정을 삭제합니다.")
@@ -69,7 +73,7 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(null);
     }
 
-    @GetMapping("/profiles")
+    @GetMapping("/profile")
     @Operation(summary = "전문가 자신의 마이홈 전문가 페이지를 조회합니다. [마이홈 전문가 페이지]")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileTopDto> getMyExpertProfileTop(@AuthExpert Expert expert) {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileTopDto(expert));

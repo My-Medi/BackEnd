@@ -27,12 +27,12 @@ public class ProposalConverter {
                 .weightManagement(proposal.getWeightManagement())
                 .bloodSugarControl(proposal.getBloodSugarControl())
                 .cholesterolControl(proposal.getCholesterolControl())
-                .bloodPressureControl(proposal.getBloodPressureControl())
                 .liverFunctionCare(proposal.getLiverFunctionCare())
                 .sleepRecovery(proposal.getSleepRecovery())
                 .dietImprovement(proposal.getDietImprovement())
                 .exerciseRoutine(proposal.getExerciseRoutine())
                 .stressAndLifestyle(proposal.getStressAndLifestyle())
+                .other(proposal.getOther())
                 .build();
     }
 
