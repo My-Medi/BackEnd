@@ -44,13 +44,13 @@ public class UserResponseDto {
     @Data
     @Builder
     public static class UserInfoDto{
-        private LocalDate createdDate; //회원가입 날짜
+        private LocalDate accountRegisterDate; //회원가입 날짜
         private String nickname; // 닉네임
         private int age; //나이
         private Gender gender; //성별
         private Float height; //키
         private Float weight; //몸무게
-        private LocalDate checkupDate; // 국가건강검진일 - 리포트
+        private LocalDate reportRegisterDate; // 국가건강검진일 - 리포트
         private String requestNote; //요청사항 - proposal
         private List<String> healthInterests; // 건강 관심 분야 - proposal
         private List<String> abnormalCheckItems; // 건강검진 이상 수치 - proposal
