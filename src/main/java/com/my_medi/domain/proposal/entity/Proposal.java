@@ -32,12 +32,12 @@ public class Proposal extends BaseTimeEntity {
     private Boolean weightManagement;
     private Boolean bloodSugarControl;
     private Boolean cholesterolControl;
-    private Boolean bloodPressureControl;
     private Boolean liverFunctionCare;
     private Boolean sleepRecovery;
     private Boolean dietImprovement;
     private Boolean exerciseRoutine;
     private Boolean stressAndLifestyle;
+    private Boolean other; //기타
 
     // 3. 최근 건강검진 결과 이상 수치가 있었던 항목이 있다면 선택해주세요.
     private Boolean fastingBloodSugar;
@@ -73,12 +73,12 @@ public class Proposal extends BaseTimeEntity {
         this.weightManagement = hid.getWeightManagement();
         this.bloodSugarControl = hid.getBloodSugarControl();
         this.cholesterolControl = hid.getCholesterolControl();
-        this.bloodPressureControl = hid.getBloodPressureControl();
         this.liverFunctionCare = hid.getLiverFunctionCare();
         this.sleepRecovery = hid.getSleepRecovery();
         this.dietImprovement = hid.getDietImprovement();
         this.exerciseRoutine = hid.getExerciseRoutine();
         this.stressAndLifestyle = hid.getStressAndLifestyle();
+        this.other = hid.getOther();
     }
 
     public void updateAbnormalValue(ProposalRequestDto proposalRequestDto) {
