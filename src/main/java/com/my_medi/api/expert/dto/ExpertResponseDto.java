@@ -79,8 +79,9 @@ public class ExpertResponseDto{
 
         private String introduction;
         private String organizationName;
+        private String introSentence;
         @Builder.Default
-        private List<CareerResponseDto> careerResponseDtoList = new ArrayList<>();
+        private List<String> career = new ArrayList<>();
     }
 
     @Data

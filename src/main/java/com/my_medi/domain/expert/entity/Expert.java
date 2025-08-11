@@ -52,7 +52,7 @@ public class Expert extends Member {
 
     // 나를 소개하는 대표 문장 한줄
     @Column
-    private String IntroSentence;
+    private String introSentence;
 
 
     public void modifyExpertInfo(UpdateProfileDto dto) {
@@ -64,7 +64,7 @@ public class Expert extends Member {
         this.specialty = dto.getSpecialty(); // 전문분야
         this.organizationName = dto.getOrganizationName(); //소속 회사, 기관명
         this.introduction = dto.getIntroduction(); // 자기소개
-        this.IntroSentence = dto.getIntroSentences(); // 나를 소개하는 대표 문장 한줄
+        this.introSentence = dto.getIntroSentences(); // 나를 소개하는 대표 문장 한줄
 
         // 경력 초기화 후 다시 추가
         this.careers.clear();
