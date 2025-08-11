@@ -8,6 +8,7 @@ import com.my_medi.api.licenseImage.dto.LicenseImageResponseDto;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertProfileListDto;
 import com.my_medi.api.expert.dto.ExpertResponseDto.ExpertSummaryProfileDto;
+import com.my_medi.common.util.FormUtil;
 import com.my_medi.domain.expert.entity.Expert;
 import org.springframework.data.domain.Page;
 
@@ -120,32 +121,30 @@ public class ExpertConverter {
                 .organizationName(expert.getOrganizationName())
                 .name(expert.getName())
                 .nickname(expert.getNickname())
-                .careerResponseDtoList(
+                .career(
                         expert.getCareers().stream()
-                                .map(r -> CareerResponseDto.builder()
-                                        .careerId(r.getId())
-                                        .companyName(r.getCompanyName())
-                                        .jobTitle(r.getJobTitle())
-                                        .startDate(r.getStartDate())
-                                        .endDate(r.getEndDate())
-                                        .build())
+                                .map(career -> FormUtil.formatCareerPeriod(
+                                        career.getJobTitle(),
+                                        career.getStartDate(),
+                                        career.getEndDate()
+                                ))
                                 .toList()
                 )
                 .build();
     }
 
 
-        public static ExpertProfileListDto toExpertProfileListDto (Page < Expert > experts) {
-            return ExpertProfileListDto.builder()
-                    .expertSummaryProfileDtoList(
-                            experts.getContent().stream()
-                                    .map(ExpertConverter::toExpertSummaryProfileDto)
-                                    .toList()
-                    )
-                    .totalPages(experts.getTotalPages())
-                    .page(experts.getNumber())
-                    .build();
-        }
+    public static ExpertProfileListDto toExpertProfileListDto(Page<Expert> experts) {
+        return ExpertProfileListDto.builder()
+                .expertSummaryProfileDtoList(
+                        experts.getContent().stream()
+                                .map(ExpertConverter::toExpertSummaryProfileDto)
+                                .toList()
+                )
+                .totalPages(experts.getTotalPages())
+                .page(experts.getNumber())
+                .build();
+    }
 
 }
 

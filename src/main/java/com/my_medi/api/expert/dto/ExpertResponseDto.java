@@ -80,7 +80,7 @@ public class ExpertResponseDto{
         private String introduction;
         private String organizationName;
         @Builder.Default
-        private List<CareerResponseDto> careerResponseDtoList = new ArrayList<>();
+        private List<String> career = new ArrayList<>();
     }
 
     @Data
