@@ -7,7 +7,6 @@ import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.api.proposal.dto.ProposalRequestDto;
 import com.my_medi.api.user.dto.RegisterUserDto;
 import com.my_medi.api.user.dto.UserResponseDto;
-import com.my_medi.api.user.dto.UserResponseDto.UserProfileDto;
 import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
@@ -59,8 +58,8 @@ public class UserApiController {
 
     @Operation(summary = "사용자 본인의 프로필을 조회합니다.[회원정보 수정페이지-개인]")
     @GetMapping
-    public ApiResponseDto<UserProfileDto> getMyProfile(@AuthUser User user) {
-        return ApiResponseDto.onSuccess(UserConverter.toUserProfileDto(user));
+    public ApiResponseDto<UserResponseDto.UserInfoDto> getMyInfo(@AuthUser User user) {
+        return ApiResponseDto.onSuccess(UserConverter.toUserInfoDto(user));
     }
 
     @Operation(summary = "사용자 본인의 계정을 삭제합니다.")

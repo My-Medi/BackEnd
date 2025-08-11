@@ -8,6 +8,8 @@ public class StaticVariable {
     public static final String BEARER = "Bearer ";
     public static final String AUTHORIZATION = "Authorization";
     public static final String GRANT_TYPE = "authorization_code";
+    public static final String REISSUE_ENDPOINT = "/api/v1/tokens/reissue";
+    public static final String HEALTH_CHECK_ENDPOINT = "/api/v1/test/health-check";
 
     //JWT
     public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분

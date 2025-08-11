@@ -1,7 +1,6 @@
 package com.my_medi.api.user.mapper;
 
 import com.my_medi.api.user.dto.UserResponseDto;
-import com.my_medi.api.user.dto.UserResponseDto.UserProfileDto;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.common.util.ProposalMapperUtil;
 import com.my_medi.domain.proposal.entity.Proposal;
@@ -14,8 +13,8 @@ import java.util.List;
 
 public class UserConverter {
 
-    public static UserProfileDto toUserProfileDto(User user) {
-        return UserProfileDto.builder()
+    public static UserResponseDto.UserInfoDto toUserInfoDto(User user) {
+        return UserResponseDto.UserInfoDto.builder()
                 .userid(user.getId())
                 .name(user.getName()) //성명
                 .nickname(user.getNickname()) //닉네임

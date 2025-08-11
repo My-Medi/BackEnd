@@ -94,8 +94,7 @@ public class SecurityConfig {
     //[POST] 인증 없이 접근 허용할 경로 목록
     private String[] permitAllPostPaths() {
         return new String[]{
-                "/api/v1/tokens/login",
-                "/api/v1/tokens/reissue",
+                "/api/v1/tokens/**",
                 "/api/v1/users",
                 "/api/v1/experts",
                 "/api/v1/images",
