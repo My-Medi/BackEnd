@@ -15,7 +15,7 @@ public class UserConverter {
 
     public static UserResponseDto.UserInfoDto toUserInfoDto(User user) {
         return UserResponseDto.UserInfoDto.builder()
-                .userid(user.getId())
+                .userId(user.getId())
                 .name(user.getName()) //성명
                 .nickname(user.getNickname()) //닉네임
                 .birthDate(user.getBirthDate()) //생년월일
@@ -25,7 +25,6 @@ public class UserConverter {
                 .profileImgUrl(user.getProfileImgUrl()) //프로필이미지
                 .height(user.getHeight()) // 키
                 .weight(user.getWeight()) // 몸무게
-                .role(user.getRole())
                 .build();
     }
 
@@ -42,8 +41,9 @@ public class UserConverter {
     }
 
 
-    public static UserResponseDto.UserInfoDto toUserInfoDto(User user, Proposal proposal, Report latestReport) {
-        return UserResponseDto.UserInfoDto.builder()
+    public static UserResponseDto.RequestingUserInfoDto toRequestingUserInfoDto(User user, Proposal proposal, Report latestReport) {
+        return UserResponseDto.RequestingUserInfoDto.builder()
+                .userId(user.getId())
                 .accountRegisterDate(user.getCreatedDate().toLocalDate()) //회원가입 날짜
                 .nickname(user.getNickname()) // 닉네임
                 .age(BirthDateUtil.getAge(user.getBirthDate())) //나이

@@ -13,8 +13,8 @@ public class UserResponseDto {
 
     @Data
     @Builder
-    public static class UserProfileDto{
-        private Long userid;
+    public static class UserInfoDto{
+        private Long userId;
         private String name;
         private String nickname;
         private String birthDate;
@@ -24,10 +24,6 @@ public class UserResponseDto {
         private String profileImgUrl;
         private Float height;
         private Float weight;
-        private String loginId;
-        private String password;
-        private Role role;
-
     }
 
     @Data
@@ -43,7 +39,8 @@ public class UserResponseDto {
 
     @Data
     @Builder
-    public static class UserInfoDto{
+    public static class RequestingUserInfoDto{
+        private Long userId;
         private LocalDate accountRegisterDate; //회원가입 날짜
         private String nickname; // 닉네임
         private int age; //나이
