@@ -64,8 +64,8 @@ public final class ReportEvaluationUtil {
 
     // 비만: BMI, Waist
     public static void evalObesity(ObesityAssessmentDto dto) {
-        HealthStatus bmi = dto.getComparingBmiDto().getHealthStatus();
-        HealthStatus waist = dto.getComparingWaistDto().getHealthStatus();
+        HealthStatus bmi = dto.getComparingBmi().getHealthStatus();
+        HealthStatus waist = dto.getComparingWaist().getHealthStatus();
 
         if (allUnknown(bmi, waist)) { dto.setAverageComparisonResult(AverageComparisonResult.INSUFFICIENT); return; }
 
@@ -79,8 +79,8 @@ public final class ReportEvaluationUtil {
 
     // 고혈압: SBP, DBP
     public static void evalHypertension(HypertensionAssessmentDto dto) {
-        HealthStatus sbp = dto.getComparingSystolicBpDto().getHealthStatus();
-        HealthStatus dbp = dto.getComparingDiastolicBpDto().getHealthStatus();
+        HealthStatus sbp = dto.getComparingSystolicBp().getHealthStatus();
+        HealthStatus dbp = dto.getComparingDiastolicBp().getHealthStatus();
 
         if (allUnknown(sbp, dbp))  { dto.setAverageComparisonResult(AverageComparisonResult.INSUFFICIENT); return; }
 
@@ -94,7 +94,7 @@ public final class ReportEvaluationUtil {
 
     // 빈혈: Hemoglobin (단일)
     public static void evalAnemia(AnemiaAssessmentDto dto) {
-        HealthStatus hb = dto.getComparingHemoglobinDto().getHealthStatus();
+        HealthStatus hb = dto.getComparingHemoglobin().getHealthStatus();
 
         if (isUnknown(hb))         { dto.setAverageComparisonResult(AverageComparisonResult.INSUFFICIENT); return; }
         if (isBad(hb))             { dto.setAverageComparisonResult(AverageComparisonResult.BELOW_BAD);    return; }
@@ -105,7 +105,7 @@ public final class ReportEvaluationUtil {
 
     // 당뇨: Fasting Blood Sugar (단일)
     public static void evalDiabetes(DiabetesAssessmentDto dto) {
-        HealthStatus fbs = dto.getComparingFastingBloodSugarDto().getHealthStatus();
+        HealthStatus fbs = dto.getComparingFastingBloodSugar().getHealthStatus();
 
         if (isUnknown(fbs))        { dto.setAverageComparisonResult(AverageComparisonResult.INSUFFICIENT); return; }
         if (isBad(fbs))            { dto.setAverageComparisonResult(AverageComparisonResult.BELOW_BAD);    return; }
@@ -136,7 +136,7 @@ public final class ReportEvaluationUtil {
 
     // 신장질환: Serum Creatinine, eGFR (2지표)
     public static void evalKidney(KidneyDiseaseAssessmentDto dto) {
-        HealthStatus cr   = dto.getComparingSerumCreatinineDto().getHealthStatus();
+        HealthStatus cr   = dto.getComparingSerumCreatinine().getHealthStatus();
         HealthStatus egfr = dto.getComparingEGfr().getHealthStatus();
 
         if (allUnknown(cr, egfr))  { dto.setAverageComparisonResult(AverageComparisonResult.INSUFFICIENT); return; }
@@ -151,9 +151,9 @@ public final class ReportEvaluationUtil {
 
     // 간장질환: AST, ALT, γ-GTP (3지표)
     public static void evalLiver(LiverDiseaseAssessmentDto dto) {
-        HealthStatus ast  = dto.getComparingAstDto().getHealthStatus();
-        HealthStatus alt  = dto.getComparingAltDto().getHealthStatus();
-        HealthStatus ggtp = dto.getComparingGammaGtpDto().getHealthStatus();
+        HealthStatus ast  = dto.getComparingAst().getHealthStatus();
+        HealthStatus alt  = dto.getComparingAlt().getHealthStatus();
+        HealthStatus ggtp = dto.getComparingGammaGtp().getHealthStatus();
 
         if (allUnknown(ast, alt, ggtp)) { dto.setAverageComparisonResult(AverageComparisonResult.INSUFFICIENT); return; }
 
