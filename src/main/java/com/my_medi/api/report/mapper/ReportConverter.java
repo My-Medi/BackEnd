@@ -1,13 +1,12 @@
 package com.my_medi.api.report.mapper;
 
-import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
-import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto.*;
+
+import com.my_medi.api.report.dto.ReportPartitionRequestDto.*;
 import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.dto.*;
 import com.my_medi.common.util.BirthDateUtil;
-import com.my_medi.common.util.HealthMetricCalculator;
-import com.my_medi.common.util.ReportEvaluationUtil;
+
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.*;
@@ -19,8 +18,7 @@ import java.util.function.Function;
 import static com.my_medi.api.healthCheckup.mapper.HealthCheckupMapper.*;
 import static com.my_medi.api.report.dto.AssessmentDto.*;
 import static com.my_medi.common.util.HealthMetricCalculator.*;
-import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.LOWER;
-import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.UPPER;
+
 
 @Slf4j
 public class ReportConverter {

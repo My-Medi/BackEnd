@@ -1,5 +1,6 @@
 package com.my_medi.api.report.dto;
 
+import com.my_medi.api.report.dto.ReportPartitionRequestDto.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,5 @@ public class WriteReportRequestDto {
     private InterviewDto interviewDto;
     private Boolean hasAdditionalTest;
     private AdditionalTestDto additionalTestDto;
+
 }
