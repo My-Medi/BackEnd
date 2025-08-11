@@ -2,8 +2,14 @@ package com.my_medi.api.user.mapper;
 
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.common.util.BirthDateUtil;
+import com.my_medi.common.util.ProposalMapperUtil;
+import com.my_medi.domain.proposal.entity.Proposal;
+import com.my_medi.domain.report.entity.Report;
 import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.entity.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserConverter {
 
@@ -34,4 +40,21 @@ public class UserConverter {
                 .reportCount(reportCount)
                 .build();
     }
+
+
+    public static UserResponseDto.UserInfoDto toUserInfoDto(User user, Proposal proposal, Report latestReport) {
+        return UserResponseDto.UserInfoDto.builder()
+                .accountRegisterDate(user.getCreatedDate().toLocalDate()) //회원가입 날짜
+                .nickname(user.getNickname()) // 닉네임
+                .age(BirthDateUtil.getAge(user.getBirthDate())) //나이
+                .gender(user.getGender()) //성별
+                .height(user.getHeight()) //키
+                .weight(user.getWeight()) //몸무게
+                .reportRegisterDate(latestReport != null ? latestReport.getCheckupDate() : null) // 국가건강검진일 - 리포트(없으면 Null)
+                .requestNote(proposal.getRequestNote()) //요청사항 - proposal
+                .healthInterests(ProposalMapperUtil.extractHealthInterests(proposal)) // 건강 관심 분야 - proposal
+                .abnormalCheckItems(ProposalMapperUtil.extractAbnormalCheckItems(proposal)) // 건강검진 이상 수치 - proposal
+                .build();
+    }
+
 }
