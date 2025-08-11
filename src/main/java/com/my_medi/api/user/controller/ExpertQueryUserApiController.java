@@ -5,6 +5,7 @@ import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidat
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.common.annotation.AuthExpert;
+import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.service.ProposalQueryService;
@@ -17,10 +18,7 @@ import com.my_medi.domain.user.service.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "[전문가 페이지] 사용자 조회 API")
 @RestController
@@ -48,11 +46,16 @@ public class ExpertQueryUserApiController {
     @Operation(summary = "[건강관리요청서 확인하기]")
     @GetMapping("/{userId}/info")
     public ApiResponseDto<UserResponseDto.UserInfoDto> getUserInfo(@AuthExpert Expert expert,
-                                                                   @PathVariable Long userId){
+                                                                   @PathVariable Long userId,
+                                                                   @RequestParam(name = "status") RequestStatus status) // REQUESTED/ACCEPTED/REJECTED
+    {
+        expertAllowedToViewUserInfoValidator.validate(expert.getId(), userId, status);
+
         User user = userQueryService.getUserById(userId);
         Proposal proposal = proposalQueryService.getProposalByUserId(userId);
         Report latestReport = reportQueryService.getLatestReportByUserId(userId);
-        return ApiResponseDto.onSuccess(UserConverter.toUserInfoDto(user,proposal,latestReport));
+
+        return ApiResponseDto.onSuccess(UserConverter.toUserInfoDto(user, proposal, latestReport));
     }
 
 
