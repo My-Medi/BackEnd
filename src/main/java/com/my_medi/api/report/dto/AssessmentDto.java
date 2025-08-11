@@ -11,8 +11,8 @@ public class AssessmentDto {
     @Data
     @Builder
     public static class ObesityAssessmentDto{
-        private ComparingBmi comparingBmiDto;
-        private ComparingWaist comparingWaistDto;
+        private ComparingBmi comparingBmi;
+        private ComparingWaist comparingWaist;
         private AverageComparisonResult averageComparisonResult;
     }
 
@@ -21,8 +21,8 @@ public class AssessmentDto {
     @Data
     @Builder
     public static class HypertensionAssessmentDto{
-        private ComparingSystolicBp comparingSystolicBpDto;
-        private ComparingDiastolicBp comparingDiastolicBpDto;
+        private ComparingSystolicBp comparingSystolicBp;
+        private ComparingDiastolicBp comparingDiastolicBp;
         private AverageComparisonResult averageComparisonResult;
 
     }
@@ -31,7 +31,7 @@ public class AssessmentDto {
     @Data
     @Builder
     public static class AnemiaAssessmentDto{
-        private ComparingHemoglobin comparingHemoglobinDto;
+        private ComparingHemoglobin comparingHemoglobin;
         private AverageComparisonResult averageComparisonResult;
 
     }
@@ -40,7 +40,7 @@ public class AssessmentDto {
     @Data
     @Builder
     public static class DiabetesAssessmentDto{
-        private ComparingFastingBloodSugar comparingFastingBloodSugarDto;
+        private ComparingFastingBloodSugar comparingFastingBloodSugar;
         private AverageComparisonResult averageComparisonResult;
 
     }
@@ -63,7 +63,7 @@ public class AssessmentDto {
     @Data
     @Builder
     public static class KidneyDiseaseAssessmentDto{
-        private ComparingSerumCreatinine comparingSerumCreatinineDto;
+        private ComparingSerumCreatinine comparingSerumCreatinine;
         private ComparingE_GFR comparingEGfr;
         private AverageComparisonResult averageComparisonResult;
 
@@ -74,9 +74,9 @@ public class AssessmentDto {
     @Data
     @Builder
     public static class LiverDiseaseAssessmentDto{
-        private ComparingAst comparingAstDto;
-        private ComparingAlt comparingAltDto;
-        private ComparingGammaGtp comparingGammaGtpDto;
+        private ComparingAst comparingAst;
+        private ComparingAlt comparingAlt;
+        private ComparingGammaGtp comparingGammaGtp;
         private AverageComparisonResult averageComparisonResult;
     }
 }

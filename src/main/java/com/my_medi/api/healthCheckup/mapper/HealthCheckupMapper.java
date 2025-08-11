@@ -1,6 +1,7 @@
 package com.my_medi.api.healthCheckup.mapper;
 
 import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
+import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.common.util.HealthMetricCalculator;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
@@ -83,7 +84,6 @@ public class HealthCheckupMapper {
                                                                                                            Gender gender) {
         return ComparingHealthCheckupResponseDto.ComparingSerumCreatinine.builder()
                 .serumCreatinine(serumCreatinine)
-                .averageSerumCreatinine(0.8)
                 .healthStatus(classifyCreatinine(serumCreatinine, gender))
                 .build();
     }
@@ -159,7 +159,7 @@ public class HealthCheckupMapper {
     public static ComparingHealthCheckupResponseDto.ComparingE_GFR toComparingE_GFR(Integer e_gfr) {
         return ComparingHealthCheckupResponseDto.ComparingE_GFR.builder()
                 .e_gfr(e_gfr)
-                .averageE_GFR(78)
+                .averageE_GFR(StaticVariable.E_GFR_AVERAGE)
                 .healthStatus(classifyE_GFR(e_gfr))
                 .build();
     }

@@ -1,8 +1,11 @@
 package com.my_medi.api.healthCheckup.dto;
 
 import com.my_medi.api.report.dto.HealthStatus;
+import com.my_medi.common.consts.StaticVariable;
 import lombok.Builder;
 import lombok.Data;
+
+import static com.my_medi.common.consts.StaticVariable.CREATININE_AVERAGE;
 
 @Data
 @Builder
@@ -65,7 +68,7 @@ public class ComparingHealthCheckupResponseDto {
     public static class ComparingSerumCreatinine{
         private Double serumCreatinine;
         @Builder.Default
-        private Double averageSerumCreatinine = 0.8;
+        private Double averageSerumCreatinine = CREATININE_AVERAGE;
         private HealthStatus healthStatus;
     }
 

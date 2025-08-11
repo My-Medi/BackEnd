@@ -51,5 +51,7 @@ public class StaticVariable {
     public static final Integer LDL_50 = 143;
     public static final Integer LDL_60 = 155;
 
+    public static final Double CREATININE_AVERAGE = 0.8;
+    public static final Integer E_GFR_AVERAGE = 78;
 }
 
