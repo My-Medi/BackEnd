@@ -20,7 +20,7 @@ public class ReportPartitionRequestDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class AdditionalTestDto {
+    public static class AdditionalTestDto {
         private B8Hepatitis b8Hepatitis;
 
         private DepressionStatus depression;
@@ -38,7 +38,7 @@ public class ReportPartitionRequestDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class BloodPressureDto {
+    public static class BloodPressureDto {
         private Integer systolic;
         private Integer diastolic;
         private BloodPressureStatus bloodPressureStatus;
@@ -48,7 +48,7 @@ public class ReportPartitionRequestDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class BloodTestDto {
+    public static class BloodTestDto {
         private Double hemoglobin;
         private HemoglobinStatus hemoglobinStatus;
 
@@ -75,7 +75,7 @@ public class ReportPartitionRequestDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class ImagingTestDto {
+    public static class ImagingTestDto {
         private ImagingTestStatus imagingTestStatus;
     }
 
@@ -83,7 +83,7 @@ public class ReportPartitionRequestDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class InterviewDto {
+    public static class InterviewDto {
         private PositiveNegativeStatus hasPastDisease;
 
         private PositiveNegativeStatus onMedication;
@@ -95,7 +95,7 @@ public class ReportPartitionRequestDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class MeasurementDto {
+    public static class MeasurementDto {
         private Double height;
         private Double weight;
         private Double bmi;
@@ -111,7 +111,7 @@ public class ReportPartitionRequestDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class UrineTestDto {
+    public static class UrineTestDto {
         private UrineTestStatus urineTestStatus;
     }
 }
