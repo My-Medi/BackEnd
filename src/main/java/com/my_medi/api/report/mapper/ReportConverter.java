@@ -8,12 +8,16 @@ import com.my_medi.common.util.HealthMetricCalculator;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.function.Function;
 
 import static com.my_medi.common.util.HealthMetricCalculator.*;
+import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.LOWER;
+import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.UPPER;
 
+@Slf4j
 public class ReportConverter {
 
     // Entity -> Dto
@@ -258,14 +262,14 @@ public class ReportConverter {
 
     public static ComparingReportResponseDto toComparingReportResponseDto(List<HealthCheckup> healthCheckupList, Report report) {
         int ageGroup10Yr = BirthDateUtil.getAge(report.getUser().getBirthDate());
+        log.info("age 10 : {}", ageGroup10Yr);
         Gender gender = report.getUser().getGender();
         // 공공데이터 bmi 계산
         Function<HealthCheckup, Double> bmiExtractor = h -> {
             if (h.getHeight5cm() == null || h.getWeight5kg() == null) return null;
-            double heightCm = h.getHeight5cm() * 5 + 2.5;
-            double weightKg = h.getWeight5kg() * 5 + 2.5;
-            double heightM = heightCm / 100.0;
-            return weightKg / (heightM * heightM);
+            double heightCm = h.getHeight5cm() + 2.5;
+            double weightKg = h.getWeight5kg() + 2.5;
+            return calculateBmi(weightKg, heightCm);
         };
         // 사용자 수치
         Double my_bmi = report.getMeasurement().getBmi();
@@ -291,37 +295,37 @@ public class ReportConverter {
                 .comparingBmiDto(ComparingBmiDto.builder()
                         .bmi(my_bmi)
                         .averageBmi(HealthMetricCalculator.calculateAverageBmi(healthCheckupList))
-                        .percentageBmi(calculatePercentile(healthCheckupList, my_bmi, bmiExtractor))
+                        .percentageBmi(calculatePercentile(healthCheckupList, my_bmi, bmiExtractor, LOWER))
                         .healthStatus(classifyBmi(my_bmi))
                         .build())
                 .comparingWaistDto(ComparingWaistDto.builder()
                         .waist(my_waist)
                         .averageWaist(calculateAverage(healthCheckupList, HealthCheckup::getWaistCm))
-                        .percentageWaist(calculatePercentile(healthCheckupList, my_waist, HealthCheckup::getWaistCm))
+                        .percentageWaist(calculatePercentile(healthCheckupList, my_waist, HealthCheckup::getWaistCm, LOWER))
                         .healthStatus(classifyWaistCircumference(my_waist, gender))
                         .build())
                 .comparingSystolicBpDto(ComparingSystolicBpDto.builder()
                         .systolicBp(my_systolic)
                         .averageSystolicBp(calculateAverage(healthCheckupList, HealthCheckup::getSystolicBp))
-                        .percentageSystolicBp(calculatePercentile(healthCheckupList, my_systolic, HealthCheckup::getSystolicBp))
+                        .percentageSystolicBp(calculatePercentile(healthCheckupList, my_systolic, HealthCheckup::getSystolicBp, LOWER))
                         .healthStatus(classifySystolic(my_systolic))
                         .build())
                 .comparingDiastolicBpDto(ComparingDiastolicBpDto.builder()
                         .diastolicBp(my_diastolic)
                         .averageDiastolicBp(calculateAverage(healthCheckupList, HealthCheckup::getDiastolicBp))
-                        .percentageDiastolicBp(calculatePercentile(healthCheckupList, my_diastolic, HealthCheckup::getDiastolicBp))
+                        .percentageDiastolicBp(calculatePercentile(healthCheckupList, my_diastolic, HealthCheckup::getDiastolicBp, LOWER))
                         .healthStatus(classifyDiastolic(my_diastolic))
                         .build())
                 .comparingHemoglobinDto(ComparingHemoglobinDto.builder()
                         .hemoglobin(my_hemoglobin)
                         .averageHemoglobin(calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin))
-                        .percentageHemoglobin(calculatePercentile(healthCheckupList, my_hemoglobin, HealthCheckup::getHemoglobin))
+                        .percentageHemoglobin(calculatePercentile(healthCheckupList, my_hemoglobin, HealthCheckup::getHemoglobin, UPPER))
                         .healthStatus(classifyHemoglobin(my_hemoglobin, gender))
                         .build())
                 .comparingFastingBloodSugarDto(ComparingFastingBloodSugarDto.builder()
                         .fastingBloodSugar(my_fastingGlucose)
                         .averageFastingBloodSugar(calculateAverage(healthCheckupList, HealthCheckup::getFastingBloodSugar))
-                        .percentageFastingBloodSugar(calculatePercentile(healthCheckupList, my_fastingGlucose, HealthCheckup::getFastingBloodSugar))
+                        .percentageFastingBloodSugar(calculatePercentile(healthCheckupList, my_fastingGlucose, HealthCheckup::getFastingBloodSugar, LOWER))
                         .healthStatus(classifyFastingGlucose(my_fastingGlucose))
                         .build())
                 .comparingSerumCreatinineDto(ComparingSerumCreatinineDto.builder()
@@ -332,19 +336,19 @@ public class ReportConverter {
                 .comparingAstDto(ComparingAstDto.builder()
                         .ast(my_ast)
                         .averageAst(calculateAverage(healthCheckupList, HealthCheckup::getAst))
-                        .percentageAst(calculatePercentile(healthCheckupList, my_ast, HealthCheckup::getAst))
+                        .percentageAst(calculatePercentile(healthCheckupList, my_ast, HealthCheckup::getAst, LOWER))
                         .healthStatus(classifyAST(my_alt))
                         .build())
                 .comparingAltDto(ComparingAltDto.builder()
                         .alt(my_alt)
                         .averageAlt(calculateAverage(healthCheckupList, HealthCheckup::getAlt))
-                        .percentageAlt(calculatePercentile(healthCheckupList, my_alt, HealthCheckup::getAlt))
+                        .percentageAlt(calculatePercentile(healthCheckupList, my_alt, HealthCheckup::getAlt, LOWER))
                         .healthStatus(classifyALT(my_alt))
                         .build())
                 .comparingGammaGtpDto(ComparingGammaGtpDto.builder()
                         .gammaGtp(my_gtp)
                         .averageGammaGtp(calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp))
-                        .percentageGammaGtp(calculatePercentile(healthCheckupList, my_gtp, HealthCheckup::getGammaGtp))
+                        .percentageGammaGtp(calculatePercentile(healthCheckupList, my_gtp, HealthCheckup::getGammaGtp, LOWER))
                         .healthStatus(classifyGammaGTP(my_gtp, gender))
                         .build())
                 .comparingTotalCholesterol(ComparingTotalCholesterol.builder()
