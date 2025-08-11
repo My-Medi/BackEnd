@@ -36,7 +36,7 @@ public class ExpertConsultationConverter {
                 .weight(user.getWeight())
                 .profileImage(user.getProfileImgUrl())
                 .age(FormUtil.formatAge(user.getBirthDate()))
-                //TODO: 최근 건강검진일, 건강관심분야 추가
+                //TODO: 최근 건강검진일, 건강관심분야 추가 <- 작업 추가해주세요
                 .build();
     }
 
