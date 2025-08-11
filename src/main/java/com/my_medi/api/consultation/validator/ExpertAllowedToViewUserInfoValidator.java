@@ -23,13 +23,9 @@ public class ExpertAllowedToViewUserInfoValidator {
     }
     /** 전문가-사용자 사이에 '수락됨(ACCEPTED)'이 존재하는지 확인 */
     public void validateExpertHasAcceptedUser(Long expertId, Long userId) {
-        List<ConsultationRequest> acceptedRequests =
-                consultationRequestRepository.findByExpertIdAndUserId(expertId, userId);
-
-        boolean matched = acceptedRequests.stream()
-                .anyMatch(request -> request.getRequestStatus() == RequestStatus.ACCEPTED);
-
-        if (!matched) {
+        boolean approved = consultationRequestRepository
+                .existsByExpertIdAndUserIdAndRequestStatus(expertId, userId, RequestStatus.ACCEPTED);
+        if (!approved) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
     }
