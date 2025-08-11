@@ -34,7 +34,6 @@ import com.my_medi.api.expert.mapper.ExpertConverter;
 public class ExpertApiController {
 
     private final ExpertCommandService expertCommandService;
-    private final ExpertQueryService expertQueryService;
 
     @Operation(summary = "전문가 계정을 생성합니다.[회원가입 플로우 전문가 ver.]")
     @PostMapping

@@ -33,19 +33,20 @@ import java.util.stream.Collectors;
 public class UserQueryExpertApiController {
 
     private final ExpertQueryService expertQueryService;
-    private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
+    //TODO not use AuthUser annotation -> 오로지 "인가 처리만" 할 수 있도록
     @Operation(summary = "전문가 프로필 정보를 전체 조회합니다.")
     @GetMapping("/experts/{expertId}/profiles/details")
     public ApiResponseDto<ExpertResponseDto.ExpertInfoDto> getExpertProfile(@AuthUser User user,
-                                                                               @PathVariable Long expertId) {
-        // 전문가 엔티티 조회 -> 유저와 전문가 매칭 확인 -> DTO 변환 후 반환
+                                                                            @PathVariable Long expertId) {
+
         Expert expert = expertQueryService.getExpertById(expertId);
 
         ExpertResponseDto.ExpertInfoDto result = ExpertConverter.toExpertInfoDto(expert);
 
         return ApiResponseDto.onSuccess(result);
     }
+
 
 
     @Operation(summary = "사용자가 전문가의 프로필을 상세 조회합니다. [전문가 상세]", description = "[건강관리요청서] 보내기 전 ")
@@ -55,7 +56,7 @@ public class UserQueryExpertApiController {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertDetailForUserDto(expert));
     }
 
-    //TODO 인가처리
+    //TODO not use AuthUser annotation -> 오로지 "인가 처리만" 할 수 있도록
     @Operation(summary = "전문가 목록을 조회합니다. 이때 15개씩 등록 순으로 조회합니다.")
     @GetMapping("/experts")
     public ApiResponseDto<ExpertResponseDto.ExpertProfileListDto> getAllExpertProfile(
@@ -73,10 +74,6 @@ public class UserQueryExpertApiController {
                         .toList()
                 )
                 .orElse(null); // 파라미터 없으면 null
-
-        if (specialtyList != null) {
-            specialtyList.forEach(s -> log.info("{}", s));
-        }
 
         Page<Expert> expertPage = expertQueryService.getExpertListByFiltering(specialtyList, pageable);
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileListDto(expertPage));
