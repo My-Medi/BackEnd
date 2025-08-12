@@ -26,9 +26,9 @@ public class ExpertAdviceApiController {
     private final AdviceUseCase adviceUseCase;
 
     @Operation(summary = "전문가가 매칭된 사용자에게 조언을 등록합니다.")
-    @PostMapping
+    @PostMapping("/users/{userId}")
     public ApiResponseDto<Long> registerExpertAdviceToUser(@AuthExpert Expert expert,
-                                                         @RequestParam Long userId,
+                                                         @PathVariable Long userId,
                                                          @RequestBody AdviceRequestDto adviceRequestDto) {
         expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
 
@@ -37,7 +37,7 @@ public class ExpertAdviceApiController {
     }
 
     @Operation(summary = "전문가가 자신이 등록한 조언들을 조회합니다.")
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public ApiResponseDto<AdviceSimplePageResponse> getExpertAdvice(
             @AuthExpert Expert expert,
             @PathVariable Long userId,
@@ -52,10 +52,9 @@ public class ExpertAdviceApiController {
     @Operation(summary = "전문가가 자신이 등록한 조언을 수정합니다.")
     @PatchMapping("/{adviceId}")
     public ApiResponseDto<Long> editExpertAdviceToUser(@AuthExpert Expert expert,
-                                                       @RequestParam Long userId,
                                                        @PathVariable Long adviceId,
                                                        @RequestBody AdviceRequestDto adviceRequestDto) {
-        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
+        adviceUseCase.validateAdvice(expert.getId(), adviceId);
 
         return ApiResponseDto.onSuccess(adviceCommandService.editExpertAdviceToUser(adviceId, adviceRequestDto));
     }
@@ -63,9 +62,8 @@ public class ExpertAdviceApiController {
     @Operation(summary = "전문가가 자신이 등록한 조언을 삭제합니다.")
     @DeleteMapping("/{adviceId}")
     public ApiResponseDto<Void> deleteExpertAdviceFromUser(@AuthExpert Expert expert,
-                                                           @RequestParam Long userId,
                                                            @PathVariable Long adviceId) {
-        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
+        adviceUseCase.validateAdvice(expert.getId(), adviceId);
 
         return ApiResponseDto.onSuccess(adviceCommandService.deleteExpertAdviceFromUser(adviceId));
     }

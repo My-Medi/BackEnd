@@ -10,6 +10,8 @@ public class StaticVariable {
     public static final String GRANT_TYPE = "authorization_code";
     public static final String REISSUE_ENDPOINT = "/api/v1/tokens/reissue";
     public static final String HEALTH_CHECK_ENDPOINT = "/api/v1/test/health-check";
+    public static final String CREATED_DATE = "createdDate";
+    public static final String ADVICE_ID = "id";
 
     //JWT
     public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
