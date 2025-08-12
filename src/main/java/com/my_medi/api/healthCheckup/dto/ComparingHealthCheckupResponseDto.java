@@ -2,6 +2,7 @@ package com.my_medi.api.healthCheckup.dto;
 
 import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.common.consts.StaticVariable;
+import com.my_medi.domain.report.enums.UrineTestStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -135,6 +136,15 @@ public class ComparingHealthCheckupResponseDto {
     public static class ComparingE_GFR{
         private Integer e_gfr;
         private Integer averageE_GFR;
+        private HealthStatus healthStatus;
+    }
+
+    @Data
+    @Builder
+    public static class ComparingUrineProtein{
+        private UrineTestStatus urineTestStatus;
+        @Builder.Default
+        private UrineTestStatus averageUrineStatus = UrineTestStatus.NORMAL;
         private HealthStatus healthStatus;
     }
 
