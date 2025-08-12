@@ -40,7 +40,6 @@ spring:
       host: localhost
       port: 6379
 
-  ### discord webhook ###
-  discord:
-    webhook:
-      error: ""
+discord:
+  alert:
+    enabled: false

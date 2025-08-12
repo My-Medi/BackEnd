@@ -5,6 +5,7 @@ import com.my_medi.infra.discord.dto.ApiModificationRequest;
 import com.my_medi.infra.discord.dto.DiscordWebhookMessage;
 import io.swagger.v3.oas.models.PathItem;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,7 @@ import static com.my_medi.common.util.DiscordMessageUtil.*;
 
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "discord.alert", name = "enabled", havingValue = "true")
 public class DiscordWebhookServiceImpl implements DiscordWebhookService{
 
     private final Environment env;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         name = "discord-client",
-        url = "${DISCORD_ERROR}",
+        url = "${discord.webhook.error}",
         configuration = DiscordFeignConfiguration.class
 )
 public interface DiscordClient {

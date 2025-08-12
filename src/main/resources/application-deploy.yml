@@ -31,6 +31,8 @@ spring:
       port: 6379
 
   ### discord webhook ###
-  discord:
-    webhook:
-      error: ${DISCORD_ERROR}
+discord:
+  alert:
+    enabled: true
+  webhook:
+    error: ${DISCORD_ERROR}
