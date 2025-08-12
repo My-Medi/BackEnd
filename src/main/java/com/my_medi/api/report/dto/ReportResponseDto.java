@@ -29,6 +29,7 @@ public class ReportResponseDto {
         private UrineTestDto urineTestDto;
         private ImagingTestDto imagingTestDto;
         private InterviewDto interviewDto;
+        private boolean hasAdditionalTest;
         private AdditionalTestDto additionalTestDto;
     }
 

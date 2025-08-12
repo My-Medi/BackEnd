@@ -1,14 +1,14 @@
 package com.my_medi.domain.report.enums.additionalTest;
 
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ElderlyPhysicalFunctionStatus {
-    NOT_APPLICABLE("미해당"),
-    NORMAL("정상"),
-    DECLINED("신체기능저하");
+public enum Applicability {
+    APPLICABLE("해당"),
+    NOT_APPLICABLE("미해당");
 
     private final String key;
 }

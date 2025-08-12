@@ -38,6 +38,7 @@ public class ReportConverter {
                 .urineTestDto(toUrineTestDto(report))
                 .imagingTestDto(toImagingTestDto(report))
                 .interviewDto(toInterviewDto(report))
+                .hasAdditionalTest(report.hasAdditionalTest())
                 .additionalTestDto(
                         report.hasAdditionalTest() ? toAdditionalTestDto(report) : null
                 )
@@ -116,7 +117,7 @@ public class ReportConverter {
         return InterviewDto.builder()
                 .hasPastDisease(interview.getHasPastDisease())
                 .onMedication(interview.getOnMedication())
-                .lifestyleHabitsStatus(interview.getLifestyleHabitsStatus())
+                .lifestyleHabitsStatusList(interview.getLifestyleHabitsStatusList())
                 .build();
     }
 
@@ -248,18 +249,18 @@ public class ReportConverter {
         return Interview.builder()
                 .hasPastDisease(interviewDto.getHasPastDisease())
                 .onMedication(interviewDto.getOnMedication())
-                .lifestyleHabitsStatus(interviewDto.getLifestyleHabitsStatus())
+                .lifestyleHabitsStatusList(interviewDto.getLifestyleHabitsStatusList())
                 .build();
     }
 
     public static AdditionalTest toAdditionalTest(AdditionalTestDto additionalTestDto) {
         return AdditionalTest.builder()
-                .b8Hepatitis(additionalTestDto.getB8Hepatitis())
+                .b8Hepatitis(B8Hepatitis.selectApplicability(additionalTestDto))
                 .depression(additionalTestDto.getDepression())
                 .cognitiveImpairment(additionalTestDto.getCognitiveImpairment())
                 .boneDensityStatus(additionalTestDto.getBoneDensityStatus())
                 .elderlyPhysicalFunctionStatus(additionalTestDto.getElderlyPhysicalFunctionStatus())
-                .elderlyFunctionTest(additionalTestDto.getElderlyFunctionTest())
+                .elderlyFunctionTest(ElderlyFunctionTest.selectApplicability(additionalTestDto))
                 .build();
     }
 
