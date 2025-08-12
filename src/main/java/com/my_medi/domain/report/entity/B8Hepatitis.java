@@ -28,7 +28,7 @@ public class B8Hepatitis {
     private B8HepatitisStatus b8HepatitisStatus;
 
     public static B8Hepatitis selectApplicability(ReportPartitionRequestDto.AdditionalTestDto additionalTestDto) {
-        if (additionalTestDto.getB8Hepatitis().getB8HepatitisStatus().equals(Applicability.NOT_APPLICABLE)) {
+        if (additionalTestDto.getB8Hepatitis().getB8hepatitis_applicability().equals(Applicability.NOT_APPLICABLE)) {
             return B8Hepatitis.builder()
                     .b8hepatitis_applicability(Applicability.NOT_APPLICABLE)
                     .b8HepatitisStatus(null)
