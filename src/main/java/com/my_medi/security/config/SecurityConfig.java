@@ -84,7 +84,7 @@ public class SecurityConfig {
     private String[] permitAllGetPaths() {
         return new String[]{
                 "/api/v1/examples/**",
-                "/api/v1/test",
+                "/api/v1/test/**",
                 "/api/v1/test/health-check",
                 "/api/v1/examples/user",
                 "/api/v1/examples/global"
