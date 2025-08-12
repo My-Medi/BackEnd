@@ -29,3 +29,8 @@ spring:
     redis:
       host: redis
       port: 6379
+
+  ### discord webhook ###
+  discord:
+    webhook:
+      error: ${DISCORD_ERROR}

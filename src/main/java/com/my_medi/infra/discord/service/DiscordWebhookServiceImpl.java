@@ -24,7 +24,6 @@ import static com.my_medi.common.util.DiscordMessageUtil.*;
 @Service
 @RequiredArgsConstructor
 public class DiscordWebhookServiceImpl implements DiscordWebhookService{
-    private final DiscordWebhookService discordWebhookService;
 
     private final Environment env;
     private final RestTemplate restTemplate;
