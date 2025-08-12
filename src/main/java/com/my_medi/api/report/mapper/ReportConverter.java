@@ -254,12 +254,12 @@ public class ReportConverter {
 
     public static AdditionalTest toAdditionalTest(AdditionalTestDto additionalTestDto) {
         return AdditionalTest.builder()
-                .b8Hepatitis(additionalTestDto.getB8Hepatitis())
+                .b8Hepatitis(B8Hepatitis.selectApplicability(additionalTestDto))
                 .depression(additionalTestDto.getDepression())
                 .cognitiveImpairment(additionalTestDto.getCognitiveImpairment())
                 .boneDensityStatus(additionalTestDto.getBoneDensityStatus())
                 .elderlyPhysicalFunctionStatus(additionalTestDto.getElderlyPhysicalFunctionStatus())
-                .elderlyFunctionTest(additionalTestDto.getElderlyFunctionTest())
+                .elderlyFunctionTest(ElderlyFunctionTest.selectApplicability(additionalTestDto))
                 .build();
     }
 
