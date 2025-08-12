@@ -38,6 +38,7 @@ public class ReportConverter {
                 .urineTestDto(toUrineTestDto(report))
                 .imagingTestDto(toImagingTestDto(report))
                 .interviewDto(toInterviewDto(report))
+                .hasAdditionalTest(report.hasAdditionalTest())
                 .additionalTestDto(
                         report.hasAdditionalTest() ? toAdditionalTestDto(report) : null
                 )
