@@ -14,6 +14,7 @@ import java.util.List;
 public class ExpertAllowedToViewUserInfoValidator {
     private final ConsultationRequestRepository consultationRequestRepository;
 
+    //TODO validateExpertHasAcceptedUser & validateExpertHasRequestFromUser <- 하나로 통일
     public void validate(Long expertId, Long userId, RequestStatus status) {
         switch (status) {
             case ACCEPTED -> validateExpertHasAcceptedUser(expertId, userId);

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class ExpertNotificationUseCase {
     private final ExpertNotificationQueryService expertNotificationQueryService;
 
+    //TODO "isRead" ,"id" 같은 값들은 StaticVariables.class에 추가
     public Page<ExpertNotification> getPrioritizedNotificationDtoSliceByExpertId
             (Long expertId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(

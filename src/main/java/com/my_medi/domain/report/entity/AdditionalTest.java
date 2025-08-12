@@ -1,9 +1,7 @@
 package com.my_medi.domain.report.entity;
 
-import com.my_medi.domain.report.enums.additionalTest.BoneDensityStatus;
-import com.my_medi.domain.report.enums.additionalTest.CognitiveImpairmentStatus;
-import com.my_medi.domain.report.enums.additionalTest.DepressionStatus;
-import com.my_medi.domain.report.enums.additionalTest.ElderlyPhysicalFunctionStatus;
+import com.my_medi.api.report.dto.ReportPartitionRequestDto;
+import com.my_medi.domain.report.enums.additionalTest.*;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -39,5 +37,7 @@ public class AdditionalTest {
 
     @Embedded
     private ElderlyFunctionTest elderlyFunctionTest;
+
+
 }
 

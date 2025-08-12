@@ -15,7 +15,7 @@ public class ScheduleUseCase {
     private final ScheduleCommandService scheduleCommandService;
     private final UserNotificationCommandService userNotificationCommandService;
 
-    public Long registScheduleAndSendNotificationToUser(
+    public Long registerScheduleAndSendNotificationToUser(
             Expert expert, Long userId, RegisterScheduleDto registerScheduleDto) {
         Long scheduleId = scheduleCommandService
                 .registerScheduleToUser(expert, userId, registerScheduleDto);

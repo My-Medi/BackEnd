@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LicenseImageConverter {
 
+    //TODO class 지우기(LiceneseConverter와 동일)
     public static LicenseImage toEntity(LicenseImageRequestDto dto, Expert expert) {
         return LicenseImage.builder()
                 .imageUrl(dto.getImageUrl())

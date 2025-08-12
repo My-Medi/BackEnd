@@ -2,6 +2,7 @@ package com.my_medi.domain.career.entity;
 
 import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.model.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Career {
+public class Career extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 혹은 AUTO
     private Long id;
