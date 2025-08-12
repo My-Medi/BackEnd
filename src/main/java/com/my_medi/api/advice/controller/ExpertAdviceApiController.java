@@ -10,9 +10,6 @@ import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.advice.entity.Advice;
 import com.my_medi.domain.advice.service.AdviceCommandService;
 import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.user.entity.User;
-import com.my_medi.domain.user.exception.UserHandler;
-import com.my_medi.domain.user.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "[전문가 페이지]전문가 조언 API")
 @RestController
-@RequestMapping("/api/v1/experts/advice")
+@RequestMapping("/api/v1/experts/advices")
 @RequiredArgsConstructor
 public class ExpertAdviceApiController {
     private final AdviceCommandService adviceCommandService;
     private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
-    private final UserRepository userRepository;
     private final AdviceUseCase adviceUseCase;
 
     @Operation(summary = "전문가가 매칭된 사용자에게 조언을 등록합니다.")
@@ -35,18 +31,20 @@ public class ExpertAdviceApiController {
                                                          @RequestParam Long userId,
                                                          @RequestBody AdviceRequestDto adviceRequestDto) {
         expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
-        User user = userRepository.findById(userId).orElseThrow(() -> UserHandler.NOT_FOUND);
 
         return ApiResponseDto.onSuccess(adviceCommandService
-                .registerExpertAdviceToUser(expert, user, adviceRequestDto));
+                .registerExpertAdviceToUser(expert, userId, adviceRequestDto));
     }
 
     @Operation(summary = "전문가가 자신이 등록한 조언들을 조회합니다.")
-    @GetMapping
+    @GetMapping("/{userId}")
     public ApiResponseDto<AdviceSimplePageResponse> getExpertAdvice(
-            @AuthExpert Expert expert, @RequestParam(defaultValue = "0") int currentPage, @RequestParam int pageSize) {
+            @AuthExpert Expert expert,
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int currentPage,
+            @RequestParam int pageSize) {
         Page<Advice> advicePage = adviceUseCase
-                .getPrioritizedAdviceDtoPageByExpertId(expert.getId(), currentPage, pageSize);
+                .getPrioritizedAdviceDtoPageByExpertId(expert.getId(), userId, currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(AdviceConverter.toAdviceSimplePageResponse(advicePage));
     }
@@ -64,7 +62,7 @@ public class ExpertAdviceApiController {
 
     @Operation(summary = "전문가가 자신이 등록한 조언을 삭제합니다.")
     @DeleteMapping("/{adviceId}")
-    public ApiResponseDto<Long> deleteExpertAdviceFromUser(@AuthExpert Expert expert,
+    public ApiResponseDto<Void> deleteExpertAdviceFromUser(@AuthExpert Expert expert,
                                                            @RequestParam Long userId,
                                                            @PathVariable Long adviceId) {
         expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);

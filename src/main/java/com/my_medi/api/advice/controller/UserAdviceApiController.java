@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "[사용자 페이지]전문가 조언 API")
 @RestController
-@RequestMapping("/api/v1/users/advice")
+@RequestMapping("/api/v1/users/advices")
 @RequiredArgsConstructor
 public class UserAdviceApiController {
     private final AdviceUseCase adviceUseCase;
@@ -39,6 +39,6 @@ public class UserAdviceApiController {
         Advice latestAdvice = adviceQueryService.getLatestAdviceOfUser(user.getId())
                 .orElseThrow(() -> AdviceHandler.NOT_FOUND);
 
-        return ApiResponseDto.onSuccess(AdviceConverter.fromAdvice(latestAdvice));
+        return ApiResponseDto.onSuccess(AdviceConverter.toAdvice(latestAdvice));
     }
 }

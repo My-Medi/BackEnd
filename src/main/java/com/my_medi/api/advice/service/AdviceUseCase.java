@@ -13,24 +13,30 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdviceUseCase {
     private final AdviceQueryService adviceQueryService;
+    public static final String CREATED_DATE = "createdDate";
+    public static final String ADVICE_ID = "id";
 
     public Page<Advice> getPrioritizedAdviceDtoPageByUserId(Long userId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.desc("createdDate"), Sort.Order.desc("id"))
+                Sort.by(Sort.Order.desc(CREATED_DATE), Sort.Order.desc(ADVICE_ID))
         );
 
         return adviceQueryService.getAdviceListByPageForUser(userId, pageable);
     }
 
-    public Page<Advice> getPrioritizedAdviceDtoPageByExpertId(Long expertId, Integer currentPage, Integer pageSize) {
+    public Page<Advice> getPrioritizedAdviceDtoPageByExpertId(Long expertId,
+                                                              Long userId,
+                                                              Integer currentPage,
+                                                              Integer pageSize) {
+
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.desc("createdDate"), Sort.Order.desc("id"))
+                Sort.by(Sort.Order.desc(CREATED_DATE), Sort.Order.desc(ADVICE_ID))
         );
 
-        return adviceQueryService.getAdviceListByPageForExpert(expertId, pageable);
+        return adviceQueryService.getAdviceListByPageForExpert(expertId, userId, pageable);
     }
 }

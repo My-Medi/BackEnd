@@ -18,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 public class Advice extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "advice_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

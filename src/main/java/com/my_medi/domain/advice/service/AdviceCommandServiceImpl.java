@@ -6,6 +6,8 @@ import com.my_medi.domain.advice.exception.AdviceHandler;
 import com.my_medi.domain.advice.repository.AdviceRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.user.entity.User;
+import com.my_medi.domain.user.exception.UserHandler;
+import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class AdviceCommandServiceImpl implements AdviceCommandService {
+    private final UserRepository userRepository;
     private final AdviceRepository adviceRepository;
 
     @Override
-    public Long registerExpertAdviceToUser(Expert expert, User user, AdviceRequestDto adviceRequestDto) {
+    public Long registerExpertAdviceToUser(Expert expert, Long userId, AdviceRequestDto adviceRequestDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> UserHandler.NOT_FOUND);
         Advice advice = Advice.builder()
                 .user(user)
                 .expert(expert)
@@ -40,9 +45,8 @@ public class AdviceCommandServiceImpl implements AdviceCommandService {
     }
 
     @Override
-    public Long deleteExpertAdviceFromUser(Long adviceId) {
+    public Void deleteExpertAdviceFromUser(Long adviceId) {
         adviceRepository.deleteById(adviceId);
-
-        return adviceId;
+        return null;
     }
 }

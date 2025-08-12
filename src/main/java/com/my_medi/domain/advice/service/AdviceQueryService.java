@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface AdviceQueryService {
     Page<Advice> getAdviceListByPageForUser(Long userId, Pageable pageable);
-    Page<Advice> getAdviceListByPageForExpert(Long expertId, Pageable pageable);
+    Page<Advice> getAdviceListByPageForExpert(Long expertId, Long userId, Pageable pageable);
     Optional<Advice> getLatestAdviceOfUser(Long userId);
 }

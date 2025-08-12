@@ -11,11 +11,9 @@ import java.util.stream.Collectors;
 public class AdviceConverter {
 
     // Entity -> DTO
-    public static AdviceDto fromAdvice(Advice advice) {
+    public static AdviceDto toAdvice(Advice advice) {
         return AdviceDto.builder()
                 .adviceId(advice.getId())
-                .userId(advice.getUser().getId())
-                .expertId(advice.getExpert().getId())
                 .adviceComment(advice.getAdviceComment())
                 .createdDate(advice.getCreatedDate())
                 .build();
@@ -23,7 +21,7 @@ public class AdviceConverter {
 
     public static AdviceSimplePageResponse toAdviceSimplePageResponse(Page<Advice> advicePage) {
         List<AdviceDto> adviceList = advicePage.getContent().stream()
-                .map(AdviceConverter::fromAdvice)
+                .map(AdviceConverter::toAdvice)
                 .collect(Collectors.toList());
 
         return new AdviceSimplePageResponse(
