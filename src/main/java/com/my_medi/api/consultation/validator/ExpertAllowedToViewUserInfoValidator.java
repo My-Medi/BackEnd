@@ -14,11 +14,11 @@ import java.util.List;
 public class ExpertAllowedToViewUserInfoValidator {
     private final ConsultationRequestRepository consultationRequestRepository;
 
-    //TODO validateExpertHasAcceptedUser & validateExpertHasRequestFromUser <- 하나로 통일
+    //TODO validateExpertHasAcceptedUser & validateExpertHasRequestFromUser <- 하나로 통일 (통일은 했고 validateExpertHasAcceptedUser는 소현 쪽에서 사용중)
     public void validate(Long expertId, Long userId, RequestStatus status) {
         switch (status) {
-            case ACCEPTED -> validateExpertHasAcceptedUser(expertId, userId);
-            case REQUESTED -> validateExpertHasRequestFromUser(expertId, userId);
+            case ACCEPTED -> validateConsultationRequestExists(expertId, userId, RequestStatus.ACCEPTED);
+            case REQUESTED -> validateConsultationRequestExists(expertId, userId, RequestStatus.REQUESTED);
             default -> throw ConsultationRequestHandler.NOT_FOUND; // REJECTED 등
         }
     }
@@ -31,10 +31,12 @@ public class ExpertAllowedToViewUserInfoValidator {
         }
     }
 
-    /** 전문가-사용자 사이에 '요청됨(REQUESTED)'이 존재하는지 확인 */
-    public void validateExpertHasRequestFromUser(Long expertId, Long userId) {
+    /** 전문가-사용자 사이에 특정 상태의 요청이 존재하는지 확인 */
+    public void validateConsultationRequestExists(Long expertId, Long userId, RequestStatus requestStatus) {
         boolean exists = consultationRequestRepository
-                .existsByExpertIdAndUserIdAndRequestStatus(expertId, userId, RequestStatus.REQUESTED);
-        if (!exists) throw ConsultationRequestHandler.NOT_FOUND;
+                .existsByExpertIdAndUserIdAndRequestStatus(expertId, userId, requestStatus);
+        if (!exists) {
+            throw ConsultationRequestHandler.NOT_FOUND;
+        }
     }
 }

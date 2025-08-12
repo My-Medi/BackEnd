@@ -1,13 +1,8 @@
-package com.my_medi.domain.user.dto;
+package com.my_medi.api.user.dto;
 
 import com.my_medi.domain.member.entity.Gender;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.time.LocalDate;
-
-//TODO class 배치 위치 선정 이유 설명해주기
 @Getter
 public class UpdateUserDto {
     private String name;
