@@ -56,6 +56,5 @@ public class AdviceUseCase {
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
 
         expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expertId, user.getId());
-
     }
 }

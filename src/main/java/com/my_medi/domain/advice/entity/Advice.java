@@ -26,7 +26,7 @@ public class Advice extends BaseTimeEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "expert_id", nullable = false)
     private Expert expert;
 
     @Column(name = "advice_comment", nullable = false, length = 200)

@@ -26,7 +26,9 @@ public class UserAdviceApiController {
     @Operation(summary = "사용자에게 등록된 모든 전문가의 조언들을 가져옵니다.")
     @GetMapping("/all")
     public ApiResponseDto<AdviceSimplePageResponse> getAllAdviceForUser(
-            @AuthUser User user, @RequestParam(defaultValue = "0") int currentPage, @RequestParam int pageSize) {
+            @AuthUser User user,
+            @RequestParam(defaultValue = "0") int currentPage,
+            @RequestParam int pageSize) {
         Page<Advice> advicePage = adviceUseCase
                 .getPrioritizedAdviceDtoPageByUserId(user.getId(), currentPage, pageSize);
 
