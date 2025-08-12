@@ -117,7 +117,7 @@ public class ReportConverter {
         return InterviewDto.builder()
                 .hasPastDisease(interview.getHasPastDisease())
                 .onMedication(interview.getOnMedication())
-                .lifestyleHabitsStatus(interview.getLifestyleHabitsStatus())
+                .lifestyleHabitsStatusList(interview.getLifestyleHabitsStatusList())
                 .build();
     }
 
@@ -249,7 +249,7 @@ public class ReportConverter {
         return Interview.builder()
                 .hasPastDisease(interviewDto.getHasPastDisease())
                 .onMedication(interviewDto.getOnMedication())
-                .lifestyleHabitsStatus(interviewDto.getLifestyleHabitsStatus())
+                .lifestyleHabitsStatusList(interviewDto.getLifestyleHabitsStatusList())
                 .build();
     }
 
