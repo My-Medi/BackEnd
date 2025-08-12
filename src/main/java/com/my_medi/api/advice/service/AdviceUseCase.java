@@ -30,7 +30,6 @@ public class AdviceUseCase {
                                                               Long userId,
                                                               Integer currentPage,
                                                               Integer pageSize) {
-
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
