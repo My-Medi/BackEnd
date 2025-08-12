@@ -4,6 +4,7 @@ import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageRequestDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.license.entity.License;
+import com.my_medi.domain.model.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -13,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class LicenseImage {
+public class LicenseImage extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

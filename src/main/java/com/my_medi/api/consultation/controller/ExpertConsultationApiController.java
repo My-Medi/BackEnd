@@ -2,6 +2,9 @@ package com.my_medi.api.consultation.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto;
+import com.my_medi.api.consultation.dto.ExpertConsultationDto.ExpertConsultationAcceptedDto;
+import com.my_medi.api.consultation.dto.ExpertConsultationDto.ExpertConsultationPageDto;
+import com.my_medi.api.consultation.dto.ExpertConsultationDto.ExpertConsultationSummaryDto;
 import com.my_medi.api.consultation.mapper.ExpertConsultationConverter;
 import com.my_medi.api.consultation.service.ConsultationUseCase;
 import com.my_medi.common.annotation.AuthExpert;
@@ -52,21 +55,22 @@ public class ExpertConsultationApiController {
 
     @Operation(summary = "전문가가 자신에게 들어온 상담 요청을 조회합니다.")
     @GetMapping("/requested")
-    public ApiResponseDto<ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationSummaryDto>> getRequestedConsultations(
+    public ApiResponseDto<ExpertConsultationPageDto<ExpertConsultationSummaryDto>> getRequestedConsultations(
             @AuthExpert Expert expert,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size) {
 
+        //TODO "createdDate" -> StaticVariables.class
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
         Page<ConsultationRequest> requests = consultationRequestQueryService
                 .getRequestByExpert(expert.getId(), RequestStatus.REQUESTED, pageable);
 
-        List<ExpertConsultationDto.ExpertConsultationSummaryDto> dtoList =
+        List<ExpertConsultationSummaryDto> dtoList =
                 requests.map(ExpertConsultationConverter::toExpertConsultationDto).getContent();
 
-        ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationSummaryDto> result =
-                ExpertConsultationDto.ExpertConsultationPageDto.<ExpertConsultationDto.ExpertConsultationSummaryDto>builder()
+        ExpertConsultationPageDto<ExpertConsultationSummaryDto> result =
+                ExpertConsultationPageDto.<ExpertConsultationSummaryDto>builder()
                         .content(dtoList)
                         .totalPages(requests.getTotalPages())
                         .build();
@@ -77,21 +81,21 @@ public class ExpertConsultationApiController {
 
     @Operation(summary = "전문가와 매칭된 회원을 조회합니다.")
     @GetMapping("/accepted")
-    public ApiResponseDto<ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationAcceptedDto>> getAcceptedConsultations(
+    public ApiResponseDto<ExpertConsultationPageDto<ExpertConsultationAcceptedDto>> getAcceptedConsultations(
             @AuthExpert Expert expert,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size) {
-
+        //TODO "createdDate" -> StaticVariables.class
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
         Page<ConsultationRequest> requests = consultationRequestQueryService
                 .getRequestByExpert(expert.getId(), RequestStatus.ACCEPTED, pageable);
 
-        List<ExpertConsultationDto.ExpertConsultationAcceptedDto> dtoList =
+        List<ExpertConsultationAcceptedDto> dtoList =
                 requests.map(ExpertConsultationConverter::toAcceptedConsultationDto).getContent();
 
-        ExpertConsultationDto.ExpertConsultationPageDto<ExpertConsultationDto.ExpertConsultationAcceptedDto> result =
-                ExpertConsultationDto.ExpertConsultationPageDto.<ExpertConsultationDto.ExpertConsultationAcceptedDto>builder()
+        ExpertConsultationPageDto<ExpertConsultationAcceptedDto> result =
+                ExpertConsultationPageDto.<ExpertConsultationAcceptedDto>builder()
                         .content(dtoList)
                         .totalPages(requests.getTotalPages())
                         .build();

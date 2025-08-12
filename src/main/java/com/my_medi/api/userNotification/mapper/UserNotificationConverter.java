@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO method 명 통일(to~)
 public class UserNotificationConverter {
 
     public static UserNotificationDto fromUserNotification(UserNotification userNotification) {

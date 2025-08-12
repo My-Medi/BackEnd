@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+//TODO exception 처리 통일 (not create object newly)
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ConsultationRequestCommandServiceImpl implements ConsultationRequestCommandService {
 
     private final ConsultationRequestRepository consultationRequestRepository;
-    private final UserRepository userRepository;
     private final ExpertRepository expertRepository;
 
     @Override

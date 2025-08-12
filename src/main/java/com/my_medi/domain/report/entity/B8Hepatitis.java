@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+//TODO embed 객체는 패키지 하나 더 추가해 모아두기
 @Embeddable
 @Getter
 @Builder

@@ -24,7 +24,7 @@ public class User extends Member {
     //몸무게
     private Float weight;
 
-    // TODO: 나중에 건강검진 리포트 기능 생기면 연관관계 추가
+    // TODO: 제안서 매핑해주기
     // @OneToMany(mappedBy = "user")
     // private List<HealthReport> reports = new ArrayList<>();
 

@@ -42,6 +42,7 @@ public class ConsultationUseCase {
                 consultationId, notificationComment, NotificationType.CONSULTATION_RESPONSE);
     }
 
+    //TODO return type 통일하기 Long -> void
     public Long sendConsultationRequestNotificationToExpert(User user, Long expertId, String comment) {
         Long requestId = consultationRequestCommandService.requestConsultationToExpert(user, expertId, comment);
 

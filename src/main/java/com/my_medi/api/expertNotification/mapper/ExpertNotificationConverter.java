@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO converter method 명칭 컨벤션 통일하기 (to~)
 public class ExpertNotificationConverter {
     public static ExpertNotificationDto fromExpertNotification(ExpertNotification expertNotification) {
         return ExpertNotificationDto.builder()
