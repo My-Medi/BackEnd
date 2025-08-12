@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@DiscriminatorValue(StaticVariable.USER)      //TODO ROLE ENUM key값으로
+@DiscriminatorValue(StaticVariable.USER)
 public class User extends Member {
 
     //키
@@ -23,7 +23,6 @@ public class User extends Member {
     //몸무게
     private Float weight;
 
-    @Builder.Default
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Proposal proposals;
 
