@@ -2,11 +2,8 @@ package com.my_medi.infra.discord.service;
 
 import com.my_medi.infra.discord.client.DiscordClient;
 import com.my_medi.infra.discord.dto.ApiModificationRequest;
-import com.my_medi.infra.discord.dto.DiscordWebhookErrorMessage;
-import com.my_medi.infra.discord.dto.DiscordWebhookErrorMessage.Embed;
 import com.my_medi.infra.discord.dto.DiscordWebhookMessage;
 import io.swagger.v3.oas.models.PathItem;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -15,11 +12,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,6 +24,7 @@ import static com.my_medi.common.util.DiscordMessageUtil.*;
 @Service
 @RequiredArgsConstructor
 public class DiscordWebhookServiceImpl implements DiscordWebhookService{
+    private final DiscordWebhookService discordWebhookService;
 
     private final Environment env;
     private final RestTemplate restTemplate;
@@ -87,47 +82,5 @@ public class DiscordWebhookServiceImpl implements DiscordWebhookService{
     @Override
     public void sendErrorMessage(Exception e, WebRequest request) {
         discordClient.sendAlarm(createMessage(e, request));
-    }
-
-    private DiscordWebhookErrorMessage createMessage(Exception e, WebRequest request) {
-        return DiscordWebhookErrorMessage.builder()
-                .content("# 🚨 에러 발생 비이이이이사아아아앙")
-                .embeds(
-                        List.of(
-                                Embed.builder()
-                                        .title("ℹ️ 에러 정보")
-                                        .description(
-                                                "### 🕖 발생 시간\n"
-                                                        + LocalDateTime.now()
-                                                        + "\n"
-                                                        + "### 🔗 요청 URL\n"
-                                                        + createRequestFullPath(request)
-                                                        + "\n"
-                                                        + "### 📄 Stack Trace\n"
-                                                        + "```\n"
-                                                        + getStackTrace(e).substring(0, 1000)
-                                                        + "\n```")
-                                        .build()
-                        )
-                )
-                .build();
-    }
-
-    private String createRequestFullPath(WebRequest webRequest) {
-        HttpServletRequest request = ((ServletWebRequest) webRequest).getRequest();
-        String fullPath = request.getMethod() + " " + request.getRequestURL();
-
-        String queryString = request.getQueryString();
-        if (queryString != null) {
-            fullPath += "?" + queryString;
-        }
-
-        return fullPath;
-    }
-
-    private String getStackTrace(Exception e) {
-        StringWriter stringWriter = new StringWriter();
-        e.printStackTrace(new PrintWriter(stringWriter));
-        return stringWriter.toString();
     }
 }
