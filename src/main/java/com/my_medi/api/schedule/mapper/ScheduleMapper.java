@@ -24,7 +24,7 @@ public class ScheduleMapper {
         return ScheduleDetailDto.builder()
                 .id(schedule.getId())
                 .title(schedule.getTitle())
-                //TODO : title template으로 바꾸기 및 엔티티 내의 title 필드 제거
+                //TODO : title template으로 바꾸기 및 엔티티 내의 title 필드 제거 <- 작업하기
                 .memo(schedule.getMemo())
                 .location(schedule.getLocation())
                 .meetingDate(schedule.getMeetingDate())

@@ -36,10 +36,9 @@ public class UserConsultationApiController {
 
     private final ConsultationRequestCommandService consultationRequestCommandService;
     private final ConsultationUseCase consultationUseCase;
-    private final ConsultationRequestQueryService consultationRequestQueryService;;
+    private final ConsultationRequestQueryService consultationRequestQueryService;
     private final ConsultationRequestRepository consultationRequestRepository;
     private final ExpertRepository expertRepository;
-    private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
 
 
 
@@ -99,12 +98,16 @@ public class UserConsultationApiController {
             @AuthUser User user,
             @PathVariable Long expertId
     ) {
+        //TODO repository는 절대절대 controller layer에서 사용 금지 -> 아래 로직은 서비스 메서드로
+        // service에서 dto를 리턴하는 것 또한 괜찮은 방식이니 그렇게 만들어주세요
+        // 아니면 querydsl 생성해서 sql 하나만 써보기..?(추천)
         int requestCount = consultationRequestRepository
                 .countByUserIdAndExpertIdAndRequestStatus(user.getId(), expertId, RequestStatus.REQUESTED);
 
         if (requestCount == 0) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
+
 
         PageRequest page = PageRequest.of(0, 1);
 

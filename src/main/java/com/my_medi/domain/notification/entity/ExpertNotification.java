@@ -1,6 +1,7 @@
 package com.my_medi.domain.notification.entity;
 
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.model.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -10,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ExpertNotification {
+public class ExpertNotification extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

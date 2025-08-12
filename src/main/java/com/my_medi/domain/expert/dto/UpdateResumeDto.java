@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO 해당 클래스 배치 위치 선정 이유 설명해주기
 @Getter
 @Setter
 @NoArgsConstructor

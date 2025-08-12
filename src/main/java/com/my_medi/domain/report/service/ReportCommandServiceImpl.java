@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ReportCommandServiceImpl implements ReportCommandService{
-    private final UserRepository userRepository;
     private final ReportRepository reportRepository;
 
     @Override
@@ -26,6 +25,7 @@ public class ReportCommandServiceImpl implements ReportCommandService{
         Report report = Report.builder()
                 .round(nextRound)
                 .user(user)
+                .hospitalName(writeReportRequestDto.getHospitalName())
                 .checkupDate(writeReportRequestDto.getCheckupDate())
                 .measurement(ReportConverter.toMeasurement(writeReportRequestDto.getMeasurementDto()))
                 .bloodPressure(ReportConverter.toBloodPressure(writeReportRequestDto.getBloodPressureDto()))

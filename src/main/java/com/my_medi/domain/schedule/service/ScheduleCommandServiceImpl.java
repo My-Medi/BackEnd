@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//TODO exception form unify
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
@@ -45,7 +46,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
         boolean isMatched = consultationRequestRepository
                 .existsByExpertIdAndUserIdAndRequestStatus(expert.getId(), user.getId(), RequestStatus.ACCEPTED);
 
-        //TODO exception form
+        //TODO exception form <-!
         if (!isMatched) {
             throw new ScheduleHandler(ScheduleErrorStatus.NOT_MATCHED_CONSULTATION);
         }

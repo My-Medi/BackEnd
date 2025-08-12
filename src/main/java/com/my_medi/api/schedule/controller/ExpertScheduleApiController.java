@@ -42,7 +42,7 @@ public class ExpertScheduleApiController {
             @RequestBody RegisterScheduleDto registerScheduleDto) {
 
         return ApiResponseDto.onSuccess(scheduleUseCase
-                .registScheduleAndSendNotificationToUser(expert, userId, registerScheduleDto));
+                .registerScheduleAndSendNotificationToUser(expert, userId, registerScheduleDto));
     }
 
     @Operation(summary = "전문가가 본인 스케줄을 월 단위로 조회합니다.")

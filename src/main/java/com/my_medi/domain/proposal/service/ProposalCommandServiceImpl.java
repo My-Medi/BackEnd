@@ -17,6 +17,7 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
 
     @Override
     public Long writeProposal(User user, ProposalRequestDto proposalRequestDto) {
+        //TODO converter 사용해서 clean code
         Proposal proposal = Proposal.builder()
                 .user(user)
                 .lifeDescription(proposalRequestDto.getLifeDescription())

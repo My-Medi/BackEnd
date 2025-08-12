@@ -24,7 +24,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true) //queryservice에는 readonly
+@Transactional(readOnly = true)
 public class ExpertQueryServiceImpl implements ExpertQueryService {
     private final ExpertRepository expertRepository;
 

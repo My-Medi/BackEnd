@@ -41,6 +41,12 @@ public class UserReportApiController {
         return ApiResponseDto.onSuccess(ReportConverter.toUserReportDto(report));
     }
 
+    @Operation(summary = "사용자 본인의 건강리포트 개수를 조회합니다.")
+    @GetMapping("/count")
+    public ApiResponseDto<Long> getUserReportCount(@AuthUser User user) {
+        return ApiResponseDto.onSuccess(reportQueryService.getReportCountByUser(user));
+    }
+
     @Operation(summary = "사용자의 가장 최근 리포트의 요약본을 가져옵니다.")
     @GetMapping("/summary")
     public ApiResponseDto<ReportSummaryDto> getUserReportSummary(@AuthUser User user) {

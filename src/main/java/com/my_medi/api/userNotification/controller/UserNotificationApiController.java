@@ -25,7 +25,7 @@ public class UserNotificationApiController {
     private final UserNotificationUseCase userNotificationUseCase;
     private final UserNotificationCommandService userNotificationCommandService;
 
-    @Operation(summary = "사용자의 알림을 pagination으로 조회합니다.")
+    @Operation(summary = "사용자의 알림을 pagination 으로 조회합니다.")
     @GetMapping
     public ApiResponseDto<UserNotificationSimplePageResponse> getUserNotificationByPage(
             @AuthUser User user,
@@ -48,6 +48,7 @@ public class UserNotificationApiController {
                 .readUserNotification(notificationId));
     }
 
+    //TODO list == null 일때 테스트
     @Operation(summary = "사용자의 알림을 삭제합니다.")
     @DeleteMapping
     public ApiResponseDto<Void> deleteUserNotifications(@RequestParam List<Long> notificationId) {

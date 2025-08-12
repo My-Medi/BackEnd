@@ -50,11 +50,9 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
 
     private List<Schedule> findUpcomingSchedules(SortType type, Long id) {
         LocalDate now = LocalDate.now();
-        Pageable top3 = PageRequest.of(0, 3);
         Pageable top1 = PageRequest.of(0, 1);
 
         return switch (type) {
-//            case USER -> scheduleRepository.findUpcomingSchedulesByUser(id, now, top3);
             case USER -> Collections.emptyList();
             case EXPERT -> scheduleRepository.findUpcomingSchedulesByExpert(id, now, top1);
         };
