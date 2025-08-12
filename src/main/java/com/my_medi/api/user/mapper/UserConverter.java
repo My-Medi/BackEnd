@@ -50,6 +50,7 @@ public class UserConverter {
                 .gender(user.getGender()) //성별
                 .height(user.getHeight()) //키
                 .weight(user.getWeight()) //몸무게
+                .goal(proposal.getGoal())
                 .reportRegisterDate(latestReport != null ? latestReport.getCheckupDate() : null) // 국가건강검진일 - 리포트(없으면 Null)
                 .requestNote(proposal.getRequestNote()) //요청사항 - proposal
                 .healthInterests(ProposalMapperUtil.extractHealthInterests(proposal)) // 건강 관심 분야 - proposal
