@@ -22,8 +22,8 @@ public class AdviceQueryServiceImpl implements AdviceQueryService {
     }
 
     @Override
-    public Page<Advice> getAdviceListByPageForExpert(Long expertId, Pageable pageable) {
-        return adviceRepository.findAllByExpertId(expertId, pageable);
+    public Page<Advice> getAdviceListByPageForExpert(Long expertId, Long userId, Pageable pageable) {
+        return adviceRepository.findAllByExpertIdAndUserId(expertId, userId, pageable);
     }
 
     @Override

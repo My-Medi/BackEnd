@@ -16,8 +16,6 @@ public class AdviceResponseDto {
     @AllArgsConstructor
     public static class AdviceDto {
         private Long adviceId;
-        private Long userId;
-        private Long expertId;
         private String adviceComment;
         private LocalDateTime createdDate;
     }
