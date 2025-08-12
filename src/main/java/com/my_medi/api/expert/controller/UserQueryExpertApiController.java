@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,11 +35,10 @@ public class UserQueryExpertApiController {
 
     private final ExpertQueryService expertQueryService;
 
-    //TODO not use AuthUser annotation -> 오로지 "인가 처리만" 할 수 있도록
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "전문가 프로필 정보를 전체 조회합니다.")
     @GetMapping("/{expertId}/profiles/details")
-    public ApiResponseDto<ExpertResponseDto.ExpertInfoDto> getExpertProfile(@AuthUser User user,
-                                                                            @PathVariable Long expertId) {
+    public ApiResponseDto<ExpertResponseDto.ExpertInfoDto> getExpertProfile(@PathVariable Long expertId) {
 
         Expert expert = expertQueryService.getExpertById(expertId);
 
@@ -55,7 +55,7 @@ public class UserQueryExpertApiController {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertDetailForUserDto(expert));
     }
 
-    //TODO not use AuthUser annotation -> 오로지 "인가 처리만" 할 수 있도록
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "전문가 목록을 조회합니다. 이때 15개씩 등록 순으로 조회합니다.")
     @GetMapping
     public ApiResponseDto<ExpertResponseDto.ExpertProfileListDto> getAllExpertProfile(
