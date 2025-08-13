@@ -16,7 +16,6 @@ import static com.my_medi.api.report.dto.Rank.*;
 import static com.my_medi.api.report.dto.Rank.LOWER;
 import static com.my_medi.common.consts.StaticVariable.*;
 import static com.my_medi.common.util.HealthMetricCalculator.*;
-import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.LOWER;
 import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.UPPER;
 import static com.my_medi.common.util.HealthMetricCalculator.classifyE_GFR;
 
@@ -87,8 +86,9 @@ public class HealthCheckupMapper {
     }
 
     public static ComparingHemoglobin toComparingHemoglobinDto(List<HealthCheckup> healthCheckupList,
-                                                                                                 Double hemoglobin,
-                                                                                                 Gender gender) {
+                                                               Double hemoglobin,
+                                                               Gender gender) {
+
         double percentile = calculatePercentile(healthCheckupList, hemoglobin, HealthCheckup::getHemoglobin, UPPER);
         double averageHemoglobin = calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin);
 
@@ -173,7 +173,8 @@ public class HealthCheckupMapper {
     }
 
     public static ComparingTotalCholesterol toComparingTotalCholesterol(Integer totalCholesterol,
-                                                                                                          Integer ageGroup10Yr) {
+                                                                        Integer ageGroup10Yr) {
+
         Integer averageTotalCholesterol = provideAverageTotalCholesterol(ageGroup10Yr);
 
         return ComparingTotalCholesterol.builder()
@@ -186,7 +187,8 @@ public class HealthCheckupMapper {
     }
 
     public static ComparingHDL toComparingHDL(Integer hdl,
-                                                                                Integer ageGroup10Yr) {
+                                              Integer ageGroup10Yr) {
+
         Integer averageHDL = provideAverageHDL(ageGroup10Yr);
         return ComparingHDL.builder()
                 .hdl(hdl)
@@ -198,7 +200,8 @@ public class HealthCheckupMapper {
     }
 
     public static ComparingLDL toComparingLDL(Integer ldl,
-                                                                                Integer ageGroup10Yr) {
+                                              Integer ageGroup10Yr) {
+
         Integer averageLDL = provideAverageLDL(ageGroup10Yr);
         return ComparingLDL.builder()
                 .ldl(ldl)
@@ -233,16 +236,19 @@ public class HealthCheckupMapper {
     }
 
     private static Rank getRank(double percentile) {
+        if (percentile == 0) return NULL;
         return percentile > 50 ? Rank.LOWER : Rank.UPPER;
     }
 
     private static double getPercentage(double percentile) {
-        return percentile > 50 ? 100 - percentile : percentile;
+        double value = percentile > 50 ? 100 - percentile : percentile;
+        return Math.round(value * 10) / 10.0;
     }
 
     private static AverageComparison byDelta(double x, double average, double delta) {
         //TODO exception handling
         if(delta <= 0) throw new RuntimeException("delta must be positive");
+        if(x == 0) return AverageComparison.NULL;
 
         double d = Math.abs(x - average);
         if (d < delta) return AverageComparison.SIMILAR;

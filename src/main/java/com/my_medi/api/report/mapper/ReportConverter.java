@@ -344,6 +344,7 @@ public class ReportConverter {
                                         ComparingHealthCheckupResponseDto.ComparingUrineProtein.builder()
                                                 .urineTestStatus(report.getUrineTest().getUrineTestStatus())
                                                 .healthStatus(classifyUrineProtein(report.getUrineTest().getUrineTestStatus()))
+                                                .averageComparison(AverageComparison.NULL.getKey())
                                                 .build()
                                 )
                                 .build()

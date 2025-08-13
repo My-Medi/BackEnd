@@ -1,5 +1,6 @@
 package com.my_medi.api.healthCheckup.dto;
 
+import com.my_medi.api.report.dto.AverageComparison;
 import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.domain.report.enums.UrineTestStatus;
 import lombok.Builder;
@@ -81,6 +82,7 @@ public class ComparingHealthCheckupResponseDto {
         private Double serumCreatinine;
         @Builder.Default
         private Double averageSerumCreatinine = CREATININE_AVERAGE;
+        private Double percentageSerumCreatinine;
         private HealthStatus healthStatus;
         private String rank;
         private String averageComparison;
@@ -123,6 +125,7 @@ public class ComparingHealthCheckupResponseDto {
     public static class ComparingTotalCholesterol{
         private Integer totalCholesterol;
         private Integer averageTotalCholesterol;
+        private Double percentageTotalCholesterol;
         private HealthStatus healthStatus;
         private String rank;
         private String averageComparison;
@@ -133,6 +136,7 @@ public class ComparingHealthCheckupResponseDto {
     public static class ComparingHDL{
         private Integer hdl;
         private Integer averageHDL;
+        private Double percentageHDL;
         private HealthStatus healthStatus;
         private String rank;
         private String averageComparison;
@@ -143,6 +147,7 @@ public class ComparingHealthCheckupResponseDto {
     public static class ComparingTriglyceride{
         private Integer triglyceride;
         private Integer averageTriglyceride;
+        private Double percentageTriglyceride;
         private HealthStatus healthStatus;
         private String rank;
         private String averageComparison;
@@ -153,6 +158,7 @@ public class ComparingHealthCheckupResponseDto {
     public static class ComparingLDL{
         private Integer ldl;
         private Integer averageLDL;
+        private Double percentageLDL;
         private HealthStatus healthStatus;
         private String rank;
         private String averageComparison;
@@ -163,6 +169,7 @@ public class ComparingHealthCheckupResponseDto {
     public static class ComparingE_GFR{
         private Integer e_gfr;
         private Integer averageE_GFR;
+        private Double percentageE_GFR;
         private HealthStatus healthStatus;
         private String rank;
         private String averageComparison;
@@ -176,6 +183,7 @@ public class ComparingHealthCheckupResponseDto {
         private UrineTestStatus averageUrineStatus = UrineTestStatus.NORMAL;
         private HealthStatus healthStatus;
         private String rank;
-        private String averageComparison;
+        @Builder.Default
+        private String averageComparison = AverageComparison.SIMILAR.getKey();
     }
 }

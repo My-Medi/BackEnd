@@ -77,9 +77,9 @@ public class HealthMetricCalculator {
         }
 
 
-        double percentile = (double) count / values.size() * 100.0;
+        return (double) count / values.size() * 100.0;
 
-        return Math.round(percentile * 10) / 10.0;
+//        return Math.round(percentile * 10) / 10.0;
     }
 
     public static enum PercentileCategory{

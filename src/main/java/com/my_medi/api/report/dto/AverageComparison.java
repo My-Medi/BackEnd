@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum AverageComparison implements KeyedEnum {
+    NULL("비교 불가합니다."),
     VERY_ABOVE("평균보다 매우 높습니다."),
     SLIGHTLY_ABOVE("평균보다 조금 높습니다"),
     SIMILAR("평균과 유사합니다."),
