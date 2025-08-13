@@ -27,7 +27,7 @@ public class ExpertReportApiController {
     }
 
     @Operation(summary = "사용자가 작성한 건강관리 제인서에서 사용자의 가장 최근 리포트의 요약본을 가져옵니다.")
-    @GetMapping("/summary/{userId}")
+    @GetMapping("/users/{userId}/summary")
     public ApiResponseDto<ReportSummaryDto> getUserReportSummary(@AuthExpert Expert expert,
                                                                  @PathVariable Long userId) {
         return ApiResponseDto.onSuccess(reportUseCase.getUserReportSummaryForExpert(expert, userId));
