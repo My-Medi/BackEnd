@@ -3,10 +3,7 @@ package com.my_medi.infra.gpt.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my_medi.common.consts.Prompt;
-import com.my_medi.common.consts.StaticVariable;
-import com.my_medi.domain.report.entity.Report;
 import com.my_medi.domain.report.exception.ReportHandler;
-import com.my_medi.domain.report.repository.ReportRepository;
 import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.repository.UserRepository;
 import com.my_medi.infra.gpt.dto.HealthReportData;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.my_medi.common.consts.StaticVariable.*;
 import static com.my_medi.common.util.ParseUtil.*;
@@ -91,19 +89,14 @@ public class OpenAIServiceImpl implements OpenAIService {
 
             var user = userRepository.findById(userId)
                     .orElseThrow(() -> ReportHandler.NOT_FOUND);
-            // 1. compareReport 호출 (ReportQueryService 주입 필요)
-            var compareResult = reportQueryService.compareReport(user, round);
-            if (compareResult == null) {
-                throw new RuntimeException("해당 라운드의 비교 리포트가 존재하지 않습니다.");
-            }
 
-            // 2. DTO → JSON 직렬화
+            var compareResult = Optional.ofNullable(reportQueryService.compareReport(user, round))
+                    .orElseThrow(() -> new RuntimeException("해당 라운드의 비교 리포트가 존재하지 않습니다."));
+
             String compareJson = objectMapper.writeValueAsString(compareResult);
 
-            // 3. 프롬프트 생성
             String prompt = String.format(Prompt.TOTAL_REPORT_PROMPT, compareJson);
 
-            // 4. OpenAI API 호출 준비
             String openAiApiKey = environment.getProperty("openai.api.key");
             String openAiApiUrl = environment.getProperty("openai.api.url");
 
@@ -132,7 +125,6 @@ public class OpenAIServiceImpl implements OpenAIService {
             ResponseEntity<OpenAIResponse> response = restTemplate.exchange(
                     openAiApiUrl, HttpMethod.POST, entity, OpenAIResponse.class);
 
-            // 5. GPT 응답 파싱
             String gptContent = response.getBody()
                     .getChoices().get(0)
                     .getMessage()
