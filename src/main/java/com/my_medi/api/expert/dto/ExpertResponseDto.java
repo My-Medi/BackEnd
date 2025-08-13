@@ -97,6 +97,8 @@ public class ExpertResponseDto{
     @Builder
     public static class ExpertResumeDto{
         // 이력서 수정 분리
+        private String nickname;
+        private String name;
         private Specialty specialty;
         private String organizationName;
         private String introduction;
