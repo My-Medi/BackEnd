@@ -1,7 +1,5 @@
 package com.my_medi.domain.report.service;
 
-import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
-import com.my_medi.api.report.dto.ReportResponseDto;
 import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.domain.report.entity.Report;
 import com.my_medi.domain.user.entity.User;
@@ -14,4 +12,5 @@ public interface ReportQueryService {
     Report getLatestReportByUserId(Long userId);
 
     long getReportCountByUser(User user);
+
 }

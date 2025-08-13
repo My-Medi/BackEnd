@@ -21,6 +21,7 @@ public class OpenAIRequest {
     public static class Message {
         private String role;
         private List<Content> content;
+        private String text;
     }
 
     @Data
