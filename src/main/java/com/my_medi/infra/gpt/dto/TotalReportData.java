@@ -9,7 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TotalReportData {
     private String nickname;
-    private int round;
 
     // 주요 이상 수치
     private List<String> majorAbnormalItems;

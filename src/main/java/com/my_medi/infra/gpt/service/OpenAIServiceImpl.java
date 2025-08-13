@@ -134,7 +134,11 @@ public class OpenAIServiceImpl implements OpenAIService {
             int endIndex = gptContent.lastIndexOf("}") + 1;
             String jsonPart = gptContent.substring(startIndex, endIndex);
 
-            return objectMapper.readValue(jsonPart, TotalReportData.class);
+            TotalReportData result = objectMapper.readValue(jsonPart, TotalReportData.class);
+
+            result.setNickname(user.getNickname());
+
+            return result;
 
         } catch (Exception e) {
             log.error("TotalReportData 생성 중 오류 발생", e);
