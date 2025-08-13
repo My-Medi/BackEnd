@@ -57,4 +57,11 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserResponseDto.UserRequestNoteDto toUserRequestNoteDto(User user, Proposal proposal) {
+        return UserResponseDto.UserRequestNoteDto.builder()
+                .userId(user.getId())
+                .requestNote(proposal.getRequestNote())
+                .build();
+    }
+
 }
