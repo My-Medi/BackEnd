@@ -1,6 +1,7 @@
 package com.my_medi.api.report.mapper;
 
 
+import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
 import com.my_medi.api.report.dto.ReportPartitionRequestDto.*;
 import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
@@ -335,6 +336,17 @@ public class ReportConverter {
                                 .comparingAlt(toComparingAltDto(healthCheckupList, alt))
                                 .comparingAst(toComparingAstDto(healthCheckupList, ast))
                                 .comparingGammaGtp(toComparingGammaGtpDto(healthCheckupList, gtp, gender))
+                                .build()
+                )
+                .urineProteinAssessmentDto(
+                        UrineProteinAssessmentDto.builder()
+                                .comparingUrineProtein(
+                                        ComparingHealthCheckupResponseDto.ComparingUrineProtein.builder()
+                                                .urineTestStatus(report.getUrineTest().getUrineTestStatus())
+                                                .healthStatus(classifyUrineProtein(report.getUrineTest().getUrineTestStatus()))
+                                                .averageComparison(AverageComparison.NULL.getKey())
+                                                .build()
+                                )
                                 .build()
                 )
                 .build();

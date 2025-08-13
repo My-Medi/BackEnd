@@ -46,5 +46,6 @@ public class ReportResponseDto {
         private DyslipidemiaAssessmentDto dyslipidemiaAssessmentDto;
         private KidneyDiseaseAssessmentDto kidneyDiseaseAssessmentDto;
         private LiverDiseaseAssessmentDto liverDiseaseAssessmentDto;
+        private UrineProteinAssessmentDto urineProteinAssessmentDto;
     }
 }

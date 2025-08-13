@@ -4,6 +4,7 @@ import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
+import com.my_medi.domain.report.enums.UrineTestStatus;
 import org.apache.commons.lang3.Range;
 
 import java.util.List;
@@ -76,9 +77,9 @@ public class HealthMetricCalculator {
         }
 
 
-        double percentile = (double) count / values.size() * 100.0;
+        return (double) count / values.size() * 100.0;
 
-        return Math.round(percentile * 10) / 10.0;
+//        return Math.round(percentile * 10) / 10.0;
     }
 
     public static enum PercentileCategory{
@@ -309,6 +310,16 @@ public class HealthMetricCalculator {
             // DANGER: < 10.5 (중증 빈혈) 또는 > 16.0 (다혈증 의심)
             if (Range.lt(10.5).contains(gPerdL) || Range.gt(16.0).contains(gPerdL)) return HealthStatus.DANGER;
             return HealthStatus.UNKNOWN; // (예: 15.1–16.0 구간)
+        }
+    }
+
+    //요단백
+    public static HealthStatus classifyUrineProtein(UrineTestStatus urineTestStatus) {
+        switch (urineTestStatus) {
+            case NORMAL -> {return HealthStatus.SAFE;}
+            case BORDERLINE -> {return HealthStatus.CAUTION;}
+            case PROTEINURIA -> {return HealthStatus.DANGER;}
+            default -> {return UNKNOWN;}
         }
     }
 

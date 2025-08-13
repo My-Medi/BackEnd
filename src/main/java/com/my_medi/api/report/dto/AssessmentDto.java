@@ -79,4 +79,10 @@ public class AssessmentDto {
         private ComparingGammaGtp comparingGammaGtp;
         private AverageComparisonResult averageComparisonResult;
     }
+
+    @Data
+    @Builder
+    public static class UrineProteinAssessmentDto{
+        private ComparingUrineProtein comparingUrineProtein;
+    }
 }
