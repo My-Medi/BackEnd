@@ -1,6 +1,7 @@
 package com.my_medi.api.report.dto;
 
 import com.my_medi.api.report.dto.ReportPartitionRequestDto.*;
+import com.my_medi.domain.member.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +39,8 @@ public class ReportResponseDto {
     public static class ReportResultDto{
         private int totalDataSize;
         private int ageGroup10Yr;
+        private String nickname;
+        private Gender gender;
 
         private ObesityAssessmentDto obesityAssessmentDto;
         private HypertensionAssessmentDto hypertensionAssessmentDto;

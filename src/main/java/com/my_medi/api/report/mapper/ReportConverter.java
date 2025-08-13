@@ -296,6 +296,8 @@ public class ReportConverter {
         return ReportResultDto.builder()
                 .totalDataSize(healthCheckupList.size())
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
+                .nickname(report.getUser().getNickname())
+                .gender(report.getUser().getGender())
                 .obesityAssessmentDto(ObesityAssessmentDto.builder()
                         .comparingBmi(toComparingBmiDto(healthCheckupList, bmi, bmiExtractor))
                         .comparingWaist(toComparingWaistDto(healthCheckupList, waist, gender))
