@@ -33,7 +33,7 @@ public class ReportQueryServiceImpl implements ReportQueryService{
 
     @Override
     public Report getLatestReportByUserId(Long userId) {
-        return reportRepository.findTopByUserIdOrderByRoundDesc(userId).orElse(null);
+        return reportRepository.findTopByUserIdOrderByRoundDesc(userId).orElseThrow(() -> ReportHandler.NOT_FOUND);
     }
 
     @Override
