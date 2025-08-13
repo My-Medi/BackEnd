@@ -7,5 +7,8 @@ public interface OpenAIService {
 
     HealthReportData parseHealthReport(String imageBase64);
 
+    String ask(String prompt);
+
     TotalReportData buildTotalReport(Long userId, Integer round);
+
 }

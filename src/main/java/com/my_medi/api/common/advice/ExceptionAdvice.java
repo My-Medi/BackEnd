@@ -4,11 +4,13 @@ import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.common.exception.ErrorStatus;
 import com.my_medi.common.exception.GeneralException;
 import com.my_medi.common.exception.Reason;
-import com.my_medi.security.exception.JwtAuthenticationException;
+import com.my_medi.infra.discord.service.DiscordWebhookService;
 import io.swagger.v3.oas.annotations.Hidden;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -25,9 +27,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Hidden
+@RequiredArgsConstructor
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
+    private final DiscordWebhookService discordWebhookService;
 
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
@@ -59,6 +64,9 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
         e.printStackTrace();
+
+
+        discordWebhookService.sendErrorMessage(e, request);
 
         return handleExceptionInternalFalse(e, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY,
                 ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(), request, e.getMessage());

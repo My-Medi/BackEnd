@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum BoneDensityStatus {
+
+    NOT_APPLICABLE("미해당"),
     NORMAL("정상"),
     OSTEOPENIA("골감소증"),
     OSTEOPOROSIS("골다공증");

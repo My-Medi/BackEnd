@@ -3,6 +3,9 @@ package com.my_medi.api.report.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
 import com.my_medi.api.report.dto.*;
+import com.my_medi.api.report.dto.EditReportRequestDto;
+import com.my_medi.api.report.dto.ReportResponseDto;
+import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.mapper.ReportConverter;
 import com.my_medi.common.annotation.AuthUser;
@@ -13,6 +16,7 @@ import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.infra.gpt.dto.HealthReportData;
 import com.my_medi.infra.gpt.dto.TotalReportData;
+import com.my_medi.infra.gpt.dto.HealthTermResponse;
 import com.my_medi.infra.gpt.service.OpenAIService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -87,4 +91,5 @@ public class UserReportApiController {
         TotalReportData dto = openAIService.buildTotalReport(user.getId(), round);
         return ApiResponseDto.onSuccess(dto);
     }
+
 }

@@ -1,8 +1,8 @@
 package com.my_medi.domain.member.entity;
 
-import com.my_medi.domain.expert.dto.UpdateProfileDto;
+import com.my_medi.api.expert.dto.UpdateProfileDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
-import com.my_medi.domain.user.dto.UpdateUserDto;
+import com.my_medi.api.user.dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 
 import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;

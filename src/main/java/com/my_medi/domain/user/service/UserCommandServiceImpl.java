@@ -2,7 +2,7 @@ package com.my_medi.domain.user.service;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 
 import com.my_medi.domain.member.entity.Role;
-import com.my_medi.domain.user.dto.UpdateUserDto;
+import com.my_medi.api.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.repository.UserRepository;
 import com.my_medi.domain.user.exception.UserHandler;

@@ -33,7 +33,7 @@ public class ExpertNotificationApiController {
 
         //TODO service method명 직관적으로 변경
         Page<ExpertNotification> expertNotificationPage = expertNotificationUseCase
-                .getPrioritizedNotificationDtoSliceByExpertId(expert.getId(), currentPage, pageSize);
+                .getPrioritizedNotificationDtoPageByExpertId(expert.getId(), currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(
                 ExpertNotificationConverter.toExpertNotificationPageDto(expertNotificationPage)

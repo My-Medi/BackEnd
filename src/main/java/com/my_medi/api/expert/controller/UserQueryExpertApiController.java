@@ -19,26 +19,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-//TODO endpoint /api/v1/users/experts로 변경하고 아래 API들의 엔드포인트 또한 반영
+
 @Slf4j
 @Tag(name = "[사용자 페이지] 전문가 조회 API")
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/users/experts")
 @RequiredArgsConstructor
 public class UserQueryExpertApiController {
 
     private final ExpertQueryService expertQueryService;
 
-    //TODO not use AuthUser annotation -> 오로지 "인가 처리만" 할 수 있도록
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "전문가 프로필 정보를 전체 조회합니다.")
-    @GetMapping("/experts/{expertId}/profiles/details")
-    public ApiResponseDto<ExpertResponseDto.ExpertInfoDto> getExpertProfile(@AuthUser User user,
-                                                                            @PathVariable Long expertId) {
+    @GetMapping("/{expertId}/profiles/details")
+    public ApiResponseDto<ExpertResponseDto.ExpertInfoDto> getExpertProfile(@PathVariable Long expertId) {
 
         Expert expert = expertQueryService.getExpertById(expertId);
 
@@ -48,17 +48,16 @@ public class UserQueryExpertApiController {
     }
 
 
-
     @Operation(summary = "사용자가 전문가의 프로필을 상세 조회합니다. [전문가 상세]", description = "[건강관리요청서] 보내기 전 ")
-    @GetMapping("/experts/{expertId}")
+    @GetMapping("/{expertId}")
     public ApiResponseDto<ExpertResponseDto.ExpertDetailForUserDto> getExpertDetailForUser(@PathVariable Long expertId) {
         Expert expert = expertQueryService.getExpertById(expertId);
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertDetailForUserDto(expert));
     }
 
-    //TODO not use AuthUser annotation -> 오로지 "인가 처리만" 할 수 있도록
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "전문가 목록을 조회합니다. 이때 15개씩 등록 순으로 조회합니다.")
-    @GetMapping("/experts")
+    @GetMapping
     public ApiResponseDto<ExpertResponseDto.ExpertProfileListDto> getAllExpertProfile(
             @RequestParam(value = "specialty") Optional<List<String>> specialtyOpt,
             @RequestParam(defaultValue = "0") int currentPage,

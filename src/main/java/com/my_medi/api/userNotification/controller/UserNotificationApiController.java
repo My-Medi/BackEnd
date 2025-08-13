@@ -33,7 +33,7 @@ public class UserNotificationApiController {
             @RequestParam int pageSize) {
 
         Page<UserNotification> userNotificationPage = userNotificationUseCase
-                .getPrioritizedNotificationDtoSliceByUserId(user.getId(), currentPage, pageSize);
+                .getPrioritizedNotificationDtoPageByUserId(user.getId(), currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(
                 UserNotificationConverter.toUserNotificationPageDto(userNotificationPage)

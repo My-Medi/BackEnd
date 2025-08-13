@@ -1,6 +1,7 @@
 package com.my_medi.api.report.mapper;
 
 
+import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
 import com.my_medi.api.report.dto.ReportPartitionRequestDto.*;
 import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
@@ -38,6 +39,7 @@ public class ReportConverter {
                 .urineTestDto(toUrineTestDto(report))
                 .imagingTestDto(toImagingTestDto(report))
                 .interviewDto(toInterviewDto(report))
+                .hasAdditionalTest(report.hasAdditionalTest())
                 .additionalTestDto(
                         report.hasAdditionalTest() ? toAdditionalTestDto(report) : null
                 )
@@ -116,7 +118,7 @@ public class ReportConverter {
         return InterviewDto.builder()
                 .hasPastDisease(interview.getHasPastDisease())
                 .onMedication(interview.getOnMedication())
-                .lifestyleHabitsStatus(interview.getLifestyleHabitsStatus())
+                .lifestyleHabitsStatusList(interview.getLifestyleHabitsStatusList())
                 .build();
     }
 
@@ -248,18 +250,18 @@ public class ReportConverter {
         return Interview.builder()
                 .hasPastDisease(interviewDto.getHasPastDisease())
                 .onMedication(interviewDto.getOnMedication())
-                .lifestyleHabitsStatus(interviewDto.getLifestyleHabitsStatus())
+                .lifestyleHabitsStatusList(interviewDto.getLifestyleHabitsStatusList())
                 .build();
     }
 
     public static AdditionalTest toAdditionalTest(AdditionalTestDto additionalTestDto) {
         return AdditionalTest.builder()
-                .b8Hepatitis(additionalTestDto.getB8Hepatitis())
+                .b8Hepatitis(B8Hepatitis.selectApplicability(additionalTestDto))
                 .depression(additionalTestDto.getDepression())
                 .cognitiveImpairment(additionalTestDto.getCognitiveImpairment())
                 .boneDensityStatus(additionalTestDto.getBoneDensityStatus())
                 .elderlyPhysicalFunctionStatus(additionalTestDto.getElderlyPhysicalFunctionStatus())
-                .elderlyFunctionTest(additionalTestDto.getElderlyFunctionTest())
+                .elderlyFunctionTest(ElderlyFunctionTest.selectApplicability(additionalTestDto))
                 .build();
     }
 
@@ -294,6 +296,8 @@ public class ReportConverter {
         return ReportResultDto.builder()
                 .totalDataSize(healthCheckupList.size())
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
+                .nickname(report.getUser().getNickname())
+                .gender(report.getUser().getGender())
                 .obesityAssessmentDto(ObesityAssessmentDto.builder()
                         .comparingBmi(toComparingBmiDto(healthCheckupList, bmi, bmiExtractor))
                         .comparingWaist(toComparingWaistDto(healthCheckupList, waist, gender))
@@ -334,6 +338,17 @@ public class ReportConverter {
                                 .comparingAlt(toComparingAltDto(healthCheckupList, alt))
                                 .comparingAst(toComparingAstDto(healthCheckupList, ast))
                                 .comparingGammaGtp(toComparingGammaGtpDto(healthCheckupList, gtp, gender))
+                                .build()
+                )
+                .urineProteinAssessmentDto(
+                        UrineProteinAssessmentDto.builder()
+                                .comparingUrineProtein(
+                                        ComparingHealthCheckupResponseDto.ComparingUrineProtein.builder()
+                                                .urineTestStatus(report.getUrineTest().getUrineTestStatus())
+                                                .healthStatus(classifyUrineProtein(report.getUrineTest().getUrineTestStatus()))
+                                                .averageComparison(AverageComparison.NULL.getKey())
+                                                .build()
+                                )
                                 .build()
                 )
                 .build();

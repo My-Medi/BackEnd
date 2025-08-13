@@ -25,6 +25,7 @@ public class ReportCommandServiceImpl implements ReportCommandService{
         Report report = Report.builder()
                 .round(nextRound)
                 .user(user)
+                .hospitalName(writeReportRequestDto.getHospitalName())
                 .checkupDate(writeReportRequestDto.getCheckupDate())
                 .measurement(ReportConverter.toMeasurement(writeReportRequestDto.getMeasurementDto()))
                 .bloodPressure(ReportConverter.toBloodPressure(writeReportRequestDto.getBloodPressureDto()))
@@ -52,7 +53,7 @@ public class ReportCommandServiceImpl implements ReportCommandService{
         Report report = reportRepository.findByUserIdAndRound(user.getId(), round)
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
 
-        report.updateCheckupDate(editReportRequestDto.getCheckupDate());
+        report.updateReportInfo(editReportRequestDto);
         report.updateMeasurement(ReportConverter.toMeasurement(editReportRequestDto.getMeasurementDto()));
         report.updateBloodPressure(ReportConverter.toBloodPressure(editReportRequestDto.getBloodPressureDto()));
         report.updateBloodTest(ReportConverter.toBloodTest(editReportRequestDto.getBloodTestDto()));

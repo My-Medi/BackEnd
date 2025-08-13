@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ElderlyPhysicalFunctionStatus {
+    NOT_APPLICABLE("미해당"),
     NORMAL("정상"),
     DECLINED("신체기능저하");
 

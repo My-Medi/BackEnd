@@ -39,4 +39,24 @@ public class OpenAIRequest {
     public static class ImageUrl {
         private String url;
     }
+
+    // 📌 헬퍼 메서드
+    public static OpenAIRequest fromUserText(String model, String text, int maxTokens, double temperature) {
+        return OpenAIRequest.builder()
+                .model(model)
+                .maxTokens(maxTokens)
+                .temperature(temperature)
+                .messages(List.of(
+                        Message.builder()
+                                .role("user")
+                                .content(List.of(
+                                        Content.builder()
+                                                .type("text")
+                                                .text(text)
+                                                .build()
+                                ))
+                                .build()
+                ))
+                .build();
+    }
 }
