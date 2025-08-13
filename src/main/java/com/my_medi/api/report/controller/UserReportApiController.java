@@ -93,4 +93,10 @@ public class UserReportApiController {
         return ApiResponseDto.onSuccess(dto);
     }
 
+    @Operation(summary = "사용자 본인의 건강리포트 개수를 조회합니다.")
+    @GetMapping("/count")
+    public ApiResponseDto<Long> getUserReportCount(@AuthUser User user) {
+        return ApiResponseDto.onSuccess(reportQueryService.getReportCountByUser(user));
+    }
+
 }
