@@ -72,9 +72,10 @@ public class UserReportApiController {
 
     @Operation(summary = "GPT API를 사용하여 건강검진 이미지를 원하는 데이터대로 추출합니다.")
     @PostMapping(value = "/parsing", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponseDto<HealthReportData> parsingHealthReportImage(@RequestPart MultipartFile imageFile) {
+    public ApiResponseDto<WriteReportRequestDto> parsingHealthReportImage(@RequestPart MultipartFile imageFile) {
+        HealthReportData healthReportData = openAIService.parseHealthReport(ImageUtil.convertToByte(imageFile));
         return ApiResponseDto.onSuccess(
-                openAIService.parseHealthReport(ImageUtil.convertToByte(imageFile))
+                ReportConverter.toWriteReportRequestDto(healthReportData)
         );
     }
 

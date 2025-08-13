@@ -63,8 +63,6 @@ public class OpenAIServiceImpl implements OpenAIService {
                     .bloodTest(parseBloodTest(jsonNode.path(BLOOD_TEST)))
                     .urineTest(parseUrineTest(jsonNode.path(URINE_TEST)))
                     .imagingTest(parseImagingTest(jsonNode.path(IMAGING_TEST)))
-                    .interview(parseInterview(jsonNode.path(INTERVIEW)))
-                    .additionalTest(parseAdditionalTest(jsonNode.path(ADDITIONAL_TEST)))
                     .build();
         } catch (Exception e) {
             //TODO exception 처리

@@ -94,34 +94,12 @@ public class ParseUtil {
     public static HealthReportData.UrineTestData parseUrineTest(JsonNode node) {
         return HealthReportData.UrineTestData.builder()
                 .protein(parseString(node.path("protein")))
-                .glucose(parseString(node.path("glucose")))
                 .build();
     }
 
     public static HealthReportData.ImagingTestData parseImagingTest(JsonNode node) {
         return HealthReportData.ImagingTestData.builder()
                 .chestXray(parseString(node.path("chestXray")))
-                .pastMedicalHistory(parseString(node.path("pastMedicalHistory")))
-                .currentMedication(parseString(node.path("currentMedication")))
-                .build();
-    }
-
-    public static HealthReportData.InterviewData parseInterview(JsonNode node) {
-        return HealthReportData.InterviewData.builder()
-                .smoking(parseString(node.path("smoking")))
-                .drinking(parseString(node.path("drinking")))
-                .exercise(parseString(node.path("exercise")))
-                .familyHistory(parseString(node.path("familyHistory")))
-                .build();
-    }
-
-    public static HealthReportData.AdditionalTestData parseAdditionalTest(JsonNode node) {
-        return HealthReportData.AdditionalTestData.builder()
-                .hepatitisB(parseString(node.path("hepatitisB")))
-                .depression(parseString(node.path("depression")))
-                .cognitiveFunction(parseString(node.path("cognitiveFunction")))
-                .osteoporosis(parseString(node.path("osteoporosis")))
-                .additionalNotes(parseString(node.path("additionalNotes")))
                 .build();
     }
 
