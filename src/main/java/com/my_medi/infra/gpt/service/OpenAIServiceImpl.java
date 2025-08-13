@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import static com.my_medi.common.consts.StaticVariable.*;
 import static com.my_medi.common.util.ParseUtil.*;
-import static com.my_medi.common.util.PromptUtil.extractTextFromImage;
+import static com.my_medi.common.util.PromptUtil.*;
 
 @Slf4j
 @Service
@@ -72,4 +72,35 @@ public class OpenAIServiceImpl implements OpenAIService {
             throw new RuntimeException("추출된 데이터 파싱에 실패했습니다.", e);
         }
     }
+
+    @Override
+    public String ask(String prompt) {
+
+        OpenAIRequest req = OpenAIRequest.fromUserText(
+                environment.getProperty("openai.api.model", "gpt-4o-mini"),
+                prompt, 500, 0.2);
+
+        return sendAndExtractContent(req);
+    }
+
+    // 요청 객체를 받아 실제 호출하고 content만 뽑는 공통 메서드
+    private String sendAndExtractContent(OpenAIRequest req) {
+        String openAiApiKey = environment.getProperty("openai.api.key");
+        String openAiApiUrl = environment.getProperty("openai.api.url");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(openAiApiKey);
+        HttpEntity<OpenAIRequest> entity = new HttpEntity<>(req, headers);
+
+        ResponseEntity<OpenAIResponse> response =
+                restTemplate.exchange(openAiApiUrl, HttpMethod.POST, entity, OpenAIResponse.class);
+
+        return response.getBody()
+                .getChoices().get(0)
+                .getMessage()
+                .getContent();
+    }
+
+
 }

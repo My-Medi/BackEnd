@@ -28,6 +28,8 @@ public class ExpertConsultationDto {
     @Builder
     public static class ExpertConsultationPageDto<T> {
         private List<T> content;
+        private String name;
+        private String nickname;
         private int totalPages;
     }
 

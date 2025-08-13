@@ -68,6 +68,8 @@ public class ExpertConverter {
 
     public static ExpertResponseDto.ExpertResumeDto toExpertResumeDto(Expert expert) {
         return ExpertResponseDto.ExpertResumeDto.builder()
+                .name(expert.getName())
+                .nickname(expert.getNickname())
                 .specialty(expert.getSpecialty())
                 .organizationName(expert.getOrganizationName())
                 .introduction(expert.getIntroduction())

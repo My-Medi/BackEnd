@@ -2,8 +2,8 @@ package com.my_medi.domain.expert.entity;
 
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.career.entity.Career;
-import com.my_medi.domain.expert.dto.UpdateProfileDto;
-import com.my_medi.domain.expert.dto.UpdateResumeDto;
+import com.my_medi.api.expert.dto.UpdateProfileDto;
+import com.my_medi.api.expert.dto.UpdateResumeDto;
 import com.my_medi.domain.license.entity.License;
 import com.my_medi.domain.licenseImage.entity.LicenseImage;
 import com.my_medi.domain.member.entity.Member;

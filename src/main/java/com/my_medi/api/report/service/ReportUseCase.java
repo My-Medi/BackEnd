@@ -10,6 +10,7 @@ import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
+import com.my_medi.domain.user.service.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class ReportUseCase {
     private final ReportQueryService reportQueryService;
     private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
-    private final UserRepository userRepository;
+    private final UserQueryService userQueryService;
 
     public UserReportDto getUserReportForExpert(Expert expert, Long userId, Integer round) {
         expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
@@ -29,11 +30,9 @@ public class ReportUseCase {
     }
 
     public ReportSummaryDto getUserReportSummaryForExpert(Expert expert, Long userId) {
-        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
-
-        User user = userRepository.findById(userId).orElseThrow(() -> UserHandler.NOT_FOUND);
+        //TODO allow two status(REQUESTED, ACCEPTED)
+        User user = userQueryService.getUserById(userId);
         Report report = reportQueryService.getLatestReportByUserId(user.getId());
-
         return ReportConverter.toUserReportSummaryDto(report);
     }
 }
