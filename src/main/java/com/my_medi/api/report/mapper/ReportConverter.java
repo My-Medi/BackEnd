@@ -8,12 +8,21 @@ import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.dto.*;
 import com.my_medi.common.util.BirthDateUtil;
 
+import com.my_medi.common.util.EnumConvertUtil;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.*;
+import com.my_medi.domain.report.enums.BloodPressureStatus;
+import com.my_medi.domain.report.enums.ImagingTestStatus;
+import com.my_medi.domain.report.enums.UrineTestStatus;
+import com.my_medi.domain.report.enums.interview.LifestyleHabitsStatus;
+import com.my_medi.domain.report.enums.interview.PositiveNegativeStatus;
+import com.my_medi.infra.gpt.dto.HealthReportData;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import static com.my_medi.api.healthCheckup.mapper.HealthCheckupMapper.*;
@@ -352,6 +361,62 @@ public class ReportConverter {
                                 .build()
                 )
                 .build();
+    }
+
+    public static WriteReportRequestDto toWriteReportRequestDto(HealthReportData healthReportData) {
+        return WriteReportRequestDto.builder()
+                .hospitalName(null)
+                .checkupDate(healthReportData.getCheckupDate())
+                .measurementDto(
+                        MeasurementDto.builder()
+                                .height(healthReportData.getMeasurement().getHeight())
+                                .weight(healthReportData.getMeasurement().getWeight())
+                                .bmi(healthReportData.getMeasurement().getBmi())
+                                .waist(healthReportData.getMeasurement().getWaistCircumference())
+                                .vision(healthReportData.getMeasurement().getVision())
+                                .build()
+                )
+                .bloodPressureDto(
+                        BloodPressureDto.builder()
+                                .systolic(healthReportData.getBloodPressure().getSystolic())
+                                .diastolic(healthReportData.getBloodPressure().getDiastolic())
+                                .bloodPressureStatus(EnumConvertUtil.convertOrNull(BloodPressureStatus.class, healthReportData.getBloodPressure().getStatus()))
+                                .build()
+                )
+                .bloodTestDto(
+                        BloodTestDto.builder()
+                                //간장질환
+                                .alt(healthReportData.getBloodTest().getAlt())
+                                .ast(healthReportData.getBloodTest().getAst())
+                                // 이상지혈증
+                                .totalCholesterol(roundOrNull(healthReportData.getBloodTest().getTotalCholesterol()))
+                                .hdl(roundOrNull(healthReportData.getBloodTest().getHdlCholesterol()))
+                                .ldl(roundOrNull(healthReportData.getBloodTest().getLdlCholesterol()))
+                                .triglyceride(roundOrNull(healthReportData.getBloodTest().getTriglycerides()))
+                                //혈색소
+                                .hemoglobin(healthReportData.getBloodTest().getHemoglobin())
+                                //당뇨병
+                                .fastingGlucose(roundOrNull(healthReportData.getBloodTest().getGlucose()))
+                                //신장질환
+                                .creatinine(healthReportData.getBloodTest().getCreatinine())
+                                .egfr(roundOrNull(healthReportData.getBloodTest().getEgfr()))
+                                .build()
+                )
+                .urineTestDto(
+                        UrineTestDto.builder()
+                                .urineTestStatus(EnumConvertUtil.convertOrNull(UrineTestStatus.class, healthReportData.getUrineTest().getProtein()))
+                                .build()
+                )
+                .imagingTestDto(
+                        ImagingTestDto.builder()
+                                .imagingTestStatus(EnumConvertUtil.convertOrNull(ImagingTestStatus.class, healthReportData.getImagingTest().getChestXray()))
+                                .build()
+                )
+                .build();
+    }
+
+    private static Integer roundOrNull(Double value) {
+        return value != null ? (int) Math.round(value) : null;
     }
 
 

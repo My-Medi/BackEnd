@@ -42,30 +42,18 @@ public class Prompt {
                 "gammaGtp": "감마지티피(IU/L, 숫자만)"
               },
               "urineTest": {
-                "protein": "요단백",
-                "glucose": "요당"
+                "protein": "정상 | 경계 | 단백뇨 의심",
               },
               "imagingTest": {
-                "chestXray": "흉부촬영 결과",
-                "pastMedicalHistory": "과거병력",
-                "currentMedication": "복용약물"
-              },
-              "interview": {
-                "smoking": "흡연상태",
-                "drinking": "음주상태",
-                "exercise": "운동상태",
-                "familyHistory": "가족력"
-              },
-              "additionalTest": {
-                "hepatitisB": "B형간염",
-                "depression": "우울증",
-                "cognitiveFunction": "인지기능장애",
-                "osteoporosis": "골밀도검사",
-                "additionalNotes": "기타 추가 검사"
+                "chestXray": "정상 | 비활동성 폐결핵 | 질환 의심 | 기타",
               }
             }
             
-            숫자 값은 반드시 숫자만 추출하고, 없는 정보는 null로 표시해주세요.
+            규칙:
+            - 'urineTest.protein'과 'imagingTest.chestXray'는 **반드시 문자열(String)** 로 반환합니다.
+            - 각각 위에 제시된 옵션 문자열 중 하나만 반환하세요. (예: "정상")
+            - 해당 정보를 확정할 수 없으면 null을 사용하세요.
+            - 숫자 값은 반드시 숫자만 추출하고, 없는 정보는 null로 표시해주세요.
             """;
 
     public static String HEALTH_TERM_PROMPT = """
