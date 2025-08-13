@@ -1,6 +1,8 @@
 package com.my_medi.api.report.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
+import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
+import com.my_medi.api.report.dto.*;
 import com.my_medi.api.report.dto.EditReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
@@ -13,6 +15,7 @@ import com.my_medi.domain.report.service.ReportCommandService;
 import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.infra.gpt.dto.HealthReportData;
+import com.my_medi.infra.gpt.dto.TotalReportData;
 import com.my_medi.infra.gpt.dto.HealthTermResponse;
 import com.my_medi.infra.gpt.service.OpenAIService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,10 +43,11 @@ public class UserReportApiController {
         return ApiResponseDto.onSuccess(ReportConverter.toUserReportDto(report));
     }
 
-    @Operation(summary = "사용자 본인의 건강리포트 개수를 조회합니다.")
-    @GetMapping("/count")
-    public ApiResponseDto<Long> getUserReportCount(@AuthUser User user) {
-        return ApiResponseDto.onSuccess(reportQueryService.getReportCountByUser(user));
+    @Operation(summary = "사용자의 가장 최근 리포트의 요약본을 가져옵니다.")
+    @GetMapping("/summary")
+    public ApiResponseDto<ReportSummaryDto> getUserReportSummary(@AuthUser User user) {
+        Report report = reportQueryService.getLatestReportByUserId(user.getId());
+        return ApiResponseDto.onSuccess(ReportConverter.toUserReportSummaryDto(report));
     }
 
     @Operation(summary = "사용자가 본인의 건강리포트를 생성합니다.")
@@ -72,10 +76,21 @@ public class UserReportApiController {
 
     @Operation(summary = "GPT API를 사용하여 건강검진 이미지를 원하는 데이터대로 추출합니다.")
     @PostMapping(value = "/parsing", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponseDto<HealthReportData> parsingHealthReportImage(@RequestPart MultipartFile imageFile) {
+    public ApiResponseDto<WriteReportRequestDto> parsingHealthReportImage(@RequestPart MultipartFile imageFile) {
+        HealthReportData healthReportData = openAIService.parseHealthReport(ImageUtil.convertToByte(imageFile));
         return ApiResponseDto.onSuccess(
-                openAIService.parseHealthReport(ImageUtil.convertToByte(imageFile))
+                ReportConverter.toWriteReportRequestDto(healthReportData)
         );
+    }
+
+    @Operation(summary = "LLM이 건강상태를 반영하여 건강검진 결과를 분석합니다.")
+    @GetMapping("/total")
+    public ApiResponseDto<TotalReportData> getTotalReport(
+            @AuthUser User user,
+            @RequestParam Integer round) {
+
+        TotalReportData dto = openAIService.buildTotalReport(user.getId(), round);
+        return ApiResponseDto.onSuccess(dto);
     }
 
 }
