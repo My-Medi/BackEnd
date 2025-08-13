@@ -52,9 +52,9 @@ public class AdviceUseCase {
     public void validateAdvice(Long expertId, Long adviceId) {
         Advice advice = adviceRepository.findById(adviceId)
                 .orElseThrow(() -> AdviceHandler.NOT_FOUND);
-        User user = userRepository.findById(advice.getUser().getId())
-                .orElseThrow(() -> UserHandler.NOT_FOUND);
 
-        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expertId, user.getId());
+        if (!advice.getExpert().getId().equals(expertId)) {
+            throw AdviceHandler.FORBIDDEN;
+        }
     }
 }

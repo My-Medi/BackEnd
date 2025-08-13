@@ -15,7 +15,8 @@ import java.util.Objects;
 public enum AdviceErrorStatus implements BaseErrorCode {
 
     // Entity advice (4500~4549)
-    ADVICE_NOT_FOUND(HttpStatus.NOT_FOUND, 4500, "advice를 찾을 수 없습니다.");
+    ADVICE_NOT_FOUND(HttpStatus.NOT_FOUND, 4500, "advice를 찾을 수 없습니다."),
+    ADVICE_UNAUTHORIZED(HttpStatus.FORBIDDEN, 4501, "expert가 작성한 advice가 아닙니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
