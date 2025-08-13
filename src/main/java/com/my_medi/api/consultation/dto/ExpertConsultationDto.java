@@ -18,6 +18,7 @@ public class ExpertConsultationDto {
         private Long userId;
         private String comment;
         private String nickname;
+        private String name;
         private String age;
         private Gender gender;
         private Float weight;
