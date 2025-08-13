@@ -17,7 +17,6 @@ public class ExpertConsultationConverter {
                 .userId(user.getId())
                 .comment(request.getComment())
                 .nickname(user.getNickname())
-                .name(user.getName())
                 .gender(user.getGender())
                 .weight(user.getWeight())
                 .height(user.getHeight())

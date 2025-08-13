@@ -18,7 +18,6 @@ public class ExpertConsultationDto {
         private Long userId;
         private String comment;
         private String nickname;
-        private String name;
         private String age;
         private Gender gender;
         private Float weight;
@@ -29,6 +28,8 @@ public class ExpertConsultationDto {
     @Builder
     public static class ExpertConsultationPageDto<T> {
         private List<T> content;
+        private String name;
+        private String nickname;
         private int totalPages;
     }
 
