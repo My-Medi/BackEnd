@@ -1,4 +1,4 @@
-package com.my_medi.domain.report.exception;
+package com.my_medi.domain.advice.exception;
 
 import com.my_medi.common.annotation.ExplainError;
 import com.my_medi.common.exception.BaseErrorCode;
@@ -12,10 +12,11 @@ import java.util.Objects;
 
 @Getter
 @AllArgsConstructor
-public enum ReportErrorStatus implements BaseErrorCode {
+public enum AdviceErrorStatus implements BaseErrorCode {
 
-    // Entity report (4450~4499)
-    REPORT_NOT_FOUND(HttpStatus.BAD_REQUEST, 4450, "리포트를 찾을 수 없습니다");
+    // Entity advice (4500~4549)
+    ADVICE_NOT_FOUND(HttpStatus.NOT_FOUND, 4500, "advice를 찾을 수 없습니다."),
+    ADVICE_UNAUTHORIZED(HttpStatus.FORBIDDEN, 4501, "expert가 작성한 advice가 아닙니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
@@ -23,7 +24,7 @@ public enum ReportErrorStatus implements BaseErrorCode {
 
     @Override
     public Reason getReason() {
-        return Reason.builder()
+        return com.my_medi.common.exception.Reason.builder()
                 .message(message)
                 .code(code)
                 .isSuccess(false)
@@ -32,7 +33,7 @@ public enum ReportErrorStatus implements BaseErrorCode {
 
     @Override
     public Reason getReasonHttpStatus() {
-        return Reason.builder()
+        return com.my_medi.common.exception.Reason.builder()
                 .message(message)
                 .code(code)
                 .isSuccess(false)
