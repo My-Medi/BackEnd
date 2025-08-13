@@ -82,7 +82,7 @@ public class UserReportApiController {
     @GetMapping("/total")
     public ApiResponseDto<TotalReportData> getTotalReport(
             @AuthUser User user,
-            @RequestParam(defaultValue = "1") Integer round) {
+            @RequestParam Integer round) {
 
         TotalReportData dto = openAIService.buildTotalReport(user.getId(), round);
         return ApiResponseDto.onSuccess(dto);
