@@ -13,6 +13,7 @@ import com.my_medi.domain.report.service.ReportCommandService;
 import com.my_medi.domain.report.service.ReportQueryService;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.infra.gpt.dto.HealthReportData;
+import com.my_medi.infra.gpt.dto.HealthTermResponse;
 import com.my_medi.infra.gpt.service.OpenAIService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -76,4 +77,5 @@ public class UserReportApiController {
                 openAIService.parseHealthReport(ImageUtil.convertToByte(imageFile))
         );
     }
+
 }
