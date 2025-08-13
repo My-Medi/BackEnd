@@ -1,36 +1,24 @@
 package com.my_medi.api.user.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
-import com.my_medi.api.expert.dto.ExpertResponseDto;
-import com.my_medi.api.expert.mapper.ExpertConverter;
 import com.my_medi.api.member.dto.RegisterMemberDto;
-import com.my_medi.api.proposal.dto.ProposalRequestDto;
-import com.my_medi.api.user.dto.RegisterUserDto;
 import com.my_medi.api.user.dto.UserResponseDto;
 import com.my_medi.api.user.mapper.UserConverter;
-import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.common.util.BirthDateUtil;
 
-import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.service.ExpertQueryService;
 import com.my_medi.domain.report.service.ReportQueryService;
 
-import com.my_medi.domain.user.dto.UpdateUserDto;
+import com.my_medi.api.user.dto.UpdateUserDto;
 import com.my_medi.domain.user.entity.User;
-import com.my_medi.domain.user.exception.UserHandler;
-import com.my_medi.domain.user.repository.UserRepository;
 
 import com.my_medi.domain.user.service.UserCommandService;
-import com.my_medi.domain.user.service.UserQueryService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 

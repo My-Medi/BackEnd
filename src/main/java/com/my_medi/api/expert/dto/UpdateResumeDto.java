@@ -1,20 +1,14 @@
-package com.my_medi.domain.expert.dto;
+package com.my_medi.api.expert.dto;
 
 import com.my_medi.api.career.dto.CareerRequestDto;
 import com.my_medi.api.license.dto.LicenseRequestDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageRequestDto;
-import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.expert.entity.Specialty;
-import com.my_medi.domain.license.entity.License;
-import com.my_medi.domain.licenseImage.entity.LicenseImage;
-import com.my_medi.domain.member.entity.Gender;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO 해당 클래스 배치 위치 선정 이유 설명해주기
 @Getter
 @Setter
 @NoArgsConstructor

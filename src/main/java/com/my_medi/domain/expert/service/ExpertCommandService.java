@@ -1,8 +1,8 @@
 package com.my_medi.domain.expert.service;
 
 import com.my_medi.api.expert.dto.RegisterExpertDto;
-import com.my_medi.domain.expert.dto.UpdateProfileDto;
-import com.my_medi.domain.expert.dto.UpdateResumeDto;
+import com.my_medi.api.expert.dto.UpdateProfileDto;
+import com.my_medi.api.expert.dto.UpdateResumeDto;
 
 public interface ExpertCommandService {
 

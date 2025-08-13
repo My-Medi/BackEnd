@@ -1,14 +1,11 @@
 package com.my_medi.domain.expert.service;
 
-import com.my_medi.api.career.mapper.CareerConverter;
 import com.my_medi.api.expert.dto.RegisterExpertDto;
-import com.my_medi.api.license.mapper.LicenseConverter;
-import com.my_medi.api.licenseImage.mapper.LicenseImageConverter;
 import com.my_medi.common.util.EnumConvertUtil;
 import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.career.repository.CareerRepository;
-import com.my_medi.domain.expert.dto.UpdateProfileDto;
-import com.my_medi.domain.expert.dto.UpdateResumeDto;
+import com.my_medi.api.expert.dto.UpdateProfileDto;
+import com.my_medi.api.expert.dto.UpdateResumeDto;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
@@ -17,9 +14,7 @@ import com.my_medi.domain.license.repository.LicenseRepository;
 import com.my_medi.domain.licenseImage.repository.LicenseImageRepository;
 
 import com.my_medi.domain.license.entity.License;
-import com.my_medi.domain.license.repository.LicenseRepository;
 import com.my_medi.domain.licenseImage.entity.LicenseImage;
-import com.my_medi.domain.licenseImage.repository.LicenseImageRepository;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
 import lombok.RequiredArgsConstructor;
@@ -72,20 +67,20 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
         // 커리어 리스트 저장: dto -> entity 변환 후 저장
         careerRepository.saveAll(
                 registerExpertDto.getCareers().stream()
-                        .map(careerDto -> CareerConverter.toEntity(careerDto, expert))
+                        .map(careerDto -> careerDto.toEntity(expert))
                         .collect(Collectors.toList())
         );
         // 자격증 이미지 저장
         licenseImageRepository.saveAll(
                 registerExpertDto.getLicenseImages().stream()
-                        .map(imageDto -> LicenseImageConverter.toEntity(imageDto, expert))
+                        .map(imageDto -> imageDto.toEntity(expert))
                         .collect(Collectors.toList())
         );
 
         // 자격증 리스트 저장
         licenseRepository.saveAll(
                 registerExpertDto.getLicenses().stream()
-                        .map(licenseDto -> LicenseConverter.toEntity(licenseDto, expert))
+                        .map(licenseDto -> licenseDto.toEntity(expert))
                         .collect(Collectors.toList())
         );
 

@@ -2,10 +2,9 @@ package com.my_medi.domain.user.entity;
 
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.domain.member.entity.Member;
-import com.my_medi.domain.user.dto.UpdateUserDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import com.my_medi.domain.proposal.entity.Proposal;
+import com.my_medi.api.user.dto.UpdateUserDto;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -15,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@DiscriminatorValue(StaticVariable.USER)      //TODO ROLE ENUM key값으로
+@DiscriminatorValue(StaticVariable.USER)
 public class User extends Member {
 
     //키
@@ -24,9 +23,8 @@ public class User extends Member {
     //몸무게
     private Float weight;
 
-    // TODO: 제안서 매핑해주기
-    // @OneToMany(mappedBy = "user")
-    // private List<HealthReport> reports = new ArrayList<>();
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Proposal proposals;
 
     // 수정용 메서드
     public void modifyUserInfo(UpdateUserDto dto) {
