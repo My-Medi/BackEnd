@@ -145,7 +145,7 @@ public class ReportConverter {
                 .build();
     }
 
-    public static ReportSummaryDto toUserReportSummaryDto(Report report) {
+    public static ReportSummaryDto toUserReportSummaryDto(Report report, ReportResult reportResult) {
         return ReportSummaryDto.builder()
                         .reportId(report.getId())
                         .userId(report.getUser().getId())
@@ -155,30 +155,41 @@ public class ReportConverter {
                 .obesity(ReportSummaryDto.ObesityDto.builder()
                         .bmi(report.getMeasurement().getBmi())
                         .waistType(report.getMeasurement().getWaistType())
+                        .bmiHealthStatus(reportResult.getBmiHealthStatus())
+                        .waistHealthStatus(reportResult.getWaistHealthStatus())
                         .build())
 
                 .hypertension(ReportSummaryDto.HypertensionDto.builder()
                         .systolic(report.getBloodPressure().getSystolic())
                         .diastolic(report.getBloodPressure().getDiastolic())
+                        .diastolicHealthStatus(reportResult.getDiastolicBpHealthStatus())
+                        .systolicHealthStatus(reportResult.getSystolicBpHealthStatus())
                         .build())
 
                 .diabetes(ReportSummaryDto.DiabetesDto.builder()
                         .fastingGlucose(report.getBloodTest().getFastingGlucose())
+                        .fastingGlucoseHealthStatus(reportResult.getFastingBloodSugarHealthStatus())
                         .build())
 
                 .kidney(ReportSummaryDto.KidneyDto.builder()
                         .creatinine(report.getBloodTest().getCreatinine())
                         .egfr(report.getBloodTest().getEgfr())
+                        .creatinineHealthStatus(reportResult.getCreatineHealthStatus())
+                        .egfrHealthStatus(reportResult.getEGfrHealthStatus())
                         .build())
 
                 .liver(ReportSummaryDto.LiverDto.builder()
                         .ast(report.getBloodTest().getAst())
                         .alt(report.getBloodTest().getAlt())
                         .gtp(report.getBloodTest().getGtp())
+                        .altHealthStatus(reportResult.getAltHealthStatus())
+                        .astHealthStatus(reportResult.getAstHealthStatus())
+                        .gtpHealthStatus(reportResult.getGammaGtpHealthStatus())
                         .build())
 
                 .anemia(ReportSummaryDto.AnemiaDto.builder()
                         .hemoglobin(report.getBloodTest().getHemoglobin())
+                        .hemoglobinHealthStatus(reportResult.getHemoglobinHealthStatus())
                         .build())
 
                 .dyslipidemia(ReportSummaryDto.DyslipidemiaDto.builder()
@@ -186,10 +197,15 @@ public class ReportConverter {
                         .hdl(report.getBloodTest().getHdl())
                         .triglyceride(report.getBloodTest().getTriglyceride())
                         .ldl(report.getBloodTest().getLdl())
+                        .HdlHealthStatus(reportResult.getHdlHealthStatus())
+                        .ldlHealthStatus(reportResult.getLdlHealthStatus())
+                        .totalCholesterolHealthStatus(reportResult.getTotalCholesterolHealthStatus())
+                        .triglycerideHealthStatus(reportResult.getTriglycerideHealthStatus())
                         .build())
 
                 .urine(ReportSummaryDto.UrineDto.builder()
                         .urineTestStatus(report.getUrineTest().getUrineTestStatus())
+                        .urineProteinHealthStatus(reportResult.getProteinHealthStatus())
                         .build())
 
                 .build();

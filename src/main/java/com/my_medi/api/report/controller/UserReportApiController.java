@@ -55,7 +55,8 @@ public class UserReportApiController {
     @GetMapping("/summary")
     public ApiResponseDto<ReportSummaryDto> getUserReportSummary(@AuthUser User user) {
         Report report = reportQueryService.getLatestReportByUserId(user.getId());
-        return ApiResponseDto.onSuccess(ReportConverter.toUserReportSummaryDto(report));
+        ReportResult resultByReport = reportResultQueryService.getResultByReport(report.getId());
+        return ApiResponseDto.onSuccess(ReportConverter.toUserReportSummaryDto(report, resultByReport));
     }
 
     @Operation(summary = "사용자가 본인의 건강리포트를 생성합니다.")
@@ -113,7 +114,7 @@ public class UserReportApiController {
     }
 
     @Operation(summary = "사용자 리포트의 최종 점수를 조회합니다.")
-    @GetMapping("/report/result")
+    @GetMapping("/result")
     public ApiResponseDto<UserReportResultDto> getUserReportResult(@AuthUser User user,
                                                                    @RequestParam Integer round) {
         Report reportByRound = reportQueryService.getReportByRound(user.getId(), round);
@@ -121,4 +122,12 @@ public class UserReportApiController {
         return ApiResponseDto.onSuccess(ReportConverter.toUserReportResultDto(resultByReport));
     }
 
+    @Operation(summary = "사용자 건강상태를 최근 리포트로 반영하여 조회합니다",
+            description = "[내 건강은 지금!] 에서 사용")
+    @GetMapping("/result/summary")
+    public ApiResponseDto<HealthStatus> getUserReportResultLatest(@AuthUser User user) {
+        Report latestReportByUserId = reportQueryService.getLatestReportByUserId(user.getId());
+        ReportResult resultByReport = reportResultQueryService.getResultByReport(latestReportByUserId.getId());
+        return ApiResponseDto.onSuccess(resultByReport.getTotalHealthStatus());
+    }
 }
