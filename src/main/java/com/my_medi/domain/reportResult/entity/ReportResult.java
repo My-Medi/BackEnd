@@ -2,6 +2,7 @@ package com.my_medi.domain.reportResult.entity;
 
 import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
+import com.my_medi.domain.report.entity.Report;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -24,6 +25,10 @@ public class ReportResult extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private HealthStatus totalHealthStatus = HealthStatus.UNKNOWN;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id")
+    private Report report;
 
     //비만/복부비만
     private Double averageBmi;
@@ -64,22 +69,22 @@ public class ReportResult extends BaseTimeEntity {
     private HealthStatus fastingBloodSugarHealthStatus = HealthStatus.UNKNOWN;
 
     //이상지질혈증
-    private Double averageTotalCholesterol;
-    private Double percentileTotalCholesterol;
+    private Integer averageTotalCholesterol;
+    private Integer percentileTotalCholesterol;
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private HealthStatus totalCholesterolHealthStatus = HealthStatus.UNKNOWN;
-    private Double averageHdl;
+    private Integer averageHdl;
     private Double percentileHdl;
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private HealthStatus hdlHealthStatus = HealthStatus.UNKNOWN;
-    private Double averageLdl;
+    private Integer averageLdl;
     private Double percentileLdl;
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private HealthStatus ldlHealthStatus = HealthStatus.UNKNOWN;
-    private Double averageTriglyceride;
+    private Integer averageTriglyceride;
     private Double percentileTriglyceride;
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -91,7 +96,7 @@ public class ReportResult extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private HealthStatus creatineHealthStatus = HealthStatus.UNKNOWN;
-    private Double averageEGfr;
+    private Integer averageEGfr;
     private Double percentileEGfr;
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -116,8 +121,8 @@ public class ReportResult extends BaseTimeEntity {
     private HealthStatus gammaGtpHealthStatus = HealthStatus.UNKNOWN;
 
     //요단백
-    private Double averageUrineProtein;
-    private Double percentileProtein;
+//    private Double averageUrineProtein;
+//    private Double percentileProtein;
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private HealthStatus proteinHealthStatus = HealthStatus.UNKNOWN;

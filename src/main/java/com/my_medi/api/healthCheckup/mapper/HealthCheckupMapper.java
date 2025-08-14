@@ -22,8 +22,9 @@ import static com.my_medi.common.util.HealthMetricCalculator.classifyE_GFR;
 public class HealthCheckupMapper {
 
     public static ComparingBmi toComparingBmiDto(List<HealthCheckup> healthCheckupList,
-                                                                                   Double bmi,
-                                                                                   Function<HealthCheckup, Double> bmiExtractor) {
+                                                 Double bmi,
+                                                 Function<HealthCheckup, Double> bmiExtractor) {
+
         double percentile = calculatePercentile(healthCheckupList, bmi, bmiExtractor, PercentileCategory.LOWER);
         double averageBmi = calculateAverageBmi(healthCheckupList);
 
@@ -117,8 +118,9 @@ public class HealthCheckupMapper {
     }
 
     public static ComparingSerumCreatinine toComparingSerumCreatinineDto(List<HealthCheckup> healthCheckupList,
-                                                                                                           Double serumCreatinine,
-                                                                                                           Gender gender) {
+                                                                         Double serumCreatinine,
+                                                                         Gender gender) {
+
         return ComparingSerumCreatinine.builder()
                 .serumCreatinine(serumCreatinine)
                 .healthStatus(classifyCreatinine(serumCreatinine, gender))
