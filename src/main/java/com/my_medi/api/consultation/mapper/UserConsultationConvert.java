@@ -59,7 +59,8 @@ public class UserConsultationConvert {
     public static UserConsultationDto.ExpertRequestedDto toRequestedDetailDto(
             Expert expert,
             int requestCount,
-            LocalDate requestedAt
+            LocalDate requestedAt,
+            String comment
     ) {
         return UserConsultationDto.ExpertRequestedDto.builder()
                 .expertId(expert.getId())
@@ -82,6 +83,7 @@ public class UserConsultationConvert {
                 )
 
                 .requestCount(requestCount)
+                .comment(comment)
                 .build();
     }
 

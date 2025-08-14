@@ -7,4 +7,8 @@ public interface MemberQueryService {
     Member getByKakaoEmail(String email);
 
     Member getByLoginId(String loginId);
+
+    boolean validateExistNickname(String nickname);
+
+    boolean validateExistLoginId(String loginId);
 }

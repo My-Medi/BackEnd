@@ -4,6 +4,8 @@ import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.proposal.dto.ProposalRequestDto;
 import com.my_medi.api.proposal.dto.ProposalResponseDto;
 import com.my_medi.api.proposal.mapper.ProposalConverter;
+import com.my_medi.api.user.dto.UserResponseDto;
+import com.my_medi.api.user.mapper.UserConverter;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.service.ProposalCommandService;
@@ -43,5 +45,12 @@ public class UserProposalApiController {
     public ApiResponseDto<Long> editUserProposal(@AuthUser User user,
                                                  @RequestBody ProposalRequestDto editProposalRequestDto) {
         return ApiResponseDto.onSuccess(proposalCommandService.editProposal(user, editProposalRequestDto));
+    }
+
+    @Operation(summary = "[건강관리요청서 확인하기 팝업창] - 작성해 둔 요청사항 그대로 불러오기")
+    @GetMapping("/request-note")
+    public ApiResponseDto<UserResponseDto.UserRequestNoteDto> getUserRequestNote(@AuthUser User user) {
+        Proposal proposal = proposalQueryService.getProposalByUserId(user.getId());
+        return ApiResponseDto.onSuccess(UserConverter.toUserRequestNoteDto(user, proposal));
     }
 }

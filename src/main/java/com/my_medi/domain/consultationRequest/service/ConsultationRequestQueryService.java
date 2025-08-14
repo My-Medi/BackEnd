@@ -1,5 +1,6 @@
 package com.my_medi.domain.consultationRequest.service;
 
+import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import org.springframework.data.domain.Page;
@@ -19,9 +20,10 @@ public interface ConsultationRequestQueryService {
 
     Page<ConsultationRequest> getAllRequestByExpert(Long expertId, Pageable pageable);
 
-    ConsultationRequest getRequestedExpertDetail(Long userId, Long expertId);
-
     ConsultationRequest getMatchedExpertDetail(Long userId, Long expertId);
+
+    UserConsultationDto.ExpertRequestedDto getRequestedExpertDetail(Long userId, Long expertId);
+
 
 
 }

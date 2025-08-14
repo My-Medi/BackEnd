@@ -33,5 +33,15 @@ public class MemberQueryServiceImpl implements MemberQueryService{
         return memberRepository.findByLoginId(loginId)
                 .orElseThrow(()->ExpertHandler.NOT_FOUND);
     }
+
+    @Override
+    public boolean validateExistNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
+
+    @Override
+    public boolean validateExistLoginId(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
+    }
 }
 

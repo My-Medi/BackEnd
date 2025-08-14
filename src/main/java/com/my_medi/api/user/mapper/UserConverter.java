@@ -33,6 +33,7 @@ public class UserConverter {
         return UserResponseDto.UserProfileTopDto.builder()
                 .name(user.getName())
                 .nickname(user.getNickname())
+                .profileImgUrl(user.getProfileImgUrl())
                 .age(BirthDateUtil.getAge(user.getBirthDate()))
                 .height(user.getHeight())
                 .weight(user.getWeight())
@@ -55,6 +56,13 @@ public class UserConverter {
                 .requestNote(proposal.getRequestNote()) //요청사항 - proposal
                 .healthInterests(ProposalMapperUtil.extractHealthInterests(proposal)) // 건강 관심 분야 - proposal
                 .abnormalCheckItems(ProposalMapperUtil.extractAbnormalCheckItems(proposal)) // 건강검진 이상 수치 - proposal
+                .build();
+    }
+
+    public static UserResponseDto.UserRequestNoteDto toUserRequestNoteDto(User user, Proposal proposal) {
+        return UserResponseDto.UserRequestNoteDto.builder()
+                .userId(user.getId())
+                .requestNote(proposal.getRequestNote())
                 .build();
     }
 

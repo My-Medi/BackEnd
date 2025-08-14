@@ -111,7 +111,6 @@ public class OpenAIServiceImpl implements OpenAIService {
     }
 
 
-
     @Override
     public TotalReportData buildTotalReport(Long userId, Integer round) {
         try {
@@ -174,6 +173,5 @@ public class OpenAIServiceImpl implements OpenAIService {
             throw new RuntimeException("TotalReportData 생성 실패", e);
         }
     }
-
 
 }
