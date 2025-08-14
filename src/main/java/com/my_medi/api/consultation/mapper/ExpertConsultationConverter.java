@@ -1,6 +1,7 @@
 package com.my_medi.api.consultation.mapper;
 
 import com.my_medi.api.consultation.dto.ExpertConsultationDto;
+import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.common.util.FormUtil;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
@@ -24,12 +25,14 @@ public class ExpertConsultationConverter {
                 .build();
     }
 
-    public static ExpertConsultationDto.ExpertConsultationAcceptedDto toAcceptedConsultationDto(ConsultationRequest request) {
+    public static ExpertConsultationDto.ExpertConsultationAcceptedDto toAcceptedConsultationDto(ConsultationRequest request,
+                                                                                                HealthStatus totalHealthStatus) {
         User user = request.getUser();
 
         return ExpertConsultationDto.ExpertConsultationAcceptedDto.builder()
                 .consultationId(request.getId())
                 .userId(user.getId())
+                .totalHealthStatus(totalHealthStatus)
                 .nickname(user.getNickname())
                 .gender(user.getGender())
                 .height(user.getHeight())

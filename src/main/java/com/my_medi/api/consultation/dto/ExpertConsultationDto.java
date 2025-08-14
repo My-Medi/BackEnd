@@ -1,5 +1,6 @@
 package com.my_medi.api.consultation.dto;
 
+import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.member.entity.Gender;
 import lombok.Builder;
@@ -38,6 +39,7 @@ public class ExpertConsultationDto {
     public static class ExpertConsultationAcceptedDto {
         private Long consultationId;
         private Long userId;
+        private HealthStatus totalHealthStatus;
         private String nickname;
         private Gender gender;
         private Float weight;
