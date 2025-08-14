@@ -55,5 +55,6 @@ public class UserConsultationDto {
         private Specialty specialty;
         private List<String> career;
         private int requestCount;
+        private String comment;
     }
 }
