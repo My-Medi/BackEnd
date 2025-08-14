@@ -31,6 +31,7 @@ public class UserResponseDto {
     public static class UserProfileTopDto{
         private String name;
         private String nickname;
+        private String profileImgUrl;
         private int age;
         private Float height;
         private Float weight;
