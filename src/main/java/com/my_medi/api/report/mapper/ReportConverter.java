@@ -18,6 +18,7 @@ import com.my_medi.domain.report.enums.UrineTestStatus;
 import com.my_medi.domain.report.enums.interview.LifestyleHabitsStatus;
 import com.my_medi.domain.report.enums.interview.PositiveNegativeStatus;
 import com.my_medi.domain.reportResult.entity.ReportResult;
+import com.my_medi.domain.user.entity.User;
 import com.my_medi.infra.gpt.dto.HealthReportData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -145,7 +146,7 @@ public class ReportConverter {
                 .build();
     }
 
-    public static ReportSummaryDto toUserReportSummaryDto(Report report) {
+    public static ReportSummaryDto toUserReportSummaryDto(Report report, ReportResult reportResult) {
         return ReportSummaryDto.builder()
                         .reportId(report.getId())
                         .userId(report.getUser().getId())
@@ -155,30 +156,41 @@ public class ReportConverter {
                 .obesity(ReportSummaryDto.ObesityDto.builder()
                         .bmi(report.getMeasurement().getBmi())
                         .waistType(report.getMeasurement().getWaistType())
+                        .bmiHealthStatus(reportResult.getBmiHealthStatus())
+                        .waistHealthStatus(reportResult.getWaistHealthStatus())
                         .build())
 
                 .hypertension(ReportSummaryDto.HypertensionDto.builder()
                         .systolic(report.getBloodPressure().getSystolic())
                         .diastolic(report.getBloodPressure().getDiastolic())
+                        .diastolicHealthStatus(reportResult.getDiastolicBpHealthStatus())
+                        .systolicHealthStatus(reportResult.getSystolicBpHealthStatus())
                         .build())
 
                 .diabetes(ReportSummaryDto.DiabetesDto.builder()
                         .fastingGlucose(report.getBloodTest().getFastingGlucose())
+                        .fastingGlucoseHealthStatus(reportResult.getFastingBloodSugarHealthStatus())
                         .build())
 
                 .kidney(ReportSummaryDto.KidneyDto.builder()
                         .creatinine(report.getBloodTest().getCreatinine())
                         .egfr(report.getBloodTest().getEgfr())
+                        .creatinineHealthStatus(reportResult.getCreatineHealthStatus())
+                        .egfrHealthStatus(reportResult.getEGfrHealthStatus())
                         .build())
 
                 .liver(ReportSummaryDto.LiverDto.builder()
                         .ast(report.getBloodTest().getAst())
                         .alt(report.getBloodTest().getAlt())
                         .gtp(report.getBloodTest().getGtp())
+                        .altHealthStatus(reportResult.getAltHealthStatus())
+                        .astHealthStatus(reportResult.getAstHealthStatus())
+                        .gtpHealthStatus(reportResult.getGammaGtpHealthStatus())
                         .build())
 
                 .anemia(ReportSummaryDto.AnemiaDto.builder()
                         .hemoglobin(report.getBloodTest().getHemoglobin())
+                        .hemoglobinHealthStatus(reportResult.getHemoglobinHealthStatus())
                         .build())
 
                 .dyslipidemia(ReportSummaryDto.DyslipidemiaDto.builder()
@@ -186,10 +198,15 @@ public class ReportConverter {
                         .hdl(report.getBloodTest().getHdl())
                         .triglyceride(report.getBloodTest().getTriglyceride())
                         .ldl(report.getBloodTest().getLdl())
+                        .HdlHealthStatus(reportResult.getHdlHealthStatus())
+                        .ldlHealthStatus(reportResult.getLdlHealthStatus())
+                        .totalCholesterolHealthStatus(reportResult.getTotalCholesterolHealthStatus())
+                        .triglycerideHealthStatus(reportResult.getTriglycerideHealthStatus())
                         .build())
 
                 .urine(ReportSummaryDto.UrineDto.builder()
                         .urineTestStatus(report.getUrineTest().getUrineTestStatus())
+                        .urineProteinHealthStatus(reportResult.getProteinHealthStatus())
                         .build())
 
                 .build();
@@ -305,8 +322,6 @@ public class ReportConverter {
 
         return ReportResultDto.builder()
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
-                .nickname(report.getUser().getNickname())
-                .gender(report.getUser().getGender())
                 .obesityAssessmentDto(ObesityAssessmentDto.builder()
                         .comparingBmi(toComparingBmiDto(healthCheckupList, bmi, bmiExtractor))
                         .comparingWaist(toComparingWaistDto(healthCheckupList, waist, gender))
@@ -393,12 +408,7 @@ public class ReportConverter {
 
         return ReportResultDto.builder()
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
-                .nickname(report.getUser().getNickname())
-                .gender(report.getUser().getGender())
-                .age(BirthDateUtil.getAge(report.getUser().getBirthDate()))
                 .checkDate(report.getCheckupDate())
-                .weight(report.getUser().getWeight())
-                .height(report.getUser().getHeight())
 
                 .obesityAssessmentDto(ObesityAssessmentDto.builder()
                         .comparingBmi(toComparingBmiDto(bmi, reportResult))
@@ -517,6 +527,17 @@ public class ReportConverter {
         return ReportResultResponseDto.UserReportResultDto.builder()
                 .totalScore(resultByReport.getTotalScore())
                 .healthStatus(resultByReport.getTotalHealthStatus())
+                .build();
+    }
+
+    public static ReportResponseDto.ReportDefaultResponseDto toReportDefaultResponseDto(long reportCountByUser, User user) {
+        return ReportResponseDto.ReportDefaultResponseDto.builder()
+                .age(BirthDateUtil.getAge(user.getBirthDate()))
+                .reportCount(reportCountByUser)
+                .gender(user.getGender())
+                .nickname(user.getNickname())
+                .weight(user.getWeight())
+                .height(user.getHeight())
                 .build();
     }
 }
