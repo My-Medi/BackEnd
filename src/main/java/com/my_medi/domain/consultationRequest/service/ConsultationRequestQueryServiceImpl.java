@@ -60,7 +60,7 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
     public UserConsultationDto.ExpertRequestedDto getRequestedExpertDetail(Long userId, Long expertId) {
         RequestedAgg agg = consultationRequestRepository.findRequestedAgg(userId, expertId, RequestStatus.REQUESTED);
 
-        if (agg.getCount() == 0L || agg.getLatestCreated() == null) {
+        if (agg == null || agg.getCount() == 0L || agg.getLatestCreated() == null) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
 
