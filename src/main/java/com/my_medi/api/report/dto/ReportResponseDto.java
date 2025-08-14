@@ -39,11 +39,8 @@ public class ReportResponseDto {
     public static class ReportResultDto{
 //        private int totalDataSize;
         private int ageGroup10Yr;
-        private String nickname;
-        private Gender gender;
-        private int age;
-        private Float weight;
-        private Float height;
+
+
         private LocalDate checkDate;
 
         private ObesityAssessmentDto obesityAssessmentDto;
@@ -54,5 +51,16 @@ public class ReportResponseDto {
         private KidneyDiseaseAssessmentDto kidneyDiseaseAssessmentDto;
         private LiverDiseaseAssessmentDto liverDiseaseAssessmentDto;
         private UrineProteinAssessmentDto urineProteinAssessmentDto;
+    }
+
+    @Data
+    @Builder
+    public static class ReportDefaultResponseDto{
+        private String nickname;
+        private Gender gender;
+        private int age;
+        private Float weight;
+        private Float height;
+        private Long reportCount;
     }
 }

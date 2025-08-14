@@ -24,7 +24,7 @@ public class ReportResult extends BaseTimeEntity {
     private int totalScore;
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private HealthStatus totalHealthStatus = HealthStatus.UNKNOWN;
+    private HealthStatus totalHealthStatus = HealthStatus.SAFE;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "report_id")
