@@ -395,6 +395,11 @@ public class ReportConverter {
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
                 .nickname(report.getUser().getNickname())
                 .gender(report.getUser().getGender())
+                .age(BirthDateUtil.getAge(report.getUser().getBirthDate()))
+                .checkDate(report.getCheckupDate())
+                .weight(report.getUser().getWeight())
+                .height(report.getUser().getHeight())
+
                 .obesityAssessmentDto(ObesityAssessmentDto.builder()
                         .comparingBmi(toComparingBmiDto(bmi, reportResult))
                         .comparingWaist(toComparingWaistDto(waist, gender, reportResult))
@@ -508,4 +513,10 @@ public class ReportConverter {
     }
 
 
+    public static ReportResultResponseDto.UserReportResultDto toUserReportResultDto(ReportResult resultByReport) {
+        return ReportResultResponseDto.UserReportResultDto.builder()
+                .totalScore(resultByReport.getTotalScore())
+                .healthStatus(resultByReport.getTotalHealthStatus())
+                .build();
+    }
 }

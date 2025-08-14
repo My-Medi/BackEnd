@@ -5,6 +5,7 @@ import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
 import com.my_medi.api.report.dto.*;
 import com.my_medi.api.report.dto.EditReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto;
+import com.my_medi.api.report.dto.ReportResultResponseDto.UserReportResultDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.mapper.ReportConverter;
@@ -14,7 +15,9 @@ import com.my_medi.common.util.ImageUtil;
 import com.my_medi.domain.report.entity.Report;
 import com.my_medi.domain.report.service.ReportCommandService;
 import com.my_medi.domain.report.service.ReportQueryService;
+import com.my_medi.domain.reportResult.entity.ReportResult;
 import com.my_medi.domain.reportResult.service.ReportResultCommandService;
+import com.my_medi.domain.reportResult.service.ReportResultQueryService;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.infra.gpt.dto.HealthReportData;
 import com.my_medi.infra.gpt.dto.TotalReportData;
@@ -36,7 +39,9 @@ public class UserReportApiController {
     private final ReportQueryService reportQueryService;
     private final ReportCommandService reportCommandService;
     private final ReportResultCommandService reportResultCommandService;
+    private final ReportResultQueryService reportResultQueryService;
     private final OpenAIService openAIService;
+
 
     @Operation(summary = "사용자가 본인의 n회차 건강리포트를 조회합니다.")
     @GetMapping
@@ -105,6 +110,15 @@ public class UserReportApiController {
     @GetMapping("/count")
     public ApiResponseDto<Long> getUserReportCount(@AuthUser User user) {
         return ApiResponseDto.onSuccess(reportQueryService.getReportCountByUser(user));
+    }
+
+    @Operation(summary = "사용자 리포트의 최종 점수를 조회합니다.")
+    @GetMapping("/report/result")
+    public ApiResponseDto<UserReportResultDto> getUserReportResult(@AuthUser User user,
+                                                                   @RequestParam Integer round) {
+        Report reportByRound = reportQueryService.getReportByRound(user.getId(), round);
+        ReportResult resultByReport = reportResultQueryService.getResultByReport(reportByRound.getId());
+        return ApiResponseDto.onSuccess(ReportConverter.toUserReportResultDto(resultByReport));
     }
 
 }

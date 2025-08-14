@@ -41,6 +41,10 @@ public class ReportResponseDto {
         private int ageGroup10Yr;
         private String nickname;
         private Gender gender;
+        private int age;
+        private Float weight;
+        private Float height;
+        private LocalDate checkDate;
 
         private ObesityAssessmentDto obesityAssessmentDto;
         private HypertensionAssessmentDto hypertensionAssessmentDto;

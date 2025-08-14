@@ -134,6 +134,8 @@ public class ReportResultCommandServiceImpl implements ReportResultCommandServic
 
                 .build();
 
+        reportResult.calculateTotalScore();
+
 
         return reportResultRepository.save(reportResult).getId();
     }
