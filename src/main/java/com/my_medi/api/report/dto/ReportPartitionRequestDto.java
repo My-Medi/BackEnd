@@ -15,6 +15,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class ReportPartitionRequestDto {
     @Data
     @Builder
@@ -88,7 +93,8 @@ public class ReportPartitionRequestDto {
 
         private PositiveNegativeStatus onMedication;
 
-        private LifestyleHabitsStatus lifestyleHabitsStatus;
+        @Builder.Default
+        private Set<LifestyleHabitsStatus> lifestyleHabitsStatusList = new HashSet<>();
     }
 
     @Data

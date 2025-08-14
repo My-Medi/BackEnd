@@ -72,6 +72,8 @@ public class ExpertConsultationApiController {
         ExpertConsultationPageDto<ExpertConsultationSummaryDto> result =
                 ExpertConsultationPageDto.<ExpertConsultationSummaryDto>builder()
                         .content(dtoList)
+                        .nickname(expert.getNickname())
+                        .name(expert.getName())
                         .totalPages(requests.getTotalPages())
                         .build();
 

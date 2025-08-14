@@ -12,5 +12,4 @@ public class ApiModificationRequest {
     private String requesterName;
     private String priority; // HIGH, MEDIUM, LOW
     private String requestType; // MODIFICATION, BUG_FIX, NEW_FEATURE
-
 }

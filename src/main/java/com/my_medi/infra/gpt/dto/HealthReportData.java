@@ -15,8 +15,6 @@ public class HealthReportData {
     private BloodTestData bloodTest;
     private UrineTestData urineTest;
     private ImagingTestData imagingTest;
-    private InterviewData interview;
-    private AdditionalTestData additionalTest;
 
     @Data
     @Builder
@@ -57,33 +55,11 @@ public class HealthReportData {
     @Builder
     public static class UrineTestData {
         private String protein;
-        private String glucose;
     }
 
     @Data
     @Builder
     public static class ImagingTestData {
         private String chestXray;
-        private String pastMedicalHistory;
-        private String currentMedication;
-    }
-
-    @Data
-    @Builder
-    public static class InterviewData {
-        private String smoking;
-        private String drinking;
-        private String exercise;
-        private String familyHistory;
-    }
-
-    @Data
-    @Builder
-    public static class AdditionalTestData {
-        private String hepatitisB;
-        private String depression;
-        private String cognitiveFunction;
-        private String osteoporosis;
-        private String additionalNotes;
     }
 }

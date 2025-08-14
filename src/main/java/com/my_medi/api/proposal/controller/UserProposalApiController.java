@@ -48,7 +48,7 @@ public class UserProposalApiController {
     }
 
     @Operation(summary = "[건강관리요청서 확인하기 팝업창] - 작성해 둔 요청사항 그대로 불러오기")
-    @GetMapping("/requestnote")
+    @GetMapping("/request-note")
     public ApiResponseDto<UserResponseDto.UserRequestNoteDto> getUserRequestNote(@AuthUser User user) {
         Proposal proposal = proposalQueryService.getProposalByUserId(user.getId());
         return ApiResponseDto.onSuccess(UserConverter.toUserRequestNoteDto(user, proposal));

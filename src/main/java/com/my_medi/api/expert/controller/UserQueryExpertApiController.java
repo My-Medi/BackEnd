@@ -39,7 +39,6 @@ public class UserQueryExpertApiController {
 
     private final ExpertQueryService expertQueryService;
 
-
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "전문가 프로필 정보를 전체 조회합니다.")
     @GetMapping("/{expertId}/profiles/details")

@@ -1,6 +1,7 @@
 package com.my_medi.api.report.dto;
 
 import com.my_medi.api.report.dto.ReportPartitionRequestDto.*;
+import com.my_medi.domain.member.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,14 +30,18 @@ public class ReportResponseDto {
         private UrineTestDto urineTestDto;
         private ImagingTestDto imagingTestDto;
         private InterviewDto interviewDto;
+        private boolean hasAdditionalTest;
         private AdditionalTestDto additionalTestDto;
     }
 
     @Data
     @Builder
     public static class ReportResultDto{
-        private int totalDataSize;
+//        private int totalDataSize;
         private int ageGroup10Yr;
+
+
+        private LocalDate checkDate;
 
         private ObesityAssessmentDto obesityAssessmentDto;
         private HypertensionAssessmentDto hypertensionAssessmentDto;
@@ -45,5 +50,17 @@ public class ReportResponseDto {
         private DyslipidemiaAssessmentDto dyslipidemiaAssessmentDto;
         private KidneyDiseaseAssessmentDto kidneyDiseaseAssessmentDto;
         private LiverDiseaseAssessmentDto liverDiseaseAssessmentDto;
+        private UrineProteinAssessmentDto urineProteinAssessmentDto;
+    }
+
+    @Data
+    @Builder
+    public static class ReportDefaultResponseDto{
+        private String nickname;
+        private Gender gender;
+        private int age;
+        private Float weight;
+        private Float height;
+        private Long reportCount;
     }
 }

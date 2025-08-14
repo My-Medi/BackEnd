@@ -1,166 +1,376 @@
 package com.my_medi.api.healthCheckup.mapper;
 
 import com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto;
+import com.my_medi.api.report.dto.AverageComparison;
+import com.my_medi.api.report.dto.Rank;
 import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.common.util.HealthMetricCalculator;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.member.entity.Gender;
+import com.my_medi.domain.report.entity.Report;
+import com.my_medi.domain.reportResult.entity.ReportResult;
 
 import java.util.List;
 import java.util.function.Function;
 
+import static com.my_medi.api.healthCheckup.dto.ComparingHealthCheckupResponseDto.*;
+import static com.my_medi.api.report.dto.Rank.*;
+import static com.my_medi.api.report.dto.Rank.LOWER;
+import static com.my_medi.common.consts.StaticVariable.*;
 import static com.my_medi.common.util.HealthMetricCalculator.*;
-import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.LOWER;
 import static com.my_medi.common.util.HealthMetricCalculator.PercentileCategory.UPPER;
 import static com.my_medi.common.util.HealthMetricCalculator.classifyE_GFR;
 
 public class HealthCheckupMapper {
 
-    public static ComparingHealthCheckupResponseDto.ComparingBmi toComparingBmiDto(List<HealthCheckup> healthCheckupList,
-                                                                                   Double bmi,
-                                                                                   Function<HealthCheckup, Double> bmiExtractor) {
-        return ComparingHealthCheckupResponseDto.ComparingBmi.builder()
+    public static ComparingBmi toComparingBmiDto(List<HealthCheckup> healthCheckupList,
+                                                 Double bmi,
+                                                 Function<HealthCheckup, Double> bmiExtractor) {
+
+        double percentile = calculatePercentile(healthCheckupList, bmi, bmiExtractor, PercentileCategory.LOWER);
+        double averageBmi = calculateAverageBmi(healthCheckupList);
+
+        return ComparingBmi.builder()
                 .bmi(bmi)
-                .averageBmi(HealthMetricCalculator.calculateAverageBmi(healthCheckupList))
-                .percentageBmi(calculatePercentile(healthCheckupList, bmi, bmiExtractor, LOWER))
+                .averageBmi(averageBmi)
+                .percentageBmi(getPercentage(percentile))
                 .healthStatus(classifyBmi(bmi))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(bmi, averageBmi, DELTA_BMI).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingWaist toComparingWaistDto(List<HealthCheckup> healthCheckupList,
+    public static ComparingBmi toComparingBmiDto(Double bmi, ReportResult reportResult) {
+
+        return ComparingBmi.builder()
+                .bmi(bmi)
+                .averageBmi(reportResult.getAverageBmi())
+                .percentageBmi(getPercentage(reportResult.getPercentileBmi()))
+                .healthStatus(classifyBmi(bmi))
+                .rank(getRank(reportResult.getPercentileBmi()).getKey())
+                .averageComparison(byDelta(bmi, reportResult.getAverageBmi(), DELTA_BMI).getKey())
+                .build();
+    }
+
+
+
+    public static ComparingWaist toComparingWaistDto(List<HealthCheckup> healthCheckupList,
                                                                                        Double waist,
                                                                                        Gender gender) {
-        return ComparingHealthCheckupResponseDto.ComparingWaist.builder()
+        double percentile = calculatePercentile(healthCheckupList, waist, HealthCheckup::getWaistCm, PercentileCategory.LOWER);
+        double averageWaist = calculateAverage(healthCheckupList, HealthCheckup::getWaistCm);
+
+        return ComparingWaist.builder()
                 .waist(waist)
-                .averageWaist(calculateAverage(healthCheckupList, HealthCheckup::getWaistCm))
-                .percentageWaist(calculatePercentile(healthCheckupList, waist, HealthCheckup::getWaistCm, LOWER))
+                .averageWaist(averageWaist)
+                .percentageWaist(getPercentage(percentile))
                 .healthStatus(classifyWaistCircumference(waist, gender))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(waist, averageWaist, DELTA_WAIST_CM).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingSystolicBp toComparingSystolicBpDto(List<HealthCheckup> healthCheckupList,
+    public static ComparingWaist toComparingWaistDto(Double waist,
+                                                     Gender gender,
+                                                     ReportResult reportResult) {
+
+        return ComparingWaist.builder()
+                .waist(waist)
+                .averageWaist(reportResult.getAverageWaist())
+                .percentageWaist(getPercentage(reportResult.getAverageWaist()))
+                .healthStatus(classifyWaistCircumference(waist, gender))
+                .rank(getRank(reportResult.getPercentileWaist()).getKey())
+                .averageComparison(byDelta(waist, reportResult.getAverageWaist(), DELTA_WAIST_CM).getKey())
+                .build();
+    }
+
+    public static ComparingSystolicBp toComparingSystolicBpDto(List<HealthCheckup> healthCheckupList,
                                                                                                  Integer systolicBp) {
-        return ComparingHealthCheckupResponseDto.ComparingSystolicBp.builder()
+        double percentile = calculatePercentile(healthCheckupList, systolicBp, HealthCheckup::getSystolicBp, PercentileCategory.LOWER);
+        double averageSystolic = calculateAverage(healthCheckupList, HealthCheckup::getSystolicBp);
+
+        return ComparingSystolicBp.builder()
                 .systolicBp(systolicBp)
-                .averageSystolicBp(calculateAverage(healthCheckupList, HealthCheckup::getSystolicBp))
-                .percentageSystolicBp(calculatePercentile(healthCheckupList, systolicBp, HealthCheckup::getSystolicBp, LOWER))
+                .averageSystolicBp(averageSystolic)
+                .percentageSystolicBp(getPercentage(percentile))
                 .healthStatus(classifySystolic(systolicBp))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(systolicBp, averageSystolic, DELTA_SBP).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingDiastolicBp toComparingDiastolicBpDto(List<HealthCheckup> healthCheckupList,
+    public static ComparingSystolicBp toComparingSystolicBpDto(Integer systolicBp,
+                                                               ReportResult reportResult) {
+
+        return ComparingSystolicBp.builder()
+                .systolicBp(systolicBp)
+                .averageSystolicBp(reportResult.getAverageSystolicBp())
+                .percentageSystolicBp(getPercentage(reportResult.getPercentileSystolicBp()))
+                .healthStatus(classifySystolic(systolicBp))
+                .rank(getRank(reportResult.getPercentileSystolicBp()).getKey())
+                .averageComparison(byDelta(systolicBp, reportResult.getAverageSystolicBp(), DELTA_SBP).getKey())
+                .build();
+    }
+
+    public static ComparingDiastolicBp toComparingDiastolicBpDto(List<HealthCheckup> healthCheckupList,
                                                                                                    Integer diastolicBp) {
-        return ComparingHealthCheckupResponseDto.ComparingDiastolicBp.builder()
+        double percentile = calculatePercentile(healthCheckupList, diastolicBp, HealthCheckup::getDiastolicBp, PercentileCategory.LOWER);
+        double averageDiastolic = calculateAverage(healthCheckupList, HealthCheckup::getDiastolicBp);
+
+        return ComparingDiastolicBp.builder()
                 .diastolicBp(diastolicBp)
-                .averageDiastolicBp(calculateAverage(healthCheckupList, HealthCheckup::getDiastolicBp))
-                .percentageDiastolicBp(calculatePercentile(healthCheckupList, diastolicBp, HealthCheckup::getDiastolicBp, LOWER))
+                .averageDiastolicBp(averageDiastolic)
+                .percentageDiastolicBp(getPercentage(percentile))
                 .healthStatus(classifyDiastolic(diastolicBp))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(diastolicBp, averageDiastolic, DELTA_DBP).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingHemoglobin toComparingHemoglobinDto(List<HealthCheckup> healthCheckupList,
-                                                                                                 Double hemoglobin,
-                                                                                                 Gender gender) {
-        return ComparingHealthCheckupResponseDto.ComparingHemoglobin.builder()
+    public static ComparingDiastolicBp toComparingDiastolicBpDto(Integer diastolicBp,
+                                                                 ReportResult reportResult) {
+
+
+        return ComparingDiastolicBp.builder()
+                .diastolicBp(diastolicBp)
+                .averageDiastolicBp(reportResult.getAverageDiastolicBp())
+                .percentageDiastolicBp(getPercentage(reportResult.getPercentileDiastolicBp()))
+                .healthStatus(classifyDiastolic(diastolicBp))
+                .rank(getRank(reportResult.getPercentileDiastolicBp()).getKey())
+                .averageComparison(byDelta(diastolicBp, reportResult.getAverageDiastolicBp(), DELTA_DBP).getKey())
+                .build();
+    }
+
+    public static ComparingHemoglobin toComparingHemoglobinDto(List<HealthCheckup> healthCheckupList,
+                                                               Double hemoglobin,
+                                                               Gender gender) {
+
+        double percentile = calculatePercentile(healthCheckupList, hemoglobin, HealthCheckup::getHemoglobin, UPPER);
+        double averageHemoglobin = calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin);
+
+        return ComparingHemoglobin.builder()
                 .hemoglobin(hemoglobin)
-                .averageHemoglobin(calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin))
-                .percentageHemoglobin(calculatePercentile(healthCheckupList, hemoglobin, HealthCheckup::getHemoglobin, UPPER))
+                .averageHemoglobin(averageHemoglobin)
+                .percentageHemoglobin(getPercentage(percentile))
                 .healthStatus(classifyHemoglobin(hemoglobin, gender))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(hemoglobin, averageHemoglobin, DELTA_HEMOGLOBIN).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingFastingBloodSugar toComparingFastingBloodSugarDto(List<HealthCheckup> healthCheckupList,
+    public static ComparingHemoglobin toComparingHemoglobinDto(Double hemoglobin,
+                                                               Gender gender,
+                                                               ReportResult reportResult) {
+
+        return ComparingHemoglobin.builder()
+                .hemoglobin(hemoglobin)
+                .averageHemoglobin(reportResult.getAverageHemoglobin())
+                .percentageHemoglobin(getPercentage(reportResult.getPercentileHemoglobin()))
+                .healthStatus(classifyHemoglobin(hemoglobin, gender))
+                .rank(getRank(reportResult.getPercentileHemoglobin()).getKey())
+                .averageComparison(byDelta(hemoglobin, reportResult.getAverageHemoglobin(), DELTA_HEMOGLOBIN).getKey())
+                .build();
+    }
+
+    public static ComparingFastingBloodSugar toComparingFastingBloodSugarDto(List<HealthCheckup> healthCheckupList,
                                                                                                                Integer fastingBloodSugar) {
-        return ComparingHealthCheckupResponseDto.ComparingFastingBloodSugar.builder()
+        double percentile = calculatePercentile(healthCheckupList, fastingBloodSugar, HealthCheckup::getFastingBloodSugar, PercentileCategory.LOWER);
+        double averageFastingBloodSugar = calculateAverage(healthCheckupList, HealthCheckup::getFastingBloodSugar);
+        return ComparingFastingBloodSugar.builder()
                 .fastingBloodSugar(fastingBloodSugar)
-                .averageFastingBloodSugar(calculateAverage(healthCheckupList, HealthCheckup::getFastingBloodSugar))
-                .percentageFastingBloodSugar(calculatePercentile(healthCheckupList, fastingBloodSugar, HealthCheckup::getFastingBloodSugar, LOWER))
+                .averageFastingBloodSugar(averageFastingBloodSugar)
+                .percentageFastingBloodSugar(getPercentage(percentile))
                 .healthStatus(classifyFastingGlucose(fastingBloodSugar))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(fastingBloodSugar, averageFastingBloodSugar, DELTA_FPG).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingSerumCreatinine toComparingSerumCreatinineDto(List<HealthCheckup> healthCheckupList,
-                                                                                                           Double serumCreatinine,
-                                                                                                           Gender gender) {
-        return ComparingHealthCheckupResponseDto.ComparingSerumCreatinine.builder()
+    public static ComparingFastingBloodSugar toComparingFastingBloodSugarDto(Integer fastingBloodSugar,
+                                                                             ReportResult reportResult) {
+        return ComparingFastingBloodSugar.builder()
+                .fastingBloodSugar(fastingBloodSugar)
+                .averageFastingBloodSugar(reportResult.getAverageFastingBloodSugar())
+                .percentageFastingBloodSugar(getPercentage(reportResult.getPercentileFastingBloodSugar()))
+                .healthStatus(classifyFastingGlucose(fastingBloodSugar))
+                .rank(getRank(reportResult.getPercentileFastingBloodSugar()).getKey())
+                .averageComparison(byDelta(fastingBloodSugar, reportResult.getAverageFastingBloodSugar(), DELTA_FPG).getKey())
+                .build();
+    }
+
+    public static ComparingSerumCreatinine toComparingSerumCreatinineDto(Double serumCreatinine,
+                                                                         Gender gender) {
+
+        return ComparingSerumCreatinine.builder()
                 .serumCreatinine(serumCreatinine)
                 .healthStatus(classifyCreatinine(serumCreatinine, gender))
+                .rank(NULL.getKey())
+                .averageComparison(byDelta(serumCreatinine, 0.8, DELTA_CREATININE).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingAst toComparingAstDto(List<HealthCheckup> healthCheckupList,
+
+    public static ComparingAst toComparingAstDto(List<HealthCheckup> healthCheckupList,
                                                                                    Integer ast) {
+        double percentile = calculatePercentile(healthCheckupList, ast, HealthCheckup::getAst, PercentileCategory.LOWER);
+        double averageAST = calculateAverage(healthCheckupList, HealthCheckup::getAst);
 
-        return ComparingHealthCheckupResponseDto.ComparingAst.builder()
+        return ComparingAst.builder()
                 .ast(ast)
-                .averageAst(calculateAverage(healthCheckupList, HealthCheckup::getAst))
-                .percentageAst(calculatePercentile(healthCheckupList, ast, HealthCheckup::getAst, LOWER))
+                .averageAst(averageAST)
+                .percentageAst(getPercentage(percentile))
                 .healthStatus(classifyAST(ast))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(ast, averageAST, DELTA_AST).getKey())
+                .build();
+    }
+    public static ComparingAst toComparingAstDto(Integer ast, ReportResult reportResult) {
+        return ComparingAst.builder()
+                .ast(ast)
+                .averageAst(reportResult.getAverageAst())
+                .percentageAst(getPercentage(reportResult.getPercentileAst()))
+                .healthStatus(classifyAST(ast))
+                .rank(getRank(reportResult.getPercentileAst()).getKey())
+                .averageComparison(byDelta(ast, reportResult.getAverageAst(), DELTA_AST).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingAlt toComparingAltDto(List<HealthCheckup> healthCheckupList,
+    public static ComparingAlt toComparingAltDto(List<HealthCheckup> healthCheckupList,
                                                                                    Integer alt) {
-        return ComparingHealthCheckupResponseDto.ComparingAlt.builder()
+        double percentile = calculatePercentile(healthCheckupList, alt, HealthCheckup::getAlt, PercentileCategory.LOWER);
+        double averageALT = calculateAverage(healthCheckupList, HealthCheckup::getAlt);
+
+        return ComparingAlt.builder()
                 .alt(alt)
-                .averageAlt(calculateAverage(healthCheckupList, HealthCheckup::getAlt))
-                .percentageAlt(calculatePercentile(healthCheckupList, alt, HealthCheckup::getAlt, LOWER))
+                .averageAlt(averageALT)
+                .percentageAlt(getPercentage(percentile))
                 .healthStatus(classifyALT(alt))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(alt, averageALT, DELTA_ALT).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingGammaGtp toComparingGammaGtpDto(List<HealthCheckup> healthCheckupList,
+    public static ComparingAlt toComparingAltDto(Integer alt, ReportResult reportResult) {
+
+        return ComparingAlt.builder()
+                .alt(alt)
+                .averageAlt(reportResult.getAverageAlt())
+                .percentageAlt(getPercentage(reportResult.getPercentileAlt()))
+                .healthStatus(classifyALT(alt))
+                .rank(getRank(reportResult.getPercentileAlt()).getKey())
+                .averageComparison(byDelta(alt, reportResult.getAverageAlt(), DELTA_ALT).getKey())
+                .build();
+    }
+
+    public static ComparingGammaGtp toComparingGammaGtpDto(List<HealthCheckup> healthCheckupList,
                                                                                              Integer gtp,
                                                                                              Gender gender) {
-        return ComparingHealthCheckupResponseDto.ComparingGammaGtp.builder()
+        double percentile = calculatePercentile(healthCheckupList, gtp, HealthCheckup::getGammaGtp, PercentileCategory.LOWER);
+        double averageGTP = calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp);
+        return ComparingGammaGtp.builder()
                 .gammaGtp(gtp)
-                .averageGammaGtp(calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp))
-                .percentageGammaGtp(calculatePercentile(healthCheckupList, gtp, HealthCheckup::getGammaGtp, LOWER))
+                .averageGammaGtp(averageGTP)
+                .percentageGammaGtp(getPercentage(percentile))
                 .healthStatus(classifyGammaGTP(gtp, gender))
+                .rank(getRank(percentile).getKey())
+                .averageComparison(byDelta(gtp, averageGTP, DELTA_GAMMA_GTP).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingTotalCholesterol toComparingTotalCholesterol(Integer totalCholesterol,
-                                                                                                          Integer ageGroup10Yr) {
-        return ComparingHealthCheckupResponseDto.ComparingTotalCholesterol.builder()
+    public static ComparingGammaGtp toComparingGammaGtpDto(Integer gtp,
+                                                           Gender gender,
+                                                           ReportResult reportResult) {
+        return ComparingGammaGtp.builder()
+                .gammaGtp(gtp)
+                .averageGammaGtp(reportResult.getAverageGammaGtp())
+                .percentageGammaGtp(getPercentage(reportResult.getPercentileGammaGtp()))
+                .healthStatus(classifyGammaGTP(gtp, gender))
+                .rank(getRank(reportResult.getPercentileGammaGtp()).getKey())
+                .averageComparison(byDelta(gtp, reportResult.getAverageGammaGtp(), DELTA_GAMMA_GTP).getKey())
+                .build();
+    }
+
+    public static ComparingTotalCholesterol toComparingTotalCholesterol(Integer totalCholesterol,
+                                                                        Integer ageGroup10Yr) {
+
+        Integer averageTotalCholesterol = provideAverageTotalCholesterol(ageGroup10Yr);
+
+        return ComparingTotalCholesterol.builder()
                 .totalCholesterol(totalCholesterol)
-                .averageTotalCholesterol(provideAverageTotalCholesterol(ageGroup10Yr))
+                .averageTotalCholesterol(averageTotalCholesterol)
                 .healthStatus(classifyTotalCholesterol(totalCholesterol))
+                .rank(NULL.getKey())
+                .averageComparison(byDelta(totalCholesterol, averageTotalCholesterol, DELTA_TC).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingHDL toComparingHDL(Integer hdl,
-                                                                                Integer ageGroup10Yr) {
-        return ComparingHealthCheckupResponseDto.ComparingHDL.builder()
+    public static ComparingHDL toComparingHDL(Integer hdl,
+                                              Integer ageGroup10Yr) {
+
+        Integer averageHDL = provideAverageHDL(ageGroup10Yr);
+        return ComparingHDL.builder()
                 .hdl(hdl)
-                .averageHDL(provideAverageHDL(ageGroup10Yr))
+                .averageHDL(averageHDL)
                 .healthStatus(classifyHDL(hdl))
+                .rank(NULL.getKey())
+                .averageComparison(byDelta(hdl, averageHDL, DELTA_HDL).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingLDL toComparingLDL(Integer ldl,
-                                                                                Integer ageGroup10Yr) {
-        return ComparingHealthCheckupResponseDto.ComparingLDL.builder()
+    public static ComparingLDL toComparingLDL(Integer ldl,
+                                              Integer ageGroup10Yr) {
+
+        Integer averageLDL = provideAverageLDL(ageGroup10Yr);
+        return ComparingLDL.builder()
                 .ldl(ldl)
-                .averageLDL(provideAverageLDL(ageGroup10Yr))
+                .averageLDL(averageLDL)
                 .healthStatus(classifyLDL(ldl))
+                .rank(NULL.getKey())
+                .averageComparison(byDelta(ldl, averageLDL, DELTA_LDL).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingTriglyceride toComparingTriglyceride(Integer triglyceride,
-                                                                                                  Integer ageGroup10Yr) {
-        return ComparingHealthCheckupResponseDto.ComparingTriglyceride.builder()
+    public static ComparingTriglyceride toComparingTriglyceride(Integer triglyceride,
+                                                                Integer ageGroup10Yr) {
+
+        Integer averageTriglyceride = provideAverageTriglyceride(ageGroup10Yr);
+        return ComparingTriglyceride.builder()
                 .triglyceride(triglyceride)
-                .averageTriglyceride(provideAverageTriglyceride(ageGroup10Yr))
+                .averageTriglyceride(averageTriglyceride)
                 .healthStatus(classifyTriglycerides(triglyceride))
+                .rank(NULL.getKey())
+                .averageComparison(byDelta(triglyceride, averageTriglyceride, DELTA_TG).getKey())
                 .build();
     }
 
-    public static ComparingHealthCheckupResponseDto.ComparingE_GFR toComparingE_GFR(Integer e_gfr) {
-        return ComparingHealthCheckupResponseDto.ComparingE_GFR.builder()
+    public static ComparingE_GFR toComparingE_GFR(Integer e_gfr) {
+        return ComparingE_GFR.builder()
                 .e_gfr(e_gfr)
-                .averageE_GFR(StaticVariable.E_GFR_AVERAGE)
+                .averageE_GFR(E_GFR_AVERAGE)
                 .healthStatus(classifyE_GFR(e_gfr))
+                .rank(NULL.getKey())
+                .averageComparison(byDelta(e_gfr, E_GFR_AVERAGE, DELTA_EGFR).getKey())
                 .build();
+    }
+
+    private static Rank getRank(double percentile) {
+        if (percentile == 0) return NULL;
+        return percentile > 50 ? Rank.LOWER : Rank.UPPER;
+    }
+
+    private static double getPercentage(double percentile) {
+        double value = percentile > 50 ? 100 - percentile : percentile;
+        return Math.round(value * 10) / 10.0;
+    }
+
+    private static AverageComparison byDelta(double x, double average, double delta) {
+        //TODO exception handling
+        if(delta <= 0) throw new RuntimeException("delta must be positive");
+        if(x == 0) return AverageComparison.NULL;
+
+        double d = Math.abs(x - average);
+        if (d < delta) return AverageComparison.SIMILAR;
+        if (d < 2 * delta) return (x < average) ? AverageComparison.SLIGHTLY_BELOW : AverageComparison.SLIGHTLY_ABOVE;
+        return (x < average) ? AverageComparison.VERY_BELOW : AverageComparison.VERY_ABOVE;
     }
 }

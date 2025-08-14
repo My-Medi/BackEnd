@@ -1,9 +1,11 @@
 package com.my_medi.infra.discord.service;
 
+import com.my_medi.infra.discord.client.DiscordClient;
 import com.my_medi.infra.discord.dto.ApiModificationRequest;
 import com.my_medi.infra.discord.dto.DiscordWebhookMessage;
 import io.swagger.v3.oas.models.PathItem;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +24,7 @@ import static com.my_medi.common.util.DiscordMessageUtil.*;
 
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "discord.alert", name = "enabled", havingValue = "true")
 public class DiscordWebhookServiceImpl implements DiscordWebhookService{
 
     private final Environment env;
@@ -75,4 +79,9 @@ public class DiscordWebhookServiceImpl implements DiscordWebhookService{
         return message;
     }
 
+    private final DiscordClient discordClient;
+    @Override
+    public void sendErrorMessage(Exception e, WebRequest request) {
+        discordClient.sendAlarm(createMessage(e, request));
+    }
 }

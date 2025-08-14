@@ -49,6 +49,7 @@ public class ExpertResponseDto{
         private Long expertId;
         private String nickname; //닉네임
         private String name; // 이름
+        private String profileImgUrl;
         private int age; // expert의 나이
         private Specialty specialty;// 전문 분야
 
@@ -97,6 +98,8 @@ public class ExpertResponseDto{
     @Builder
     public static class ExpertResumeDto{
         // 이력서 수정 분리
+        private String nickname;
+        private String name;
         private Specialty specialty;
         private String organizationName;
         private String introduction;

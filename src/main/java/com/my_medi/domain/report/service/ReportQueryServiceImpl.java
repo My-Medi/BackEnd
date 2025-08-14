@@ -11,6 +11,8 @@ import com.my_medi.domain.healthCheckup.repository.HealthCheckupRepository;
 import com.my_medi.domain.report.entity.Report;
 import com.my_medi.domain.report.exception.ReportHandler;
 import com.my_medi.domain.report.repository.ReportRepository;
+import com.my_medi.domain.reportResult.entity.ReportResult;
+import com.my_medi.domain.reportResult.repository.ReportResultRepository;
 import com.my_medi.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.util.List;
 public class ReportQueryServiceImpl implements ReportQueryService{
     private final ReportRepository reportRepository;
     private final HealthCheckupRepository healthCheckupRepository;
+    private final ReportResultRepository reportResultRepository;
 
     @Override
     public Report getReportByRound(Long userId, Integer round) {
@@ -33,21 +36,22 @@ public class ReportQueryServiceImpl implements ReportQueryService{
 
     @Override
     public Report getLatestReportByUserId(Long userId) {
-        return reportRepository.findTopByUserIdOrderByRoundDesc(userId).orElse(null);
+        return reportRepository.findTopByUserIdOrderByRoundDesc(userId).orElseThrow(() -> ReportHandler.NOT_FOUND);
     }
 
     @Override
     public ReportResultDto compareReport(User user, Integer round) {
         Report report = reportRepository.findByUserIdAndRound(user.getId(), round)
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
-        //find ageGrouped10Yr
-        List<Integer> ageGroup5yrRange = BirthDateUtil
-                .getAgeGroup5yrRange(BirthDateUtil.getAge(user.getBirthDate()));
-        //age + gender filter
-        List<HealthCheckup> healthCheckupList = healthCheckupRepository
-                .findByAgeGroupsAndGender(ageGroup5yrRange, user.getGender().getKey());
-
-        ReportResultDto reportResultDto = ReportConverter.toReportResultDto(healthCheckupList, report);
+//        //find ageGrouped10Yr
+//        List<Integer> ageGroup5yrRange = BirthDateUtil
+//                .getAgeGroup5yrRange(BirthDateUtil.getAge(user.getBirthDate()));
+//        //age + gender filter
+//        List<HealthCheckup> healthCheckupList = healthCheckupRepository
+//                .findByAgeGroupsAndGender(ageGroup5yrRange, user.getGender().getKey());
+        ReportResult reportResult = reportResultRepository.findByReportId(report.getId())
+                .orElseThrow(() -> ReportHandler.NOT_FOUND);
+        ReportResultDto reportResultDto = ReportConverter.toReportResultDto(report, reportResult);
         ReportEvaluationUtil.evalAll(reportResultDto);
         return reportResultDto;
     }

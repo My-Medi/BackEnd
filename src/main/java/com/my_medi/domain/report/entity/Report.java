@@ -1,5 +1,6 @@
 package com.my_medi.domain.report.entity;
 
+import com.my_medi.api.report.dto.EditReportRequestDto;
 import com.my_medi.domain.model.entity.BaseTimeEntity;
 import com.my_medi.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -48,9 +49,10 @@ public class Report extends BaseTimeEntity {
     @Embedded
     private Interview interview;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "additional_test_id")
     private AdditionalTest additionalTest;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -90,5 +92,10 @@ public class Report extends BaseTimeEntity {
 
     public void updateAdditionalTest(AdditionalTest additionalTest) {
         this.additionalTest = additionalTest;
+    }
+
+    public void updateReportInfo(EditReportRequestDto editReportRequestDto) {
+        this.checkupDate = editReportRequestDto.getCheckupDate();
+        this.hospitalName = editReportRequestDto.getHospitalName();
     }
 }
