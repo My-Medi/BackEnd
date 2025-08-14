@@ -4,6 +4,7 @@ import com.my_medi.common.consts.StaticVariable;
 import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.common.util.HealthMetricCalculator;
 import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
+import com.my_medi.domain.healthCheckup.entity.StatMetric;
 import com.my_medi.domain.healthCheckup.repository.HealthCheckupRepository;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.Report;
@@ -36,17 +37,9 @@ public class ReportResultCommandServiceImpl implements ReportResultCommandServic
                 .orElseThrow(() -> ReportHandler.NOT_FOUND);
         List<Integer> ageGroup5yrRange = BirthDateUtil
                 .getAgeGroup5yrRange(BirthDateUtil.getAge(birthDate));
-        //age + gender filter
-        List<HealthCheckup> healthCheckupList = healthCheckupRepository
-                .findByAgeGroupsAndGender(ageGroup5yrRange, gender.getKey());
+
 
         int ageGroup10Yr = BirthDateUtil.getAge(report.getUser().getBirthDate());
-        Function<HealthCheckup, Double> bmiExtractor = h -> {
-            if (h.getHeight5cm() == null || h.getWeight5kg() == null) return null;
-            double heightCm = h.getHeight5cm() + 2.5;
-            double weightKg = h.getWeight5kg() + 2.5;
-            return calculateBmi(weightKg, heightCm);
-        };
 
         // 사용자 수치
         Double bmi = report.getMeasurement().getBmi();
@@ -65,33 +58,70 @@ public class ReportResultCommandServiceImpl implements ReportResultCommandServic
         Integer triglyceride = report.getBloodTest().getTriglyceride();
         Double creatinine = report.getBloodTest().getCreatinine();
 
+        // === 여기서부터 DB 집계 호출 ===
+        double avgBmi = healthCheckupRepository.avgBmi(ageGroup5yrRange, gender.getKey());
+        double pctBmi = (bmi == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.BMI, ageGroup5yrRange, gender.getKey(), bmi, PercentileCategory.LOWER);
+
+        double avgWaist = healthCheckupRepository.avg(StatMetric.WAIST, ageGroup5yrRange, gender.getKey());
+        double pctWaist = (waist == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.WAIST, ageGroup5yrRange, gender.getKey(), waist, PercentileCategory.LOWER);
+
+        double avgSys = healthCheckupRepository.avg(StatMetric.SYSTOLIC, ageGroup5yrRange, gender.getKey());
+        double pctSys = (systolicBp == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.SYSTOLIC, ageGroup5yrRange, gender.getKey(), systolicBp, PercentileCategory.LOWER);
+
+        double avgDia = healthCheckupRepository.avg(StatMetric.DIASTOLIC, ageGroup5yrRange, gender.getKey());
+        double pctDia = (diastolicBp == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.DIASTOLIC, ageGroup5yrRange, gender.getKey(), diastolicBp, PercentileCategory.LOWER);
+
+        double avgHemo = healthCheckupRepository.avg(StatMetric.HEMOGLOBIN, ageGroup5yrRange, gender.getKey());
+        double pctHemo = (hemoglobin == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.HEMOGLOBIN, ageGroup5yrRange, gender.getKey(), hemoglobin, PercentileCategory.UPPER);
+
+        double avgFbs = healthCheckupRepository.avg(StatMetric.FASTING_GLUCOSE, ageGroup5yrRange, gender.getKey());
+        double pctFbs = (fastingGlucose == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.FASTING_GLUCOSE, ageGroup5yrRange, gender.getKey(), fastingGlucose, PercentileCategory.LOWER);
+
+        double avgAst = healthCheckupRepository.avg(StatMetric.AST, ageGroup5yrRange, gender.getKey());
+        double pctAst = (ast == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.AST, ageGroup5yrRange, gender.getKey(), ast, PercentileCategory.LOWER);
+
+        double avgAlt = healthCheckupRepository.avg(StatMetric.ALT, ageGroup5yrRange, gender.getKey());
+        double pctAlt = (alt == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.ALT, ageGroup5yrRange, gender.getKey(), alt, PercentileCategory.LOWER);
+
+        double avgGtp = healthCheckupRepository.avg(StatMetric.GTP, ageGroup5yrRange, gender.getKey());
+        double pctGtp = (gtp == null) ? 0.0
+                : healthCheckupRepository.percentileAgainstTarget(StatMetric.GTP, ageGroup5yrRange, gender.getKey(), gtp, PercentileCategory.LOWER);
+
         ReportResult reportResult = ReportResult.builder()
                 .report(report)
 
                 // 비만/복부비만
-                .averageBmi(calculateAverageBmi(healthCheckupList))
-                .percentileBmi(calculatePercentile(healthCheckupList, bmi, bmiExtractor, LOWER))
+                .averageBmi(avgBmi)
+                .percentileBmi(pctBmi)
                 .bmiHealthStatus(classifyBmi(bmi))
-                .averageWaist(calculateAverage(healthCheckupList, HealthCheckup::getWaistCm))
-                .percentileWaist(calculatePercentile(healthCheckupList, waist, HealthCheckup::getWaistCm, PercentileCategory.LOWER))
+                .averageWaist(avgWaist)
+                .percentileWaist(pctWaist)
                 .waistHealthStatus(classifyWaistCircumference(waist, gender))
 
                 // 고혈압
-                .averageSystolicBp(calculateAverage(healthCheckupList, HealthCheckup::getSystolicBp))
-                .percentileSystolicBp(calculatePercentile(healthCheckupList, systolicBp, HealthCheckup::getSystolicBp, LOWER))
+                .averageSystolicBp(avgSys)
+                .percentileSystolicBp(pctSys)
                 .systolicBpHealthStatus(classifySystolic(systolicBp))
-                .averageDiastolicBp(calculateAverage(healthCheckupList, HealthCheckup::getDiastolicBp))
-                .percentileDiastolicBp(calculatePercentile(healthCheckupList, diastolicBp, HealthCheckup::getDiastolicBp, PercentileCategory.LOWER))
+                .averageDiastolicBp(avgDia)
+                .percentileDiastolicBp(pctDia)
                 .diastolicBpHealthStatus(classifyDiastolic(diastolicBp))
 
                 // 빈혈
-                .averageHemoglobin(calculateAverage(healthCheckupList, HealthCheckup::getHemoglobin))
-                .percentileHemoglobin(calculatePercentile(healthCheckupList, hemoglobin, HealthCheckup::getHemoglobin, UPPER))
+                .averageHemoglobin(avgHemo)
+                .percentileHemoglobin(pctHemo)
                 .hemoglobinHealthStatus(classifyHemoglobin(hemoglobin, gender))
 
                 // 당뇨병
-                .averageFastingBloodSugar(calculateAverage(healthCheckupList, HealthCheckup::getFastingBloodSugar))
-                .percentileFastingBloodSugar(calculatePercentile(healthCheckupList, fastingGlucose, HealthCheckup::getFastingBloodSugar, PercentileCategory.LOWER))
+                .averageFastingBloodSugar(avgFbs)
+                .percentileFastingBloodSugar(pctFbs)
                 .fastingBloodSugarHealthStatus(classifyFastingGlucose(fastingGlucose))
 
                 // 이상지질혈증
@@ -117,14 +147,14 @@ public class ReportResultCommandServiceImpl implements ReportResultCommandServic
                 .eGfrHealthStatus(classifyE_GFR(egfr))
 
                 // 간장질환
-                .averageAst(calculateAverage(healthCheckupList, HealthCheckup::getAst))
-                .percentileAst(calculatePercentile(healthCheckupList, ast, HealthCheckup::getAst, PercentileCategory.LOWER))
+                .averageAst(avgAst)
+                .percentileAst(pctAst)
                 .astHealthStatus(classifyAST(ast))
-                .averageAlt(calculateAverage(healthCheckupList, HealthCheckup::getAlt))
-                .percentileAlt(calculatePercentile(healthCheckupList, alt, HealthCheckup::getAlt, PercentileCategory.LOWER))
+                .averageAlt(avgAlt)
+                .percentileAlt(pctAlt)
                 .altHealthStatus(classifyALT(alt))
-                .averageGammaGtp(calculateAverage(healthCheckupList, HealthCheckup::getGammaGtp))
-                .percentileGammaGtp(calculatePercentile(healthCheckupList, gtp, HealthCheckup::getGammaGtp, PercentileCategory.LOWER))
+                .averageGammaGtp(avgGtp)
+                .percentileGammaGtp(pctGtp)
                 .gammaGtpHealthStatus(classifyGammaGTP(gtp, gender))
 
                 // 요단백
