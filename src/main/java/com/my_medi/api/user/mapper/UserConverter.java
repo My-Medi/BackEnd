@@ -47,6 +47,7 @@ public class UserConverter {
                 .userId(user.getId())
                 .accountRegisterDate(user.getCreatedDate().toLocalDate()) //회원가입 날짜
                 .nickname(user.getNickname()) // 닉네임
+                .profileImg(user.getProfileImgUrl())
                 .age(BirthDateUtil.getAge(user.getBirthDate())) //나이
                 .gender(user.getGender()) //성별
                 .height(user.getHeight()) //키

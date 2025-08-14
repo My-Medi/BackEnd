@@ -42,6 +42,7 @@ public class UserResponseDto {
     @Builder
     public static class RequestingUserInfoDto{
         private Long userId;
+        private String profileImg;
         private LocalDate accountRegisterDate; //회원가입 날짜
         private String nickname; // 닉네임
         private int age; //나이

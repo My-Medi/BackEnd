@@ -6,7 +6,9 @@ import com.my_medi.common.util.BirthDateUtil;
 import com.my_medi.common.util.FormUtil;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.user.entity.User;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ExpertConsultationConverter {
 
     public static ExpertConsultationDto.ExpertConsultationSummaryDto toExpertConsultationDto(ConsultationRequest request) {
@@ -28,7 +30,7 @@ public class ExpertConsultationConverter {
     public static ExpertConsultationDto.ExpertConsultationAcceptedDto toAcceptedConsultationDto(ConsultationRequest request,
                                                                                                 HealthStatus totalHealthStatus) {
         User user = request.getUser();
-
+        log.info("profile Img : {}", user.getProfileImgUrl());
         return ExpertConsultationDto.ExpertConsultationAcceptedDto.builder()
                 .consultationId(request.getId())
                 .userId(user.getId())

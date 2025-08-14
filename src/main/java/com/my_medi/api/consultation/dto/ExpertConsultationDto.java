@@ -41,6 +41,7 @@ public class ExpertConsultationDto {
         private Long consultationId;
         private Long userId;
         private HealthStatus totalHealthStatus;
+        private String profileImg;
         private String nickname;
         private Gender gender;
         private Float weight;
