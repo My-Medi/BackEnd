@@ -34,14 +34,16 @@ public class TokenApiController {
         return ApiResponseDto.onSuccess(tokenService.issueTokens(refresh));
     }
 
-    @Operation(summary = "id unique 검증")
-    @PostMapping("/duplication/login-id")
+    @Operation(summary = "id unique 검증",
+    description = "중복은 true, 중복이 아니면 false를 리턴합니다.")
+    @GetMapping("/duplication/login-id")
     public ApiResponseDto<Boolean> idValidator(@RequestParam String loginId) {
         return ApiResponseDto.onSuccess(memberQueryService.validateExistLoginId(loginId));
     }
 
-    @Operation(summary = "nickname unique 검증")
-    @PostMapping("/duplication-nickname")
+    @Operation(summary = "nickname unique 검증",
+    description = "중복은 true, 중복이 아니면 false를 리턴합니다.")
+    @GetMapping("/duplication/nickname")
     public ApiResponseDto<Boolean> nicknameValidator(@RequestParam String nickname) {
         return ApiResponseDto.onSuccess(memberQueryService.validateExistNickname(nickname));
     }
