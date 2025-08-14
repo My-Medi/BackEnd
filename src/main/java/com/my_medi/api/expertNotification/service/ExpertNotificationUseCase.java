@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 public class ExpertNotificationUseCase {
     private final ExpertNotificationQueryService expertNotificationQueryService;
 
-    public Page<ExpertNotification> getPrioritizedNotificationDtoPageByExpertId
+    public Page<ExpertNotification> getExpertNotifications
             (Long expertId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.asc("isRead"), Sort.Order.desc("id")) // 안 읽은 알림 우선 + 최신순
+                Sort.by(Sort.Order.asc("isRead"), Sort.Order.desc("id"))
         );
 
         return expertNotificationQueryService.getExpertNotificationListByPage(expertId, pageable);
