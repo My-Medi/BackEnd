@@ -70,12 +70,25 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
 
+        var latestList = consultationRequestRepository.findLatestRequestedByExpert(
+                userId,
+                expertId,
+                RequestStatus.REQUESTED,
+                PageRequest.of(0, 1)
+        );
+
+        String latestComment = latestList.stream()
+                .findFirst()
+                .map(ConsultationRequest::getComment)
+                .orElse(null);
+
         LocalDate requestedAt = agg.getLatestCreated().toLocalDate();
 
         return UserConsultationConvert.toRequestedDetailDto(
                 expert,
                 Math.toIntExact(agg.getCount()),
-                requestedAt
+                requestedAt,
+                latestComment
         );
     }
 
