@@ -32,15 +32,18 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
 
     List<ConsultationRequest> findByUserIdAndExpertIdAndRequestStatus(Long userId, Long expertId, RequestStatus requestStatus);
 
-    @Query("SELECT r FROM ConsultationRequest r " +
-            "WHERE r.expert.id = :expertId AND r.user.id = :userId AND r.requestStatus = :status " +
-            "ORDER BY r.createdDate DESC")
-    List<ConsultationRequest> findLatestRequestedByExpert(@Param("userId") Long userId,
-                                                          @Param("expertId") Long expertId,
-                                                          @Param("status") RequestStatus status);
-
-    int countByUserIdAndExpertIdAndRequestStatus(Long userId, Long expertId, RequestStatus status);
-
+    @Query("""
+                SELECT r FROM ConsultationRequest r
+                WHERE r.expert.id = :expertId
+                  AND r.user.id = :userId
+                  AND r.requestStatus = :status
+                ORDER BY r.createdDate DESC
+            """)
+    List<ConsultationRequest> findLatestRequestedByExpert(
+            @Param("userId") Long userId,
+            @Param("expertId") Long expertId,
+            @Param("status") RequestStatus status,
+            Pageable pageable);
 
 
     @Query("SELECT r FROM ConsultationRequest r " +
@@ -59,5 +62,27 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
             @Param("status") RequestStatus status,
             Pageable pageable
     );
+
+    interface RequestedAgg {
+        long getCount();
+        LocalDateTime getLatestCreated();
+    }
+
+    @Query("""
+                select count(r) as count,
+                       max(r.createdDate) as latestCreated
+                from ConsultationRequest r
+                where r.user.id = :userId
+                  and r.expert.id = :expertId
+                  and r.requestStatus = :status
+            """)
+    ConsultationRequestRepository.RequestedAgg findRequestedAgg(
+            @Param("userId") Long userId,
+            @Param("expertId") Long expertId,
+            @Param("status") RequestStatus status
+    );
+
+
+
 
 }
