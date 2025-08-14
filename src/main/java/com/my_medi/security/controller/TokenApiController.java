@@ -2,6 +2,7 @@ package com.my_medi.security.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.domain.member.repository.MemberRepository;
+import com.my_medi.domain.member.service.MemberQueryService;
 import com.my_medi.security.jwt.dto.JwtToken;
 import com.my_medi.security.jwt.dto.MemberLoginRequestDto;
 import com.my_medi.security.jwt.service.TokenService;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class TokenApiController {
 
     private final TokenService tokenService;
-    private final MemberRepository memberRepository;
+    private final MemberQueryService memberQueryService;
 
     @Operation(summary = "이메일로 JWT 토큰 발급")
     @PostMapping("/login")
@@ -34,16 +35,14 @@ public class TokenApiController {
     }
 
     @Operation(summary = "id unique 검증")
-    @PostMapping("/id")
-    public ApiResponseDto<Boolean> idValidator(@RequestParam String memberId) {
-        boolean isValid = !memberRepository.existsByLoginId(memberId);
-        return ApiResponseDto.onSuccess(isValid);
+    @PostMapping("/duplication/login-id")
+    public ApiResponseDto<Boolean> idValidator(@RequestParam String loginId) {
+        return ApiResponseDto.onSuccess(memberQueryService.validateExistLoginId(loginId));
     }
 
     @Operation(summary = "nickname unique 검증")
-    @PostMapping("/nickname")
+    @PostMapping("/duplication-nickname")
     public ApiResponseDto<Boolean> nicknameValidator(@RequestParam String nickname) {
-        boolean isValid = !memberRepository.existsByNickname(nickname);
-        return ApiResponseDto.onSuccess(isValid);
+        return ApiResponseDto.onSuccess(memberQueryService.validateExistNickname(nickname));
     }
 }
