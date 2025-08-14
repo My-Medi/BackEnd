@@ -57,7 +57,6 @@ public class ConsultationRequestQueryServiceImpl implements ConsultationRequestQ
 
 
     @Override
-    @Transactional(readOnly = true)
     public UserConsultationDto.ExpertRequestedDto getRequestedExpertDetail(Long userId, Long expertId) {
         RequestedAgg agg = consultationRequestRepository.findRequestedAgg(userId, expertId, RequestStatus.REQUESTED);
 
