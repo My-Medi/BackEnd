@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -48,7 +49,8 @@ public class ExpertConsultationDto {
         private String profileImage;
 
         private LocalDate recentCheckupDate;
-        private List<String> interestAreas;
+        @Builder.Default
+        private List<String> interestAreas = new ArrayList<>();
 
     }
 }
