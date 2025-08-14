@@ -37,7 +37,7 @@ public class ReportResponseDto {
     @Data
     @Builder
     public static class ReportResultDto{
-        private int totalDataSize;
+//        private int totalDataSize;
         private int ageGroup10Yr;
         private String nickname;
         private Gender gender;
