@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import static com.my_medi.common.util.ParseUtil.*;
 
-@Profile({"han", "deploy"})
+@Profile({"han"})
 @Slf4j
 @Component
 public class HealthCheckupItemProcessor implements ItemProcessor<String[], HealthCheckup> {
