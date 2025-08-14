@@ -92,8 +92,9 @@ public class ConsultationUseCase {
 
         List<ExpertConsultationAcceptedDto> dtoList = requests.getContent().stream()
                 .map(req -> {
-                    var status = userStatusMap.get(req.getUser().getId());
+                    UserLatestReportStatusDto status = userStatusMap.get(req.getUser().getId());
                     HealthStatus totalHealthStatus = (status != null) ? status.getTotalHealthStatus() : null;
+
                     return ExpertConsultationConverter.toAcceptedConsultationDto(req, totalHealthStatus);
                 })
                 .toList();
