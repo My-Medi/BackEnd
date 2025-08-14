@@ -79,7 +79,6 @@ public class Prompt {
                     용어: %s
             """;
 
-
     public static final String TOTAL_REPORT_PROMPT = """
             당신은 건강검진 리포트를 한국어로 요약합니다.
             아래의 [입력 데이터]만 근거로, 다음 JSON 스키마에 **정확히** 맞춰 응답하세요.
@@ -134,7 +133,5 @@ public class Prompt {
                ```json
                %s
             """;
-
-
 
 }

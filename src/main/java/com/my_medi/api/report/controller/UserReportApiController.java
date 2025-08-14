@@ -9,7 +9,6 @@ import com.my_medi.api.report.dto.ReportResultResponseDto.UserReportResultDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.mapper.ReportConverter;
-import com.my_medi.api.report.service.ReportUseCase;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.common.util.ImageUtil;
 import com.my_medi.domain.report.entity.Report;

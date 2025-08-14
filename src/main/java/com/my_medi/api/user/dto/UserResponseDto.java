@@ -54,4 +54,11 @@ public class UserResponseDto {
         private List<String> healthInterests; // 건강 관심 분야 - proposal
         private List<String> abnormalCheckItems; // 건강검진 이상 수치 - proposal
     }
+
+    @Data
+    @Builder
+    public static class UserRequestNoteDto{
+        private Long userId;
+        private String requestNote; //요청사항 - proposal
+    }
 }
