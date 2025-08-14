@@ -35,8 +35,6 @@ public enum ConsultationRequestErrorStatus implements BaseErrorCode {
 
 
 
-
-
     private final HttpStatus httpStatus;
     private final Integer code;
     private final String message;

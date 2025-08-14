@@ -1,11 +1,13 @@
 package com.my_medi.api.consultation.dto;
 
+import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.member.entity.Gender;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -38,6 +40,8 @@ public class ExpertConsultationDto {
     public static class ExpertConsultationAcceptedDto {
         private Long consultationId;
         private Long userId;
+        private HealthStatus totalHealthStatus;
+        private String profileImg;
         private String nickname;
         private Gender gender;
         private Float weight;
@@ -46,7 +50,8 @@ public class ExpertConsultationDto {
         private String profileImage;
 
         private LocalDate recentCheckupDate;
-        private List<String> interestAreas;
+        @Builder.Default
+        private List<String> interestAreas = new ArrayList<>();
 
     }
 }
