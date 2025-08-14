@@ -33,6 +33,7 @@ public class UserConverter {
         return UserResponseDto.UserProfileTopDto.builder()
                 .name(user.getName())
                 .nickname(user.getNickname())
+                .profileImgUrl(user.getProfileImgUrl())
                 .age(BirthDateUtil.getAge(user.getBirthDate()))
                 .height(user.getHeight())
                 .weight(user.getWeight())

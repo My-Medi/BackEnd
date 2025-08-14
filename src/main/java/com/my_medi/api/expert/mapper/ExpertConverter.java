@@ -36,6 +36,7 @@ public class ExpertConverter {
                 .expertId(expert.getId())
                 .nickname(expert.getNickname())
                 .name(expert.getName())
+                .profileImgUrl(expert.getProfileImgUrl())
                 .age(BirthDateUtil.getAge(expert.getBirthDate())) // 나이
                 .specialty(expert.getSpecialty())
                 .build();
