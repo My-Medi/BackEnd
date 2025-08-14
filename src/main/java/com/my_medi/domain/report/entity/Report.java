@@ -49,9 +49,10 @@ public class Report extends BaseTimeEntity {
     @Embedded
     private Interview interview;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "additional_test_id")
     private AdditionalTest additionalTest;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

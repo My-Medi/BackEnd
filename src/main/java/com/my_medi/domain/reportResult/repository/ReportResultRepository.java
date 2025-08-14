@@ -4,4 +4,7 @@ import com.my_medi.domain.reportResult.entity.ReportResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReportResultRepository extends JpaRepository<ReportResult, Long> {
+    boolean existsByReportId(Long reportId);
+
+    void deleteByReportId(Long reportId);
 }

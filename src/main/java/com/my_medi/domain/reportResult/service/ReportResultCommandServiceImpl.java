@@ -7,6 +7,8 @@ import com.my_medi.domain.healthCheckup.entity.HealthCheckup;
 import com.my_medi.domain.healthCheckup.repository.HealthCheckupRepository;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.report.entity.Report;
+import com.my_medi.domain.report.exception.ReportHandler;
+import com.my_medi.domain.report.repository.ReportRepository;
 import com.my_medi.domain.reportResult.entity.ReportResult;
 import com.my_medi.domain.reportResult.repository.ReportResultRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +28,12 @@ import static com.my_medi.common.util.HealthMetricCalculator.calculateBmi;
 @RequiredArgsConstructor
 public class ReportResultCommandServiceImpl implements ReportResultCommandService{
     private final ReportResultRepository reportResultRepository;
+    private final ReportRepository reportRepository;
     private final HealthCheckupRepository healthCheckupRepository;
     @Override
-    public Long calculateReportResult(Report report, String birthDate, Gender gender) {
+    public Long calculateReportResult(Long reportId, String birthDate, Gender gender) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> ReportHandler.NOT_FOUND);
         List<Integer> ageGroup5yrRange = BirthDateUtil
                 .getAgeGroup5yrRange(BirthDateUtil.getAge(birthDate));
         //age + gender filter
@@ -131,5 +136,11 @@ public class ReportResultCommandServiceImpl implements ReportResultCommandServic
 
 
         return reportResultRepository.save(reportResult).getId();
+    }
+
+    @Override
+    public void removeReportResult(Long reportId) {
+        if(!reportResultRepository.existsByReportId(reportId)) return;
+        reportResultRepository.deleteByReportId(reportId);
     }
 }

@@ -8,11 +8,13 @@ import com.my_medi.api.report.dto.ReportResponseDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
 import com.my_medi.api.report.mapper.ReportConverter;
+import com.my_medi.api.report.service.ReportUseCase;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.common.util.ImageUtil;
 import com.my_medi.domain.report.entity.Report;
 import com.my_medi.domain.report.service.ReportCommandService;
 import com.my_medi.domain.report.service.ReportQueryService;
+import com.my_medi.domain.reportResult.service.ReportResultCommandService;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.infra.gpt.dto.HealthReportData;
 import com.my_medi.infra.gpt.dto.TotalReportData;
@@ -33,6 +35,7 @@ public class UserReportApiController {
 
     private final ReportQueryService reportQueryService;
     private final ReportCommandService reportCommandService;
+    private final ReportResultCommandService reportResultCommandService;
     private final OpenAIService openAIService;
 
     @Operation(summary = "사용자가 본인의 n회차 건강리포트를 조회합니다.")
@@ -54,7 +57,9 @@ public class UserReportApiController {
     @PostMapping
     public ApiResponseDto<Long> writeUserReport(@AuthUser User user,
                                                 @RequestBody WriteReportRequestDto writeReportRequestDto) {
-        return ApiResponseDto.onSuccess(reportCommandService.writeHealthReport(user, writeReportRequestDto));
+        Long reportId = reportCommandService.writeHealthReport(user, writeReportRequestDto);
+        reportResultCommandService.calculateReportResult(reportId, user.getBirthDate(), user.getGender());
+        return ApiResponseDto.onSuccess(reportId);
     }
 
     @Operation(summary = "사용자가 본인의 n회차 건강리포트를 수정합니다.")
@@ -62,8 +67,11 @@ public class UserReportApiController {
     public ApiResponseDto<Long> editUserReport(@AuthUser User user,
                                                @RequestParam Integer round,
                                                @RequestBody EditReportRequestDto editReportRequestDto) {
-        return ApiResponseDto.onSuccess(reportCommandService
-                .editHealthReportByRound(user, round, editReportRequestDto));
+        Long reportId = reportCommandService
+                .editHealthReportByRound(user, round, editReportRequestDto);
+        reportResultCommandService.removeReportResult(reportId);
+        reportResultCommandService.calculateReportResult(reportId, user.getBirthDate(), user.getGender());
+        return ApiResponseDto.onSuccess(reportId);
     }
 
 
