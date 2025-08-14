@@ -1,7 +1,6 @@
 package com.my_medi.api.consultation.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
-import com.my_medi.api.consultation.dto.ExpertConsultationDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto.ExpertConsultationAcceptedDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto.ExpertConsultationPageDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto.ExpertConsultationSummaryDto;
@@ -23,6 +22,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.my_medi.common.consts.StaticVariable.CREATED_DATE;
 
 @Tag(name = "[전문가 페이지] 상담요청 API")
 @RestController
@@ -87,22 +88,8 @@ public class ExpertConsultationApiController {
             @AuthExpert Expert expert,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size) {
-        //TODO "createdDate" -> StaticVariables.class
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
-        Page<ConsultationRequest> requests = consultationRequestQueryService
-                .getRequestByExpert(expert.getId(), RequestStatus.ACCEPTED, pageable);
-
-        List<ExpertConsultationAcceptedDto> dtoList =
-                requests.map(ExpertConsultationConverter::toAcceptedConsultationDto).getContent();
-
-        ExpertConsultationPageDto<ExpertConsultationAcceptedDto> result =
-                ExpertConsultationPageDto.<ExpertConsultationAcceptedDto>builder()
-                        .content(dtoList)
-                        .totalPages(requests.getTotalPages())
-                        .build();
-
-        return ApiResponseDto.onSuccess(result);
+        return ApiResponseDto.onSuccess(consultationUseCase.getUserInfoList(expert, page, size));
     }
 
 
