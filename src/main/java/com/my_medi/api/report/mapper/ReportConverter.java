@@ -17,6 +17,7 @@ import com.my_medi.domain.report.enums.ImagingTestStatus;
 import com.my_medi.domain.report.enums.UrineTestStatus;
 import com.my_medi.domain.report.enums.interview.LifestyleHabitsStatus;
 import com.my_medi.domain.report.enums.interview.PositiveNegativeStatus;
+import com.my_medi.domain.reportResult.entity.ReportResult;
 import com.my_medi.infra.gpt.dto.HealthReportData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -303,7 +304,6 @@ public class ReportConverter {
 
 
         return ReportResultDto.builder()
-                .totalDataSize(healthCheckupList.size())
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
                 .nickname(report.getUser().getNickname())
                 .gender(report.getUser().getGender())
@@ -339,7 +339,7 @@ public class ReportConverter {
                 .kidneyDiseaseAssessmentDto(
                         KidneyDiseaseAssessmentDto.builder()
                                 .comparingEGfr(toComparingE_GFR(egfr))
-                                .comparingSerumCreatinine(toComparingSerumCreatinineDto(healthCheckupList, creatinine, gender))
+                                .comparingSerumCreatinine(toComparingSerumCreatinineDto(creatinine, gender))
                                 .build()
                 )
                 .liverDiseaseAssessmentDto(
@@ -347,6 +347,99 @@ public class ReportConverter {
                                 .comparingAlt(toComparingAltDto(healthCheckupList, alt))
                                 .comparingAst(toComparingAstDto(healthCheckupList, ast))
                                 .comparingGammaGtp(toComparingGammaGtpDto(healthCheckupList, gtp, gender))
+                                .build()
+                )
+                .urineProteinAssessmentDto(
+                        UrineProteinAssessmentDto.builder()
+                                .comparingUrineProtein(
+                                        ComparingHealthCheckupResponseDto.ComparingUrineProtein.builder()
+                                                .urineTestStatus(report.getUrineTest().getUrineTestStatus())
+                                                .healthStatus(classifyUrineProtein(report.getUrineTest().getUrineTestStatus()))
+                                                .averageComparison(AverageComparison.NULL.getKey())
+                                                .build()
+                                )
+                                .build()
+                )
+                .build();
+    }
+
+    public static ReportResultDto toReportResultDto(Report report, ReportResult reportResult) {
+        int ageGroup10Yr = BirthDateUtil.getAge(report.getUser().getBirthDate());
+        Gender gender = report.getUser().getGender();
+        // 공공데이터 bmi 계산
+        Function<HealthCheckup, Double> bmiExtractor = h -> {
+            if (h.getHeight5cm() == null || h.getWeight5kg() == null) return null;
+            double heightCm = h.getHeight5cm() + 2.5;
+            double weightKg = h.getWeight5kg() + 2.5;
+            return calculateBmi(weightKg, heightCm);
+        };
+        // 사용자 수치
+        Double bmi = report.getMeasurement().getBmi();
+        Double waist = report.getMeasurement().getWaist();
+        Integer diastolicBp = report.getBloodPressure().getDiastolic();
+        Integer systolicBp = report.getBloodPressure().getSystolic();
+        Double hemoglobin = report.getBloodTest().getHemoglobin();
+        Integer fastingGlucose = report.getBloodTest().getFastingGlucose();
+        Integer ast = report.getBloodTest().getAst();
+        Integer alt = report.getBloodTest().getAlt();
+        Integer hdl = report.getBloodTest().getHdl();
+        Integer gtp = report.getBloodTest().getGtp();
+        Integer total_cholesterol = report.getBloodTest().getTotalCholesterol();
+        Integer ldl = report.getBloodTest().getLdl();
+        Integer egfr = report.getBloodTest().getEgfr();
+        Integer triglyceride = report.getBloodTest().getTriglyceride();
+        Double creatinine = report.getBloodTest().getCreatinine();
+
+
+        return ReportResultDto.builder()
+                .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
+                .nickname(report.getUser().getNickname())
+                .gender(report.getUser().getGender())
+                .age(BirthDateUtil.getAge(report.getUser().getBirthDate()))
+                .checkDate(report.getCheckupDate())
+                .weight(report.getUser().getWeight())
+                .height(report.getUser().getHeight())
+
+                .obesityAssessmentDto(ObesityAssessmentDto.builder()
+                        .comparingBmi(toComparingBmiDto(bmi, reportResult))
+                        .comparingWaist(toComparingWaistDto(waist, gender, reportResult))
+                        .build()
+                )
+                .hypertensionAssessmentDto(
+                        HypertensionAssessmentDto.builder()
+                                .comparingDiastolicBp(toComparingDiastolicBpDto(diastolicBp, reportResult))
+                                .comparingSystolicBp(toComparingSystolicBpDto(systolicBp, reportResult))
+                                .build()
+                )
+                .anemiaAssessmentDto(
+                        AnemiaAssessmentDto.builder()
+                                .comparingHemoglobin(toComparingHemoglobinDto(hemoglobin, gender, reportResult))
+                                .build()
+                )
+                .diabetesAssessmentDto(
+                        DiabetesAssessmentDto.builder()
+                                .comparingFastingBloodSugar(toComparingFastingBloodSugarDto(fastingGlucose, reportResult))
+                                .build()
+                )
+                .dyslipidemiaAssessmentDto(
+                        DyslipidemiaAssessmentDto.builder()
+                                .comparingTotalCholesterol(toComparingTotalCholesterol(total_cholesterol, ageGroup10Yr))
+                                .comparingHDL(toComparingHDL(hdl, ageGroup10Yr))
+                                .comparingLDL(toComparingLDL(ldl, ageGroup10Yr))
+                                .comparingTriglyceride(toComparingTriglyceride(triglyceride, ageGroup10Yr))
+                                .build()
+                )
+                .kidneyDiseaseAssessmentDto(
+                        KidneyDiseaseAssessmentDto.builder()
+                                .comparingEGfr(toComparingE_GFR(egfr))
+                                .comparingSerumCreatinine(toComparingSerumCreatinineDto(creatinine, gender))
+                                .build()
+                )
+                .liverDiseaseAssessmentDto(
+                        LiverDiseaseAssessmentDto.builder()
+                                .comparingAlt(toComparingAltDto(alt, reportResult))
+                                .comparingAst(toComparingAstDto(ast, reportResult))
+                                .comparingGammaGtp(toComparingGammaGtpDto(gtp, gender, reportResult))
                                 .build()
                 )
                 .urineProteinAssessmentDto(
@@ -420,4 +513,10 @@ public class ReportConverter {
     }
 
 
+    public static ReportResultResponseDto.UserReportResultDto toUserReportResultDto(ReportResult resultByReport) {
+        return ReportResultResponseDto.UserReportResultDto.builder()
+                .totalScore(resultByReport.getTotalScore())
+                .healthStatus(resultByReport.getTotalHealthStatus())
+                .build();
+    }
 }

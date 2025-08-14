@@ -16,4 +16,16 @@ public enum HealthStatus implements KeyedEnum {
 
     private final String key;
     private final int severity;
+
+    public static HealthStatus fromRatio(double ratio) {
+        if (ratio <= 0.10) return SAFE;
+        else if (ratio <= 0.25) return NORMAL;
+        else if (ratio <= 0.40) return WATCH;
+        else if (ratio <= 0.60) return CAUTION;
+        else return DANGER;
+    }
+
+    public boolean isKnown() {
+        return this != UNKNOWN;
+    }
 }
