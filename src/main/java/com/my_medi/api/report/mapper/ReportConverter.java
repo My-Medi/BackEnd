@@ -18,6 +18,7 @@ import com.my_medi.domain.report.enums.UrineTestStatus;
 import com.my_medi.domain.report.enums.interview.LifestyleHabitsStatus;
 import com.my_medi.domain.report.enums.interview.PositiveNegativeStatus;
 import com.my_medi.domain.reportResult.entity.ReportResult;
+import com.my_medi.domain.user.entity.User;
 import com.my_medi.infra.gpt.dto.HealthReportData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -321,8 +322,6 @@ public class ReportConverter {
 
         return ReportResultDto.builder()
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
-                .nickname(report.getUser().getNickname())
-                .gender(report.getUser().getGender())
                 .obesityAssessmentDto(ObesityAssessmentDto.builder()
                         .comparingBmi(toComparingBmiDto(healthCheckupList, bmi, bmiExtractor))
                         .comparingWaist(toComparingWaistDto(healthCheckupList, waist, gender))
@@ -409,12 +408,7 @@ public class ReportConverter {
 
         return ReportResultDto.builder()
                 .ageGroup10Yr(BirthDateUtil.getAgeGroup10yr(ageGroup10Yr))
-                .nickname(report.getUser().getNickname())
-                .gender(report.getUser().getGender())
-                .age(BirthDateUtil.getAge(report.getUser().getBirthDate()))
                 .checkDate(report.getCheckupDate())
-                .weight(report.getUser().getWeight())
-                .height(report.getUser().getHeight())
 
                 .obesityAssessmentDto(ObesityAssessmentDto.builder()
                         .comparingBmi(toComparingBmiDto(bmi, reportResult))
@@ -533,6 +527,17 @@ public class ReportConverter {
         return ReportResultResponseDto.UserReportResultDto.builder()
                 .totalScore(resultByReport.getTotalScore())
                 .healthStatus(resultByReport.getTotalHealthStatus())
+                .build();
+    }
+
+    public static ReportResponseDto.ReportDefaultResponseDto toReportDefaultResponseDto(long reportCountByUser, User user) {
+        return ReportResponseDto.ReportDefaultResponseDto.builder()
+                .age(BirthDateUtil.getAge(user.getBirthDate()))
+                .reportCount(reportCountByUser)
+                .gender(user.getGender())
+                .nickname(user.getNickname())
+                .weight(user.getWeight())
+                .height(user.getHeight())
                 .build();
     }
 }
