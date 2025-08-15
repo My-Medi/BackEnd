@@ -4,27 +4,20 @@ import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.consultation.dto.UserConsultationDto;
 import com.my_medi.api.consultation.mapper.UserConsultationConvert;
 import com.my_medi.api.consultation.service.ConsultationUseCase;
-import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidator;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
-import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestCommandService;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestQueryService;
-import com.my_medi.domain.expert.entity.Expert;
-import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,11 +77,14 @@ public class UserConsultationApiController {
 
 
 
-    @Operation(summary = "본인이 요청한 상담을 취소합니다.")
+    @Operation(summary = "본인이 요청한 상담 또는 매칭된 상담을 취소합니다.")
     @DeleteMapping("/{consultationId}")
-    public ApiResponseDto<Long> cancelConsultation(@AuthUser User user,
-                                                   @PathVariable Long consultationId) {
-        consultationRequestCommandService.cancelRequest(consultationId, user.getId());
+    public ApiResponseDto<Long> cancelConsultation(
+            @AuthUser User user,
+            @PathVariable Long consultationId,
+            @RequestParam(defaultValue = "REQUESTED")  RequestStatus status
+    ) {
+        consultationRequestCommandService.cancelRequest(consultationId, user.getId(), status);
         return ApiResponseDto.onSuccess(consultationId);
     }
 
