@@ -7,9 +7,7 @@ import com.my_medi.api.proposal.dto.HealthInterestsDto;
 import com.my_medi.api.proposal.dto.HelpTopicDto;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.user.entity.User;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ProposalConverter {
     // Entity -> Dto
 

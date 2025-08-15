@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import static com.my_medi.common.consts.StaticVariable.USER_NOTIFICATION_ID;
-import static com.my_medi.common.consts.StaticVariable.USER_NOTIFICATION_READ;
+import static com.my_medi.common.consts.StaticVariable.PAGINATION_SORTING_BY_ID;
+import static com.my_medi.common.consts.StaticVariable.NOTIFICATION_READ;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class UserNotificationUseCase {
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.asc(USER_NOTIFICATION_READ), Sort.Order.desc(USER_NOTIFICATION_ID))
+                Sort.by(Sort.Order.asc(NOTIFICATION_READ), Sort.Order.desc(PAGINATION_SORTING_BY_ID))
         );
 
         return userNotificationQueryService.getUserNotificationListByPage(userId, pageable);

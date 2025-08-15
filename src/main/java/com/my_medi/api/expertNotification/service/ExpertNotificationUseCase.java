@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import static com.my_medi.common.consts.StaticVariable.PAGINATION_SORTING_BY_ID;
+import static com.my_medi.common.consts.StaticVariable.NOTIFICATION_READ;
+
 @Service
 @RequiredArgsConstructor
 public class ExpertNotificationUseCase {
@@ -16,7 +19,7 @@ public class ExpertNotificationUseCase {
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.asc("isRead"), Sort.Order.desc("id"))
+                Sort.by(Sort.Order.asc(NOTIFICATION_READ), Sort.Order.desc(PAGINATION_SORTING_BY_ID))
         );
 
         return expertNotificationQueryService.getExpertNotificationListByPage(expertId, pageable);
