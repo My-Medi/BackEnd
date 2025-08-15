@@ -70,11 +70,15 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     }
 
     @Override
-    public void cancelRequest(Long consultationRequestId, Long userId) {
+    public void cancelRequest(Long consultationRequestId, Long userId, RequestStatus status) {
         ConsultationRequest request = getRequestedConsultation(consultationRequestId);
 
-        if (!request.getUser().getId().equals(userId)) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+        if (status == RequestStatus.REJECTED) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_STATUS);
+        }
+
+        if (consultationRequestRepository.deleteByIdAndUserIdAndRequestStatus(consultationRequestId, userId, status) == 0) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_FAILED);
         }
 
         consultationRequestRepository.delete(request);

@@ -31,7 +31,11 @@ public enum ConsultationRequestErrorStatus implements BaseErrorCode {
 
     CONSULTATION_LIMIT_EXCEEDED(HttpStatus.BAD_REQUEST, 4157, "해당 전문가에게 요청 가능한 상담 수를 초과했습니다."),
 
-    ALREADY_PROCESSED_CONSULTATION(HttpStatus.BAD_REQUEST, 4158, "이미 처리된 상담 요청이 있어 새로운 요청이 불가합니다.");
+    ALREADY_PROCESSED_CONSULTATION(HttpStatus.BAD_REQUEST, 4158, "이미 처리된 상담 요청이 있어 새로운 요청이 불가합니다."),
+
+    INVALID_STATUS(HttpStatus.BAD_REQUEST, 4159, "해당 상태의 상담 요청은 취소할 수 없습니다."),
+
+    REQUEST_FAILED(HttpStatus.BAD_REQUEST, 4160, "상담 요청을 취소할 수 없습니다. 존재하지 않거나, 권한이 없거나, 취소 불가능한 상태입니다.");
 
 
 
