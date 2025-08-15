@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-
 public interface AdviceRepository extends JpaRepository<Advice, Long> {
     Page<Advice> findAllByUserId(Long userId, Pageable pageable);
     Page<Advice> findAllByExpertIdAndUserId(Long expertId, Long userId, Pageable pageable);

@@ -15,7 +15,8 @@ import java.util.Objects;
 public enum UserNotificationErrorStatus implements BaseErrorCode {
 
     // Entity userNotification (4250-4299)
-    USER_NOTIFICATION_NOT_FOUND(HttpStatus.BAD_REQUEST, 4250, "user 알림을 찾을 수 없습니다.");
+    USER_NOTIFICATION_NOT_FOUND(HttpStatus.BAD_REQUEST, 4250, "user 알림을 찾을 수 없습니다."),
+    EMPTY_NOTIFICATION_ID_LIST(HttpStatus.BAD_REQUEST, 4251, "삭제할 notification ID 목록이 비어 있습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
