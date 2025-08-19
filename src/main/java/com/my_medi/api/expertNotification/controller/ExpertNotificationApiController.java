@@ -36,9 +36,8 @@ public class ExpertNotificationApiController {
             @RequestParam(defaultValue = "0") int currentPage,
             @RequestParam int pageSize) {
 
-        //TODO service method명 직관적으로 변경
         Page<ExpertNotification> expertNotificationPage = expertNotificationUseCase
-                .getPrioritizedNotificationDtoPageByExpertId(expert.getId(), currentPage, pageSize);
+                .getExpertNotifications(expert.getId(), currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(
                 ExpertNotificationConverter.toExpertNotificationPageDto(expertNotificationPage)

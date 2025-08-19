@@ -8,6 +8,7 @@ import com.my_medi.api.userNotification.mapper.UserNotificationConverter;
 import com.my_medi.api.userNotification.service.UserNotificationUseCase;
 import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.notification.entity.UserNotification;
+import com.my_medi.domain.notification.exception.UserNotificationHandler;
 import com.my_medi.domain.notification.service.UserNotificationCommandService;
 import com.my_medi.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,12 +52,14 @@ public class UserNotificationApiController {
                 .readUserNotification(notificationId));
     }
 
-    //TODO list == null 일때 테스트
     @Operation(summary = "사용자의 알림을 삭제합니다.")
     @DeleteMapping
-    public ApiResponseDto<Void> deleteUserNotifications(@RequestParam List<Long> notificationId) {
-        userNotificationCommandService.removeNotifications(notificationId);
+    public ApiResponseDto<Void> deleteUserNotifications(@RequestParam(required = false) List<Long> notificationId) {
+        if (notificationId == null || notificationId.isEmpty()) {
+            throw UserNotificationHandler.EMPTY_NOTIFICATION_ID_LIST;
+        }
 
+        userNotificationCommandService.removeNotifications(notificationId);
         return ApiResponseDto.onSuccess(null);
     }
 
