@@ -15,11 +15,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProposalCommandServiceImpl implements ProposalCommandService {
     private final ProposalRepository proposalRepository;
-    private final ProposalConverter proposalConverter;
 
     @Override
     public Long writeProposal(User user, ProposalRequestDto proposalRequestDto) {
-        Proposal proposal = proposalConverter.toEntity(user, proposalRequestDto);
+        Proposal proposal = ProposalConverter.toEntity(user, proposalRequestDto);
         proposalRepository.save(proposal);
         return proposal.getId();
     }

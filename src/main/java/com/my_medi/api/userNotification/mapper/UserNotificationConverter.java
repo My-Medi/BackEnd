@@ -8,10 +8,9 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//TODO method 명 통일(to~)
 public class UserNotificationConverter {
 
-    public static UserNotificationDto fromUserNotification(UserNotification userNotification) {
+    public static UserNotificationDto toUserNotification(UserNotification userNotification) {
         return UserNotificationDto.builder()
                 .userNotificationId(userNotification.getId())
                 .userId(userNotification.getUser().getId())
@@ -23,7 +22,7 @@ public class UserNotificationConverter {
 
     public static UserNotificationSimplePageResponse toUserNotificationPageDto(Page<UserNotification> notificationPage) {
         List<UserNotificationDto> content = notificationPage.getContent().stream()
-                .map(UserNotificationConverter::fromUserNotification)
+                .map(UserNotificationConverter::toUserNotification)
                 .collect(Collectors.toList());
 
         return new UserNotificationSimplePageResponse(

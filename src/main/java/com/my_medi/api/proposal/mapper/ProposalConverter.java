@@ -60,7 +60,7 @@ public class ProposalConverter {
     }
 
     // Dto -> Entity
-    public Proposal toEntity(User user, ProposalRequestDto dto) {
+    public static Proposal toEntity(User user, ProposalRequestDto dto) {
         return Proposal.builder()
                 .user(user)
                 .lifeDescription(dto.getLifeDescription())
