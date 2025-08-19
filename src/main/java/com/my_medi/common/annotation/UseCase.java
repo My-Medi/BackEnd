@@ -1,6 +1,15 @@
 package com.my_medi.common.annotation;
 
-//TODO @UseCase 생성해서 api package.service에 적용하기
-// 어떻게 커스텀 어노테이션을 생성할 지, 그리고 UseCase와 Service에 차이점이 있을 지 고민해보기
+import org.springframework.core.annotation.AliasFor;
+import org.springframework.stereotype.Component;
+
+import java.lang.annotation.*;
+
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Component
 public @interface UseCase {
+    @AliasFor(annotation = Component.class)
+    String value() default "";
 }

@@ -3,6 +3,7 @@ package com.my_medi.api.schedule.service;
 import com.my_medi.api.common.dto.NotificationEventDto;
 import com.my_medi.api.schedule.dto.RegisterScheduleDto;
 import com.my_medi.api.userNotification.mapper.UserNotificationConverter;
+import com.my_medi.common.annotation.UseCase;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.notification.entity.NotificationMessage;
 import com.my_medi.domain.notification.entity.NotificationType;
@@ -13,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ScheduleUseCase {
     private final ScheduleCommandService scheduleCommandService;

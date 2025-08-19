@@ -1,5 +1,6 @@
 package com.my_medi.api.userNotification.service;
 
+import com.my_medi.common.annotation.UseCase;
 import com.my_medi.domain.notification.entity.UserNotification;
 import com.my_medi.domain.notification.service.UserNotificationQueryService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import static com.my_medi.common.consts.StaticVariable.PAGINATION_SORTING_BY_ID;
 import static com.my_medi.common.consts.StaticVariable.NOTIFICATION_READ;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class UserNotificationUseCase {
     private final UserNotificationQueryService userNotificationQueryService;

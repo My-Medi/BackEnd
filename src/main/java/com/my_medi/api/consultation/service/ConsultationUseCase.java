@@ -8,6 +8,7 @@ import com.my_medi.api.expertNotification.mapper.ExpertNotificationConverter;
 import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.api.report.dto.UserLatestReportStatusDto;
 import com.my_medi.api.userNotification.mapper.UserNotificationConverter;
+import com.my_medi.common.annotation.UseCase;
 import com.my_medi.common.util.ProposalMapperUtil;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
@@ -39,7 +40,7 @@ import java.util.stream.Collectors;
 
 import static com.my_medi.common.consts.StaticVariable.CREATED_DATE;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ConsultationUseCase {
     private final ConsultationRequestCommandService consultationRequestCommandService;
