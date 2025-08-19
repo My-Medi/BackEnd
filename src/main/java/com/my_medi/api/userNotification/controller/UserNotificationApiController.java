@@ -1,5 +1,6 @@
 package com.my_medi.api.userNotification.controller;
 
+import com.my_medi.api.common.service.SseService;
 import com.my_medi.api.userNotification.dto.UserNotificationResponseDto.UserNotificationSimplePageResponse;
 import com.my_medi.api.userNotification.dto.UserNotificationResponseDto.UserNotificationDto;
 import com.my_medi.api.common.dto.ApiResponseDto;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
 public class UserNotificationApiController {
     private final UserNotificationUseCase userNotificationUseCase;
     private final UserNotificationCommandService userNotificationCommandService;
+    private final SseService sseService;
 
     @Operation(summary = "사용자의 알림을 pagination 으로 조회합니다.")
     @GetMapping
@@ -55,5 +58,12 @@ public class UserNotificationApiController {
         userNotificationCommandService.removeNotifications(notificationId);
 
         return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "사용자 알림 실시간 조회를 위해 sse 연결을 합니다.")
+    @GetMapping("/stream")
+    public ApiResponseDto<String> linkUserAtSse(@AuthUser User user) {
+        sseService.connectUser(user.getId());
+        return ApiResponseDto.onSuccess(HttpStatus.OK.toString());
     }
 }
