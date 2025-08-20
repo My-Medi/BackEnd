@@ -88,7 +88,8 @@ public class SecurityConfig {
                 "/api/v1/test/health-check",
                 "/api/v1/examples/user",
                 "/api/v1/examples/global",
-                "/api/v1/tokens/**"
+                "/api/v1/tokens/**",
+                "/actuator/**"
         };
     }
 

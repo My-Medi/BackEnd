@@ -5,9 +5,9 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public interface SseService {
 
-    SseEmitter connectUser(Long userId);
+    SseEmitter connectUser(String userUsername);
 
-    SseEmitter connectExpert(Long expertId);
+    SseEmitter connectExpert(String expertUsername);
 
     void sendToUser(Long userId, Object notification);
 
