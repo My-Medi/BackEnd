@@ -28,10 +28,6 @@ public class ExpertAllowedToViewUserInfoValidator {
     public void validateStatusIn(Long expertId, Long userId, List<RequestStatus> statusList) {
         boolean isIncluded = consultationRequestRepository
                 .existsByUserIdAndExpertIdAndRequestStatusIn(userId, expertId, statusList);
-        for (RequestStatus requestStatus : statusList) {
-            log.info("status : {}", requestStatus);
-        }
-        log.info("isIncluded : {}", isIncluded);
         if (!isIncluded) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
