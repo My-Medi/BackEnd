@@ -68,9 +68,6 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() ->ScheduleHandler.NOT_FOUND);
 
-//        validateExpert(schedule, expertId);
-        // 나중에 하기
-
          schedule.update(editScheduleDto);
         return schedule.getId();
     }
@@ -80,7 +77,6 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> ScheduleHandler.NOT_FOUND);
 
-//        validateExpert(schedule, expertId);
         scheduleRepository.delete(schedule);
         return scheduleId;
     }
@@ -118,11 +114,6 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
         scheduleRepository.saveAll(scheduleList);
     }
 
-//    private void validateExpert(Schedule schedule, Long expertId) {
-//        if (!schedule.getExpert().getId().equals(expertId)) {
-//            throw new ScheduleHandler(ScheduleErrorStatus.SCHEDULE_ONLY_CAN_BE_TOUCHED_BY_EXPERT);
-//        }
-//    }
 
 
 }

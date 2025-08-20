@@ -58,10 +58,6 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         };
     }
 
-//    @Override
-//    public List<Schedule> getUpcomingSchedulesForUser(Long userId) {
-//        return findUpcomingSchedules(SortType.USER, userId);
-//    }
 
     @Override
     public List<Schedule> getUpcomingSchedulesForExpert(Long expertId) {
