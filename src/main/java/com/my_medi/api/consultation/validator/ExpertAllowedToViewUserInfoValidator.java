@@ -16,9 +16,17 @@ public class ExpertAllowedToViewUserInfoValidator {
     private final ConsultationRequestRepository consultationRequestRepository;
 
     public void validateMatchStatus(Long expertId, Long userId, RequestStatus status) {
-        boolean approved = consultationRequestRepository
+        boolean isExisted = consultationRequestRepository
                 .existsByExpertIdAndUserIdAndRequestStatus(expertId, userId, status);
-        if (!approved) {
+        if (!isExisted) {
+            throw ConsultationRequestHandler.NOT_FOUND;
+        }
+    }
+
+    public void validateStatusIn(Long expertId, Long userId, List<RequestStatus> statusList) {
+        boolean isIncluded = consultationRequestRepository
+                .existsByUserIdAndExpertIdAndRequestStatusIn(expertId, userId, statusList);
+        if (!isIncluded) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
     }

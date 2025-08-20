@@ -26,6 +26,8 @@ import com.my_medi.domain.user.service.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @UseCase
 @RequiredArgsConstructor
 public class ReportUseCase {
@@ -45,6 +47,11 @@ public class ReportUseCase {
     }
 
     public ReportSummaryDto getUserReportSummaryForExpert(Expert expert, Long userId) {
+        expertAllowedToViewUserInfoValidator.validateStatusIn(
+                expert.getId(),
+                userId,
+                List.of(RequestStatus.ACCEPTED, RequestStatus.REQUESTED)
+        );
 
         Report report = reportQueryService.getLatestReportByUserId(userId);
         ReportResult resultByReport = reportResultQueryService.getResultByReport(report.getId());
