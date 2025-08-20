@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//TODO exception 처리 통일 (not create object newly)
 @Service
 @Transactional
 @RequiredArgsConstructor
