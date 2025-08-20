@@ -6,10 +6,12 @@ import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Validator
 @RequiredArgsConstructor
 public class ExpertAllowedToViewUserInfoValidator {
@@ -25,7 +27,11 @@ public class ExpertAllowedToViewUserInfoValidator {
 
     public void validateStatusIn(Long expertId, Long userId, List<RequestStatus> statusList) {
         boolean isIncluded = consultationRequestRepository
-                .existsByUserIdAndExpertIdAndRequestStatusIn(expertId, userId, statusList);
+                .existsByUserIdAndExpertIdAndRequestStatusIn(userId, expertId, statusList);
+        for (RequestStatus requestStatus : statusList) {
+            log.info("status : {}", requestStatus);
+        }
+        log.info("isIncluded : {}", isIncluded);
         if (!isIncluded) {
             throw ConsultationRequestHandler.NOT_FOUND;
         }
