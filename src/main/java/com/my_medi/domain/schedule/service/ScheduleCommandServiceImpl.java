@@ -9,14 +9,12 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.schedule.entity.Schedule;
-import com.my_medi.domain.schedule.exception.ScheduleErrorStatus;
 import com.my_medi.domain.schedule.exception.ScheduleHandler;
 import com.my_medi.domain.schedule.repository.ScheduleRepository;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//TODO exception form unify
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
