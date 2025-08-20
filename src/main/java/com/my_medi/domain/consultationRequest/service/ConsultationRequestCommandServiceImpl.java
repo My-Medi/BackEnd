@@ -79,15 +79,15 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         if (request.getRequestStatus() == RequestStatus.REJECTED) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_STATUS);
+            throw ConsultationRequestHandler.INVALID_STATUS;
         }
 
         if(!request.getUser().getId().equals(userId)) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+            throw ConsultationRequestHandler.FORBIDDEN_REQUEST_OWNER_MISMATCH;
         }
 
         if(!request.getRequestStatus().equals(status)) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.STATUS_MISMATCH);
+            throw ConsultationRequestHandler.REQUEST_STATUS_MISMATCH;
         }
 
 
