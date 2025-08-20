@@ -22,7 +22,7 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
     private final ExpertNotificationRepository expertNotificationRepository;
 
     @Override
-    public void sendNotificationToExpert(Long expertId, Long sourceId, String comment) {
+    public ExpertNotification sendNotificationToExpert(Long expertId, Long sourceId, String comment) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
 
@@ -33,7 +33,7 @@ public class ExpertNotificationCommandServiceImpl implements ExpertNotificationC
                 .isRead(false)
                 .build();
 
-        expertNotificationRepository.save(expertNotification);
+        return expertNotificationRepository.save(expertNotification);
     }
 
     @Override

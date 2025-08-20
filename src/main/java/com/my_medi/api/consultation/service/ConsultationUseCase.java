@@ -1,18 +1,24 @@
 package com.my_medi.api.consultation.service;
 
+import com.my_medi.api.common.dto.NotificationEventDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto;
 import com.my_medi.api.consultation.dto.ExpertConsultationDto.*;
 import com.my_medi.api.consultation.mapper.ExpertConsultationConverter;
+import com.my_medi.api.expertNotification.mapper.ExpertNotificationConverter;
 import com.my_medi.api.report.dto.HealthStatus;
 import com.my_medi.api.report.dto.UserLatestReportStatusDto;
+import com.my_medi.api.userNotification.mapper.UserNotificationConverter;
+import com.my_medi.common.annotation.UseCase;
 import com.my_medi.common.util.ProposalMapperUtil;
 import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestCommandService;
 import com.my_medi.domain.consultationRequest.service.ConsultationRequestQueryService;
 import com.my_medi.domain.expert.entity.Expert;
+import com.my_medi.domain.notification.entity.ExpertNotification;
 import com.my_medi.domain.notification.entity.NotificationMessage;
 import com.my_medi.domain.notification.entity.NotificationType;
+import com.my_medi.domain.notification.entity.UserNotification;
 import com.my_medi.domain.notification.service.ExpertNotificationCommandService;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.repository.ProposalRepository;
@@ -21,6 +27,7 @@ import com.my_medi.domain.reportResult.entity.ReportResult;
 import com.my_medi.domain.user.entity.User;
 import com.my_medi.domain.notification.service.UserNotificationCommandService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +40,7 @@ import java.util.stream.Collectors;
 
 import static com.my_medi.common.consts.StaticVariable.CREATED_DATE;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ConsultationUseCase {
     private final ConsultationRequestCommandService consultationRequestCommandService;
@@ -42,6 +49,7 @@ public class ConsultationUseCase {
     private final ExpertNotificationCommandService expertNotificationCommandService;
     private final ProposalRepository proposalRepository;
     private final ReportRepository reportRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public void approveConsultationRequestAndSendNotificationToUser(Expert expert, Long consultationId) {
         consultationRequestCommandService.approveConsultation(consultationId, expert);
@@ -50,8 +58,15 @@ public class ConsultationUseCase {
         String notificationComment = NotificationMessage
                 .CONSULTATION_APPROVED.format(expert.getName());
 
-        userNotificationCommandService.sendNotificationToUser(request.getUser().getId(),
+        UserNotification userNotification = userNotificationCommandService.sendNotificationToUser(request.getUser().getId(),
                 consultationId, notificationComment, NotificationType.CONSULTATION_RESPONSE);
+
+        //sse
+        applicationEventPublisher.publishEvent(
+                new NotificationEventDto.UserNotificationEventDto(
+                        UserNotificationConverter.toUserNotification(userNotification)
+                )
+        );
     }
 
     public void rejectConsultationRequestAndSendNotificationToUser(Expert expert, Long consultationId) {
@@ -61,8 +76,18 @@ public class ConsultationUseCase {
         String notificationComment = NotificationMessage
                 .CONSULTATION_REJECTED.format(expert.getName());
 
-        userNotificationCommandService.sendNotificationToUser(request.getUser().getId(),
-                consultationId, notificationComment, NotificationType.CONSULTATION_RESPONSE);
+        UserNotification userNotification = userNotificationCommandService
+                .sendNotificationToUser(
+                        request.getUser().getId(),
+                        consultationId, notificationComment,
+                        NotificationType.CONSULTATION_RESPONSE
+                );
+        //sse
+        applicationEventPublisher.publishEvent(
+                new NotificationEventDto.UserNotificationEventDto(
+                        UserNotificationConverter.toUserNotification(userNotification)
+                )
+        );
     }
 
     //TODO return type 통일하기 Long -> void
@@ -71,8 +96,15 @@ public class ConsultationUseCase {
 
         String notificationComment = NotificationMessage.CONSULTATION_REQUESTED.format(user.getName());
 
-        expertNotificationCommandService.sendNotificationToExpert(expertId, requestId, notificationComment);
+        ExpertNotification expertNotification = expertNotificationCommandService
+                .sendNotificationToExpert(expertId, requestId, notificationComment);
 
+        //sse
+        applicationEventPublisher.publishEvent(
+                new NotificationEventDto.ExpertNotificationEventDto(
+                        ExpertNotificationConverter.toExpertNotification(expertNotification)
+                )
+        );
         return requestId;
     }
 

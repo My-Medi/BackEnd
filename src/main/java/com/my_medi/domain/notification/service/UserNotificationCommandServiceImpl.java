@@ -26,7 +26,7 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
     private final UserNotificationRepository userNotificationRepository;
 
     @Override
-    public void sendNotificationToUser(Long userId, Long sourceId, String comment, NotificationType notificationType) {
+    public UserNotification sendNotificationToUser(Long userId, Long sourceId, String comment, NotificationType notificationType) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserHandler.NOT_FOUND);
 
@@ -38,7 +38,7 @@ public class UserNotificationCommandServiceImpl implements UserNotificationComma
                 .isRead(false)
                 .build();
 
-        userNotificationRepository.save(userNotification);
+        return userNotificationRepository.save(userNotification);
     }
 
     @Override

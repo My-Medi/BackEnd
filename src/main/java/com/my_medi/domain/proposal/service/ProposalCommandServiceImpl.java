@@ -1,6 +1,7 @@
 package com.my_medi.domain.proposal.service;
 
 import com.my_medi.api.proposal.dto.ProposalRequestDto;
+import com.my_medi.api.proposal.mapper.ProposalConverter;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.exception.ProposalHandler;
 import com.my_medi.domain.proposal.repository.ProposalRepository;
@@ -17,39 +18,8 @@ public class ProposalCommandServiceImpl implements ProposalCommandService {
 
     @Override
     public Long writeProposal(User user, ProposalRequestDto proposalRequestDto) {
-        //TODO converter 사용해서 clean code
-        Proposal proposal = Proposal.builder()
-                .user(user)
-                .lifeDescription(proposalRequestDto.getLifeDescription())
-
-                .weightManagement(proposalRequestDto.getHealthInterestsDto().getWeightManagement())
-                .bloodSugarControl(proposalRequestDto.getHealthInterestsDto().getBloodSugarControl())
-                .cholesterolControl(proposalRequestDto.getHealthInterestsDto().getCholesterolControl())
-                .liverFunctionCare(proposalRequestDto.getHealthInterestsDto().getLiverFunctionCare())
-                .sleepRecovery(proposalRequestDto.getHealthInterestsDto().getSleepRecovery())
-                .dietImprovement(proposalRequestDto.getHealthInterestsDto().getDietImprovement())
-                .exerciseRoutine(proposalRequestDto.getHealthInterestsDto().getExerciseRoutine())
-                .stressAndLifestyle(proposalRequestDto.getHealthInterestsDto().getStressAndLifestyle())
-                .other(proposalRequestDto.getHealthInterestsDto().getOther())
-
-                .fastingBloodSugar(proposalRequestDto.getAbnormalValueDto().getFastingBloodSugar())
-                .cholesterolLdl(proposalRequestDto.getAbnormalValueDto().getCholesterolLdl())
-                .bloodPressure(proposalRequestDto.getAbnormalValueDto().getBloodPressure())
-                .liverEnzymes(proposalRequestDto.getAbnormalValueDto().getLiverEnzymes())
-                .bmiOrBodyFat(proposalRequestDto.getAbnormalValueDto().getBmiOrBodyFat())
-                .noHealthCheckResult(proposalRequestDto.getAbnormalValueDto().getNoHealthCheckResult())
-
-                .dietitian(proposalRequestDto.getHelpTopicDto().getDietitian())
-                .healthManager(proposalRequestDto.getHelpTopicDto().getHealthManager())
-                .wellnessCoach(proposalRequestDto.getHelpTopicDto().getWellnessCoach())
-                .exerciseTherapist(proposalRequestDto.getHelpTopicDto().getExerciseTherapist())
-                .recommendForMe(proposalRequestDto.getHelpTopicDto().getRecommendForMe())
-                .goal(proposalRequestDto.getGoal())
-                .requestNote(proposalRequestDto.getRequestNote())
-                .build();
-
+        Proposal proposal = ProposalConverter.toEntity(user, proposalRequestDto);
         proposalRepository.save(proposal);
-
         return proposal.getId();
     }
 

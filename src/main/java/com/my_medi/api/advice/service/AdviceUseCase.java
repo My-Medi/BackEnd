@@ -1,6 +1,7 @@
 package com.my_medi.api.advice.service;
 
 import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidator;
+import com.my_medi.common.annotation.UseCase;
 import com.my_medi.domain.advice.entity.Advice;
 import com.my_medi.domain.advice.exception.AdviceHandler;
 import com.my_medi.domain.advice.repository.AdviceRepository;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import static com.my_medi.common.consts.StaticVariable.ADVICE_ID;
 import static com.my_medi.common.consts.StaticVariable.CREATED_DATE;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class AdviceUseCase {
     private final AdviceQueryService adviceQueryService;

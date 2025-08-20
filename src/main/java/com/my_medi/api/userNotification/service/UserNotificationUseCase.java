@@ -1,23 +1,26 @@
 package com.my_medi.api.userNotification.service;
 
+import com.my_medi.common.annotation.UseCase;
 import com.my_medi.domain.notification.entity.UserNotification;
 import com.my_medi.domain.notification.service.UserNotificationQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-@Service
+import static com.my_medi.common.consts.StaticVariable.PAGINATION_SORTING_BY_ID;
+import static com.my_medi.common.consts.StaticVariable.NOTIFICATION_READ;
+
+@UseCase
 @RequiredArgsConstructor
 public class UserNotificationUseCase {
     private final UserNotificationQueryService userNotificationQueryService;
 
-    //TODO "isRead", "id" <- StaticVariables.class use
     public Page<UserNotification> getPrioritizedNotificationDtoPageByUserId
             (Long userId, Integer currentPage, Integer pageSize) {
         Pageable pageable = PageRequest.of(
                 currentPage,
                 pageSize,
-                Sort.by(Sort.Order.asc("isRead"), Sort.Order.desc("id")) // 안 읽은 알림 우선 + 최신순
+                Sort.by(Sort.Order.asc(NOTIFICATION_READ), Sort.Order.desc(PAGINATION_SORTING_BY_ID))
         );
 
         return userNotificationQueryService.getUserNotificationListByPage(userId, pageable);

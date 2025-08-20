@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.my_medi.api.proposal.dto.ProposalResponseDto.*;
+
 @Tag(name = "[전문가 페이지]건강제안서 API")
 @RestController
 @RequestMapping("/api/v1/experts/proposals")
@@ -22,8 +24,8 @@ public class ExpertProposalApiController {
 
     @Operation(summary = "매칭된 사용자의 건강제안서를 조회합니다.")
     @GetMapping("/users/{userId}")
-    public ApiResponseDto<ProposalResponseDto.UserProposalDto> getUserProposal(@AuthExpert Expert expert,
-                                                                               @PathVariable Long userId) {
+    public ApiResponseDto<UserProposalDto> getUserProposal(@AuthExpert Expert expert,
+                                                           @PathVariable Long userId) {
         return ApiResponseDto.onSuccess(getUserProposalByExpertUseCase.getUserProposalForExpert(expert, userId));
     }
 }

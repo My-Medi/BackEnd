@@ -1,18 +1,24 @@
 package com.my_medi.api.expertNotification.controller;
 
+import com.my_medi.api.common.service.SseService;
 import com.my_medi.api.expertNotification.dto.ExpertNotificationResponseDto.ExpertNotificationSimplePageResponse;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.expertNotification.mapper.ExpertNotificationConverter;
 import com.my_medi.api.expertNotification.service.ExpertNotificationUseCase;
 import com.my_medi.common.annotation.AuthExpert;
+import com.my_medi.common.annotation.AuthUser;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.notification.entity.ExpertNotification;
 import com.my_medi.domain.notification.service.ExpertNotificationCommandService;
+import com.my_medi.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 
@@ -23,6 +29,7 @@ import java.util.List;
 public class ExpertNotificationApiController {
     private final ExpertNotificationUseCase expertNotificationUseCase;
     private final ExpertNotificationCommandService expertNotificationCommandService;
+    private final SseService sseService;
 
     @Operation(summary = "전문가의 알림을 pagination 으로 조회합니다.")
     @GetMapping
@@ -31,9 +38,8 @@ public class ExpertNotificationApiController {
             @RequestParam(defaultValue = "0") int currentPage,
             @RequestParam int pageSize) {
 
-        //TODO service method명 직관적으로 변경
         Page<ExpertNotification> expertNotificationPage = expertNotificationUseCase
-                .getPrioritizedNotificationDtoPageByExpertId(expert.getId(), currentPage, pageSize);
+                .getExpertNotifications(expert.getId(), currentPage, pageSize);
 
         return ApiResponseDto.onSuccess(
                 ExpertNotificationConverter.toExpertNotificationPageDto(expertNotificationPage)
@@ -54,5 +60,11 @@ public class ExpertNotificationApiController {
         expertNotificationCommandService.removeNotifications(notificationId);
 
         return ApiResponseDto.onSuccess(null);
+    }
+
+    @Operation(summary = "사용자 알림 실시간 조회를 위해 sse 연결을 합니다.")
+    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter linkExpertAtSse(@AuthExpert Expert expert) {
+        return sseService.connectExpert(expert.getId());
     }
 }

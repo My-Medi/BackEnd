@@ -1,11 +1,12 @@
 package com.my_medi.domain.notification.service;
 
 import com.my_medi.domain.notification.entity.NotificationType;
+import com.my_medi.domain.notification.entity.UserNotification;
 
 import java.util.List;
 
 public interface UserNotificationCommandService {
-    void sendNotificationToUser(Long userId, Long sourceId, String comment, NotificationType notificationType);
+     UserNotification sendNotificationToUser(Long userId, Long sourceId, String comment, NotificationType notificationType);
 
     Long readUserNotification(Long notificationId);
 
