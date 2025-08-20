@@ -35,8 +35,7 @@ public enum ConsultationRequestErrorStatus implements BaseErrorCode {
 
     INVALID_STATUS(HttpStatus.BAD_REQUEST, 4159, "해당 상태의 상담 요청은 취소할 수 없습니다."),
 
-    REQUEST_FAILED(HttpStatus.BAD_REQUEST, 4160, "상담 요청을 취소할 수 없습니다. 존재하지 않거나, 권한이 없거나, 취소 불가능한 상태입니다.");
-
+    STATUS_MISMATCH(HttpStatus.BAD_REQUEST, 4160, "요청 ID와 상태가 일치하지 않습니다.");
 
 
     private final HttpStatus httpStatus;

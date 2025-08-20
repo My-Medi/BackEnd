@@ -71,31 +71,26 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
     @Override
     @Transactional
-    public void cancelRequest(final Long consultationRequestId,
-                              final Long userId,
-                              final RequestStatus status) {
-
-        if (status == RequestStatus.REJECTED) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_STATUS);
-        }
-
-        int affectedRows = consultationRequestRepository
-                .deleteByIdAndUserIdAndRequestStatus(consultationRequestId, userId, status);
-
-        if (affectedRows > 0) {
-            return;
-        }
+    public void cancelRequest(Long consultationRequestId,
+                              Long userId,
+                              RequestStatus status) {
 
         ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
-        if (!request.getUser().getId().equals(userId)) {
-            throw new ConsultationRequestHandler(
-                    ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER
-            );
+        if (request.getRequestStatus() == RequestStatus.REJECTED) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_STATUS);
         }
 
-        throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_FAILED);
+        if(!request.getUser().getId().equals(userId)) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+        }
+
+        if(!request.getRequestStatus().equals(status)) {
+            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.STATUS_MISMATCH);
+        }
+
+
     }
 
 
