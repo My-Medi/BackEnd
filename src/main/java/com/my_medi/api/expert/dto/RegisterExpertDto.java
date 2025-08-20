@@ -4,6 +4,7 @@ import com.my_medi.api.license.dto.LicenseRequestDto;
 import com.my_medi.api.licenseImage.dto.LicenseImageRequestDto;
 import com.my_medi.api.member.dto.RegisterMemberDto;
 import com.my_medi.domain.expert.entity.Specialty;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.util.List;
 public class RegisterExpertDto {
 
     // 회원 공통 정보
+    @Valid
     private RegisterMemberDto member;
 
     // Expert 정보
