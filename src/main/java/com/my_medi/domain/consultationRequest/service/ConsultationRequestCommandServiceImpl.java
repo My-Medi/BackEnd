@@ -70,15 +70,30 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
     }
 
     @Override
-    public void cancelRequest(Long consultationRequestId, Long userId) {
-        ConsultationRequest request = getRequestedConsultation(consultationRequestId);
+    @Transactional
+    public void cancelRequest(Long consultationRequestId,
+                              Long userId,
+                              RequestStatus status) {
 
-        if (!request.getUser().getId().equals(userId)) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+        ConsultationRequest request = consultationRequestRepository.findById(consultationRequestId)
+                .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
+
+        if (request.getRequestStatus() == RequestStatus.REJECTED) {
+            throw ConsultationRequestHandler.INVALID_STATUS;
         }
 
-        consultationRequestRepository.delete(request);
+        if(!request.getUser().getId().equals(userId)) {
+            throw ConsultationRequestHandler.FORBIDDEN_REQUEST_OWNER_MISMATCH;
+        }
+
+        if(!request.getRequestStatus().equals(status)) {
+            throw ConsultationRequestHandler.REQUEST_STATUS_MISMATCH;
+        }
+
+
     }
+
+
 
     @Override
     public void approveConsultation(Long consultationId, Expert expert) {
