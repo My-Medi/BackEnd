@@ -50,7 +50,11 @@ public class ExpertQueryUserApiController {
                                                              @PathVariable Long userId,
                                                              @RequestParam(name = "status") RequestStatus status) // REQUESTED/ACCEPTED/REJECTED
     {
-        expertAllowedToViewUserInfoValidator.validate(expert.getId(), userId, status);
+        expertAllowedToViewUserInfoValidator.validateMatchStatus(
+                expert.getId(),
+                userId,
+                status
+        );
 
         User user = userQueryService.getUserById(userId);
         Proposal proposal = proposalQueryService.getProposalByUserId(userId);
