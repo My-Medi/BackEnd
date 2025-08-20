@@ -62,8 +62,8 @@ public class ExpertNotificationApiController {
 
     @Operation(summary = "사용자 알림 실시간 조회를 위해 sse 연결을 합니다.")
     @GetMapping("/stream")
-    public ApiResponseDto<String> linkUserAtSse(@AuthUser User user) {
-        sseService.connectUser(user.getId());
+    public ApiResponseDto<String> linkExpertAtSse(@AuthExpert Expert expert) {
+        sseService.connectExpert(expert.getId());
         return ApiResponseDto.onSuccess(HttpStatus.OK.toString());
     }
 }
