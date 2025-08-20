@@ -3,9 +3,7 @@ package com.my_medi.api.schedule.controller;
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.schedule.dto.ScheduleResponseDto;
 import com.my_medi.api.schedule.mapper.ScheduleMapper;
-import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.common.annotation.AuthUser;
-import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.schedule.entity.Schedule;
 import com.my_medi.domain.schedule.service.ScheduleQueryService;
 import com.my_medi.domain.user.entity.User;
@@ -42,21 +40,6 @@ public class UserScheduleApiController {
         List<Schedule> userSchedules = scheduleQueryService.getUserSchedulesByMonth(user.getId(), year, month);
         return ApiResponseDto.onSuccess(ScheduleMapper.toScheduleListDto(userSchedules));
     }
-
-//    @Operation(summary = "사용자의 가장 임박한 3개의 스케줄을 조회합니다.")
-//    @GetMapping("/upcoming")
-//    public ApiResponseDto<List<ScheduleResponseDto.ScheduleSummaryDto>> getUpcomingSchedules(
-//            @AuthUser User user) {
-//
-//        List<Schedule> upcomingSchedules = scheduleQueryService.getUpcomingSchedulesForUser(user.getId());
-//
-//        List<ScheduleResponseDto.ScheduleSummaryDto> dtoList =
-//                upcomingSchedules.stream()
-//                        .map(ScheduleMapper::toScheduleSummaryDto)
-//                        .toList();
-//
-//        return ApiResponseDto.onSuccess(dtoList);
-//    }
 
     @Operation(summary = "특정 날짜의 사용자의 일정 목록을 조회합니다")
     @GetMapping("/date")
