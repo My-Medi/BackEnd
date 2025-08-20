@@ -9,6 +9,7 @@ import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidat
 import com.my_medi.common.annotation.AuthExpert;
 import com.my_medi.domain.advice.entity.Advice;
 import com.my_medi.domain.advice.service.AdviceCommandService;
+import com.my_medi.domain.consultationRequest.entity.RequestStatus;
 import com.my_medi.domain.expert.entity.Expert;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,9 +29,13 @@ public class ExpertAdviceApiController {
     @Operation(summary = "전문가가 매칭된 사용자에게 조언을 등록합니다.")
     @PostMapping("/users/{userId}")
     public ApiResponseDto<Long> registerExpertAdviceToUser(@AuthExpert Expert expert,
-                                                         @PathVariable Long userId,
-                                                         @RequestBody AdviceRequestDto adviceRequestDto) {
-        expertAllowedToViewUserInfoValidator.validateExpertHasAcceptedUser(expert.getId(), userId);
+                                                           @PathVariable Long userId,
+                                                           @RequestBody AdviceRequestDto adviceRequestDto) {
+        expertAllowedToViewUserInfoValidator.validateMatchStatus(
+                expert.getId(),
+                userId,
+                RequestStatus.ACCEPTED
+        );
 
         return ApiResponseDto.onSuccess(adviceCommandService
                 .registerExpertAdviceToUser(expert, userId, adviceRequestDto));

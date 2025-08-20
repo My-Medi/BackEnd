@@ -2,6 +2,7 @@ package com.my_medi.api.report.controller;
 
 import com.my_medi.api.common.dto.ApiResponseDto;
 import com.my_medi.api.report.dto.ReportResponseDto;
+import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.api.report.dto.ReportSummaryDto;
 import com.my_medi.api.report.service.ReportUseCase;
 import com.my_medi.common.annotation.AuthExpert;
@@ -20,9 +21,9 @@ public class ExpertReportApiController {
 
     @Operation(summary = "전문가가 매칭된 환자의 n회차 건강리포트를 조회합니다.")
     @GetMapping("/users/{userId}")
-    public ApiResponseDto<ReportResponseDto.UserReportDto> getUserReport(@AuthExpert Expert expert,
-                                                                         @PathVariable Long userId,
-                                                                         @RequestParam Integer round) {
+    public ApiResponseDto<ReportResultDto> getUserReport(@AuthExpert Expert expert,
+                                                         @PathVariable Long userId,
+                                                         @RequestParam Integer round) {
         return ApiResponseDto.onSuccess(reportUseCase.getUserReportForExpert(expert, userId, round));
     }
 
