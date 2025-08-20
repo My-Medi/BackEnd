@@ -1,9 +1,11 @@
 package com.my_medi.domain.notification.service;
 
+import com.my_medi.domain.notification.entity.ExpertNotification;
+
 import java.util.List;
 
 public interface ExpertNotificationCommandService {
-    void sendNotificationToExpert(Long expertId, Long sourceId, String comment);
+    ExpertNotification sendNotificationToExpert(Long expertId, Long sourceId, String comment);
 
     Long readExpertNotification(Long notificationId);
 

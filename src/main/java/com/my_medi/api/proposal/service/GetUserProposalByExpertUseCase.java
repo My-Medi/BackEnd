@@ -3,13 +3,14 @@ package com.my_medi.api.proposal.service;
 import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidator;
 import com.my_medi.api.proposal.dto.ProposalResponseDto;
 import com.my_medi.api.proposal.mapper.ProposalConverter;
+import com.my_medi.common.annotation.UseCase;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.proposal.entity.Proposal;
 import com.my_medi.domain.proposal.service.ProposalQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class GetUserProposalByExpertUseCase {
     private final ProposalQueryService proposalQueryService;
