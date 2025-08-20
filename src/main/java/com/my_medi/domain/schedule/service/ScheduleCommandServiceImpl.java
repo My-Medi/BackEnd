@@ -99,7 +99,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
                 .existsByExpertIdAndUserIdAndRequestStatus(expertId, userId, RequestStatus.ACCEPTED);
 
         if (!isMatched) {
-            throw new ScheduleHandler(ScheduleErrorStatus.NOT_MATCHED_CONSULTATION);
+            throw ScheduleHandler.MISMATCHED_CONSULTATION;
         }
 
         List<Schedule> scheduleList = new ArrayList<>();
