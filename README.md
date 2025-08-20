@@ -11,7 +11,7 @@
 |                                Backend(lead)                          |                               Backend                               |                                Backend                                 |                                Backend                                 |
 |:---------------------------------------------------------------------:|:-------------------------------------------------------------------:|:----------------------------------------------------------------------:|:----------------------------------------------------------------------:|
 | <img src="https://github.com/H4nnhoi.png" width="150" /> | <img src="https://github.com/DwKwCs.png" width="150" /> | <img src="https://github.com/Sohyunnnn.png" width="150" /> | <img src="https://github.com/Seona12.png" width="150" /> |
-| [이정한/한호](https://github.com/H4nnhoi)<br />공공데이터&리포트 개발 및 배포 | [고동우/동우](https://github.com/DwKwCs)<br />알림 및 제안서, 리포트 관련 담당 | [박소현/쏘](https://github.com/Sohyunnnn)<br />스케줄 및 상담 요청 비즈니스 담당 |[편선아/선아](https://github.com/Seona12)<br /> 회원 정보 및 시큐리티 담당|
+| [이정한](https://github.com/H4nnhoi)<br />공공데이터&리포트 개발 및 배포 | [고동우](https://github.com/DwKwCs)<br />알림 및 제안서, 리포트 관련 담당 | [박소현](https://github.com/Sohyunnnn)<br />스케줄 및 상담 요청 비즈니스 담당 |[편선아](https://github.com/Seona12)<br /> 회원 정보 및 시큐리티 담당|
 
 </div>
 
