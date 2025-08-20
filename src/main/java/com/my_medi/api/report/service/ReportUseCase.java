@@ -4,6 +4,8 @@ import com.my_medi.api.consultation.validator.ExpertAllowedToViewUserInfoValidat
 import com.my_medi.api.report.dto.ReportResponseDto;
 import com.my_medi.api.report.dto.ReportResponseDto.ReportResultDto;
 import com.my_medi.api.report.dto.ReportResponseDto.UserReportDto;
+import com.my_medi.api.report.dto.ReportResultResponseDto;
+import com.my_medi.api.report.dto.ReportResultResponseDto.UserReportResultDto;
 import com.my_medi.api.report.dto.ReportSummaryDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.mapper.ReportConverter;
@@ -44,6 +46,17 @@ public class ReportUseCase {
         );
         User user = userQueryService.getUserById(userId);
         return reportQueryService.compareReport(user, round);
+    }
+
+    public UserReportResultDto getUserReportResultForExpert(Expert expert, Long userId, Integer round) {
+        expertAllowedToViewUserInfoValidator.validateMatchStatus(
+                expert.getId(),
+                userId,
+                RequestStatus.ACCEPTED
+        );
+        ReportResult resultByReport = reportResultQueryService
+                .getResultByReport(reportQueryService.getReportByRound(userId, round).getId());
+        return ReportConverter.toUserReportResultDto(resultByReport);
     }
 
     public ReportSummaryDto getUserReportSummaryForExpert(Expert expert, Long userId) {
