@@ -19,14 +19,14 @@ public class SseServiceImpl implements SseService{
     @Qualifier("expertEmitters")
     private final Map<String, SseEmitter> expertEmitters;
     @Override
-    public SseEmitter connectUser(Long userId) {
-        String key = "user_" + userId;
+    public SseEmitter connectUser(String userUsername) {
+        String key = "user_" + userUsername;
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
 
         emitter.onCompletion(() -> userEmitters.remove(key));
         emitter.onTimeout(() -> userEmitters.remove(key));
         emitter.onError((e) -> {
-            log.error("SSE error for user {}: {}", userId, e.getMessage());
+            log.error("SSE error for user {}: {}", userUsername, e.getMessage());
             userEmitters.remove(key);
         });
 
@@ -38,7 +38,7 @@ public class SseServiceImpl implements SseService{
                     .name("connected")
                     .data("SSE 연결이 성공했습니다"));
         } catch (IOException e) {
-            log.error("Failed to send connection message to user {}", userId, e);
+            log.error("Failed to send connection message to user {}", userUsername, e);
             userEmitters.remove(key);
             emitter.completeWithError(e);
         }
@@ -47,14 +47,14 @@ public class SseServiceImpl implements SseService{
     }
 
     @Override
-    public SseEmitter connectExpert(Long expertId) {
-        String key = "expert_" + expertId;
+    public SseEmitter connectExpert(String expertUsername) {
+        String key = "expert_" + expertUsername;
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
 
         emitter.onCompletion(() -> expertEmitters.remove(key));
         emitter.onTimeout(() -> expertEmitters.remove(key));
         emitter.onError((e) -> {
-            log.error("SSE error for expert {}: {}", expertId, e.getMessage());
+            log.error("SSE error for expert {}: {}", expertUsername, e.getMessage());
             expertEmitters.remove(key);
         });
 
@@ -65,7 +65,7 @@ public class SseServiceImpl implements SseService{
                     .name("connected")
                     .data("SSE 연결이 성공했습니다"));
         } catch (IOException e) {
-            log.error("Failed to send connection message to expert {}", expertId, e);
+            log.error("Failed to send connection message to expert {}", expertUsername, e);
             expertEmitters.remove(key);
             emitter.completeWithError(e);
         }

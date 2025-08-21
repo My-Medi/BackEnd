@@ -32,3 +32,8 @@ spring:
 discord:
   alert:
     enabled: false
+
+logging:
+  level:
+    com.zaxxer.hikari: TRACE
+    com.zaxxer.hikari.HikariConfig: DEBUG
