@@ -11,4 +11,5 @@ public interface AdviceRepository extends JpaRepository<Advice, Long> {
     Page<Advice> findAllByUserId(Long userId, Pageable pageable);
     Page<Advice> findAllByExpertIdAndUserId(Long expertId, Long userId, Pageable pageable);
     Optional<Advice> findTop1ByUserIdOrderByCreatedDateDescIdDesc(Long userId);
+    void deleteByUserId(Long userId);
 }

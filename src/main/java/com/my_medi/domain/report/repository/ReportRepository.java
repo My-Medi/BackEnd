@@ -39,4 +39,8 @@ WHERE r.user.id IN :userIds
   )
 """)
     List<UserLatestReportStatusDto> findLatestReportStatusByUserIds(@Param("userIds") Set<Long> userIds);
+
+    List<Long> findIdsByUserId(Long userId);
+
+    void deleteAllByUserId(Long userId);
 }
