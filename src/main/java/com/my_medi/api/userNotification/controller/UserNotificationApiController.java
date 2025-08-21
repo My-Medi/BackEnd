@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -67,7 +69,7 @@ public class UserNotificationApiController {
 
     @Operation(summary = "사용자 알림 실시간 조회를 위해 sse 연결을 합니다.")
     @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter linkUserAtSse(@AuthUser User user) {
-        return sseService.connectUser(user.getId());
+    public SseEmitter linkUserAtSse(@AuthenticationPrincipal UserDetails userDetails) {
+        return sseService.connectUser(userDetails.getUsername());
     }
 }
