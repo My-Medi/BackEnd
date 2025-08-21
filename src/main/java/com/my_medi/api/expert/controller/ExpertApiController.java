@@ -11,6 +11,7 @@ import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.service.ExpertCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class ExpertApiController {
 
     @Operation(summary = "전문가 계정을 생성합니다.[회원가입 플로우 전문가 ver.]")
     @PostMapping
-    public ApiResponseDto<Long> registerExpertAccount(@RequestBody RegisterExpertDto registerExpertDto) {
+    public ApiResponseDto<Long> registerExpertAccount(@RequestBody @Valid RegisterExpertDto registerExpertDto) {
         return ApiResponseDto.onSuccess(expertCommandService.registerExpert(registerExpertDto));
     }
 
