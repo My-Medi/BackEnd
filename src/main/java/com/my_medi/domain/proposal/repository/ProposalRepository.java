@@ -19,4 +19,6 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
         where u.id in :userIds
     """)
     List<Proposal> findAllByUserIdInWithUser(@Param("userIds") Set<Long> userIds);
+
+    void deleteByUserId(Long userId);
 }

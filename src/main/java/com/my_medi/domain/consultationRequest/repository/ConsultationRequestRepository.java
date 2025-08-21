@@ -84,7 +84,7 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
 
     int deleteByIdAndUserIdAndRequestStatus(Long id, Long userId, RequestStatus status);
 
-
+    void deleteByUserId(Long userId);
 
 
 
