@@ -14,6 +14,7 @@ public class NotificationEventDto {
     @Builder
     @AllArgsConstructor
     public static class UserNotificationEventDto{
+        private String username;
         private UserNotificationDto userNotificationDto;
     }
 
@@ -21,6 +22,7 @@ public class NotificationEventDto {
     @Builder
     @AllArgsConstructor
     public static class ExpertNotificationEventDto{
+        private String username;
         private ExpertNotificationDto expertNotificationDto;
     }
 

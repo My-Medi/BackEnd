@@ -9,7 +9,7 @@ public interface SseService {
 
     SseEmitter connectExpert(String expertUsername);
 
-    void sendToUser(Long userId, Object notification);
+    void sendToUser(String userUsername, Object notification);
 
-    void sendToExpert(Long expertId, Object notification);
+    void sendToExpert(String expertUsername, Object notification);
 }
