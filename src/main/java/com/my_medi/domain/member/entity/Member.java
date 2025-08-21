@@ -58,13 +58,14 @@ public abstract class Member extends BaseTimeEntity implements UserDetails {
     private String nickname;
 
     //이메일
-    // TODO: email, password : 검증 어노테이션, presentation(web 혹은 api) 레이어에 좀 더 적합하므로 추후 수정
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    //아이디 : 소문자, 대문자, 특수문자 포함 8글자 이상
     @Column(name = "login_id", unique = true)
     private String loginId;
 
+    //비밀번호 : 소문자, 대문자, 특수문자 포함 8글자 이상
     private String password;
 
     //연락처

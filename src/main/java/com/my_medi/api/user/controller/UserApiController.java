@@ -18,6 +18,7 @@ import com.my_medi.domain.user.service.UserCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,11 +31,10 @@ public class UserApiController {
 
     private final UserCommandService userCommandService;
     private final ReportQueryService reportQueryService;
-    private final ExpertQueryService expertQueryService;
 
     @Operation(summary = "사용자 계정을 생성합니다.")
     @PostMapping
-    public ApiResponseDto<Long> registerUserAccount(@RequestBody RegisterMemberDto registerMemberDto) {
+    public ApiResponseDto<Long> registerUserAccount(@RequestBody @Valid RegisterMemberDto registerMemberDto) {
         return ApiResponseDto.onSuccess(userCommandService.registerUser(registerMemberDto));
     }
 
