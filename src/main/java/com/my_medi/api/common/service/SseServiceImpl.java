@@ -74,8 +74,8 @@ public class SseServiceImpl implements SseService{
     }
 
     @Override
-    public void sendToUser(Long userId, Object notification) {
-        String key = "user_" + userId;
+    public void sendToUser(String userUsername, Object notification) {
+        String key = "user_" + userUsername;
         SseEmitter emitter = userEmitters.get(key);
 
         if (emitter != null) {
@@ -84,15 +84,15 @@ public class SseServiceImpl implements SseService{
                         .name("notification")
                         .data(notification));
             } catch (IOException e) {
-                log.error("Failed to send notification to user {}", userId, e);
+                log.error("Failed to send notification to user {}", userUsername, e);
                 userEmitters.remove(key);
             }
         }
     }
 
     @Override
-    public void sendToExpert(Long expertId, Object notification) {
-        String key = "expert_" + expertId;
+    public void sendToExpert(String expertUsername, Object notification) {
+        String key = "expert_" + expertUsername;
         SseEmitter emitter = expertEmitters.get(key);
 
         if (emitter != null) {
@@ -101,7 +101,7 @@ public class SseServiceImpl implements SseService{
                         .name("notification")
                         .data(notification));
             } catch (IOException e) {
-                log.error("Failed to send notification to expert {}", expertId, e);
+                log.error("Failed to send notification to expert {}", expertUsername, e);
                 expertEmitters.remove(key);
             }
         }

@@ -64,6 +64,7 @@ public class ConsultationUseCase {
         //sse
         applicationEventPublisher.publishEvent(
                 new NotificationEventDto.UserNotificationEventDto(
+                        userNotification.getUser().getUsername(),
                         UserNotificationConverter.toUserNotification(userNotification)
                 )
         );
@@ -85,6 +86,7 @@ public class ConsultationUseCase {
         //sse
         applicationEventPublisher.publishEvent(
                 new NotificationEventDto.UserNotificationEventDto(
+                        userNotification.getUser().getUsername(),
                         UserNotificationConverter.toUserNotification(userNotification)
                 )
         );
@@ -102,6 +104,7 @@ public class ConsultationUseCase {
         //sse
         applicationEventPublisher.publishEvent(
                 new NotificationEventDto.ExpertNotificationEventDto(
+                        expertNotification.getExpert().getUsername(),
                         ExpertNotificationConverter.toExpertNotification(expertNotification)
                 )
         );

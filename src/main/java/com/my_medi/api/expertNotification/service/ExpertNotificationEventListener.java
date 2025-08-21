@@ -9,6 +9,8 @@ import com.my_medi.domain.notification.entity.ExpertNotification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -27,7 +29,7 @@ public class ExpertNotificationEventListener {
     @TransactionalEventListener(phase = AFTER_COMMIT, fallbackExecution=true)
     public void handleSendingNotificationEvent(ExpertNotificationEventDto expertNotification) {
         sseService.sendToExpert(
-                expertNotification.getExpertNotificationDto().getExpertId(),
+                expertNotification.getUsername(),
                 expertNotification
         );
     }

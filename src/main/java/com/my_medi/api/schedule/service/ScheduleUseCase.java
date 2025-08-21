@@ -34,6 +34,7 @@ public class ScheduleUseCase {
         //sse
         applicationEventPublisher.publishEvent(
                 new NotificationEventDto.UserNotificationEventDto(
+                        userNotification.getUser().getUsername(),
                         UserNotificationConverter.toUserNotification(userNotification)
                 )
         );
