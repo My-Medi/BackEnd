@@ -53,7 +53,6 @@ public class Report extends BaseTimeEntity {
     @JoinColumn(name = "additional_test_id")
     private AdditionalTest additionalTest;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

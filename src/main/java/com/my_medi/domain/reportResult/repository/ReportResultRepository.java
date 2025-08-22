@@ -22,5 +22,5 @@ public interface ReportResultRepository extends JpaRepository<ReportResult, Long
         select r.id from Report r where r.user.id = :userId
       )
     """)
-    int deleteAllByUserId(@Param("userId") Long userId);
+    void deleteAllByUserId(@Param("userId") Long userId);
 }

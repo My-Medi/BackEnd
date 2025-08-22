@@ -81,6 +81,5 @@ public class UserCommandServiceImpl implements UserCommandService {
         userRepository.delete(user); // TODO : Hard delete이나 추후 soft로 변경예정
         return user.getId();
     }
-
 }
 
