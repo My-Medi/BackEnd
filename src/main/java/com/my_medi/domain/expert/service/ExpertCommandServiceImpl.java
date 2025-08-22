@@ -2,10 +2,12 @@ package com.my_medi.domain.expert.service;
 
 import com.my_medi.api.expert.dto.RegisterExpertDto;
 import com.my_medi.common.util.EnumConvertUtil;
+import com.my_medi.domain.advice.repository.AdviceRepository;
 import com.my_medi.domain.career.entity.Career;
 import com.my_medi.domain.career.repository.CareerRepository;
 import com.my_medi.api.expert.dto.UpdateProfileDto;
 import com.my_medi.api.expert.dto.UpdateResumeDto;
+import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.exception.ExpertHandler;
 import com.my_medi.domain.expert.repository.ExpertRepository;
@@ -17,6 +19,8 @@ import com.my_medi.domain.license.entity.License;
 import com.my_medi.domain.licenseImage.entity.LicenseImage;
 import com.my_medi.domain.member.entity.Gender;
 import com.my_medi.domain.member.entity.Role;
+import com.my_medi.domain.notification.repository.ExpertNotificationRepository;
+import com.my_medi.domain.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +41,10 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     private final CareerRepository careerRepository;
     private final LicenseRepository licenseRepository;
     private final LicenseImageRepository licenseImageRepository;
+    private final AdviceRepository adviceRepository;
+    private final ConsultationRequestRepository consultationRequestRepository;
+    private final ExpertNotificationRepository expertNotificationRepository;
+    private final ScheduleRepository scheduleRepository;
 
 
     @Override
@@ -110,10 +118,17 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
     }
 
     @Override
+    @Transactional
     public void deleteExpertAccount(Long expertId) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
-        expertRepository.delete(expert); // TODO : hard delete이나 추후 soft delete 수정 예정
+        expertNotificationRepository.deleteAllByExpertId(expertId);
+        scheduleRepository.deleteAllByExpertId(expertId);
+        consultationRequestRepository.deleteAllByExpertId(expertId);
+        adviceRepository.deleteAllByExpertId(expertId);
+
+        // 마지막에 Expert
+        expertRepository.deleteById(expertId);
     }
 
     @Override

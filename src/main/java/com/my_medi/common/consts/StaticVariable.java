@@ -11,12 +11,13 @@ public class StaticVariable {
     public static final String REISSUE_ENDPOINT = "/api/v1/tokens/reissue";
     public static final String HEALTH_CHECK_ENDPOINT = "/api/v1/test/health-check";
     public static final String CREATED_DATE = "createdDate";
+    public static final String LAST_MODIFIED_DATE = "lastModifiedDate";
     public static final String ADVICE_ID = "id";
     public static final String NOTIFICATION_READ = "isRead";
     public static final String PAGINATION_SORTING_BY_ID  = "id";
 
     //JWT
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 3; // 3분
     public static final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 7; // 7일
 
     //HealthReportData JSON 필드 키

@@ -9,14 +9,12 @@ import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepo
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.ExpertRepository;
 import com.my_medi.domain.user.entity.User;
-import com.my_medi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//TODO exception 처리 통일 (not create object newly)
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,7 +30,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
         long existingCount = consultationRequestRepository.countByUserIdAndExpertId(user.getId(), expertId);
         if (existingCount >= 5) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.CONSULTATION_LIMIT_EXCEEDED);
+            throw ConsultationRequestHandler.CONSULTATION_LIMIT_EXCEEDED;
         }
 
         boolean hasInvalidStatus = consultationRequestRepository.existsByUserIdAndExpertIdAndRequestStatusIn(
@@ -41,7 +39,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
                 List.of(RequestStatus.REJECTED, RequestStatus.ACCEPTED)
         );
         if (hasInvalidStatus) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.ALREADY_PROCESSED_CONSULTATION);
+            throw ConsultationRequestHandler.ALREADY_PROCESSED_CONSULTATION;
         }
 
         ConsultationRequest request = ConsultationRequest.builder()
@@ -62,7 +60,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         if (!request.getUser().getId().equals(userId)) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER);
+            throw ConsultationRequestHandler.REQUEST_ONLY_CAN_BE_TOUCHED_BY_USER;
         }
 
         request.updateComment(comment);
@@ -114,7 +112,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
     private void validateExpertApprovalOrRejectionAuthority(ConsultationRequest request, Expert expert) {
         if (!request.getExpert().getId().equals(expert.getId())) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
+            throw ConsultationRequestHandler.EXPERT_MISMATCH;
         }
 
         boolean hasConflict = consultationRequestRepository.existsByExpertIdAndUserIdAndRequestStatusNot(
@@ -124,7 +122,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         );
 
         if (hasConflict) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.DUPLICATED_CONSULTATION);
+            throw ConsultationRequestHandler.DUPLICATED_CONSULTATION;
         }
     }
 
@@ -147,7 +145,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         if (request.getRequestStatus() != RequestStatus.REQUESTED) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_REQUEST_STATUS);
+            throw ConsultationRequestHandler.INVALID_REQUEST_STATUS;
         }
 
         return request;
@@ -159,11 +157,11 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
                 .orElseThrow(() -> ConsultationRequestHandler.NOT_FOUND);
 
         if (!request.getExpert().getId().equals(expert.getId())) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.EXPERT_MISMATCH);
+            throw ConsultationRequestHandler.EXPERT_MISMATCH;
         }
 
         if (request.getRequestStatus() != RequestStatus.ACCEPTED) {
-            throw new ConsultationRequestHandler(ConsultationRequestErrorStatus.INVALID_REQUEST_STATUS);
+            throw ConsultationRequestHandler.INVALID_REQUEST_STATUS;
         }
 
         consultationRequestRepository.delete(request);

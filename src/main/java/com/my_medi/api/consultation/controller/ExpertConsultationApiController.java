@@ -61,7 +61,6 @@ public class ExpertConsultationApiController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size) {
 
-        //TODO "createdDate" -> StaticVariables.class
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
         Page<ConsultationRequest> requests = consultationRequestQueryService

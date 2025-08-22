@@ -10,7 +10,11 @@ import com.my_medi.api.report.dto.ReportSummaryDto;
 import com.my_medi.api.report.dto.WriteReportRequestDto;
 import com.my_medi.api.report.mapper.ReportConverter;
 import com.my_medi.common.annotation.UseCase;
+import com.my_medi.common.consts.StaticVariable;
+import com.my_medi.domain.consultationRequest.entity.ConsultationRequest;
 import com.my_medi.domain.consultationRequest.entity.RequestStatus;
+import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandler;
+import com.my_medi.domain.consultationRequest.service.ConsultationRequestQueryService;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.report.entity.Report;
 import com.my_medi.domain.report.exception.ReportHandler;
@@ -26,6 +30,10 @@ import com.my_medi.domain.user.exception.UserHandler;
 import com.my_medi.domain.user.repository.UserRepository;
 import com.my_medi.domain.user.service.UserQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +45,7 @@ public class ReportUseCase {
     private final ReportResultQueryService reportResultQueryService;
     private final ExpertAllowedToViewUserInfoValidator expertAllowedToViewUserInfoValidator;
     private final UserQueryService userQueryService;
+    private final ConsultationRequestQueryService consultationRequestQueryService;
 
     public ReportResultDto getUserReportForExpert(Expert expert, Long userId, Integer round) {
         expertAllowedToViewUserInfoValidator.validateMatchStatus(
@@ -69,6 +78,20 @@ public class ReportUseCase {
         Report report = reportQueryService.getLatestReportByUserId(userId);
         ReportResult resultByReport = reportResultQueryService.getResultByReport(report.getId());
         return ReportConverter.toUserReportSummaryDto(report, resultByReport);
+    }
+
+    //TODO sql 낭비 줄이기
+    public UserReportResultDto getLatestMatchedUserReportResult(Expert expert) {
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(StaticVariable.LAST_MODIFIED_DATE).descending());
+        Page<ConsultationRequest> requestByExpert = consultationRequestQueryService
+                .getRequestByExpert(expert.getId(), RequestStatus.ACCEPTED, pageable);
+
+        if (requestByExpert.getTotalElements() == 0) return null;
+        Report latestReportByUserId = reportQueryService.getLatestReportByUserId(requestByExpert.getContent().get(0).getUser().getId());
+        return ReportConverter.toUserReportResultDto(
+                reportResultQueryService.getResultByReport(latestReportByUserId.getId()
+                )
+        );
     }
 
 }

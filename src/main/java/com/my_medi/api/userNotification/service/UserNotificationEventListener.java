@@ -19,7 +19,6 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import static com.my_medi.api.userNotification.dto.UserNotificationResponseDto.*;
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserNotificationEventListener {
