@@ -22,7 +22,7 @@ public class SseServiceImpl implements SseService{
     @Override
     public SseEmitter connectUser(String userUsername) {
         String key = "user_" + userUsername;
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        SseEmitter emitter = new SseEmitter(10000 * 60 * 60L);
 
         emitter.onCompletion(() -> userEmitters.remove(key));
         emitter.onTimeout(() -> userEmitters.remove(key));
@@ -50,7 +50,7 @@ public class SseServiceImpl implements SseService{
     @Override
     public SseEmitter connectExpert(String expertUsername) {
         String key = "expert_" + expertUsername;
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        SseEmitter emitter = new SseEmitter(10000 * 60 * 60L);
 
         emitter.onCompletion(() -> expertEmitters.remove(key));
         emitter.onTimeout(() -> expertEmitters.remove(key));
