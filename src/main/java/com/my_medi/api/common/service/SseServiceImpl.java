@@ -3,6 +3,7 @@ package com.my_medi.api.common.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -105,5 +106,29 @@ public class SseServiceImpl implements SseService{
                 expertEmitters.remove(key);
             }
         }
+    }
+    @Scheduled(fixedRate = 50000)
+    public void sendHeartbeatToUser() {
+        userEmitters.forEach((key, emitter) -> {
+            try {
+                // 주석(comment)을 보내면 클라이언트에서 별도의 이벤트를 발생시키지 않음
+                emitter.send(SseEmitter.event().comment("heartbeat"));
+            } catch (IOException e) {
+                // IOException 발생 시 연결이 끊어졌다고 판단하고 맵에서 제거
+                userEmitters.remove(key);
+            }
+        });
+    }
+    @Scheduled(fixedRate = 50000)
+    public void sendHeartbeatToExpert() {
+        expertEmitters.forEach((key, emitter) -> {
+            try {
+                // 주석(comment)을 보내면 클라이언트에서 별도의 이벤트를 발생시키지 않음
+                emitter.send(SseEmitter.event().comment("heartbeat"));
+            } catch (IOException e) {
+                // IOException 발생 시 연결이 끊어졌다고 판단하고 맵에서 제거
+                expertEmitters.remove(key);
+            }
+        });
     }
 }
