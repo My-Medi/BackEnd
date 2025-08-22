@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -109,26 +111,30 @@ public class SseServiceImpl implements SseService{
     }
     @Scheduled(fixedRate = 30000)
     public void sendHeartbeatToUser() {
+        List<String> deadEmitters = new ArrayList<>();
         userEmitters.forEach((key, emitter) -> {
             try {
                 // 주석(comment)을 보내면 클라이언트에서 별도의 이벤트를 발생시키지 않음
                 emitter.send(SseEmitter.event().comment("heartbeat"));
             } catch (IOException e) {
                 // IOException 발생 시 연결이 끊어졌다고 판단하고 맵에서 제거
-                userEmitters.remove(key);
+                deadEmitters.add(key);
             }
+            deadEmitters.forEach(userEmitters::remove);
         });
     }
     @Scheduled(fixedRate = 30000)
     public void sendHeartbeatToExpert() {
+        List<String> deadEmitters = new ArrayList<>();
         expertEmitters.forEach((key, emitter) -> {
             try {
                 // 주석(comment)을 보내면 클라이언트에서 별도의 이벤트를 발생시키지 않음
                 emitter.send(SseEmitter.event().comment("heartbeat"));
             } catch (IOException e) {
                 // IOException 발생 시 연결이 끊어졌다고 판단하고 맵에서 제거
-                expertEmitters.remove(key);
+                deadEmitters.add(key);
             }
+            deadEmitters.forEach(expertEmitters::remove);
         });
     }
 }
