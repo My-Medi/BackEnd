@@ -14,7 +14,7 @@ public interface ExpertCommandService {
     // 피그마 [이력서 관리] 페이지
     Long updateResume(Long expertId, UpdateResumeDto dto);
 
-    void deleteExpertAccount(Long expertId);
+    Long deleteExpertAccount(Long expertId);
 
     void registerDummyExperts(int count);
 }

@@ -2,6 +2,7 @@ package com.my_medi.domain.schedule.repository;
 
 import com.my_medi.domain.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -45,5 +46,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findAllByExpertIdAndMeetingDate(Long expertId, LocalDate meetingDate);
 
     List<Schedule> findAllByUserIdAndMeetingDate(Long userId, LocalDate meetingDate);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from Schedule s where s.expert.id = :expertId")
+    void deleteAllByExpertId(@Param("expertId") Long expertId);
 }
 

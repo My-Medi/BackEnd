@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.data.jpa.repository.Modifying;
 public interface ConsultationRequestRepository extends JpaRepository<ConsultationRequest, Long> {
 
     boolean existsByExpertIdAndUserIdAndRequestStatusNot(Long expertId, Long userId, RequestStatus requestStatus);
@@ -83,8 +83,9 @@ public interface ConsultationRequestRepository extends JpaRepository<Consultatio
     );
 
     int deleteByIdAndUserIdAndRequestStatus(Long id, Long userId, RequestStatus status);
-
-
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from ConsultationRequest c where c.expert.id = :expertId")
+    void deleteAllByExpertId(@Param("expertId") Long expertId);
 
 
 
