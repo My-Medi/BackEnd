@@ -66,5 +66,12 @@ public class ExpertApiController {
         return ApiResponseDto.onSuccess(ExpertConverter.toExpertProfileTopDto(expert));
     }
 
+    //TODO admin권한으로 변경하기
+    @Operation(summary = "타 전문가 계정을 강제 삭제합니다.")
+    @DeleteMapping("/{expertId}/by-admin")
+    public ApiResponseDto<Void> hardDeleteExpertAccount(@PathVariable Long expertId) {
+        expertCommandService.deleteExpertAccount(expertId);
+        return ApiResponseDto.onSuccess(null);
+    }
 }
 

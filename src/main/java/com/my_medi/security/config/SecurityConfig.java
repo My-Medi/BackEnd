@@ -73,6 +73,7 @@ public class SecurityConfig {
                             .requestMatchers("/api/login", "/api/signup", "/api/health").permitAll()
                             .requestMatchers(HttpMethod.GET, permitAllGetPaths()).permitAll() // [GET] 인증 없이 접근 가능한 공개 API 경로
                             .requestMatchers(HttpMethod.POST, permitAllPostPaths()).permitAll() // [POST] 인증 없이 접근 가능한 공개 API 경로
+                            .requestMatchers(HttpMethod.DELETE, permitAllDeletePaths()).permitAll()
                             .requestMatchers(swaggerPermitAllPaths()).permitAll()
                             .requestMatchers(authPermitAllPaths()).permitAll()
 //                            .requestMatchers(permitAllRequestV2()).permitAll()
@@ -89,6 +90,7 @@ public class SecurityConfig {
                 "/api/v1/examples/user",
                 "/api/v1/examples/global",
                 "/api/v1/tokens/**",
+                "/api/v1/term",
                 "/actuator/**"
         };
     }
@@ -102,6 +104,12 @@ public class SecurityConfig {
                 "/api/v1/images",
                 "/api/v1/modification-request",
                 "/api/v1/dummy/**"
+        };
+    }
+    //[DELETE] 인증 없이 접근 허용할 경로 목록
+    private String[] permitAllDeletePaths() {
+        return new String[]{
+                "/api/v1/experts/{expertId}/by-admin",
         };
     }
 

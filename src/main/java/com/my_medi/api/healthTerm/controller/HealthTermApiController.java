@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "[사용자 페이지] 건강용어 검색하기")
 @RestController
-@RequestMapping("/api/v1/users/term")
+@RequestMapping("/api/v1/term")
 @RequiredArgsConstructor
 public class HealthTermApiController {
     private final HealthTermService healthTermService;

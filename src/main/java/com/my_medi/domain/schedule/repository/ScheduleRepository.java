@@ -40,5 +40,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from Schedule s where s.expert.id = :expertId")
     void deleteAllByExpertId(@Param("expertId") Long expertId);
+
+    void deleteAllByUserIdAndExpertId(Long userId, Long expertId);
 }
 

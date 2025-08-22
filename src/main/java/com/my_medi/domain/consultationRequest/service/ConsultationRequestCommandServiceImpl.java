@@ -8,6 +8,7 @@ import com.my_medi.domain.consultationRequest.exception.ConsultationRequestHandl
 import com.my_medi.domain.consultationRequest.repository.ConsultationRequestRepository;
 import com.my_medi.domain.expert.entity.Expert;
 import com.my_medi.domain.expert.repository.ExpertRepository;
+import com.my_medi.domain.schedule.repository.ScheduleRepository;
 import com.my_medi.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
 
     private final ConsultationRequestRepository consultationRequestRepository;
     private final ExpertRepository expertRepository;
+    private final ScheduleRepository scheduleRepository;
 
     @Override
     public Long requestConsultationToExpert(User user, Long expertId, String comment) {
@@ -87,8 +89,10 @@ public class ConsultationRequestCommandServiceImpl implements ConsultationReques
         if(!request.getRequestStatus().equals(status)) {
             throw ConsultationRequestHandler.REQUEST_STATUS_MISMATCH;
         }
-
-
+        if (status.equals(RequestStatus.ACCEPTED)) {
+            scheduleRepository.deleteAllByUserIdAndExpertId(userId, request.getExpert().getId());
+        }
+        consultationRequestRepository.delete(request);
     }
 
 
