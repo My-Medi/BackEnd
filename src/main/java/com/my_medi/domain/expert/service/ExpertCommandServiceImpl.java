@@ -119,7 +119,7 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
 
     @Override
     @Transactional
-    public Long deleteExpertAccount(Long expertId) {
+    public void deleteExpertAccount(Long expertId) {
         Expert expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> ExpertHandler.NOT_FOUND);
         expertNotificationRepository.deleteAllByExpertId(expertId);
@@ -129,7 +129,6 @@ public class ExpertCommandServiceImpl implements ExpertCommandService {
 
         // 마지막에 Expert
         expertRepository.deleteById(expertId);
-        return expertId;
     }
 
     @Override
