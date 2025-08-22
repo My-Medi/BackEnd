@@ -107,7 +107,7 @@ public class SseServiceImpl implements SseService{
             }
         }
     }
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(fixedRate = 30000)
     public void sendHeartbeatToUser() {
         userEmitters.forEach((key, emitter) -> {
             try {
@@ -119,7 +119,7 @@ public class SseServiceImpl implements SseService{
             }
         });
     }
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(fixedRate = 30000)
     public void sendHeartbeatToExpert() {
         expertEmitters.forEach((key, emitter) -> {
             try {
