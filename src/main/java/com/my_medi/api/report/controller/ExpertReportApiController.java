@@ -43,4 +43,10 @@ public class ExpertReportApiController {
                                                                  @PathVariable Long userId) {
         return ApiResponseDto.onSuccess(reportUseCase.getUserReportSummaryForExpert(expert, userId));
     }
+
+    @Operation(summary = "가장 최근에 매칭된 환자의 건강 결과를 조회합니다.")
+    @GetMapping("/users/result/latest")
+    public ApiResponseDto<UserReportResultDto> getLatestMatchedUserReportResult(@AuthExpert Expert expert) {
+        return ApiResponseDto.onSuccess(reportUseCase.getLatestMatchedUserReportResult(expert));
+    }
 }
