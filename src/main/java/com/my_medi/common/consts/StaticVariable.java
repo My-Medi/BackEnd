@@ -17,7 +17,8 @@ public class StaticVariable {
     public static final String PAGINATION_SORTING_BY_ID  = "id";
 
     //JWT
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 3; // 3분
+    //TODO 변경하기 (알림 때문에 데모데이에서 이렇게 사용)
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 1일
     public static final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 7; // 7일
 
     //HealthReportData JSON 필드 키
